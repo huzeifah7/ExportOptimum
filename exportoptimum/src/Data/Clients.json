@@ -1,0 +1,32 @@
+[
+    {
+        "idClient":1,
+        "client":"lidl.png",
+        "name":"lidl"
+    },
+    {
+        "idClient":2,
+        "client":"Jalhuca.png",
+        "name":"jalhuca"
+    },
+    {
+        "idClient":3,
+        "client":"organto.jpg",
+        "name":"Organto"
+    },
+    {
+        "idClient":4,
+        "client":"WestFaliaFruits.png",
+        "name":"west Falia"
+    },
+    {
+        "idClient":5,
+        "client":"Halls.png",
+        "name": "Halls"
+    },
+    {
+        "idClient":5,
+        "client":"Braztler.png",
+        "name": "braztler"
+    }
+]
