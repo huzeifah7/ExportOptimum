@@ -46,8 +46,8 @@ export default function QualityPage() {
                            <Image
                             src={cert.image.imageUrl}
                             alt={cert.image.description}
-                            width={158}
-                            height={48}
+                            width={128}
+                            height={128}
                             className="object-contain contrast-0 group-hover:contrast-100 transition-all duration-300"
                             data-ai-hint={cert.image.imageHint}
                           />
