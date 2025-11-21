@@ -31,13 +31,22 @@ export default function AboutPage() {
       <main className="flex-grow py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">Our Story</h1>
+            <h1 className="text-4xl md:text-6xl font-headline font-bold">about Export optimum</h1>
             <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
               Founded in the fertile plains of Morocco, Avocado Export Hub began with a simple mission: to share the exceptional quality of our local avocados with the world.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+            <div>
+              <h2 className="text-3xl font-headline font-bold mb-4">From Grove to Globe</h2>
+              <p className="text-muted-foreground mb-4">
+                Our journey started over a decade ago. We have since grown into a leading exporter, but our core values remain the same. We believe in sustainable agriculture, community empowerment, and building lasting partnerships with our clients.
+              </p>
+              <p className="text-muted-foreground">
+                Every avocado we export is a testament to the hard work of our farmers and our commitment to quality. We meticulously manage every step of the process, from nurturing the trees to careful harvesting and climate-controlled shipping, ensuring that you receive a product that is nothing short of perfect.
+              </p>
+            </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               {aboutImage && (
                 <Image
@@ -49,15 +58,6 @@ export default function AboutPage() {
                   data-ai-hint={aboutImage.imageHint}
                 />
               )}
-            </div>
-            <div>
-              <h2 className="text-3xl font-headline font-bold mb-4">From Grove to Globe</h2>
-              <p className="text-muted-foreground mb-4">
-                Our journey started over a decade ago. We have since grown into a leading exporter, but our core values remain the same. We believe in sustainable agriculture, community empowerment, and building lasting partnerships with our clients.
-              </p>
-              <p className="text-muted-foreground">
-                Every avocado we export is a testament to the hard work of our farmers and our commitment to quality. We meticulously manage every step of the process, from nurturing the trees to careful harvesting and climate-controlled shipping, ensuring that you receive a product that is nothing short of perfect.
-              </p>
             </div>
           </div>
 
