@@ -38,7 +38,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-            <div className="lg:order-1">
+            <div>
               <h2 className="text-3xl font-headline font-bold mb-4">From Grove to Globe</h2>
               <p className="text-muted-foreground mb-4">
                 Our journey started over a decade ago. We have since grown into a leading exporter, but our core values remain the same. We believe in sustainable agriculture, community empowerment, and building lasting partnerships with our clients.
@@ -47,7 +47,7 @@ export default function AboutPage() {
                 Every avocado we export is a testament to the hard work of our farmers and our commitment to quality. We meticulously manage every step of the process, from nurturing the trees to careful harvesting and climate-controlled shipping, ensuring that you receive a product that is nothing short of perfect.
               </p>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg lg:order-2">
+            <div className="rounded-lg overflow-hidden shadow-lg">
               {aboutImage && (
                 <Image
                   src={aboutImage.imageUrl}
