@@ -2,7 +2,13 @@
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown, Menu } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Header() {
@@ -11,13 +17,13 @@ export default function Header() {
     { name: 'Our Produce', href: '/#varieties' },
     { name: 'Quality', href: '/quality' },
     { name: 'Blog', href: '/#blog' },
+    { name: 'Sustainability', href: '/sustainability' },
   ];
 
   const mainNavItems = [
     { name: 'About Us', href: '/about' },
     { name: 'Our Produce', href: '/#varieties' },
     { name: 'Quality', href: '/quality' },
-    { name: 'Blog', href: '/#blog' },
   ];
 
 
@@ -38,6 +44,19 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none">
+              News <ChevronDown className="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/#blog">Blogs</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/sustainability">Sustainability</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Link href="/#contact">
             <Button>Contact Us</Button>
           </Link>
