@@ -16,6 +16,7 @@ export default function Header() {
     { name: 'About Us', href: '/about' },
     { name: 'Our Produce', href: '/#varieties' },
     { name: 'Quality', href: '/quality' },
+    { name: 'Certifications', href: '/certifications' },
     { name: 'Blog', href: '/#blog' },
     { name: 'Sustainability', href: '/sustainability' },
   ];
@@ -23,7 +24,6 @@ export default function Header() {
   const mainNavItems = [
     { name: 'About Us', href: '/about' },
     { name: 'Our Produce', href: '/#varieties' },
-    { name: 'Quality', href: '/quality' },
   ];
 
 
@@ -44,6 +44,19 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none">
+              Quality <ChevronDown className="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/quality">Quality</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/certifications">Certifications</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none">
               News <ChevronDown className="h-4 w-4" />
