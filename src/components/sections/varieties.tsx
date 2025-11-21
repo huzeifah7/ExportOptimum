@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Link from 'next/link';
 
 const varieties = [
   { id: 'avocado-hass', name: 'Hass', description: 'The classic, with a creamy texture and nutty flavor. Perfect for guacamole or on its own.', imageHint: 'avocado hass' },
@@ -20,26 +21,28 @@ export default function Varieties() {
           {varieties.map((variety) => {
             const image = PlaceHolderImages.find(p => p.id === variety.id);
             return (
-              <Card key={variety.id} className="overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group">
-                <CardHeader className="p-0">
-                  {image && (
-                    <div className="overflow-hidden">
-                      <Image
-                        src={image.imageUrl}
-                        alt={image.description}
-                        width={600}
-                        height={400}
-                        className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-300"
-                        data-ai-hint={variety.imageHint}
-                      />
-                    </div>
-                  )}
-                </CardHeader>
-                <CardContent className="p-6">
-                  <CardTitle className="font-headline text-2xl">{variety.name}</CardTitle>
-                  <CardDescription className="mt-2 text-base">{variety.description}</CardDescription>
-                </CardContent>
-              </Card>
+              <Link key={variety.id} href={`/varieties/${variety.name.toLowerCase()}`}>
+                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group h-full">
+                  <CardHeader className="p-0">
+                    {image && (
+                      <div className="overflow-hidden">
+                        <Image
+                          src={image.imageUrl}
+                          alt={image.description}
+                          width={600}
+                          height={400}
+                          className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-300"
+                          data-ai-hint={variety.imageHint}
+                        />
+                      </div>
+                    )}
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <CardTitle className="font-headline text-2xl">{variety.name}</CardTitle>
+                    <CardDescription className="mt-2 text-base">{variety.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
             );
           })}
         </div>
