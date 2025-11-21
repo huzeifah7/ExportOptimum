@@ -7,6 +7,7 @@ import Contact from '@/components/sections/contact';
 import Footer from '@/components/layout/footer';
 import Quality from '@/components/sections/quality';
 import Varieties from '@/components/sections/varieties';
+import About from '@/components/sections/about';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <Hero />
+        <About />
         <section id="varieties">
           <Varieties />
         </section>
