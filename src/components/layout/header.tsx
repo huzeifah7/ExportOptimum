@@ -28,9 +28,13 @@ export default function Header() {
           <Logo />
         </Link>
         
-        <nav className="hidden md:flex items-center gap-6 text-sm">
+        <nav className="hidden md:flex items-center gap-8 text-sm">
           {mainNavItems.map((item) => (
-            <Link key={item.name} href={item.href} className="text-muted-foreground transition-colors hover:text-foreground font-medium">
+            <Link 
+              key={item.name} 
+              href={item.href} 
+              className="text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
+            >
               {item.name}
             </Link>
           ))}
