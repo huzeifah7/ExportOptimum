@@ -1,3 +1,100 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Lush avocado farm with sun shining through the leaves",
+      "imageUrl": "https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado farm"
+    },
+    {
+      "id": "avocado-hass",
+      "description": "A ripe Hass avocado, cut in half",
+      "imageUrl": "https://images.unsplash.com/photo-1630898042976-ede9b22a81b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhdm9jYWRvJTIwaGFzc3xlbnwwfHx8fDE3NjM3MjQ5MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado hass"
+    },
+    {
+      "id": "avocado-fuerte",
+      "description": "A whole Fuerte avocado with its smooth green skin",
+      "imageUrl": "https://picsum.photos/seed/fuerte/600/400",
+      "imageHint": "avocado fuerte"
+    },
+    {
+      "id": "avocado-zutano",
+      "description": "A shiny, yellow-green Zutano avocado",
+      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado zutano"
+    },
+    {
+      "id": "client-1",
+      "description": "Portrait of a satisfied client",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "client-2",
+      "description": "Portrait of a happy business partner",
+      "imageUrl": "https://images.unsplash.com/photo-1590086782792-42dd2350140d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "client-3",
+      "description": "Portrait of a smiling customer",
+      "imageUrl": "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "partner-1",
+      "description": "Logo of a partner company",
+      "imageUrl": "https://images.unsplash.com/photo-1562783912-21ad31ee2a83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "partner-2",
+      "description": "Logo of a partner company",
+      "imageUrl": "https://images.unsplash.com/photo-1562783912-21ad31ee2a83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "partner-3",
+      "description": "Logo of a partner company",
+      "imageUrl": "https://images.unsplash.com/photo-1562783912-21ad31ee2a83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "partner-4",
+      "description": "Logo of a partner company",
+      "imageUrl": "https://images.unsplash.com/photo-1529612700005-e35377bf1415?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "partner-5",
+      "description": "Logo of a partner company",
+      "imageUrl": "https://images.unsplash.com/photo-1622465911368-72162f8da3e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "blog-1",
+      "description": "Close-up of a sliced avocado on a wooden board",
+      "imageUrl": "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhdm9jYWRvJTIwdG9hc3R8ZW58MHx8fHwxNzYzNjMzMDgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado toast"
+    },
+    {
+      "id": "blog-2",
+      "description": "Avocado trees in a sustainable farm",
+      "imageUrl": "https://images.unsplash.com/photo-1589923188900-85dae523342b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXN0YWluYWJsZSUyMGZhcm1pbmd8ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sustainable farming"
+    },
+    {
+      "id": "blog-3",
+      "description": "A colourful salad with avocado slices",
+      "imageUrl": "https://images.unsplash.com/photo-1743779621234-4994b31b5b1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhdm9jYWRvJTIwc2FsYWR8ZW58MHx8fHwxNzYzNjkwODY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado salad"
+    },
+    {
+      "id": "map-location",
+      "description": "A map showing the location of Agadir, Morocco",
+      "imageUrl": "https://images.unsplash.com/photo-1532154078493-c1c3eef2023c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFwJTIwbG9jYXRpb258ZW58MHx8fHwxNzYzNzI0NzkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "map location"
+    }
+  ]
 }
