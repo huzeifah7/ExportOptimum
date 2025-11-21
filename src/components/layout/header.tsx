@@ -7,13 +7,13 @@ import Link from 'next/link';
 
 export default function Header() {
   const navItems = [
-    { name: 'Our Produce', href: '/produce' },
+    { name: 'Our Produce', href: '/#varieties' },
     { name: 'Quality', href: '/quality' },
     { name: 'Blog', href: '/#blog' },
   ];
 
   const mainNavItems = [
-    { name: 'Our Produce', href: '/produce' },
+    { name: 'Our Produce', href: '/#varieties' },
     { name: 'Quality', href: '/quality' },
     { name: 'Blog', href: '/#blog' },
   ];
