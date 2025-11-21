@@ -11,14 +11,14 @@ export default function About() {
     <section id="about" className="py-16 lg:py-24 bg-secondary">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="rounded-lg overflow-hidden shadow-lg">
+          <div className="rounded-lg overflow-hidden shadow-lg group">
             {aboutImage && (
               <Image
                 src={aboutImage.imageUrl}
                 alt={aboutImage.description}
                 width={800}
                 height={600}
-                className="object-cover w-full"
+                className="object-cover w-full group-hover:scale-105 transition-transform duration-300 ease-in-out"
                 data-ai-hint={aboutImage.imageHint}
               />
             )}
