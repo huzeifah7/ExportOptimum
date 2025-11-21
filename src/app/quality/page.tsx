@@ -1,7 +1,11 @@
+'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Quality from '@/components/sections/quality';
 import { BadgeCheck, Leaf, ShieldCheck } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
 
 const certifications = [
   { name: 'GlobalG.A.P. Certified', icon: <BadgeCheck className="w-12 h-12 text-accent" />, description: 'Ensuring safe and sustainable farming practices.' },
@@ -10,6 +14,10 @@ const certifications = [
 ];
 
 export default function QualityPage() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -23,15 +31,28 @@ export default function QualityPage() {
                 Our commitment to excellence is certified and guaranteed, from farm to port.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-              {certifications.map((cert) => (
-                <div key={cert.name} className="flex flex-col items-center p-6 rounded-lg hover:bg-background transition-colors duration-300">
-                  {cert.icon}
-                  <h3 className="mt-4 text-xl font-bold font-headline">{cert.name}</h3>
-                  <p className="mt-2 text-muted-foreground">{cert.description}</p>
-                </div>
-              ))}
-            </div>
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              plugins={[plugin.current]}
+              className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto"
+            >
+              <CarouselContent>
+                {certifications.map((cert, index) => (
+                  <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1 h-full">
+                      <div className="flex flex-col items-center text-center p-6 rounded-lg hover:bg-background transition-colors duration-300 h-full">
+                        {cert.icon}
+                        <h3 className="mt-4 text-xl font-bold font-headline">{cert.name}</h3>
+                        <p className="mt-2 text-muted-foreground flex-grow">{cert.description}</p>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         </section>
       </main>
