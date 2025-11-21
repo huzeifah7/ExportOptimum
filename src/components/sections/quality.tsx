@@ -29,7 +29,7 @@ export default function Quality() {
             </p>
              <div className="mt-8">
               <Button asChild size="lg">
-                <Link href="/certifications">
+                <Link href="/quality#certifications">
                   Our Certifications <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
