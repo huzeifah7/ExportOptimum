@@ -2,16 +2,27 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Quality from '@/components/sections/quality';
-import { BadgeCheck, Leaf, ShieldCheck } from 'lucide-react';
 import React from 'react';
+import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const certifications = [
-  { name: 'GlobalG.A.P. Certified', icon: <BadgeCheck className="w-12 h-12 text-accent" />, description: 'Ensuring safe and sustainable farming practices.' },
-  { name: 'Organic Farming', icon: <Leaf className="w-12 h-12 text-accent" />, description: 'Grown naturally without synthetic pesticides or fertilizers.' },
-  { name: 'Quality Assured', icon: <ShieldCheck className="w-12 h-12 text-accent" />, description: 'Each avocado is hand-inspected for perfection.' },
+  { id: 'cert-smeta', name: 'SMETA' },
+  { id: 'cert-grasp', name: 'GRASP' },
+  { id: 'cert-bio', name: 'Bio' },
+  { id: 'cert-spring', name: 'Spring' },
+  { id: 'cert-brc-food', name: 'BRC Food' },
+  { id: 'cert-global-gap', name: 'Global G.A.P.' },
 ];
 
 export default function QualityPage() {
+  const certImages = certifications.map(cert => {
+    const image = PlaceHolderImages.find(p => p.id === cert.id);
+    return { ...cert, image };
+  });
+  
+  const allCerts = [...certImages, ...certImages];
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -25,15 +36,23 @@ export default function QualityPage() {
                 Our commitment to excellence is certified and guaranteed, from farm to port.
               </p>
             </div>
-            <div className="relative w-full overflow-hidden">
+            <div className="relative w-full overflow-hidden group">
               <div className="flex w-max animate-marquee group-hover:pause">
-                {[...certifications, ...certifications].map((cert, index) => (
-                  <div key={index} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-4">
+                {allCerts.map((cert, index) => (
+                  <div key={index} className="flex-shrink-0 w-64 px-4">
                     <div className="p-1 h-full">
                       <div className="flex flex-col items-center text-center p-6 rounded-lg hover:bg-background transition-colors duration-300 h-full">
-                        {cert.icon}
+                        {cert.image && (
+                           <Image
+                            src={cert.image.imageUrl}
+                            alt={cert.image.description}
+                            width={158}
+                            height={48}
+                            className="object-contain contrast-0 group-hover:contrast-100 transition-all duration-300"
+                            data-ai-hint={cert.image.imageHint}
+                          />
+                        )}
                         <h3 className="mt-4 text-xl font-bold font-headline">{cert.name}</h3>
-                        <p className="mt-2 text-muted-foreground flex-grow">{cert.description}</p>
                       </div>
                     </div>
                   </div>
