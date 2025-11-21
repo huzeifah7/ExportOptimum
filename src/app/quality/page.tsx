@@ -37,18 +37,18 @@ export default function QualityPage() {
               </p>
             </div>
             <div className="relative w-full overflow-hidden group">
-              <div className="flex w-max animate-marquee group-hover:pause">
+              <div className="flex w-fit animate-marquee group-hover:[animation-play-state:paused]">
                 {allCerts.map((cert, index) => (
                   <div key={index} className="flex-shrink-0 w-64 px-4">
                     <div className="p-1 h-full">
-                      <div className="flex flex-col items-center text-center p-6 rounded-lg hover:bg-background transition-colors duration-300 h-full">
+                      <div className="flex flex-col items-center text-center p-6 rounded-lg h-full">
                         {cert.image && (
                            <Image
                             src={cert.image.imageUrl}
                             alt={cert.image.description}
                             width={128}
                             height={128}
-                            className="object-contain contrast-0 group-hover:contrast-100 transition-all duration-300"
+                            className="object-contain"
                             data-ai-hint={cert.image.imageHint}
                           />
                         )}
