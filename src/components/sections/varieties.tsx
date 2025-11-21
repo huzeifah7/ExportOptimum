@@ -4,9 +4,9 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 
 const varieties = [
-  { id: 'avocado-hass', name: 'Hass', description: 'The classic, with a creamy texture and nutty flavor. Perfect for guacamole or on its own.', imageHint: 'avocado hass' },
-  { id: 'avocado-fuerte', name: 'Fuerte', description: 'Smooth, green skin with a rich, oily texture. A popular choice for salads and sandwiches.', imageHint: 'avocado fuerte' },
-  { id: 'avocado-zutano', name: 'Zutano', description: 'A mild-flavored avocado with a shiny, yellow-green skin. Great for slicing.', imageHint: 'avocado zutano' },
+  { id: 'avocado-hass', slug: 'hass', name: 'Hass', description: 'The classic, with a creamy texture and nutty flavor. Perfect for guacamole or on its own.', imageHint: 'avocado hass' },
+  { id: 'avocado-fuerte', slug: 'fuerte', name: 'Fuerte', description: 'Smooth, green skin with a rich, oily texture. A popular choice for salads and sandwiches.', imageHint: 'avocado fuerte' },
+  { id: 'avocado-zutano', slug: 'zutano', name: 'Zutano', description: 'A mild-flavored avocado with a shiny, yellow-green skin. Great for slicing.', imageHint: 'avocado zutano' },
 ];
 
 export default function Varieties() {
@@ -21,7 +21,7 @@ export default function Varieties() {
           {varieties.map((variety) => {
             const image = PlaceHolderImages.find(p => p.id === variety.id);
             return (
-              <Link key={variety.id} href={`/varieties/${variety.name.toLowerCase()}`}>
+              <Link key={variety.id} href={`/produce/${variety.slug}`}>
                 <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group h-full">
                   <CardHeader className="p-0">
                     {image && (

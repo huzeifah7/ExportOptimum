@@ -7,10 +7,17 @@ import Link from 'next/link';
 
 export default function Header() {
   const navItems = [
-    { name: 'Varieties', href: '#varieties' },
-    { name: 'Quality', href: '#quality' },
-    { name: 'Blog', href: '#blog' },
+    { name: 'Our Produce', href: '/produce' },
+    { name: 'Quality', href: '/#quality' },
+    { name: 'Blog', href: '/#blog' },
   ];
+
+  const mainNavItems = [
+    { name: 'Our Produce', href: '/produce' },
+    { name: 'Quality', href: '/#quality' },
+    { name: 'Blog', href: '/#blog' },
+  ];
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -20,12 +27,12 @@ export default function Header() {
         </Link>
         
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {navItems.map((item) => (
+          {mainNavItems.map((item) => (
             <Link key={item.name} href={item.href} className="text-muted-foreground transition-colors hover:text-foreground font-medium">
               {item.name}
             </Link>
           ))}
-          <Link href="#contact">
+          <Link href="/#contact">
             <Button>Contact Us</Button>
           </Link>
         </nav>
@@ -49,7 +56,7 @@ export default function Header() {
                       {item.name}
                     </Link>
                   ))}
-                  <Link href="#contact">
+                  <Link href="/#contact">
                     <Button className="w-full">Contact Us</Button>
                   </Link>
                 </div>

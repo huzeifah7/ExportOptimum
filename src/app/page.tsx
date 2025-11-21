@@ -1,7 +1,6 @@
 import Header from '@/components/layout/header';
 import Hero from '@/components/sections/hero';
 import Quality from '@/components/sections/quality';
-import Varieties from '@/components/sections/varieties';
 import Testimonials from '@/components/sections/testimonials';
 import Partners from '@/components/sections/partners';
 import Blog from '@/components/sections/blog';
@@ -15,7 +14,6 @@ export default function Home() {
       <main className="flex-grow">
         <Hero />
         <Quality />
-        <Varieties />
         <Testimonials />
         <Partners />
         <Blog />
