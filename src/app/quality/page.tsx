@@ -3,8 +3,6 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Quality from '@/components/sections/quality';
 import { BadgeCheck, Leaf, ShieldCheck } from 'lucide-react';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
 
 const certifications = [
@@ -14,10 +12,6 @@ const certifications = [
 ];
 
 export default function QualityPage() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
-
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -31,17 +25,10 @@ export default function QualityPage() {
                 Our commitment to excellence is certified and guaranteed, from farm to port.
               </p>
             </div>
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              plugins={[plugin.current]}
-              className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto"
-            >
-              <CarouselContent>
-                {certifications.map((cert, index) => (
-                  <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+            <div className="relative w-full overflow-hidden">
+              <div className="flex w-max animate-marquee group-hover:pause">
+                {[...certifications, ...certifications].map((cert, index) => (
+                  <div key={index} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-4">
                     <div className="p-1 h-full">
                       <div className="flex flex-col items-center text-center p-6 rounded-lg hover:bg-background transition-colors duration-300 h-full">
                         {cert.icon}
@@ -49,10 +36,10 @@ export default function QualityPage() {
                         <p className="mt-2 text-muted-foreground flex-grow">{cert.description}</p>
                       </div>
                     </div>
-                  </CarouselItem>
+                  </div>
                 ))}
-              </CarouselContent>
-            </Carousel>
+              </div>
+            </div>
           </div>
         </section>
       </main>
