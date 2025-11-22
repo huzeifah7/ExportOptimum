@@ -13,19 +13,13 @@ import Link from 'next/link';
 
 export default function Header() {
   const navItems = [
-    { name: 'About Us', href: '/about' },
+    { name: 'Vision', href: '/about' },
+    { name: 'Export Optimum Team', href: '/team' },
     { name: 'Our Produce', href: '/#varieties' },
     { name: 'Quality', href: '/quality' },
     { name: 'Blog', href: '/#blog' },
     { name: 'Sustainability', href: '/sustainability' },
   ];
-
-  const mainNavItems = [
-    { name: 'About Us', href: '/about' },
-    { name: 'Our Produce', href: '/#varieties' },
-    { name: 'Quality', href: '/quality' },
-  ];
-
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -35,15 +29,32 @@ export default function Header() {
         </Link>
         
         <nav className="hidden md:flex items-center gap-8 text-sm">
-          {mainNavItems.map((item) => (
-            <Link 
-              key={item.name} 
-              href={item.href} 
-              className="text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
-            >
-              {item.name}
-            </Link>
-          ))}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none">
+              About Us <ChevronDown className="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/about">Vision</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/team">Export Optimum Team</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Link 
+            href="/#varieties" 
+            className="text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
+          >
+            Our Produce
+          </Link>
+          <Link 
+            href="/quality" 
+            className="text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
+          >
+            Quality
+          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none">
               News <ChevronDown className="h-4 w-4" />
