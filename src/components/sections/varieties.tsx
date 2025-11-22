@@ -2,6 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 const varieties = [
   { id: 'avocado-hass', slug: 'hass', name: 'Hass', description: 'The classic, with a creamy texture and nutty flavor. Perfect for guacamole or on its own.', imageHint: 'avocado hass' },
@@ -21,8 +23,8 @@ export default function Varieties() {
           {varieties.map((variety) => {
             const image = PlaceHolderImages.find(p => p.id === variety.id);
             return (
-              <Link key={variety.id} href={`/produce/${variety.slug}`}>
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group h-full">
+              <Link key={variety.id} href={`/produce/${variety.slug}`} className="block h-full">
+                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group h-full flex flex-col">
                   <CardHeader className="p-0">
                     {image && (
                       <div className="overflow-hidden">
@@ -37,9 +39,14 @@ export default function Varieties() {
                       </div>
                     )}
                   </CardHeader>
-                  <CardContent className="p-6">
+                  <CardContent className="p-6 flex flex-col flex-grow">
                     <CardTitle className="font-headline text-2xl">{variety.name}</CardTitle>
-                    <CardDescription className="mt-2 text-base">{variety.description}</CardDescription>
+                    <CardDescription className="mt-2 text-base flex-grow">{variety.description}</CardDescription>
+                    <Button variant="link" asChild className="p-0 mt-4 self-start text-accent font-bold">
+                        <span>
+                            Read More <ArrowRight className="inline-block ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </span>
+                    </Button>
                   </CardContent>
                 </Card>
               </Link>
