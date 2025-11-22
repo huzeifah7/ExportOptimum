@@ -59,7 +59,7 @@ export default function Varieties() {
                         </CardHeader>
                         <CardContent className="p-6 flex flex-col flex-grow">
                           <CardTitle className="font-headline text-2xl">{variety.name}</CardTitle>
-                          <CardDescription className="mt-2 text-base flex-grow">{truncate(variety.description, 100)}</CardDescription>
+                          <CardDescription className="mt-2 text-base flex-grow">{truncate(variety.description, 50)}</CardDescription>
                           <Button variant="link" asChild className="p-0 mt-4 self-start text-accent font-bold">
                               <span>
                                   Read More <ArrowRight className="inline-block ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
