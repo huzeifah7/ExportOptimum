@@ -14,6 +14,13 @@ const varieties = [
 ];
 
 export default function Varieties() {
+  const truncate = (str: string, num: number) => {
+    if (str.length <= num) {
+      return str;
+    }
+    return str.slice(0, num) + '...';
+  };
+
   return (
     <section id="varieties" className="py-16 lg:py-24 bg-secondary">
       <div className="container mx-auto px-4">
@@ -52,7 +59,7 @@ export default function Varieties() {
                         </CardHeader>
                         <CardContent className="p-6 flex flex-col flex-grow">
                           <CardTitle className="font-headline text-2xl">{variety.name}</CardTitle>
-                          <CardDescription className="mt-2 text-base flex-grow">{variety.description}</CardDescription>
+                          <CardDescription className="mt-2 text-base flex-grow">{truncate(variety.description, 100)}</CardDescription>
                           <Button variant="link" asChild className="p-0 mt-4 self-start text-accent font-bold">
                               <span>
                                   Read More <ArrowRight className="inline-block ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
