@@ -12,7 +12,7 @@ export default function ProductsPage() {
             <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h1 className="text-4xl md:text-6xl font-headline font-bold">Our Produce</h1>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-4xl">
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-5xl">
                 We cultivate and export several premium avocado varieties to meet global demand. Explore our selection below.
                 </p>
             </div>

@@ -63,7 +63,7 @@ export default function ContactPage() {
           <div className="container mx-auto px-4 relative z-10">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-6xl font-headline font-bold text-white">Contact Us</h1>
-              <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 font-subtitle text-4xl">
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 font-subtitle text-5xl">
                 We use an agile approach to test assumptions and connect with the needs of your audience early and often.
               </p>
             </div>
