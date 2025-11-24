@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
 
 const varieties = [
   { id: 'avocado-hass', slug: 'hass', name: 'Hass', description: 'The classic, with a creamy texture and nutty flavor. Perfect for guacamole or on its own.', imageHint: 'avocado hass' },
@@ -14,6 +16,10 @@ const varieties = [
 ];
 
 export default function Varieties() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
+
   const truncate = (str: string, num: number) => {
     if (str.length <= num) {
       return str;
@@ -22,19 +28,19 @@ export default function Varieties() {
   };
 
   return (
-    <section id="varieties" className="py-16 lg:py-24 relative">
+    <section id="varieties" className="py-16 lg:py-24 relative bg-background">
        <div
         className="absolute inset-0 z-0 animate-scroll-background"
         style={{
           backgroundImage: `
-            linear-gradient(to right, #d1d5db 1px, transparent 1px),
-            linear-gradient(to bottom, #d1d5db 1px, transparent 1px)
+            linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
           `,
           backgroundSize: "48px 48px",
           WebkitMaskImage:
-            "radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 70%)",
+            "radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 80%)",
           maskImage:
-            "radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 70%)",
+            "radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 80%)",
         }}
       />
       <div className="container mx-auto px-4 relative z-10">
@@ -47,6 +53,9 @@ export default function Varieties() {
             align: "start",
             loop: true,
           }}
+          plugins={[plugin.current]}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
           className="w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
         >
           <CarouselContent>
