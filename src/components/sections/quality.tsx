@@ -7,21 +7,9 @@ import { ArrowRight } from 'lucide-react';
 export default function Quality() {
     const qualityImage = PlaceHolderImages.find(p => p.id === 'blog-2');
   return (
-    <section id="quality" className="py-16 lg:py-24">
+    <section id="quality" className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-        <div className="rounded-lg overflow-hidden shadow-lg group">
-            {qualityImage && (
-              <Image
-                src={qualityImage.imageUrl}
-                alt={qualityImage.description}
-                width={800}
-                height={600}
-                className="object-cover w-full group-hover:scale-105 transition-transform duration-300 ease-in-out"
-                data-ai-hint={qualityImage.imageHint}
-              />
-            )}
-          </div>
           <div className="text-center lg:text-left">
             <h2 className="text-4xl md:text-5xl font-headline font-bold">Uncompromising Quality</h2>
             <p className="mt-4 text-lg text-muted-foreground">
@@ -34,6 +22,18 @@ export default function Quality() {
                 </Link>
               </Button>
             </div>
+          </div>
+          <div className="rounded-lg overflow-hidden shadow-lg group lg:order-last">
+            {qualityImage && (
+              <Image
+                src={qualityImage.imageUrl}
+                alt={qualityImage.description}
+                width={800}
+                height={600}
+                className="object-cover w-full group-hover:scale-105 transition-transform duration-300 ease-in-out"
+                data-ai-hint={qualityImage.imageHint}
+              />
+            )}
           </div>
         </div>
       </div>
