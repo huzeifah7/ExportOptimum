@@ -93,7 +93,7 @@ export default function Footer() {
 					</div>
 				</div>
 				<div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-					© {new Date().getFullYear()} Avocado Export Hub. All rights reserved.
+					© {new Date().getFullYear()} Export Optimum. All rights reserved.
 				</div>
 			</div>
 		</footer>
