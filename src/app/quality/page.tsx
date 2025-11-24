@@ -32,7 +32,7 @@ export default function QualityPage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Certifications</h2>
-              <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[2.75rem]">
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[33px] tracking-wide">
                 Our commitment to excellence is certified and guaranteed, from farm to port.
               </p>
             </div>
