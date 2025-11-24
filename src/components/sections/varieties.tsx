@@ -30,7 +30,7 @@ export default function Varieties() {
             linear-gradient(to right, #d1d5db 1px, transparent 1px),
             linear-gradient(to bottom, #d1d5db 1px, transparent 1px)
           `,
-          backgroundSize: "96px 96px",
+          backgroundSize: "48px 48px",
           WebkitMaskImage:
             "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
           maskImage:
