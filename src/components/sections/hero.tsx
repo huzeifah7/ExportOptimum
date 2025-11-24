@@ -76,7 +76,7 @@ export default function Hero() {
           From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.
         </p>
         <div className="mt-8">
-            <Link href="#contact">
+            <Link href="/contact">
                 <Button size="lg">Request a Quote</Button>
             </Link>
         </div>

@@ -68,7 +68,7 @@ export default function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link href="/#contact">
+          <Link href="/contact">
             <Button>Contact Us</Button>
           </Link>
         </nav>
@@ -92,7 +92,7 @@ export default function Header() {
                       {item.name}
                     </Link>
                   ))}
-                  <Link href="/#contact">
+                  <Link href="/contact">
                     <Button className="w-full">Contact Us</Button>
                   </Link>
                 </div>

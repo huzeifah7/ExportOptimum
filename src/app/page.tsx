@@ -3,7 +3,6 @@ import Hero from '@/components/sections/hero';
 import Testimonials from '@/components/sections/testimonials';
 import Partners from '@/components/sections/partners';
 import Blog from '@/components/sections/blog';
-import Contact from '@/components/sections/contact';
 import Footer from '@/components/layout/footer';
 import Quality from '@/components/sections/quality';
 import Varieties from '@/components/sections/varieties';
@@ -25,7 +24,6 @@ export default function Home() {
         <Testimonials />
         <Partners />
         <Blog />
-        <Contact />
       </main>
       <Footer />
     </div>

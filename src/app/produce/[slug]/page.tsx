@@ -97,7 +97,7 @@ export default function VarietyDetailsPage({ params }: { params: { slug: string 
               </div>
               <div className="mt-8">
                 <Button asChild>
-                  <Link href="/#contact">Inquire About {variety.name}</Link>
+                  <Link href="/contact">Inquire About {variety.name}</Link>
                 </Button>
               </div>
             </div>
