@@ -22,7 +22,7 @@ export default function Varieties() {
   };
 
   return (
-    <section id="varieties" className="py-16 lg:py-24 bg-[#f9fafb] relative">
+    <section id="varieties" className="py-16 lg:py-24 relative">
        <div
         className="absolute inset-0 z-0 animate-scroll-background"
         style={{
@@ -32,9 +32,9 @@ export default function Varieties() {
           `,
           backgroundSize: "48px 48px",
           WebkitMaskImage:
-            "radial-gradient(ellipse 100% 60% at 50% 50%, #000 30%, transparent 70%)",
+            "radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 70%)",
           maskImage:
-            "radial-gradient(ellipse 100% 60% at 50% 50%, #000 30%, transparent 70%)",
+            "radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 70%)",
         }}
       />
       <div className="container mx-auto px-4 relative z-10">

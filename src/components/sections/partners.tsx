@@ -7,7 +7,7 @@ export default function Partners() {
   const partners = partnerIds.map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean);
 
   return (
-    <section id="partners" className="py-16 lg:py-24 bg-secondary">
+    <section id="partners" className="py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Trusted Partners</h2>

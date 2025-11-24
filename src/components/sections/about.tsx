@@ -8,7 +8,7 @@ export default function About() {
   const aboutImage = PlaceHolderImages.find(p => p.id === 'about-us-page');
 
   return (
-    <section id="about" className="py-16 lg:py-24 bg-secondary">
+    <section id="about" className="py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="rounded-lg overflow-hidden shadow-lg group">
