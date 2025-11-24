@@ -7,3 +7,12 @@
 .animate-marquee {
   animation: marquee 40s linear infinite;
 }
+
+@keyframes scroll-background {
+  0% { background-position: 0 0; }
+  100% { background-position: 96px 96px; }
+}
+
+.animate-scroll-background {
+  animation: scroll-background 20s linear infinite;
+}

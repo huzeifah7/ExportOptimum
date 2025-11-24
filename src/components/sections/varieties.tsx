@@ -24,7 +24,7 @@ export default function Varieties() {
   return (
     <section id="varieties" className="py-16 lg:py-24 bg-[#f9fafb] relative">
        <div
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 animate-scroll-background"
         style={{
           backgroundImage: `
             linear-gradient(to right, #d1d5db 1px, transparent 1px),
