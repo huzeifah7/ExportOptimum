@@ -20,6 +20,7 @@ export default {
         body: ['PT Sans', 'sans-serif'],
         headline: ['Nunito', 'sans-serif'],
         code: ['monospace'],
+        subtitle: ['Hurricane', 'cursive'],
       },
       colors: {
         background: 'hsl(var(--background))',

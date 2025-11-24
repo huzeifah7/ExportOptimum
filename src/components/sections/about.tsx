@@ -25,7 +25,7 @@ export default function About() {
           </div>
           <div className="text-center lg:text-left">
             <h2 className="text-4xl md:text-5xl font-headline font-bold">From Our Groves to Your Table</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-4 text-lg text-muted-foreground font-subtitle text-3xl">
               With a passion for quality and a commitment to sustainable farming, Avocado Export Hub is a trusted name in the global avocado market. We bring the rich, creamy taste of Moroccan avocados to the world.
             </p>
             <div className="mt-8">

@@ -11,7 +11,7 @@ export default function Partners() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Trusted Partners</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">We collaborate with leading companies in the global food industry.</p>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-3xl">We collaborate with leading companies in the global food industry.</p>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
           {partners.map((partner) => (
