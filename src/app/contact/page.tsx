@@ -160,7 +160,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className="py-16 lg:py-24 bg-background">
+        <section className="py-16 lg:py-24 bg-white">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                     <div className="flex flex-col items-center">
