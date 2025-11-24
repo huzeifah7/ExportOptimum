@@ -1,27 +1,29 @@
 export const navItems = [
   {
-    label: 'About Us',
+    label: 'About us',
     items: [
-      { label: 'Vision', href: '/about' },
-      { label: 'Export Optimum Team', href: '/team' }
-    ]
-  },
-  {
-    label: 'Our Produce',
-    items: [
-      { label: 'Our Produce', href: '/products' }
+      { label: 'Our Story', href: '/about' },
+      { label: 'Our Team', href: '/team' }
     ]
   },
   {
     label: 'Quality',
     items: [
-      { label: 'Quality', href: '/quality' }
+      { label: 'Quality', href: '/quality' },
+      { label: 'Certifications', href: '/quality#certifications' }
+    ]
+  },
+  {
+    label: 'Products',
+    items: [
+      { label: 'Avocado', href: '/products' },
+      { label: 'Berries', href: '/products' }
     ]
   },
   {
     label: 'News',
     items: [
-      { label: 'Blog', href: '/#blog' },
+      { label: 'News', href: '/#blog' },
       { label: 'Sustainability', href: '/sustainability' }
     ]
   }
