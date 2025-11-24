@@ -15,7 +15,7 @@ export default function Header() {
   const navItems = [
     { name: 'Vision', href: '/about' },
     { name: 'Export Optimum Team', href: '/team' },
-    { name: 'Our Produce', href: '/#varieties' },
+    { name: 'Our Produce', href: '/products' },
     { name: 'Quality', href: '/quality' },
     { name: 'Blog', href: '/#blog' },
     { name: 'Sustainability', href: '/sustainability' },
@@ -44,7 +44,7 @@ export default function Header() {
           </DropdownMenu>
 
           <Link 
-            href="/#varieties" 
+            href="/products" 
             className="text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
           >
             Our Produce
