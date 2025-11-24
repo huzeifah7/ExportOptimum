@@ -35,7 +35,7 @@ export default function TeamPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Team</h1>
-            <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground font-subtitle text-5xl">
+            <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground font-subtitle text-[2.75rem]">
               The passionate individuals dedicated to bringing you the best avocados from Morocco.
             </p>
           </div>

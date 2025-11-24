@@ -40,7 +40,7 @@ export default function Varieties() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Avocado Varieties</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-5xl">We cultivate and export several premium varieties to meet global demand.</p>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[2.75rem]">We cultivate and export several premium varieties to meet global demand.</p>
         </div>
         <Carousel 
           opts={{

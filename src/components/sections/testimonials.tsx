@@ -15,7 +15,7 @@ export default function Testimonials() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">What Our Clients Say</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-5xl">We pride ourselves on building lasting relationships based on trust and quality.</p>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[2.75rem]">We pride ourselves on building lasting relationships based on trust and quality.</p>
         </div>
         <Carousel opts={{ loop: true }} className="w-full max-w-4xl mx-auto">
           <CarouselContent>
