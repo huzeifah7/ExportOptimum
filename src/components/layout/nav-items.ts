@@ -17,7 +17,7 @@ export const navItems = [
     label: 'Products',
     items: [
       { label: 'Avocado', href: '/products' },
-      { label: 'Berries', href: '/products' }
+      { label: 'Berries', href: '/products/berries' }
     ]
   },
   {
