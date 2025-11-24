@@ -32,9 +32,9 @@ export default function Varieties() {
           `,
           backgroundSize: "48px 48px",
           WebkitMaskImage:
-            "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 70%)",
           maskImage:
-            "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 70%)",
         }}
       />
       <div className="container mx-auto px-4 relative z-10">
