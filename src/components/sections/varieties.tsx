@@ -22,8 +22,22 @@ export default function Varieties() {
   };
 
   return (
-    <section id="varieties" className="py-16 lg:py-24 bg-secondary">
-      <div className="container mx-auto px-4">
+    <section id="varieties" className="py-16 lg:py-24 bg-[#f9fafb] relative">
+       <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #d1d5db 1px, transparent 1px),
+            linear-gradient(to bottom, #d1d5db 1px, transparent 1px)
+          `,
+          backgroundSize: "32px 32px",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
+          maskImage:
+            "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
+        }}
+      />
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Avocado Varieties</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-3xl">We cultivate and export several premium varieties to meet global demand.</p>
