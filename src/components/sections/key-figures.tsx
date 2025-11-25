@@ -1,9 +1,9 @@
 import { Ship, Users, Globe } from 'lucide-react';
 
 const stats = [
-  { icon: <Ship className="w-8 h-8 text-primary" />, value: '10,000+', label: 'Tons of yearly export' },
-  { icon: <Users className="w-8 h-8 text-primary" />, value: '500+', label: 'Employees' },
-  { icon: <Globe className="w-8 h-8 text-primary" />, value: '50+', label: 'Major Customers' },
+  { icon: <Ship className="w-8 h-8 text-brand" />, value: '10,000+', label: 'Tons of yearly export' },
+  { icon: <Users className="w-8 h-8 text-brand" />, value: '500+', label: 'Employees' },
+  { icon: <Globe className="w-8 h-8 text-brand" />, value: '50+', label: 'Major Customers' },
 ];
 
 export default function KeyFigures() {
