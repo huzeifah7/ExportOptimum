@@ -65,12 +65,24 @@ export default function Hero() {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
         <div className="flex flex-col items-center justify-center flex-grow">
-            <SplitText
-              tag="h1"
-              text="Pure Avocado Experience"
-              className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight"
-              splitType="chars"
-            />
+            <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-4">
+              <SplitText
+                tag="span"
+                text="Pure"
+                splitType="chars"
+              />
+              <SplitText
+                tag="span"
+                text="Avocado"
+                className="text-brand"
+                splitType="chars"
+              />
+              <SplitText
+                tag="span"
+                text="Experience"
+                splitType="chars"
+              />
+            </h1>
             <SplitText
               tag="p"
               text="From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados."
