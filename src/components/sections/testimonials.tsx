@@ -23,7 +23,7 @@ export default function Testimonials() {
             }}
         />
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-12">
+        <div className="text-center mb-14 sm:mb-20">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">What Our Clients Say</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">We pride ourselves on building lasting relationships based on trust and quality.</p>
         </div>
@@ -46,7 +46,7 @@ export default function Testimonials() {
                           )}
                           <div className="ml-4 text-left">
                             <p className="font-bold">{testimonial.name}</p>
-                            <p className="text-sm text-muted-foreground">{testimonial.company}</p>
+                            <p className="text-sm text-muted-foreground">{testimonial.company} </p>
                           </div>
                         </div>
                       </CardContent>

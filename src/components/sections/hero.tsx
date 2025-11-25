@@ -1,5 +1,5 @@
 'use client';
-import { Award, Ship, Smile } from 'lucide-react';
+import { Award, Ship, Users, Globe } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages, ImagePlaceholder } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
@@ -9,9 +9,9 @@ import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
 
 const stats = [
-  { icon: <Ship className="w-8 h-8 text-primary" />, value: '10,000+ Tons', label: 'Exported Annually' },
-  { icon: <Smile className="w-8 h-8 text-primary" />, value: '99%+', label: 'Client Satisfaction' },
-  { icon: <Award className="w-8 h-8 text-primary" />, value: '5-Star', label: 'Quality Rating' },
+  { icon: <Ship className="w-8 h-8 text-primary" />, value: '10,000+', label: 'Tons of yearly export' },
+  { icon: <Users className="w-8 h-8 text-primary" />, value: '500+', label: 'Employees' },
+  { icon: <Globe className="w-8 h-8 text-primary" />, value: '50+', label: 'Major Customers' },
 ];
 
 const heroSlides: (ImagePlaceholder & { type?: 'image' | 'video' })[] = [
