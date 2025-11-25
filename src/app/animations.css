@@ -26,8 +26,8 @@
   --border-radius: 24px;
   --padding: 4px;
   --transition: 0.4s;
-  --button-color: #101010; /* Same as background */
-  --highlight-color-hue: 210deg;
+  --button-color: hsl(var(--foreground));
+  --highlight-color-hue: 80deg;
 
   user-select: none;
   display: flex;
@@ -52,7 +52,7 @@
     0px -8px 8px rgba(0, 0, 0, 0.06),
     0px -16px 16px rgba(0, 0, 0, 0.08);
 
-  border: solid 1px #fff2;
+  border: solid 1px hsl(var(--background) / 0.2);
   border-radius: var(--border-radius);
   cursor: pointer;
 
@@ -79,8 +79,8 @@
   box-shadow:
     0 -8px 8px -6px #0000 inset,
     0 -16px 16px -8px #00000000 inset,
-    1px 1px 1px #fff2,
-    2px 2px 2px #fff1,
+    1px 1px 1px hsl(var(--background) / 0.2),
+    2px 2px 2px hsl(var(--background) / 0.1),
     -1px -1px 1px #0002,
     -2px -2px 2px #0001;
 }
@@ -95,9 +95,9 @@
   pointer-events: none;
   background-image: linear-gradient(
     0deg,
-    #fff,
-    hsl(var(--highlight-color-hue), 100%, 70%),
-    hsla(var(--highlight-color-hue), 100%, 70%, 50%),
+    hsl(var(--background)),
+    hsl(var(--accent)),
+    hsla(var(--accent), 50%),
     8%,
     transparent
   );
@@ -111,7 +111,7 @@
 .btn-letter {
   position: relative;
   display: inline-block;
-  color: #fff5;
+  color: hsl(var(--background) / 0.5);
   animation: letter-anim 2s ease-in-out infinite;
   transition:
     color var(--transition),
@@ -121,8 +121,8 @@
 
 @keyframes letter-anim {
   50% {
-    text-shadow: 0 0 3px #fff8;
-    color: #fff;
+    text-shadow: 0 0 3px hsl(var(--background) / 0.8);
+    color: hsl(var(--background));
   }
 }
 
@@ -130,10 +130,10 @@
   flex-grow: 1;
   height: 24px;
   margin-right: 0.5rem;
-  fill: #e8e8e8;
+  fill: hsl(var(--background) / 0.9);
   animation: flicker 2s linear infinite;
   animation-delay: 0.5s;
-  filter: drop-shadow(0 0 2px #fff9);
+  filter: drop-shadow(0 0 2px hsl(var(--background) / 0.9));
   transition:
     fill var(--transition),
     filter var(--transition),
@@ -201,7 +201,7 @@
   50% {
     transform: scale(2);
     filter: blur(10px) brightness(150%)
-      drop-shadow(-36px 12px 12px hsl(var(--highlight-color-hue), 100%, 70%));
+      drop-shadow(-36px 12px 12px hsl(var(--accent) / 1));
   }
 }
 .btn:focus .btn-svg {
@@ -211,16 +211,16 @@
 
 .btn:focus::before {
   box-shadow:
-    0 -8px 12px -6px #fff3 inset,
-    0 -16px 16px -8px hsla(var(--highlight-color-hue), 100%, 70%, 20%) inset,
-    1px 1px 1px #fff3,
-    2px 2px 2px #fff1,
+    0 -8px 12px -6px hsl(var(--background) / 0.3) inset,
+    0 -16px 16px -8px hsla(var(--accent) / 0.2) inset,
+    1px 1px 1px hsl(var(--background) / 0.3),
+    2px 2px 2px hsl(var(--background) / 0.1),
     -1px -1px 1px #0002,
     -2px -2px 2px #0001;
 }
 .btn:focus::after {
   opacity: 0.6;
-  mask-image: linear-gradient(0deg, #fff, transparent);
+  mask-image: linear-gradient(0deg, hsl(var(--background)), transparent);
   filter: brightness(100%);
 }
 
@@ -280,51 +280,51 @@
 
 /* Active state */
 .btn:active {
-  border: solid 1px hsla(var(--highlight-color-hue), 100%, 80%, 70%);
-  background-color: hsla(var(--highlight-color-hue), 50%, 20%, 0.5);
+  border: solid 1px hsla(var(--accent) / 0.7);
+  background-color: hsla(var(--accent) / 0.5);
 }
 .btn:active::before {
   box-shadow:
-    0 -8px 12px -6px #fffa inset,
-    0 -16px 16px -8px hsla(var(--highlight-color-hue), 100%, 70%, 80%) inset,
-    1px 1px 1px #fff4,
-    2px 2px 2px #fff2,
+    0 -8px 12px -6px hsl(var(--background) / 0.9) inset,
+    0 -16px 16px -8px hsla(var(--accent) / 0.8) inset,
+    1px 1px 1px hsl(var(--background) / 0.4),
+    2px 2px 2px hsl(var(--background) / 0.2),
     -1px -1px 1px #0002,
     -2px -2px 2px #0001;
 }
 .btn:active::after {
   opacity: 1;
-  mask-image: linear-gradient(0deg, #fff, transparent);
+  mask-image: linear-gradient(0deg, hsl(var(--background)), transparent);
   filter: brightness(200%);
 }
 .btn:active .btn-letter {
-  text-shadow: 0 0 1px hsla(var(--highlight-color-hue), 100%, 90%, 90%);
+  text-shadow: 0 0 1px hsla(var(--accent) / 0.9);
   animation: none;
 }
 
 /* Hover state */
 .btn:hover {
-  border: solid 1px hsla(var(--highlight-color-hue), 100%, 80%, 40%);
+  border: solid 1px hsla(var(--accent) / 0.4);
 }
 
 .btn:hover::before {
   box-shadow:
-    0 -8px 8px -6px #fffa inset,
-    0 -16px 16px -8px hsla(var(--highlight-color-hue), 100%, 70%, 30%) inset,
-    1px 1px 1px #fff2,
-    2px 2px 2px #fff1,
+    0 -8px 8px -6px hsl(var(--background) / 0.9) inset,
+    0 -16px 16px -8px hsla(var(--accent) / 0.3) inset,
+    1px 1px 1px hsl(var(--background) / 0.2),
+    2px 2px 2px hsl(var(--background) / 0.1),
     -1px -1px 1px #0002,
     -2px -2px 2px #0001;
 }
 
 .btn:hover::after {
   opacity: 1;
-  mask-image: linear-gradient(0deg, #fff, transparent);
+  mask-image: linear-gradient(0deg, hsl(var(--background)), transparent);
 }
 
 .btn:hover .btn-svg {
-  fill: #fff;
-  filter: drop-shadow(0 0 3px hsl(var(--highlight-color-hue), 100%, 70%))
+  fill: hsl(var(--background));
+  filter: drop-shadow(0 0 3px hsl(var(--accent)))
     drop-shadow(0 -4px 6px #0009);
   animation: none;
 }
