@@ -67,7 +67,7 @@ export default function Hero() {
         <div className="flex flex-col items-center justify-center flex-grow">
             <SplitText
               tag="h1"
-              text="Premium Moroccan Avocados"
+              text="Pure Avocado Experience"
               className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight"
               splitType="chars"
             />
