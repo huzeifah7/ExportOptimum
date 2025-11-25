@@ -69,10 +69,10 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight">
+        <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight">
           Premium Moroccan Avocados
         </h1>
-        <p className="mt-4 max-w-2xl text-lg md:text-xl font-subtitle text-[36px] tracking-wide">
+        <p className="mt-4 max-w-4xl text-lg md:text-2xl font-subtitle tracking-wide">
           From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.
         </p>
         <div className="mt-8">
@@ -81,19 +81,19 @@ export default function Hero() {
             </Link>
         </div>
 
-        <div className="absolute bottom-0 w-full p-2 sm:p-4 md:p-8">
+        <div className="absolute bottom-0 w-full p-4 md:p-8">
           <div className="w-full max-w-5xl mx-auto bg-black/30 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
-            <div className="flex flex-col sm:flex-row items-center justify-around gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-around gap-4 sm:gap-2">
               {stats.map((stat, index) => (
                 <React.Fragment key={index}>
-                  <div className="flex flex-row items-center text-center gap-4">
+                  <div className="flex flex-row items-center text-center gap-3">
                     {stat.icon}
                     <div className='text-left'>
-                      <p className="text-2xl md:text-3xl font-bold font-headline">{stat.value}</p>
-                      <p className="text-sm text-gray-300">{stat.label}</p>
+                      <p className="text-xl md:text-3xl font-bold font-headline">{stat.value}</p>
+                      <p className="text-xs text-gray-300">{stat.label}</p>
                     </div>
                   </div>
-                  {index < stats.length - 1 && <div className="w-full sm:w-px h-px sm:h-16 bg-gray-600 last:hidden"></div>}
+                  {index < stats.length - 1 && <div className="w-full sm:w-px h-px sm:h-12 bg-gray-600 last:hidden"></div>}
                 </React.Fragment>
               ))}
             </div>
