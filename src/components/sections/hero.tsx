@@ -81,15 +81,20 @@ export default function Hero() {
             </Link>
         </div>
 
-        <div className="absolute bottom-0 w-full p-4">
-          <div className="w-full max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-black/30 backdrop-blur-sm p-8 rounded-lg border border-gray-700">
+        <div className="absolute bottom-0 w-full p-4 md:p-8">
+          <div className="w-full max-w-5xl mx-auto bg-black/30 backdrop-blur-sm p-4 md:p-6 rounded-lg border border-gray-700">
+            <div className="flex flex-col md:flex-row items-center justify-around gap-4 md:gap-8">
               {stats.map((stat, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  {stat.icon}
-                  <p className="text-3xl font-bold mt-2">{stat.value}</p>
-                  <p className="text-gray-300">{stat.label}</p>
-                </div>
+                <React.Fragment key={index}>
+                  <div className="flex flex-row md:flex-col items-center text-center gap-4">
+                    {stat.icon}
+                    <div className='text-left md:text-center'>
+                      <p className="text-2xl md:text-3xl font-bold">{stat.value}</p>
+                      <p className="text-sm text-gray-300">{stat.label}</p>
+                    </div>
+                  </div>
+                  {index < stats.length - 1 && <div className="w-full md:w-px h-px md:h-16 bg-gray-600 last:hidden"></div>}
+                </React.Fragment>
               ))}
             </div>
           </div>
