@@ -11,8 +11,18 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-16 lg:py-24 bg-background">
-      <div className="container mx-auto px-4">
+    <section id="testimonials" className="py-16 lg:py-24 bg-background relative">
+        <div
+            className="absolute inset-0"
+            style={{
+            backgroundImage: `
+                linear-gradient(45deg, transparent 49%, hsl(var(--border)) 49%, hsl(var(--border)) 51%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, hsl(var(--border)) 49%, hsl(var(--border)) 51%, transparent 51%)
+            `,
+            backgroundSize: "40px 40px",
+            }}
+        />
+      <div className="container mx-auto px-4 relative">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">What Our Clients Say</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">We pride ourselves on building lasting relationships based on trust and quality.</p>
