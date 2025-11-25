@@ -72,7 +72,7 @@ export default function Hero() {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight">
           Premium Moroccan Avocados
         </h1>
-        <p className="mt-4 max-w-2xl text-lg md:text-xl text-gray-200 font-subtitle text-[36px] tracking-wide">
+        <p className="mt-4 max-w-2xl text-lg md:text-xl font-subtitle text-[36px] tracking-wide">
           From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.
         </p>
         <div className="mt-8">
