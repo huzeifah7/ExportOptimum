@@ -81,19 +81,19 @@ export default function Hero() {
             </Link>
         </div>
 
-        <div className="absolute bottom-0 w-full p-4 md:p-8">
-          <div className="w-full max-w-5xl mx-auto bg-black/30 backdrop-blur-sm p-4 md:p-6 rounded-lg border border-gray-700">
-            <div className="flex flex-col md:flex-row items-center justify-around gap-4 md:gap-8">
+        <div className="absolute bottom-0 w-full p-2 sm:p-4 md:p-8">
+          <div className="w-full max-w-5xl mx-auto bg-black/30 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
+            <div className="flex flex-col sm:flex-row items-center justify-around gap-4">
               {stats.map((stat, index) => (
                 <React.Fragment key={index}>
-                  <div className="flex flex-row md:flex-col items-center text-center gap-4">
+                  <div className="flex flex-row items-center text-center gap-4">
                     {stat.icon}
-                    <div className='text-left md:text-center'>
-                      <p className="text-2xl md:text-3xl font-bold">{stat.value}</p>
+                    <div className='text-left'>
+                      <p className="text-2xl md:text-3xl font-bold font-headline">{stat.value}</p>
                       <p className="text-sm text-gray-300">{stat.label}</p>
                     </div>
                   </div>
-                  {index < stats.length - 1 && <div className="w-full md:w-px h-px md:h-16 bg-gray-600 last:hidden"></div>}
+                  {index < stats.length - 1 && <div className="w-full sm:w-px h-px sm:h-16 bg-gray-600 last:hidden"></div>}
                 </React.Fragment>
               ))}
             </div>
