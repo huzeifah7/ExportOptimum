@@ -1,8 +1,13 @@
+
+'use client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
+
 export function AnimatedButton() {
     return (
       <div className="btn-wrapper">
         <button className="btn">
-            <i className="fa-light fa-people-group btn-svg"></i>
+            <FontAwesomeIcon icon={faPeopleGroup} className="btn-svg" />
       
           <div className="txt-wrapper">
             <div className="txt-1">
