@@ -7,6 +7,7 @@ import Footer from '@/components/layout/footer';
 import Quality from '@/components/sections/quality';
 import About from '@/components/sections/about';
 import Varieties from '@/components/sections/varieties';
+import Ceo from '@/components/sections/ceo';
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
           <Quality />
         </section>
         <Varieties />
+        <Ceo />
         <Testimonials />
         <Partners />
         <Blog />

@@ -129,7 +129,7 @@
     {
       "id": "cert-brc-food",
       "description": "BRC Food certification logo",
-      "imageUrl": "https://picsum.photos/seed/brcfood/158/48",
+      "imageUrl": "https://images.unsplash.com/photo-1584209742773-f7b461564449?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxicmMlMjBmb29kfGVufDB8fHx8MTc2NDA2NDk2MHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "brc food"
     },
     {
@@ -137,6 +137,12 @@
       "description": "Global G.A.P. certification logo",
       "imageUrl": "https://images.unsplash.com/photo-1745476557118-58860113c8ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnbG9iYWwlMjBnYXB8ZW58MHx8fHwxNzYzNzQxNzMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "global gap"
+    },
+    {
+      "id": "ceo-portrait",
+      "description": "Portrait of Abdellah El Yamlahi, CEO of Export Optimum",
+      "imageUrl": "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYW4lMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYzOTk3Mjg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
     }
   ]
 }
