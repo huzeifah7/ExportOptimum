@@ -69,11 +69,11 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <div className="flex-grow flex flex-col items-center justify-center">
+        <div className="flex-1 flex flex-col items-center justify-center">
             <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight">
             Premium Moroccan Avocados
             </h1>
-            <p className="mt-4 max-w-4xl text-lg md:text-2xl font-subtitle tracking-wide">
+            <p className="mt-4 max-w-4xl text-lg md:text-xl lg:text-2xl font-subtitle tracking-wide">
             From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.
             </p>
             <div className="mt-8">
