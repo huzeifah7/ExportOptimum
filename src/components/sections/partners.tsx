@@ -7,8 +7,22 @@ export default function Partners() {
   const partners = partnerIds.map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean);
 
   return (
-    <section id="partners" className="py-16 lg:py-24">
-      <div className="container mx-auto px-4">
+    <section id="partners" className="py-16 lg:py-24 relative bg-background">
+       <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(45deg, transparent 49%, hsl(var(--border)) 49%, hsl(var(--border)) 51%, transparent 51%),
+            linear-gradient(-45deg, transparent 49%, hsl(var(--border)) 49%, hsl(var(--border)) 51%, transparent 51%)
+          `,
+          backgroundSize: "40px 40px",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
+          maskImage:
+            "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
+        }}
+      />
+      <div className="container mx-auto px-4 relative">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Trusted Partners</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">We collaborate with leading companies in the global food industry.</p>
