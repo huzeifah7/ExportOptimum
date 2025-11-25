@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import SplitText from '@/components/ui/split-text';
 
 export default function About() {
   const aboutImage = PlaceHolderImages.find(p => p.id === 'about-us-page');
@@ -24,10 +25,15 @@ export default function About() {
             )}
           </div>
           <div className="text-center lg:text-left">
-            <h2 className="text-4xl md:text-5xl font-headline font-bold">From Our Groves to Your Table</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              As a trusted name in the global avocado market, we are passionate about quality and committed to sustainable farming. We bring the rich, creamy taste of Moroccan avocados to the world.
-            </p>
+            <SplitText tag="h2" text="From Our Groves to Your Table" className="text-4xl md:text-5xl font-headline font-bold" textAlign="left" />
+            <SplitText 
+              tag="p" 
+              text="As a trusted name in the global avocado market, we are passionate about quality and committed to sustainable farming. We bring the rich, creamy taste of Moroccan avocados to the world." 
+              className="mt-4 text-lg text-muted-foreground"
+              splitType="words"
+              delay={20}
+              textAlign="left"
+            />
             <div className="mt-8">
               <Button asChild size="lg">
                 <Link href="/about">

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
+import SplitText from '@/components/ui/split-text';
 
 const heroSlides: (ImagePlaceholder & { type?: 'image' | 'video' })[] = [
   { id: 'hero-slide-1', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080', description: 'Lush avocado farm with sun shining through the leaves', imageHint: 'avocado farm' },
@@ -63,13 +64,20 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <div className=" flex-grow flex flex-col items-center justify-center">
-            <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight">
-            Premium Moroccan Avocados
-            </h1>
-            <p className="mt-4 max-w-4xl text-lg md:text-xl lg:text-2xl font-subtitle tracking-wide text-2xl md:text-3xl lg:text-4xl">
-            From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.
-            </p>
+        <div className="flex flex-col items-center justify-center flex-grow">
+            <SplitText
+              tag="h1"
+              text="Premium Moroccan Avocados"
+              className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight"
+              splitType="chars"
+            />
+            <SplitText
+              tag="p"
+              text="From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados."
+              className="mt-4 max-w-4xl text-lg md:text-xl lg:text-2xl font-subtitle tracking-wide text-2xl md:text-3xl lg:text-4xl"
+               splitType="words"
+               delay={20}
+            />
             <div className="mt-8">
                 <Link href="/contact">
                     <Button size="lg">Request a Quote</Button>

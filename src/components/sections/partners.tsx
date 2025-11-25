@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import SplitText from '@/components/ui/split-text';
 
 const partnerIds = ['partner-1', 'partner-2', 'partner-3', 'partner-4', 'partner-5'];
 
@@ -24,8 +25,14 @@ export default function Partners() {
       />
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Trusted Partners</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">We collaborate with leading companies in the global food industry.</p>
+          <SplitText tag="h2" text="Our Trusted Partners" className="text-4xl md:text-5xl font-headline font-bold" />
+          <SplitText 
+            tag="p" 
+            text="We collaborate with leading companies in the global food industry." 
+            className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide"
+            splitType="words"
+            delay={20}
+          />
         </div>
         <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
           {partners.map((partner) => (

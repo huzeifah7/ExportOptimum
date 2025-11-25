@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
+import SplitText from '@/components/ui/split-text';
 
 const varieties = [
   { id: 'avocado-hass', slug: 'hass', name: 'Hass', description: 'The classic, with a creamy texture and nutty flavor. Perfect for guacamole or on its own.', imageHint: 'avocado hass' },
@@ -45,8 +46,14 @@ export default function Varieties() {
       />
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Avocado Varieties</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">We cultivate and export several premium varieties to meet global demand.</p>
+          <SplitText tag="h2" text="Our Avocado Varieties" className="text-4xl md:text-5xl font-headline font-bold" />
+          <SplitText 
+            tag="p" 
+            text="We cultivate and export several premium varieties to meet global demand." 
+            className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide"
+            splitType="words"
+            delay={20}
+          />
         </div>
         <Carousel 
           opts={{

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import SplitText from '@/components/ui/split-text';
 
 const posts = [
   { id: 'blog-1', title: 'The Health Benefits of Avocados', excerpt: 'Discover why this superfood is a must-have in your diet.', imageHint: 'avocado toast' },
@@ -16,8 +17,14 @@ export default function Blog() {
     <section id="blog" className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-headline font-bold">From Our Blog</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">Insights, news, and stories from the world of avocados.</p>
+          <SplitText tag="h2" text="From Our Blog" className="text-4xl md:text-5xl font-headline font-bold" />
+          <SplitText 
+            tag="p" 
+            text="Insights, news, and stories from the world of avocados." 
+            className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide"
+            splitType="words"
+            delay={20}
+          />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => {

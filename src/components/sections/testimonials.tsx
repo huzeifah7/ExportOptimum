@@ -2,6 +2,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import SplitText from '@/components/ui/split-text';
 
 const testimonials = [
   { id: 'client-1', name: 'John Doe', company: 'Global Grocers', text: 'The quality of avocados from Avocado Export Hub is consistently outstanding. Our customers love them!', imageHint: 'person portrait' },
@@ -24,8 +25,14 @@ export default function Testimonials() {
         />
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-14 sm:mb-20">
-          <h2 className="text-4xl md:text-5xl font-headline font-bold">What Our Clients Say</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">We pride ourselves on building lasting relationships based on trust and quality.</p>
+          <SplitText tag="h2" text="What Our Clients Say" className="text-4xl md:text-5xl font-headline font-bold" />
+          <SplitText 
+            tag="p" 
+            text="We pride ourselves on building lasting relationships based on trust and quality." 
+            className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide"
+            splitType="words"
+            delay={20}
+          />
         </div>
         <Carousel opts={{ loop: true }} className="w-full max-w-4xl mx-auto">
           <CarouselContent>

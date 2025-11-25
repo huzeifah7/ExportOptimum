@@ -3,6 +3,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import SplitText from '@/components/ui/split-text';
 
 export default function Quality() {
     const qualityImage = PlaceHolderImages.find(p => p.id === 'blog-2');
@@ -11,10 +12,15 @@ export default function Quality() {
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
-            <h2 className="text-4xl md:text-5xl font-headline font-bold">Uncompromising Quality</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              From our sun-kissed groves in Morocco, we are dedicated to cultivating avocados of the highest quality. Our commitment to excellence begins with meticulous care for our trees and soil, ensuring that every fruit is a testament to nature’s perfection. We adhere to strict international standards, guaranteeing that from farm to port, our avocados meet the pinnacle of freshness and taste.
-            </p>
+            <SplitText tag="h2" text="Uncompromising Quality" className="text-4xl md:text-5xl font-headline font-bold" textAlign="left" />
+            <SplitText 
+              tag="p" 
+              text="From our sun-kissed groves in Morocco, we are dedicated to cultivating avocados of the highest quality. Our commitment to excellence begins with meticulous care for our trees and soil, ensuring that every fruit is a testament to nature’s perfection. We adhere to strict international standards, guaranteeing that from farm to port, our avocados meet the pinnacle of freshness and taste." 
+              className="mt-4 text-lg text-muted-foreground"
+              splitType="words"
+              delay={10}
+              textAlign="left"
+            />
              <div className="mt-8">
               <Button asChild size="lg">
                 <Link href="/quality#certifications">
