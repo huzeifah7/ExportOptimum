@@ -57,7 +57,7 @@ export default function Ceo() {
             </div>
 
             <div className="mt-12">
-              <Button asChild variant="outline">
+              <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                 <Link href="/team">
                   Meet Our Team <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
