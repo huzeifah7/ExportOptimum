@@ -43,7 +43,7 @@ export default function Blog() {
                   <CardTitle className="font-headline text-2xl">{post.title}</CardTitle>
                   <CardDescription className="mt-2 text-base flex-grow">{post.excerpt}</CardDescription>
                   <Button variant="link" asChild className="p-0 mt-4 self-start text-accent font-bold">
-                    <Link href="#">
+                    <Link href={`/blog/${post.slug}`}>
                       Read More <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>

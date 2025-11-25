@@ -16,7 +16,7 @@ export default function BlogPage() {
       <main className="flex-grow py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">From Our Blog</h1>
+            <h1 className="text-4xl md:text-6xl font-headline font-bold">Our Blogs</h1>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               Insights, news, and stories from the world of avocados.
             </p>
@@ -44,7 +44,7 @@ export default function BlogPage() {
                     <CardTitle className="font-headline text-2xl">{post.title}</CardTitle>
                     <CardDescription className="mt-2 text-base flex-grow">{post.excerpt}</CardDescription>
                     <Button variant="link" asChild className="p-0 mt-4 self-start text-accent font-bold">
-                      <Link href="#">
+                      <Link href={`/blog/${post.slug}`}>
                         Read More <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
