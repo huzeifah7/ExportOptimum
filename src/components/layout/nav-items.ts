@@ -1,3 +1,4 @@
+
 export const navItems = [
   {
     label: 'About us',
@@ -21,9 +22,9 @@ export const navItems = [
     ]
   },
   {
-    label: 'News',
+    label: 'Blog',
     items: [
-      { label: 'News', href: '/#blog' },
+      { label: 'Blog', href: '/blog' },
       { label: 'Sustainability', href: '/sustainability' }
     ]
   }

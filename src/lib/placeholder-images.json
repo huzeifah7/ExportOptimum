@@ -91,6 +91,24 @@
       "imageHint": "avocado salad"
     },
     {
+      "id": "blog-4",
+      "description": "Different varieties of avocados displayed on a table",
+      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwdmFyaWV0aWVzfGVufDB8fHx8MTc2NDA4NTkxNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado varieties"
+    },
+    {
+      "id": "blog-5",
+      "description": "A truck loaded with boxes of avocados for export",
+      "imageUrl": "https://images.unsplash.com/photo-1740319075131-044909c99210?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGV4cG9ydHxlbnwwfHx8fDE3NjQwODU5MTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado export"
+    },
+    {
+      "id": "blog-6",
+      "description": "A group of farmers working together in a field",
+      "imageUrl": "https://images.unsplash.com/photo-1527525443983-6e60c75fff46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxsb2NhbCUyMGNvbW11bml0eXxlbnwwfHx8fDE3NjQwODU5MTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "local community"
+    },
+    {
       "id": "map-location",
       "description": "A map showing the location of Agadir, Morocco",
       "imageUrl": "https://images.unsplash.com/photo-1532154078493-c1c3eef2023c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFwJTIwbG9jYXRpb258ZW58MHx8fHwxNzYzNzI0NzkzfDA&ixlib=rb-4.1.0&q=80&w=1080",

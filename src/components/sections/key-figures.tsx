@@ -17,7 +17,7 @@ export default function KeyFigures() {
                         {stat.icon}
                         <div className='mt-2 text-center'>
                             <p className="text-2xl md:text-4xl font-bold font-headline text-foreground">{stat.value}</p>
-                            <p className="text-sm text-muted-foreground">{stat.label}</p>
+                            <p className="text-[16px] text-foreground text-shadow-lg">{stat.label}</p>
                         </div>
                     </div>
                 ))}

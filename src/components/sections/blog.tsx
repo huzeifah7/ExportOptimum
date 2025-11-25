@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -5,12 +6,9 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import SplitText from '@/components/ui/split-text';
+import { posts } from '@/lib/blog-data';
 
-const posts = [
-  { id: 'blog-1', title: 'The Health Benefits of Avocados', excerpt: 'Discover why this superfood is a must-have in your diet.', imageHint: 'avocado toast' },
-  { id: 'blog-2', title: 'Our Sustainable Farming Practices', excerpt: 'Learn how we grow our avocados with respect for the environment.', imageHint: 'sustainable farming' },
-  { id: 'blog-3', title: 'Avocado Recipes You Have to Try', excerpt: 'From breakfast to dessert, explore new ways to enjoy avocados.', imageHint: 'avocado salad' },
-];
+const homePagePosts = posts.slice(0, 3);
 
 export default function Blog() {
   return (
@@ -23,7 +21,7 @@ export default function Blog() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => {
+          {homePagePosts.map((post) => {
             const image = PlaceHolderImages.find(p => p.id === post.id);
             return (
               <Card key={post.id} className="overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col group">
@@ -32,7 +30,7 @@ export default function Blog() {
                     <div className="overflow-hidden">
                       <Image
                         src={image.imageUrl}
-                        alt={image.description}
+                        alt={image.description || post.title}
                         width={600}
                         height={400}
                         className="object-cover w-full h-64 group-hover:scale-105 transition-transform duration-300"
@@ -53,6 +51,13 @@ export default function Blog() {
               </Card>
             );
           })}
+        </div>
+        <div className="text-center mt-12">
+          <Button asChild size="lg">
+            <Link href="/blog">
+              View All Posts <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
