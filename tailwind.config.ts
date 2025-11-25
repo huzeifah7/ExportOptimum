@@ -21,6 +21,7 @@ export default {
         headline: ['Nunito', 'sans-serif'],
         code: ['monospace'],
         subtitle: ['Hurricane', 'cursive'],
+        prose: ['Montserrat', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',

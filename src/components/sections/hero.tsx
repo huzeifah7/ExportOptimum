@@ -74,7 +74,7 @@ export default function Hero() {
             <SplitText
               tag="p"
               text="From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados."
-              className="mt-4 max-w-4xl text-lg md:text-xl lg:text-2xl font-subtitle tracking-wide text-2xl md:text-3xl lg:text-4xl"
+              className="mt-4 max-w-4xl font-prose text-lg md:text-xl lg:text-2xl tracking-wide"
                splitType="words"
                delay={20}
             />
