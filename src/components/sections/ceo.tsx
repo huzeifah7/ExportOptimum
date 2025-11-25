@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, Leaf, Package, Truck } from 'lucide-react';
+import { Leaf, Package, Truck } from 'lucide-react';
+import { AnimatedButton } from '@/components/ui/animated-button';
 
 const features = [
   {
@@ -57,11 +57,9 @@ export default function Ceo() {
             </div>
 
             <div className="mt-12">
-              <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                <Link href="/team">
-                  Meet Our Team <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+              <Link href="/team">
+                <AnimatedButton />
+              </Link>
             </div>
           </div>
         </div>
