@@ -8,12 +8,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
 
-const stats = [
-  { icon: <Ship className="w-8 h-8 text-primary" />, value: '10,000+', label: 'Tons of yearly export' },
-  { icon: <Users className="w-8 h-8 text-primary" />, value: '500+', label: 'Employees' },
-  { icon: <Globe className="w-8 h-8 text-primary" />, value: '50+', label: 'Major Customers' },
-];
-
 const heroSlides: (ImagePlaceholder & { type?: 'image' | 'video' })[] = [
   { id: 'hero-slide-1', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080', description: 'Lush avocado farm with sun shining through the leaves', imageHint: 'avocado farm' },
   { id: 'hero-slide-2', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzYzOTk3MDUzfDA&ixlib=rb-4.1.0&q=80&w=1080', description: 'Close-up of ripe avocados hanging from a tree', imageHint: 'avocado tree' },
@@ -26,7 +20,7 @@ export default function Hero() {
   );
 
   return (
-    <section className="relative w-full h-[90vh] text-white overflow-hidden">
+    <section className="relative w-full h-[85vh] text-white overflow-hidden">
       <Carousel
         className="absolute inset-0 w-full h-full"
         plugins={[plugin.current]}
@@ -69,11 +63,11 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <div className="flex-1 flex flex-col items-center justify-center">
+        <div className=" flex-grow flex flex-col items-center justify-center">
             <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight">
             Premium Moroccan Avocados
             </h1>
-            <p className="mt-4 max-w-4xl text-lg md:text-xl lg:text-2xl font-subtitle tracking-wide">
+            <p className="mt-4 max-w-4xl text-lg md:text-xl lg:text-2xl font-subtitle tracking-wide text-2xl md:text-3xl lg:text-4xl">
             From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.
             </p>
             <div className="mt-8">
@@ -81,22 +75,6 @@ export default function Hero() {
                     <Button size="lg">Request a Quote</Button>
                 </Link>
             </div>
-        </div>
-
-        <div className="w-full p-4 md:p-8">
-          <div className="w-full max-w-5xl mx-auto bg-black/30 backdrop-blur-sm p-4 rounded-lg border border-gray-700">
-            <div className="grid grid-cols-3 gap-4 text-center">
-              {stats.map((stat, index) => (
-                  <div key={index} className="flex flex-col items-center justify-center">
-                    {stat.icon}
-                    <div className='mt-2 text-left'>
-                      <p className="text-xl md:text-3xl font-bold font-headline">{stat.value}</p>
-                      <p className="text-xs text-gray-300">{stat.label}</p>
-                    </div>
-                  </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>

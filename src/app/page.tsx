@@ -8,6 +8,7 @@ import Quality from '@/components/sections/quality';
 import About from '@/components/sections/about';
 import Varieties from '@/components/sections/varieties';
 import Ceo from '@/components/sections/ceo';
+import KeyFigures from '@/components/sections/key-figures';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <Hero />
+        <KeyFigures />
         <About />
         <section id="quality">
           <Quality />
