@@ -32,7 +32,7 @@ export default function SustainabilityPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-headline font-bold">Our Commitment to Sustainability</h1>
-            <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">
+            <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
               We believe that great avocados come from a healthy planet. Learn about our initiatives to protect the environment for generations to come.
             </p>
           </div>
@@ -63,7 +63,7 @@ export default function SustainabilityPage() {
 
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Sustainability Goals</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               Specific actions we're taking to make a difference.
             </p>
           </div>

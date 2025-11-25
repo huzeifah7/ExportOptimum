@@ -26,13 +26,9 @@ export default function Testimonials() {
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-14 sm:mb-20">
           <SplitText tag="h2" text="What Our Clients Say" className="text-4xl md:text-5xl font-headline font-bold" />
-          <SplitText 
-            tag="p" 
-            text="We pride ourselves on building lasting relationships based on trust and quality." 
-            className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide"
-            splitType="words"
-            delay={20}
-          />
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            We pride ourselves on building lasting relationships based on trust and quality.
+          </p>
         </div>
         <Carousel opts={{ loop: true }} className="w-full max-w-4xl mx-auto">
           <CarouselContent>

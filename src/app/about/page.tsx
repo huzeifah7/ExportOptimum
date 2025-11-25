@@ -3,6 +3,7 @@ import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Leaf, Target, Globe } from 'lucide-react';
+import SplitText from '@/components/ui/split-text';
 
 const coreValues = [
   {
@@ -32,7 +33,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-headline font-bold">about Export optimum</h1>
-            <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">
+            <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
               Founded in the fertile plains of Morocco, Avocado Export Hub began with a simple mission: to share the exceptional quality of our local avocados with the world.
             </p>
           </div>
@@ -63,7 +64,7 @@ export default function AboutPage() {
 
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Core Values</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide">
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               The principles that guide our every decision.
             </p>
           </div>

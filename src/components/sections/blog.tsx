@@ -18,13 +18,9 @@ export default function Blog() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <SplitText tag="h2" text="From Our Blog" className="text-4xl md:text-5xl font-headline font-bold" />
-          <SplitText 
-            tag="p" 
-            text="Insights, news, and stories from the world of avocados." 
-            className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground font-subtitle text-[36px] tracking-wide"
-            splitType="words"
-            delay={20}
-          />
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            Insights, news, and stories from the world of avocados.
+          </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => {
