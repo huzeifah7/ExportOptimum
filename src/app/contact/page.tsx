@@ -19,8 +19,8 @@ import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -33,6 +33,7 @@ const formSchema = z.object({
 
 export default function ContactPage() {
   const { toast } = useToast();
+  const contactImage = PlaceHolderImages.find(p => p.id === 'about-us-hero');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,108 +56,93 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/30">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <main className="flex-grow">
-        <div className="container mx-auto px-4 py-16 lg:py-24">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">
-              Get in Touch
-            </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-              We're here to help and answer any question you might have. We look
-              forward to hearing from you.
-            </p>
-          </div>
+      <main className="flex-grow flex items-center">
+        <div className="grid lg:grid-cols-2 w-full h-full">
+            <div className="p-8 md:p-16 lg:p-24 flex flex-col justify-center">
+                <div className="max-w-lg mx-auto w-full">
+                    <div className="mb-12">
+                        <h1 className="text-4xl md:text-5xl font-headline font-bold">
+                        Get in Touch
+                        </h1>
+                        <p className="mt-4 text-lg text-muted-foreground">
+                        We're here to help and answer any question you might have.
+                        </p>
+                    </div>
 
-          <div className="grid lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
-                <Card className="shadow-lg">
-                    <CardHeader>
-                        <CardTitle>Send us a Message</CardTitle>
-                        <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <Form {...form}>
-                            <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6"
-                            >
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Full Name</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="John Doe" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                                />
-                                <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Email Address</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="name@example.com" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                                />
-                            </div>
+                    <Form {...form}>
+                        <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-6"
+                        >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <FormField
-                                control={form.control}
-                                name="subject"
-                                render={({ field }) => (
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Subject</FormLabel>
-                                    <FormControl>
-                                    <Input placeholder="Inquiry about Hass avocados" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
+                                <FormLabel>Full Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="John Doe" {...field} />
+                                </FormControl>
+                                <FormMessage />
                                 </FormItem>
-                                )}
+                            )}
                             />
                             <FormField
-                                control={form.control}
-                                name="message"
-                                render={({ field }) => (
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Your Message</FormLabel>
-                                    <FormControl>
-                                    <Textarea
-                                        placeholder="Leave your message here..."
-                                        className="min-h-[150px]"
-                                        {...field}
-                                    />
-                                    </FormControl>
-                                    <FormMessage />
+                                <FormLabel>Email Address</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="name@example.com" {...field} />
+                                </FormControl>
+                                <FormMessage />
                                 </FormItem>
-                                )}
+                            )}
                             />
-                            <div className="text-right">
-                                <Button type="submit" size="lg">
-                                Send Message
-                                </Button>
-                            </div>
-                            </form>
-                        </Form>
-                    </CardContent>
-                </Card>
-            </div>
-            <div className="space-y-8">
-                <Card className="shadow-lg">
-                    <CardHeader>
-                        <CardTitle>Contact Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                         <div className="flex items-start gap-4">
+                        </div>
+                        <FormField
+                            control={form.control}
+                            name="subject"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Subject</FormLabel>
+                                <FormControl>
+                                <Input placeholder="Inquiry about Hass avocados" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="message"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Your Message</FormLabel>
+                                <FormControl>
+                                <Textarea
+                                    placeholder="Leave your message here..."
+                                    className="min-h-[150px]"
+                                    {...field}
+                                />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                        <div className="text-right">
+                            <Button type="submit" size="lg">
+                            Send Message
+                            </Button>
+                        </div>
+                        </form>
+                    </Form>
+                     <div className="mt-16 border-t pt-8 space-y-6">
+                        <div className="flex items-start gap-4">
                             <div className="p-3 bg-primary/10 text-primary rounded-full">
                                 <Mail className="w-6 h-6" />
                             </div>
@@ -183,10 +169,21 @@ export default function ContactPage() {
                                 <p className="text-muted-foreground">123 Produce Lane, Fruit Valley, 90210</p>
                             </div>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div className="hidden lg:block relative">
+                 {contactImage && (
+                    <Image
+                        src={contactImage.imageUrl}
+                        alt={contactImage.description}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={contactImage.imageHint}
+                    />
+                 )}
+                 <div className="absolute inset-0 bg-black/30"></div>
+            </div>
         </div>
       </main>
       <Footer />
