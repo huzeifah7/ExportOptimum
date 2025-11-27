@@ -3,8 +3,8 @@ export const navItems = [
   {
     label: 'About us',
     items: [
-      { label: 'Our Story', href: '/about' },
-      { label: 'Our Team', href: '/team' }
+      { label: 'About us', href: '/about' },
+      { label: 'Export optimum team', href: '/team' }
     ]
   },
   {
