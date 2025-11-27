@@ -20,21 +20,23 @@ const NavLink = ({ href, children, scrolled }: { href: string, children: React.R
     className={cn(
       "relative font-medium px-3 py-2 rounded-md transition-colors",
       scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white',
-      "after:absolute after:bottom-1 after:left-0 after:right-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-out hover:after:origin-bottom-left hover:after:scale-x-100"
+      "after:absolute after:bottom-1 after:left-1/2 after:right-1/2 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:left-0 hover:after:right-0 hover:after:w-full"
     )}
   >
     {children}
   </Link>
 );
 
-const NavDropdown = ({ group, scrolled }: { group: typeof navItems[0], scrolled: boolean }) => (
+const NavDropdown = ({ group, scrolled }: { group: (typeof navItems)[number], scrolled: boolean }) => (
   <DropdownMenu>
-    <DropdownMenuTrigger className={cn(
-      "group/trigger relative flex items-center gap-1 font-medium px-3 py-2 rounded-md transition-colors outline-none",
-      scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white',
-      "after:absolute after:bottom-1 after:left-0 after:right-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-out group-hover/trigger:after:origin-bottom-left group-hover/trigger:after:scale-x-100"
-    )}>
-      {group.label} <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+    <DropdownMenuTrigger asChild>
+      <button className={cn(
+        "group/trigger relative flex items-center gap-1 font-medium px-3 py-2 rounded-md transition-colors outline-none",
+        scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white',
+        "after:absolute after:bottom-1 after:left-1/2 after:right-1/2 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 group-hover/trigger:after:left-0 group-hover/trigger:after:right-0 group-hover/trigger:after:w-full"
+      )}>
+        {group.label} <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+      </button>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
       {group.items.map(item => (
@@ -47,7 +49,7 @@ const NavDropdown = ({ group, scrolled }: { group: typeof navItems[0], scrolled:
 );
 
 export default function Header() {
-  const mobileNavItems = navItems.flatMap(group => group.items);
+  const mobileNavItems = navItems.flatMap(group => group.items || [{ label: group.label, href: group.items?.[0]?.href || '/' }]);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
