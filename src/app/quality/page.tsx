@@ -123,7 +123,7 @@ export default function QualityPage() {
                     const image = PlaceHolderImages.find(p => p.id === cert.id);
                     return (
                         <div key={cert.id} className="relative group mx-8 flex-shrink-0 flex flex-col items-center justify-center h-48 w-48">
-                            <div className="relative h-32 w-32 flex items-center justify-center p-4 bg-background rounded-lg border shadow-sm">
+                            <div className="relative h-32 w-32 flex items-center justify-center p-4 bg-background rounded-lg shadow-sm">
                                 {image ? (
                                     <Image
                                         src={image.imageUrl}
