@@ -1,3 +1,4 @@
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -32,7 +33,7 @@ export default function AboutPage() {
       <main className="flex-grow py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">about Export optimum</h1>
+            <h1 className="text-4xl md:text-6xl font-headline font-bold">About Export Optimum</h1>
             <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
               Founded in the fertile plains of Morocco, Avocado Export Hub began with a simple mission: to share the exceptional quality of our local avocados with the world.
             </p>
