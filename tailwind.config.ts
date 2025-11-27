@@ -22,6 +22,7 @@ export default {
         code: ['monospace'],
         subtitle: ['Hurricane', 'cursive'],
         prose: ['Montserrat', 'sans-serif'],
+        navbar: ['Public Sans', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',

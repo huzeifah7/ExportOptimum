@@ -34,6 +34,7 @@ const App = () => {
       buttonBgColor="hsl(var(--primary))"
       buttonTextColor="hsl(var(--primary-foreground))"
       ctaLink="/contact"
+      className="font-navbar"
     >
         <Link href="/" aria-label="Home">
             <Logo />
