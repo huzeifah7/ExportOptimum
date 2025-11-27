@@ -178,13 +178,13 @@ const CardNav: React.FC<CardNavProps> = ({
           </div>
 
           {ctaLink && (
-            <Link href={ctaLink} passHref legacyBehavior>
-                <a
+            <Link href={ctaLink} passHref>
+                <span
                     className="card-nav-cta-button"
                     style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
                 >
                     Contact Us
-                </a>
+                </span>
             </Link>
           )}
         </div>
@@ -200,11 +200,11 @@ const CardNav: React.FC<CardNavProps> = ({
               <div className="nav-card-label">{item.label}</div>
               <div className="nav-card-links">
                 {item.links?.map((lnk, i) => (
-                  <Link key={`${lnk.label}-${i}`} href={lnk.href} passHref legacyBehavior>
-                    <a className="nav-card-link" aria-label={lnk.ariaLabel}>
+                  <Link key={`${lnk.label}-${i}`} href={lnk.href} passHref>
+                    <span className="nav-card-link" aria-label={lnk.ariaLabel}>
                       <ArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
                       {lnk.label}
-                    </a>
+                    </span>
                   </Link>
                 ))}
               </div>
