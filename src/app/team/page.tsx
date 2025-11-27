@@ -1,5 +1,4 @@
 
-
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -7,6 +6,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
 import { Linkedin, Twitter } from 'lucide-react';
 import Link from 'next/link';
+import { AnimatedGradientBackground } from '@/components/ui/animated-gradient-background';
 
 const teamMembers = [
   {
@@ -66,123 +66,125 @@ export default function TeamPage() {
   const ceoImage = PlaceHolderImages.find((p) => p.id === ceo.id);
 
   return (
-    <div className="flex flex-col min-h-screen bg-red-100">
-      <Header />
-      <main className="flex-grow py-16 lg:py-24">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Leadership</h1>
-            <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
-              The passionate individuals dedicated to bringing you the best avocados from Morocco.
-            </p>
-          </div>
+    <AnimatedGradientBackground>
+      <div className="flex flex-col min-h-screen bg-transparent">
+        <Header />
+        <main className="flex-grow py-16 lg:py-24">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Leadership</h1>
+              <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
+                The passionate individuals dedicated to bringing you the best avocados from Morocco.
+              </p>
+            </div>
 
-          {/* Leadership Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
-            {/* Owner Card */}
-            <Card className="overflow-hidden shadow-lg border-2 border-primary/20 bg-background/50 backdrop-blur-sm">
-                <div className="grid md:grid-cols-1 items-center">
-                    <div className="md:col-span-1">
-                        {ownerImage && (
-                        <Image
-                            src={ownerImage.imageUrl}
-                            alt={owner.name}
-                            width={500}
-                            height={600}
-                            className="object-cover w-full h-80"
-                            data-ai-hint={owner.imageHint}
-                        />
-                        )}
-                    </div>
-                    <div className="md:col-span-2 p-8">
-                        <h2 className="text-3xl font-headline font-bold text-primary">{owner.name}</h2>
-                        <p className="text-xl font-semibold text-muted-foreground mt-1">{owner.role}</p>
-                        <p className="mt-4 text-foreground/80">{owner.bio}</p>
-                         <div className="mt-6 flex gap-4">
-                            <Link href="#" className="text-muted-foreground hover:text-primary">
-                                <Linkedin className="h-6 w-6" />
-                            </Link>
-                            <Link href="#" className="text-muted-foreground hover:text-primary">
-                                <Twitter className="h-6 w-6" />
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </Card>
-
-            {/* CEO Card */}
-            <Card className="overflow-hidden shadow-lg border-2 border-primary/20 bg-background/50 backdrop-blur-sm">
-                <div className="grid md:grid-cols-1 items-center">
-                    <div className="md:col-span-1">
-                        {ceoImage && (
-                        <Image
-                            src={ceoImage.imageUrl}
-                            alt={ceo.name}
-                            width={500}
-                            height={600}
-                            className="object-cover w-full h-80"
-                            data-ai-hint={ceo.imageHint}
-                        />
-                        )}
-                    </div>
-                    <div className="md:col-span-2 p-8">
-                        <h2 className="text-3xl font-headline font-bold text-primary">{ceo.name}</h2>
-                        <p className="text-xl font-semibold text-muted-foreground mt-1">{ceo.role}</p>
-                        <p className="mt-4 text-foreground/80">{ceo.bio}</p>
-                         <div className="mt-6 flex gap-4">
-                            <Link href="#" className="text-muted-foreground hover:text-primary">
-                                <Linkedin className="h-6 w-6" />
-                            </Link>
-                            <Link href="#" className="text-muted-foreground hover:text-primary">
-                                <Twitter className="h-6 w-6" />
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </Card>
-          </div>
-          
-          <div className="text-center my-16">
-            <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Dedicated Team</h2>
-          </div>
-
-          {/* Other Team Members */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {otherMembers.map((member) => {
-              const image = PlaceHolderImages.find((p) => p.id === member.id);
-              return (
-                <Card key={member.name} className="flex flex-col text-center overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group bg-background/50 backdrop-blur-sm">
-                  <div className="relative h-64 w-full overflow-hidden">
-                    {image && (
-                        <Image
-                          src={image.imageUrl}
-                          alt={member.name}
-                          fill
-                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                          data-ai-hint={member.imageHint}
-                        />
-                    )}
+            {/* Leadership Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+              {/* Owner Card */}
+              <Card className="overflow-hidden shadow-lg border-2 border-primary/20 bg-background/50 backdrop-blur-sm">
+                  <div className="grid md:grid-cols-1 items-center">
+                      <div className="md:col-span-1">
+                          {ownerImage && (
+                          <Image
+                              src={ownerImage.imageUrl}
+                              alt={owner.name}
+                              width={500}
+                              height={600}
+                              className="object-cover w-full h-80"
+                              data-ai-hint={owner.imageHint}
+                          />
+                          )}
+                      </div>
+                      <div className="md:col-span-2 p-8">
+                          <h2 className="text-3xl font-headline font-bold text-primary">{owner.name}</h2>
+                          <p className="text-xl font-semibold text-muted-foreground mt-1">{owner.role}</p>
+                          <p className="mt-4 text-foreground/80">{owner.bio}</p>
+                           <div className="mt-6 flex gap-4">
+                              <Link href="#" className="text-muted-foreground hover:text-primary">
+                                  <Linkedin className="h-6 w-6" />
+                              </Link>
+                              <Link href="#" className="text-muted-foreground hover:text-primary">
+                                  <Twitter className="h-6 w-6" />
+                              </Link>
+                          </div>
+                      </div>
                   </div>
-                  <CardContent className="p-6 flex-grow flex flex-col">
-                    <h3 className="font-headline text-2xl font-bold">{member.name}</h3>
-                    <p className="text-primary font-semibold mt-1">{member.role}</p>
-                    <p className="text-muted-foreground mt-3 text-sm flex-grow">{member.bio}</p>
-                    <div className="mt-4 flex justify-center gap-4">
-                        <Link href="#" className="text-muted-foreground hover:text-primary">
-                            <Linkedin className="h-5 w-5" />
-                        </Link>
-                        <Link href="#" className="text-muted-foreground hover:text-primary">
-                            <Twitter className="h-5 w-5" />
-                        </Link>
+              </Card>
+
+              {/* CEO Card */}
+              <Card className="overflow-hidden shadow-lg border-2 border-primary/20 bg-background/50 backdrop-blur-sm">
+                  <div className="grid md:grid-cols-1 items-center">
+                      <div className="md:col-span-1">
+                          {ceoImage && (
+                          <Image
+                              src={ceoImage.imageUrl}
+                              alt={ceo.name}
+                              width={500}
+                              height={600}
+                              className="object-cover w-full h-80"
+                              data-ai-hint={ceo.imageHint}
+                          />
+                          )}
+                      </div>
+                      <div className="md:col-span-2 p-8">
+                          <h2 className="text-3xl font-headline font-bold text-primary">{ceo.name}</h2>
+                          <p className="text-xl font-semibold text-muted-foreground mt-1">{ceo.role}</p>
+                          <p className="mt-4 text-foreground/80">{ceo.bio}</p>
+                           <div className="mt-6 flex gap-4">
+                              <Link href="#" className="text-muted-foreground hover:text-primary">
+                                  <Linkedin className="h-6 w-6" />
+                              </Link>
+                              <Link href="#" className="text-muted-foreground hover:text-primary">
+                                  <Twitter className="h-6 w-6" />
+                              </Link>
+                          </div>
+                      </div>
+                  </div>
+              </Card>
+            </div>
+            
+            <div className="text-center my-16">
+              <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Dedicated Team</h2>
+            </div>
+
+            {/* Other Team Members */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {otherMembers.map((member) => {
+                const image = PlaceHolderImages.find((p) => p.id === member.id);
+                return (
+                  <Card key={member.name} className="flex flex-col text-center overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group bg-background/50 backdrop-blur-sm">
+                    <div className="relative h-64 w-full overflow-hidden">
+                      {image && (
+                          <Image
+                            src={image.imageUrl}
+                            alt={member.name}
+                            fill
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            data-ai-hint={member.imageHint}
+                          />
+                      )}
                     </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                    <CardContent className="p-6 flex-grow flex flex-col">
+                      <h3 className="font-headline text-2xl font-bold">{member.name}</h3>
+                      <p className="text-primary font-semibold mt-1">{member.role}</p>
+                      <p className="text-muted-foreground mt-3 text-sm flex-grow">{member.bio}</p>
+                      <div className="mt-4 flex justify-center gap-4">
+                          <Link href="#" className="text-muted-foreground hover:text-primary">
+                              <Linkedin className="h-5 w-5" />
+                          </Link>
+                          <Link href="#" className="text-muted-foreground hover:text-primary">
+                              <Twitter className="h-5 w-5" />
+                          </Link>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </AnimatedGradientBackground>
   );
 }
