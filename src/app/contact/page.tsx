@@ -19,8 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -33,7 +32,6 @@ const formSchema = z.object({
 
 export default function ContactPage() {
   const { toast } = useToast();
-  const contactImage = PlaceHolderImages.find(p => p.id === 'about-us-hero');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,19 +56,23 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <main className="flex-grow flex items-center">
-        <div className="grid lg:grid-cols-2 w-full h-full">
-            <div className="p-8 md:p-16 lg:p-24 flex flex-col justify-center">
-                <div className="max-w-lg mx-auto w-full">
-                    <div className="mb-12">
-                        <h1 className="text-4xl md:text-5xl font-headline font-bold">
-                        Get in Touch
-                        </h1>
-                        <p className="mt-4 text-lg text-muted-foreground">
-                        We're here to help and answer any question you might have.
-                        </p>
-                    </div>
+      <main className="flex-grow py-16 lg:py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl md:text-5xl font-headline font-bold">
+                Get in Touch
+              </h1>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                We'd love to hear from you. Whether you have a question about our products, pricing, or anything else, our team is ready to answer all your questions.
+              </p>
+            </div>
 
+            <Card className="max-w-2xl mx-auto shadow-lg">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-headline">Send us a Message</CardTitle>
+                </CardHeader>
+                <CardContent>
                     <Form {...form}>
                         <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -141,49 +143,39 @@ export default function ContactPage() {
                         </div>
                         </form>
                     </Form>
-                     <div className="mt-16 border-t pt-8 space-y-6">
-                        <div className="flex items-start gap-4">
-                            <div className="p-3 bg-primary/10 text-primary rounded-full">
-                                <Mail className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <h4 className="font-bold">Email</h4>
-                                <a href="mailto:contact@exportoptimum.com" className="text-muted-foreground hover:text-primary transition-colors">contact@exportoptimum.com</a>
-                            </div>
+                </CardContent>
+            </Card>
+
+            <div className="mt-20">
+                <div className="text-center">
+                    <h2 className="text-3xl font-headline font-bold">Our Contact Information</h2>
+                    <p className="mt-2 text-muted-foreground">Find us at our office or drop us a line via email or phone.</p>
+                </div>
+                 <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div className="flex flex-col items-center">
+                        <div className="p-4 bg-primary/10 text-primary rounded-full">
+                            <Mail className="w-8 h-8" />
                         </div>
-                        <div className="flex items-start gap-4">
-                            <div className="p-3 bg-primary/10 text-primary rounded-full">
-                                <Phone className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <h4 className="font-bold">Phone</h4>
-                                <a href="tel:+1234567890" className="text-muted-foreground hover:text-primary transition-colors">+1 (234) 567-890</a>
-                            </div>
+                        <h4 className="mt-4 text-xl font-bold">Email</h4>
+                        <a href="mailto:contact@exportoptimum.com" className="mt-1 text-muted-foreground hover:text-primary transition-colors">contact@exportoptimum.com</a>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <div className="p-4 bg-primary/10 text-primary rounded-full">
+                            <Phone className="w-8 h-8" />
                         </div>
-                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-primary/10 text-primary rounded-full">
-                                <MapPin className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <h4 className="font-bold">Address</h4>
-                                <p className="text-muted-foreground">123 Produce Lane, Fruit Valley, 90210</p>
-                            </div>
+                        <h4 className="mt-4 text-xl font-bold">Phone</h4>
+                        <a href="tel:+1234567890" className="mt-1 text-muted-foreground hover:text-primary transition-colors">+1 (234) 567-890</a>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <div className="p-4 bg-primary/10 text-primary rounded-full">
+                            <MapPin className="w-8 h-8" />
                         </div>
+                        <h4 className="mt-4 text-xl font-bold">Address</h4>
+                        <p className="mt-1 text-muted-foreground">123 Produce Lane, Fruit Valley, 90210</p>
                     </div>
                 </div>
             </div>
-            <div className="hidden lg:block relative">
-                 {contactImage && (
-                    <Image
-                        src={contactImage.imageUrl}
-                        alt={contactImage.description}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={contactImage.imageHint}
-                    />
-                 )}
-                 <div className="absolute inset-0 bg-black/30"></div>
-            </div>
+          </div>
         </div>
       </main>
       <Footer />
