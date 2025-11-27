@@ -9,10 +9,17 @@ import Link from 'next/link';
 
 const teamMembers = [
   {
+    id: 'owner-portrait',
+    name: 'Abdellah el Yamlahi',
+    role: 'Owner & Founder',
+    bio: 'The visionary founder of our company, Abdellah\'s passion for agriculture and commitment to quality have been the driving forces behind our success. His leadership continues to inspire our mission.',
+    imageHint: 'man portrait',
+  },
+  {
     id: 'ceo-portrait',
     name: 'Zakaria el Yamlahi',
-    role: 'CEO',
-    bio: 'With over 20 years of experience in agriculture and international trade, Zakaria leads our company with a vision for quality and sustainability. He is also the president of the Moroccan Avocado Exporters Association (MAVA).',
+    role: 'Chief Executive Officer',
+    bio: 'With over 20 years of experience in international trade, Zakaria leads our company with a vision for global reach and sustainability. He is also the president of the Moroccan Avocado Exporters Association (MAVA).',
     imageHint: 'man portrait',
   },
   {
@@ -53,7 +60,8 @@ const teamMembers = [
 ];
 
 export default function TeamPage() {
-  const [ceo, ...otherMembers] = teamMembers;
+  const [owner, ceo, ...otherMembers] = teamMembers;
+  const ownerImage = PlaceHolderImages.find((p) => p.id === owner.id);
   const ceoImage = PlaceHolderImages.find((p) => p.id === ceo.id);
 
   return (
@@ -62,16 +70,48 @@ export default function TeamPage() {
       <main className="flex-grow py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Team</h1>
+            <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Leadership</h1>
             <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
               The passionate individuals dedicated to bringing you the best avocados from Morocco.
             </p>
           </div>
 
-          {/* CEO Section */}
-          <div className="mb-20">
+          {/* Leadership Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+            {/* Owner Card */}
             <Card className="overflow-hidden shadow-lg border-2 border-primary/20">
-                <div className="grid md:grid-cols-3 items-center">
+                <div className="grid md:grid-cols-1 items-center">
+                    <div className="md:col-span-1">
+                        {ownerImage && (
+                        <Image
+                            src={ownerImage.imageUrl}
+                            alt={owner.name}
+                            width={500}
+                            height={600}
+                            className="object-cover w-full h-80"
+                            data-ai-hint={owner.imageHint}
+                        />
+                        )}
+                    </div>
+                    <div className="md:col-span-2 p-8">
+                        <h2 className="text-3xl font-headline font-bold text-primary">{owner.name}</h2>
+                        <p className="text-xl font-semibold text-muted-foreground mt-1">{owner.role}</p>
+                        <p className="mt-4 text-foreground/80">{owner.bio}</p>
+                         <div className="mt-6 flex gap-4">
+                            <Link href="#" className="text-muted-foreground hover:text-primary">
+                                <Linkedin className="h-6 w-6" />
+                            </Link>
+                            <Link href="#" className="text-muted-foreground hover:text-primary">
+                                <Twitter className="h-6 w-6" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+
+            {/* CEO Card */}
+            <Card className="overflow-hidden shadow-lg border-2 border-primary/20">
+                <div className="grid md:grid-cols-1 items-center">
                     <div className="md:col-span-1">
                         {ceoImage && (
                         <Image
@@ -79,12 +119,12 @@ export default function TeamPage() {
                             alt={ceo.name}
                             width={500}
                             height={600}
-                            className="object-cover w-full h-full max-h-[600px]"
+                            className="object-cover w-full h-80"
                             data-ai-hint={ceo.imageHint}
                         />
                         )}
                     </div>
-                    <div className="md:col-span-2 p-8 lg:p-12">
+                    <div className="md:col-span-2 p-8">
                         <h2 className="text-3xl font-headline font-bold text-primary">{ceo.name}</h2>
                         <p className="text-xl font-semibold text-muted-foreground mt-1">{ceo.role}</p>
                         <p className="mt-4 text-foreground/80">{ceo.bio}</p>
@@ -99,6 +139,10 @@ export default function TeamPage() {
                     </div>
                 </div>
             </Card>
+          </div>
+          
+          <div className="text-center my-16">
+            <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Dedicated Team</h2>
           </div>
 
           {/* Other Team Members */}
