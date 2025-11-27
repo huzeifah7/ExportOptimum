@@ -147,56 +147,74 @@
     {
       "id": "cert-brc-food",
       "description": "BRC Food certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1584209742773-f7b461564449?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxicmMlMjBmb29kfGVufDB8fHx8MTc2NDA2NDk2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1584209742773-f7b461564449?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxicmMlMjBmb29kfGVufDB8fHx8MTc2NDA2NDk2MHww&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "brc food"
     },
     {
       "id": "cert-global-gap",
       "description": "Global G.A.P. certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1745476557118-58860113c8ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnbG9iYWwlMjBnYXB8ZW58MHx8fHwxNzYzNzQxNzMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1745476557118-58860113c8ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnbG9iYWwlMjBnYXB8ZW58MHx8fHwxNzYzNzQxNzMzfDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "global gap"
     },
     {
       "id": "ceo-portrait",
       "description": "Portrait of Abdellah El Yamlahi, CEO of Export Optimum",
-      "imageUrl": "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYW4lMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYzOTk3Mjg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYW4lMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYzOTk3Mjg4fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "man portrait"
     },
     {
       "id": "about-us-hero",
       "description": "Wide shot of a lush avocado grove under a clear blue sky",
-      "imageUrl": "https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado grove"
     },
     {
       "id": "about-us-mission",
       "description": "A farmer holding a freshly picked avocado with a smile",
-      "imageUrl": "https://images.unsplash.com/photo-1615890886616-9359051448a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXJtZXIlMjBob2xkaW5nJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjQwOTQ4NTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1615890886616-9359051448a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXJtZXIlMjBob2xkaW5nJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjQwOTQ4NTh8MA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "farmer avocado"
     },
     {
       "id": "timeline-1",
       "description": "A small avocado seedling sprouting from the ground",
-      "imageUrl": "https://images.unsplash.com/photo-1627521873883-34e268a183d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwc2VlZGxpbmd8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1627521873883-34e268a183d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwc2VlZGxpbmd8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado seedling"
     },
     {
       "id": "timeline-2",
       "description": "A cargo ship with containers, representing global export",
-      "imageUrl": "https://images.unsplash.com/photo-1611262529845-8c7f21207137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJnbyUyMHNoaXB8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1611262529845-8c7f21207137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJnbyUyMHNoaXB8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "cargo ship"
     },
     {
       "id": "timeline-3",
       "description": "A hand holding soil with a small green plant, symbolizing sustainability",
-      "imageUrl": "https://images.unsplash.com/photo-1593113630424-386b24546422?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiaW8lMjBjZXJ0aWZpY2F0aW9ufGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1593113630424-386b24546422?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiaW8lMjBjZXJ0aWZpY2F0aW9ufGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "bio certification"
     },
     {
       "id": "timeline-4",
       "description": "A world map with pins on different continents, showing global reach",
-      "imageUrl": "https://images.unsplash.com/photo-1543269865-cbf427effbad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBuZXR3b3JrfGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1543269865-cbf427effbad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBuZXR3b3JrfGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "global network"
+    },
+    {
+      "id": "team-member-4",
+      "description": "Portrait of a female professional",
+      "imageUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "team-member-5",
+      "description": "Portrait of a male professional",
+      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "team-member-6",
+      "description": "Portrait of a professional woman in a business setting",
+      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
     }
   ]
 }
