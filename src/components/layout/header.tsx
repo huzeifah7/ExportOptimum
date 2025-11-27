@@ -18,9 +18,8 @@ const NavLink = ({ href, children, scrolled }: { href: string, children: React.R
   <Link
     href={href}
     className={cn(
-      "relative font-medium px-3 py-2 rounded-md transition-colors",
+      "font-medium px-3 py-2 rounded-md transition-colors",
       scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white',
-      "after:absolute after:bottom-1 after:left-1/2 after:right-1/2 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:left-0 hover:after:right-0 hover:after:w-full"
     )}
   >
     {children}
@@ -31,9 +30,8 @@ const NavDropdown = ({ group, scrolled }: { group: (typeof navItems)[number], sc
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
       <button className={cn(
-        "group/trigger relative flex items-center gap-1 font-medium px-3 py-2 rounded-md transition-colors outline-none",
-        scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white',
-        "after:absolute after:bottom-1 after:left-1/2 after:right-1/2 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 group-hover/trigger:after:left-0 group-hover/trigger:after:right-0 group-hover/trigger:after:w-full"
+        "group/trigger flex items-center gap-1 font-medium px-3 py-2 rounded-md transition-colors outline-none",
+        scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white'
       )}>
         {group.label} <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
       </button>
@@ -97,7 +95,7 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className={cn("transition-colors", scrolled ? '' : 'text-white bg-transparent border-white/50 hover:bg-white/10 hover:text-white')}>
+              <Button variant="ghost" size="icon" className={cn("transition-colors", scrolled ? '' : 'text-white hover:bg-white/10 hover:text-white')}>
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
               </Button>
@@ -117,9 +115,9 @@ export default function Header() {
                       {item.label}
                     </Link>
                   ))}
-                  <Link href="/contact">
-                    <Button className="w-full mt-4">Contact Us</Button>
-                  </Link>
+                  <Button asChild className="w-full mt-4">
+                    <Link href="/contact">Contact Us</Link>
+                  </Button>
                 </div>
               </div>
             </SheetContent>
