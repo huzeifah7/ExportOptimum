@@ -45,6 +45,7 @@
     width: 80%; /* Default width for larger screens */
     margin-top: 30px;
     margin-left: 30px;
+    border-radius: 12px;
   }
   
 /* Checkmark Icon Container */
@@ -98,3 +99,6 @@
   animation: modal-animation 0.3s ease-out forwards;
 }
 
+.map-container iframe {
+  border-radius: 12px;
+}
