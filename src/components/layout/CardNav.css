@@ -81,24 +81,6 @@
   height: 28px;
 }
 
-.card-nav-cta-button {
-  background-color: transparent;
-  color: white;
-  border: none;
-  border-radius: calc(0.75rem - 0.35rem);
-  height: 100%;
-  font-weight: 500;
-  cursor: pointer;
-  align-items: center;
-  display: flex;
-  text-decoration: none;
-  padding: 0;
-}
-
-.card-nav-cta-button .btn {
-    --button-color: hsl(var(--primary));
-}
-
 .card-nav-content {
   position: absolute;
   left: 0;

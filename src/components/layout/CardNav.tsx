@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ArrowUpRight } from 'lucide-react';
 import './CardNav.css';
 import Link from 'next/link';
+import { Button } from '../ui/button';
 
 type CardNavLink = {
   label: string;
@@ -178,38 +179,9 @@ const CardNav: React.FC<CardNavProps> = ({
           </div>
 
           {ctaLink && (
-            <Link href={ctaLink} passHref>
-                <div className="btn-wrapper card-nav-cta-button">
-                    <button className="btn">
-                        <div className="txt-wrapper">
-                            <div className="txt-1">
-                                <span className="btn-letter">C</span>
-                                <span className="btn-letter">o</span>
-                                <span className="btn-letter">n</span>
-                                <span className="btn-letter">t</span>
-                                <span className="btn-letter">a</span>
-                                <span className="btn-letter">c</span>
-                                <span className="btn-letter">t</span>
-                                <span className="btn-letter">&nbsp;</span>
-                                <span className="btn-letter">U</span>
-                                <span className="btn-letter">s</span>
-                            </div>
-                            <div className="txt-2">
-                                <span className="btn-letter">C</span>
-                                <span className="btn-letter">o</span>
-                                <span className="btn-letter">n</span>
-                                <span className="btn-letter">t</span>
-                                <span className="btn-letter">a</span>
-                                <span className="btn-letter">c</span>
-                                <span className="btn-letter">t</span>
-                                <span className="btn-letter">&nbsp;</span>
-                                <span className="btn-letter">U</span>
-                                <span className="btn-letter">s</span>
-                            </div>
-                        </div>
-                    </button>
-                </div>
-            </Link>
+            <Button asChild>
+                <Link href={ctaLink}>Contact Us</Link>
+            </Button>
           )}
         </div>
 
