@@ -15,10 +15,9 @@ export const navItems = [
     ]
   },
   {
-    label: 'Products',
+    label: 'Our Produce',
     items: [
-      { label: 'Avocado', href: '/products' },
-      { label: 'Berries', href: '/products/berries' }
+      { label: 'Our Produce', href: '/products' }
     ]
   },
   {
