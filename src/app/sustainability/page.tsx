@@ -70,17 +70,7 @@ export default function SustainabilityPage() {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative h-[60vh] text-white">
-          {heroImage && (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover"
-              data-ai-hint={heroImage.imageHint}
-            />
-          )}
-          <div className="absolute inset-0 bg-black/60" />
+        <section className="relative h-[60vh] text-foreground flex items-center justify-center">
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
              <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-4">
               <SplitText
@@ -105,7 +95,7 @@ export default function SustainabilityPage() {
                 splitType="chars"
               />
             </h1>
-            <p className="mt-4 max-w-3xl text-lg md:text-xl">
+            <p className="mt-4 max-w-3xl text-lg md:text-xl text-muted-foreground">
               Our commitment to the planet is as deep as our roots in Moroccan soil.
             </p>
           </div>
@@ -147,7 +137,7 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Gallery Section */}
-        <section className="py-16 lg:py-24">
+        <section className="py-16 lg:py-24 bg-white">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-headline font-bold">A Glimpse Into Our World</h2>
@@ -156,7 +146,7 @@ export default function SustainabilityPage() {
                     </p>
                 </div>
                 <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
-                    <DomeGallery />
+                    <DomeGallery overlayBlurColor="transparent" />
                 </div>
             </div>
         </section>
