@@ -137,7 +137,7 @@ export default function QualityPage() {
                                     <div className="text-center font-bold text-sm text-muted-foreground">{cert.name}</div>
                                 )}
                             </div>
-                            <div className="absolute bottom-0 w-full p-2 bg-background/80 backdrop-blur-sm rounded-b-lg text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="absolute bottom-0 w-full p-2 bg-background/80 backdrop-blur-sm rounded-b-lg text-center transition-opacity duration-300">
                                 <p className="text-sm font-semibold text-foreground truncate">{cert.name}</p>
                             </div>
                         </div>
