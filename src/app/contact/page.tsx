@@ -182,9 +182,9 @@ const Contact = () => {
                 <div className="map-placeholder"></div>
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3236.7520424391584!2d-6.0869577!3d35.0590408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0a35c19587a823%3A0x2fcb600171fc75d9!2sExport%20Optimum%20SARL!5e0!3m2!1sen!2sma!4v1678997611642!5m2!1sen!2sma"
-                  width="80%"
+                  width="100%"
                   height="300"
-                  style={{ border: 0, boxShadow: '10px 1px 50px rgba(0, 0, 0, 0.5)' }}
+                  style={{ border: 0, boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)' }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
