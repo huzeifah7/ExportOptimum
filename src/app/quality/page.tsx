@@ -4,7 +4,6 @@ import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Leaf, PackageCheck, Truck, Microscope, CheckCircle } from 'lucide-react';
-import Link from 'next/link';
 
 const qualityProcess = [
   {
@@ -30,12 +29,13 @@ const qualityProcess = [
 ];
 
 const certifications = [
-  { id: 'cert-global-gap', name: 'Global G.A.P.' },
-  { id: 'cert-brc-food', name: 'BRC Food' },
-  { id: 'cert-smeta', name: 'SMETA' },
-  { id: 'cert-grasp', name: 'GRASP' },
-  { id: 'cert-bio', name: 'Bio Certified' },
-  { id: 'cert-spring', name: 'Spring' },
+  { id: 'cert-global-gap', name: 'Global G.A.P.', description: 'Ensuring safe and sustainable agricultural production.' },
+  { id: 'cert-brc-food', name: 'BRC Food', description: 'Guaranteeing quality, safety, and operational criteria.' },
+  { id: 'cert-smeta', name: 'SMETA', description: 'Demonstrating commitment to ethical trade and social responsibility.' },
+  { id: 'cert-grasp', name: 'GRASP', description: 'Assessing social practices on the farm, addressing worker health.' },
+  { id: 'cert-bio', name: 'Bio Certified', description: 'Confirming organic farming practices and natural integrity.' },
+  { id: 'cert-spring', name: 'SPRING', description: 'Promoting sustainable water management in agriculture.' },
+  { id: 'cert-usda-organic', name: 'USDA Organic', description: 'Verifying that produce is grown and processed according to federal guidelines.' },
 ];
 
 export default function QualityPage() {
@@ -88,8 +88,8 @@ export default function QualityPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {qualityProcess.map((step) => (
-                <div key={step.title} className="bg-background p-8 rounded-lg shadow-lg text-center flex flex-col items-center">
-                  <div className="flex-shrink-0">{step.icon}</div>
+                <div key={step.title} className="bg-background p-8 rounded-lg shadow-lg text-center flex flex-col items-center transform hover:-translate-y-2 transition-transform duration-300">
+                  <div className="flex-shrink-0 bg-primary/10 p-4 rounded-full">{step.icon}</div>
                   <h3 className="mt-4 text-xl font-bold font-headline">{step.title}</h3>
                   <p className="mt-2 text-muted-foreground flex-grow">{step.description}</p>
                 </div>
@@ -101,38 +101,36 @@ export default function QualityPage() {
         {/* Certifications Section */}
         <section id="certifications" className="py-16 lg:py-24">
           <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Certified & Guaranteed</h2>
-                    <p className="mt-4 text-lg text-muted-foreground">
-                        Our adherence to the highest international standards is not just a claim—it's certified. We proudly hold multiple globally-recognized certifications that attest to our commitment to food safety, ethical practices, and sustainable agriculture. These credentials are your assurance that you are partnering with a trusted and responsible supplier.
-                    </p>
-                     <ul className="mt-6 space-y-3">
-                        {certifications.map((cert) => (
-                            <li key={cert.id} className="flex items-center gap-3">
-                                <CheckCircle className="w-6 h-6 text-primary" />
-                                <span className="text-lg text-foreground">{cert.name}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {certifications.map(cert => {
+            <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-headline font-bold">Certified & Guaranteed</h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+                    Our adherence to the highest international standards is not just a claim—it's certified. We proudly hold multiple globally-recognized credentials that attest to our commitment to food safety, ethical practices, and sustainable agriculture.
+                </p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                    {certifications.map((cert) => {
                         const image = PlaceHolderImages.find(p => p.id === cert.id);
                         return (
-                            <div key={cert.id} className="bg-secondary/50 p-4 rounded-lg flex items-center justify-center aspect-square transition-transform hover:scale-105 hover:shadow-xl">
-                                {image ? (
-                                    <Image
-                                        src={image.imageUrl}
-                                        alt={image.description}
-                                        width={128}
-                                        height={128}
-                                        className="object-contain"
-                                        data-ai-hint={image.imageHint}
-                                    />
-                                ) : (
-                                    <div className="text-center font-bold">{cert.name}</div>
-                                )}
+                            <div key={cert.id} className="flex items-start gap-6 group">
+                                <div className="bg-background p-4 rounded-lg border flex items-center justify-center aspect-square w-24 h-24 flex-shrink-0 transition-transform group-hover:scale-110 group-hover:shadow-lg">
+                                    {image ? (
+                                        <Image
+                                            src={image.imageUrl}
+                                            alt={image.description}
+                                            width={80}
+                                            height={80}
+                                            className="object-contain"
+                                            data-ai-hint={image.imageHint}
+                                        />
+                                    ) : (
+                                        <div className="text-center font-bold text-xs">{cert.name}</div>
+                                    )}
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold font-headline">{cert.name}</h3>
+                                    <p className="mt-1 text-muted-foreground">{cert.description}</p>
+                                </div>
                             </div>
                         )
                     })}
