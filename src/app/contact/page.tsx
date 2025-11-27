@@ -66,9 +66,9 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-background">
       <Header />
-      <div className="contact-container flex flex-col md:flex-row bg-gray-100">
+      <div className="contact-container flex flex-col md:flex-row bg-background">
         <div className="imgContactBg"></div>
 
         <InView triggerOnce>
@@ -195,46 +195,6 @@ const Contact = () => {
           )}
         </InView>
       </div>
-
-      <InView triggerOnce>
-        {({ inView, ref }) => (
-          <div
-            ref={ref}
-            className={`connect-section p-6 text-left mt-2 transition-opacity duration-1000 ease-in-out ${
-              inView ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <h1 className="text-3xl font-bold text-gray-600">Let's Connect Virtually</h1>
-            <p className="text-lg text-gray-700 mt-4">
-              Learn more about how Export Optimum can elevate your avocado export needs by connecting face-to-face with our experts today.
-            </p>
-          </div>
-        )}
-      </InView>
-
-      <InView triggerOnce>
-        {({ inView, ref }) => (
-          <div
-            ref={ref}
-            className={`client-section p-6 text-left transition-opacity duration-1000 ease-in-out ${
-              inView ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <h1 className="text-4xl font-bold text-gray-600">Client is First</h1>
-            <div className="flex flex-col md:flex-row gap-6">
-              <p className="text-lg text-gray-700 mt-4">
-                At Export Optimum, trust is our priority. We strive to make every customer feel like family, fostering strong relationships and ensuring a collaborative experience that goes beyond being just another company in the industry.
-              </p>
-              <button
-                onClick={() => document.getElementById('Contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="mt-4 text-lg font-semibold bg-[#acd629] text-white py-2 px-6 rounded-lg w-fit"
-              >
-                Request a meeting
-              </button>
-            </div>
-          </div>
-        )}
-      </InView>
 
       <Footer />
     </div>
