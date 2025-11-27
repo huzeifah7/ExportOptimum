@@ -42,7 +42,6 @@ const keyInitiatives = [
 ];
 
 export default function SustainabilityPage() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'about-us-hero');
   const philosophyImage = PlaceHolderImages.find(p => p.id === 'about-us-mission');
 
   return (
@@ -50,23 +49,13 @@ export default function SustainabilityPage() {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative h-[60vh] text-white">
-          {heroImage && (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover"
-              data-ai-hint={heroImage.imageHint}
-            />
-          )}
-          <div className="absolute inset-0 bg-black/60" />
+        <section className="relative py-20 lg:py-32">
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
             <SplitText tag="h1" text="Cultivating a Greener Tomorrow" className="text-4xl md:text-6xl font-headline font-bold" />
             <SplitText
               tag="p"
               text="Our commitment to the planet is as deep as our roots in Moroccan soil."
-              className="mt-4 max-w-3xl text-lg md:text-xl"
+              className="mt-4 max-w-3xl text-lg md:text-xl text-muted-foreground"
               splitType="words"
             />
           </div>
