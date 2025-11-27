@@ -3,7 +3,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, PackageCheck, Truck, Microscope, CheckCircle } from 'lucide-react';
+import { Leaf, PackageCheck, Truck, Microscope } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const qualityProcess = [
@@ -122,22 +122,24 @@ export default function QualityPage() {
                 {certifications.map((cert) => {
                     const image = PlaceHolderImages.find(p => p.id === cert.id);
                     return (
-                        <div key={cert.id} className="relative mx-8 flex flex-col items-center justify-center h-40 w-64">
-                            <div className="h-28 flex items-center justify-center">
+                        <div key={cert.id} className="relative group mx-8 flex-shrink-0 flex flex-col items-center justify-center h-48 w-48">
+                            <div className="relative h-32 w-32 flex items-center justify-center p-4 bg-background rounded-lg border shadow-sm">
                                 {image ? (
                                     <Image
                                         src={image.imageUrl}
                                         alt={image.description}
-                                        width={180}
-                                        height={70}
+                                        width={100}
+                                        height={100}
                                         className="object-contain"
                                         data-ai-hint={image.imageHint}
                                     />
                                 ) : (
-                                    <div className="text-center font-bold">{cert.name}</div>
+                                    <div className="text-center font-bold text-sm text-muted-foreground">{cert.name}</div>
                                 )}
                             </div>
-                            <p className="mt-2 text-center font-semibold text-muted-foreground">{cert.name}</p>
+                            <div className="absolute bottom-0 w-full p-2 bg-background/80 backdrop-blur-sm rounded-b-lg text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p className="text-sm font-semibold text-foreground truncate">{cert.name}</p>
+                            </div>
                         </div>
                     )
                 })}
