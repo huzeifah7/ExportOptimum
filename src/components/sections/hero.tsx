@@ -21,7 +21,7 @@ export default function Hero() {
   );
 
   return (
-    <section className="relative w-full h-[85vh] text-white overflow-hidden">
+    <section className="relative w-full h-[100vh] text-white overflow-hidden">
       <Carousel
         className="absolute inset-0 w-full h-full"
         plugins={[plugin.current]}
