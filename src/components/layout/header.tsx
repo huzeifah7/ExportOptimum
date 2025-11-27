@@ -1,7 +1,7 @@
 'use client';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescription } from '@/components/ui/sheet';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +20,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -39,15 +39,17 @@ export default function Header() {
           <Logo />
         </Link>
         
-        <nav className="hidden md:flex items-center gap-8 text-sm">
+        <nav className="hidden md:flex items-center gap-2 text-sm">
           {navItems.map((group) => {
-            if (!group.items || group.items.length === 1) {
-              const item = group.items?.[0] ?? { href: '/', label: group.label };
+            const isSingleItem = !group.items || group.items.length === 1;
+            const mainItem = group.items?.[0] ?? { href: '/', label: group.label };
+
+            if (isSingleItem) {
               return (
                  <Link 
                     key={group.label}
-                    href={item.href}
-                    className={cn("font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100", scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white')}
+                    href={mainItem.href}
+                    className={cn("font-medium px-3 py-2 rounded-md transition-colors", scrolled ? 'text-muted-foreground hover:text-foreground hover:bg-muted/50' : 'text-white/80 hover:text-white hover:bg-white/10')}
                   >
                     {group.label}
                   </Link>
@@ -56,7 +58,7 @@ export default function Header() {
 
             return (
               <DropdownMenu key={group.label}>
-                <DropdownMenuTrigger className={cn("flex items-center gap-1 font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none", scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white')}>
+                <DropdownMenuTrigger className={cn("flex items-center gap-1 font-medium px-3 py-2 rounded-md transition-colors outline-none", scrolled ? 'text-muted-foreground hover:text-foreground hover:bg-muted/50' : 'text-white/80 hover:text-white hover:bg-white/10')}>
                   {group.label} <ChevronDown className="h-4 w-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -69,15 +71,18 @@ export default function Header() {
               </DropdownMenu>
             )
           })}
-          <Link href="/contact">
-            <Button>Contact Us</Button>
-          </Link>
         </nav>
+
+        <div className="hidden md:flex items-center gap-4">
+            <Button asChild>
+                <Link href="/contact">Contact Us</Link>
+            </Button>
+        </div>
 
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className={cn(scrolled ? '' : 'text-white bg-transparent border-white/50 hover:bg-white/10 hover:text-white')}>
+              <Button variant="outline" size="icon" className={cn("transition-colors", scrolled ? '' : 'text-white bg-transparent border-white/50 hover:bg-white/10 hover:text-white')}>
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
               </Button>
@@ -85,6 +90,7 @@ export default function Header() {
             <SheetContent side="right">
               <SheetHeader>
                 <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                <SheetDescription className="sr-only">Main navigation links for the website.</SheetDescription>
               </SheetHeader>
               <div className="p-4">
                 <div className="mb-8">
@@ -97,7 +103,7 @@ export default function Header() {
                     </Link>
                   ))}
                   <Link href="/contact">
-                    <Button className="w-full">Contact Us</Button>
+                    <Button className="w-full mt-4">Contact Us</Button>
                   </Link>
                 </div>
               </div>
