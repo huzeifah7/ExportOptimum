@@ -3,10 +3,8 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, Recycle, Sun, Droplets, Wind, Globe } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import SplitText from '@/components/ui/split-text';
+import { Leaf, Recycle, Sun, Droplets, Wind, Globe, ShieldCheck } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const keyInitiatives = [
   {
@@ -41,60 +39,64 @@ const keyInitiatives = [
   },
 ];
 
+const certifications = [
+  { id: 'cert-global-gap', name: 'Global G.A.P.', description: 'Ensuring safe and sustainable agricultural production.' },
+  { id: 'cert-brc-food', name: 'BRC Food', description: 'Guaranteeing quality, safety, and operational criteria.' },
+  { id: 'cert-smeta', name: 'SMETA', description: 'Demonstrating commitment to ethical trade and social responsibility.' },
+  { id: 'cert-grasp', name: 'GRASP', description: 'Assessing social practices on the farm, addressing worker health.' },
+  { id: 'cert-bio', name: 'Bio Certified', description: 'Confirming organic farming practices and natural integrity.' },
+  { id: 'cert-spring', name: 'SPRING', description: 'Promoting sustainable water management in agriculture.' },
+  { id: 'cert-usda-organic', name: 'USDA Organic', description: 'Verifying that produce is grown and processed according to federal guidelines.' },
+];
+
+const Marquee = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+    <div className={cn("relative flex w-full overflow-hidden", className)}>
+      <div className="flex w-max animate-marquee [--duration:60s] hover:[animation-play-state:paused]">
+        {children}
+        {children}
+      </div>
+    </div>
+);
+
+
 export default function SustainabilityPage() {
-  const philosophyImage = PlaceHolderImages.find(p => p.id === 'about-us-mission');
+  const heroImage = PlaceHolderImages.find(p => p.id === 'blog-2');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative py-20 lg:py-32">
-          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-            <SplitText tag="h1" text="Cultivating a Greener Tomorrow" className="text-4xl md:text-6xl font-headline font-bold" />
-            <SplitText
-              tag="p"
-              text="Our commitment to the planet is as deep as our roots in Moroccan soil."
-              className="mt-4 max-w-3xl text-lg md:text-xl text-muted-foreground"
-              splitType="words"
+        <section className="relative h-[60vh] text-white">
+          {heroImage && (
+            <Image
+              src={heroImage.imageUrl}
+              alt={heroImage.description}
+              fill
+              className="object-cover"
+              data-ai-hint={heroImage.imageHint}
             />
+          )}
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+            <h1 className="text-4xl md:text-6xl font-headline font-bold">Cultivating a Greener Tomorrow</h1>
+            <p className="mt-4 max-w-3xl text-lg md:text-xl">
+              Our commitment to the planet is as deep as our roots in Moroccan soil.
+            </p>
           </div>
         </section>
 
-        {/* Our Philosophy Section */}
+        {/* Introduction Section */}
         <section className="py-16 lg:py-24">
             <div className="container mx-auto px-4">
-                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 className="text-3xl font-headline font-bold mb-4 text-primary">Our Philosophy: Harmony with Nature</h2>
-                        <p className="text-muted-foreground mb-4 text-lg">
-                           For us, sustainability isn't a department; it's our entire business model. We believe that the highest quality produce can only come from a healthy, thriving ecosystem. It is our fundamental responsibility to be stewards of the land we cultivate, ensuring it remains fertile and vibrant for generations of farmers to come.
-                        </p>
-                        <p className="text-muted-foreground text-lg">
-                           This philosophy guides every decision we make—from water management and energy use to community engagement and packaging choices. We are constantly innovating to find new ways to reduce our impact and enhance the natural environment.
-                        </p>
-                         <div className="mt-8">
-                            <Button asChild size="lg" variant="outline">
-                                <Link href="/quality#certifications">View Our Certifications</Link>
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="rounded-lg overflow-hidden shadow-lg group">
-                        {philosophyImage && (
-                        <Image
-                            src={philosophyImage.imageUrl}
-                            alt={philosophyImage.description}
-                            width={800}
-                            height={600}
-                            className="object-cover w-full group-hover:scale-105 transition-transform duration-300"
-                            data-ai-hint={philosophyImage.imageHint}
-                        />
-                        )}
-                    </div>
-                 </div>
+                <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary">Our Philosophy: Harmony with Nature</h2>
+                    <p className="mt-4 text-lg text-muted-foreground">
+                        For us, sustainability isn't a department; it's our entire business model. We believe that the highest quality produce can only come from a healthy, thriving ecosystem. It is our fundamental responsibility to be stewards of the land we cultivate, ensuring it remains fertile and vibrant for generations of farmers to come. This philosophy guides every decision we make—from water management and energy use to community engagement and packaging choices.
+                    </p>
+                </div>
             </div>
         </section>
-
 
         {/* Key Initiatives Section */}
         <section className="py-16 lg:py-24 bg-secondary/30">
@@ -116,6 +118,44 @@ export default function SustainabilityPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Certifications Section */}
+        <section id="certifications" className="py-16 lg:py-24">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+                <h2 className="text-4xl md:text-5xl font-headline font-bold">Certified &amp; Guaranteed</h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+                    Our adherence to the highest international standards is not just a claim—it's certified.
+                </p>
+            </div>
+            <Marquee>
+                {certifications.map((cert) => {
+                    const image = PlaceHolderImages.find(p => p.id === cert.id);
+                    return (
+                        <div key={cert.id} className="relative group mx-8 flex-shrink-0 flex flex-col items-center justify-center h-48 w-48">
+                            <div className="relative h-32 w-32 flex items-center justify-center p-4 bg-background rounded-lg shadow-sm">
+                                {image ? (
+                                    <Image
+                                        src={image.imageUrl}
+                                        alt={image.description}
+                                        width={100}
+                                        height={100}
+                                        className="object-contain"
+                                        data-ai-hint={image.imageHint}
+                                    />
+                                ) : (
+                                    <div className="text-center font-bold text-sm text-muted-foreground">{cert.name}</div>
+                                )}
+                            </div>
+                            <div className="absolute bottom-0 w-full p-2 bg-background/80 backdrop-blur-sm rounded-b-lg text-center transition-opacity duration-300">
+                                <p className="text-sm font-semibold text-foreground truncate">{cert.name}</p>
+                            </div>
+                        </div>
+                    )
+                })}
+            </Marquee>
           </div>
         </section>
 
