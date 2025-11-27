@@ -20,7 +20,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Hurricane&family=PT+Sans:wght@400;700&family=Nunito:wght@400;700;800&family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased bg-background">
+      <body className="font-body antialiased bg-background pt-32">
         {children}
         <Toaster />
       </body>
