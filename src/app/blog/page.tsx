@@ -2,20 +2,14 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { posts } from '@/lib/blog-data';
 import { Badge } from '@/components/ui/badge';
 import { AnimatedGradientBackground } from '@/components/ui/animated-gradient-background';
 
 export default function BlogPage() {
-  const featuredPost = posts[0];
-  const otherPosts = posts.slice(1);
-  const featuredImage = PlaceHolderImages.find(p => p.id === featuredPost.id);
-
   return (
     <AnimatedGradientBackground>
       <div className="flex flex-col min-h-screen bg-transparent">
@@ -43,38 +37,8 @@ export default function BlogPage() {
               </p>
             </div>
 
-            {/* Featured Post */}
-            {featuredPost && (
-              <section className="mb-16 group">
-                  <Link href={`/blog/${featuredPost.slug}`}>
-                      <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 grid grid-cols-1 md:grid-cols-2 bg-background/50 backdrop-blur-sm border-primary/20">
-                          <div className="relative h-64 md:h-full min-h-[300px]">
-                          {featuredImage && (
-                              <Image
-                                  src={featuredImage.imageUrl}
-                                  alt={featuredPost.title}
-                                  fill
-                                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                  data-ai-hint={featuredPost.imageHint}
-                              />
-                          )}
-                          </div>
-                          <div className="p-8 md:p-12 flex flex-col justify-center">
-                              <Badge variant="secondary" className="mb-2 w-fit">{featuredPost.category}</Badge>
-                              <h2 className="text-3xl lg:text-4xl font-headline font-bold">{featuredPost.title}</h2>
-                              <p className="mt-4 text-lg text-foreground/80">{featuredPost.excerpt}</p>
-                              <Button variant="link" className="p-0 mt-6 self-start text-accent font-bold">
-                                  Read More <ArrowRight className="ml-2 h-4 w-4" />
-                              </Button>
-                          </div>
-                      </Card>
-                  </Link>
-              </section>
-            )}
-
-            {/* Other Posts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {otherPosts.map((post) => {
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post) => {
                 const image = PlaceHolderImages.find(p => p.id === post.id);
                 return (
                   <Link href={`/blog/${post.slug}`} key={post.id} className="group block">
