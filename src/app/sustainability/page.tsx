@@ -146,7 +146,7 @@ export default function SustainabilityPage() {
                     </p>
                 </div>
                 <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
-                    <DomeGallery overlayBlurColor="transparent" />
+                    <DomeGallery overlayBlurColor="transparent" grayscale={false} />
                 </div>
             </div>
         </section>
