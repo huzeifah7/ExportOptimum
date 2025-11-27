@@ -42,9 +42,9 @@
     background-color: #6e9400;
     box-shadow: 10px 1px 50px rgba(0, 0, 0, 0.1);
     height: 300px;
-    width: 80%; /* Default width for larger screens */
-    margin-top: 30px;
-    margin-left: 30px;
+    width: 100%; /* Default width for larger screens */
+    margin-top: 0;
+    margin-left: 0;
     border-radius: 12px;
   }
   
