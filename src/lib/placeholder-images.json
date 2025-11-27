@@ -21,13 +21,13 @@
     {
       "id": "avocado-zutano",
       "description": "A shiny, yellow-green Zutano avocado",
-      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado zutano"
     },
     {
       "id": "client-1",
       "description": "Portrait of a satisfied client",
-      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
@@ -165,7 +165,7 @@
     {
       "id": "owner-portrait",
       "description": "Portrait of Abdellah el Yamlahi, Owner of Export Optimum",
-      "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYzOTk3Mjg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjBzbWlsaW5nJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYzOTk3Mjg4fDA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "man portrait"
     },
     {
@@ -207,7 +207,7 @@
     {
       "id": "team-member-4",
       "description": "Portrait of a female professional",
-      "imageUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
@@ -221,6 +221,12 @@
       "description": "Portrait of a professional woman in a business setting",
       "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
+    },
+    {
+      "id": "quality-hero",
+      "description": "A close-up shot of a perfect, ripe avocado being sliced open, revealing its vibrant green interior.",
+      "imageUrl": "https://images.unsplash.com/photo-1601035902409-c32375a7c044?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwc2xpY2V8ZW58MHx8fHwxNzY0MjYxMTM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado slice"
     }
   ]
 }
