@@ -8,7 +8,6 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { posts } from '@/lib/blog-data';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
 export default function BlogPage() {
@@ -62,16 +61,6 @@ export default function BlogPage() {
                             <Badge variant="secondary" className="mb-2 w-fit">{featuredPost.category}</Badge>
                             <h2 className="text-3xl lg:text-4xl font-headline font-bold">{featuredPost.title}</h2>
                             <p className="mt-4 text-lg text-muted-foreground">{featuredPost.excerpt}</p>
-                            <div className="flex items-center mt-6">
-                                <Avatar className="h-10 w-10">
-                                    <AvatarImage src={featuredPost.author.imageUrl} alt={featuredPost.author.name} />
-                                    <AvatarFallback>{featuredPost.author.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div className="ml-3">
-                                    <p className="font-semibold">{featuredPost.author.name}</p>
-                                    <p className="text-sm text-muted-foreground">{featuredPost.author.role}</p>
-                                </div>
-                            </div>
                             <Button variant="link" className="p-0 mt-6 self-start text-accent font-bold">
                                 Read More <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
@@ -103,16 +92,6 @@ export default function BlogPage() {
                         <Badge variant="secondary" className="mb-2 w-fit">{post.category}</Badge>
                         <h3 className="font-headline text-2xl font-bold">{post.title}</h3>
                         <p className="mt-2 text-base text-muted-foreground flex-grow">{post.excerpt}</p>
-                        <div className="flex items-center mt-4 pt-4 border-t">
-                            <Avatar className="h-9 w-9">
-                                <AvatarImage src={post.author.imageUrl} alt={post.author.name} />
-                                <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                             <div className="ml-3">
-                                <p className="font-semibold text-sm">{post.author.name}</p>
-                                <p className="text-xs text-muted-foreground">{post.author.role}</p>
-                            </div>
-                        </div>
                     </CardContent>
                     </Card>
                 </Link>

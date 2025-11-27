@@ -7,11 +7,6 @@ export const posts = [
         excerpt: 'Discover why this superfood is a must-have in your diet for a healthier heart, better vision, and more.',
         category: 'Nutrition',
         imageHint: 'avocado toast',
-        author: {
-            name: 'Dr. Emily Carter',
-            role: 'Lead Nutritionist',
-            imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
         content: `
 Avocados are a powerhouse of nutrients and are often called a "superfood." They are prized for their high nutrient value and are added to all sorts of dishes due to their good flavor and rich texture.
 
@@ -31,11 +26,6 @@ Here are some of the key health benefits of avocados:
         excerpt: 'Learn how we grow our avocados with deep respect for the environment and future generations.',
         category: 'Sustainability',
         imageHint: 'sustainable farming',
-        author: {
-            name: 'Peter Jones',
-            role: 'Lead Agriculturist',
-            imageUrl: 'https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
         content: `
 At Avocado Export Hub, sustainability is at the core of our operations. We believe in growing our avocados in a way that is not only productive but also environmentally responsible.
 
@@ -55,11 +45,6 @@ Our key sustainability initiatives include:
         excerpt: 'From breakfast to dessert, explore new and exciting ways to enjoy the versatility of avocados.',
         category: 'Food',
         imageHint: 'avocado salad',
-        author: {
-            name: 'Jane Smith',
-            role: 'Head of Operations',
-            imageUrl: 'https://images.unsplash.com/photo-1590086782792-42dd2350140d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
         content: `
 Avocados are incredibly versatile and can be used in a wide range of recipes. Here are a few of our favorites:
 
@@ -77,11 +62,6 @@ Avocados are incredibly versatile and can be used in a wide range of recipes. He
         excerpt: 'From the creamy Hass to the smooth Fuerte, get to know the different types of avocados we export.',
         category: 'Produce',
         imageHint: 'avocado varieties',
-         author: {
-            name: 'Youssef Ait Benhaddou',
-            role: 'Supply Chain Coordinator',
-            imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
         content: `
 While there are hundreds of types of avocados, a few are more common in the global market. We specialize in exporting the most sought-after varieties:
 
@@ -99,11 +79,6 @@ While there are hundreds of types of avocados, a few are more common in the glob
         excerpt: 'Follow the meticulous path of our avocados from the moment they are picked to their arrival at your local store.',
         category: 'Logistics',
         imageHint: 'avocado export',
-        author: {
-            name: 'Emily Williams',
-            role: 'International Sales Director',
-            imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080'
-        },
         content: `
 Have you ever wondered how our delicious Moroccan avocados make their way to you? It's a journey of care and precision.
 
@@ -121,11 +96,6 @@ Have you ever wondered how our delicious Moroccan avocados make their way to you
         excerpt: 'How we empower local farmers and create a positive, lasting impact on the communities we work with.',
         category: 'Community',
         imageHint: 'local community',
-        author: {
-            name: 'Fatima Zahra',
-            role: 'Quality Assurance Manager',
-            imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080'
-        },
         content: `
 Our connection to the local community in Morocco is the foundation of our business. We are committed to empowering local farmers and creating a positive impact.
 

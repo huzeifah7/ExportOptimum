@@ -8,7 +8,6 @@ import Link from 'next/link';
 import SplitText from '@/components/ui/split-text';
 import { posts } from '@/lib/blog-data';
 import { Badge } from '../ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const homePagePosts = posts.slice(0, 3);
 
@@ -44,14 +43,9 @@ export default function Blog() {
                         <h3 className="font-headline text-2xl font-bold">{post.title}</h3>
                         <p className="mt-2 text-base text-muted-foreground flex-grow">{post.excerpt}</p>
                          <div className="flex items-center mt-4 pt-4 border-t">
-                            <Avatar className="h-9 w-9">
-                                <AvatarImage src={post.author.imageUrl} alt={post.author.name} />
-                                <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                             <div className="ml-3">
-                                <p className="font-semibold text-sm">{post.author.name}</p>
-                                <p className="text-xs text-muted-foreground">{post.author.role}</p>
-                            </div>
+                            <Button variant="link" className="p-0 text-accent font-bold">
+                                Read More <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
                         </div>
                     </CardContent>
                     </Card>

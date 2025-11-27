@@ -7,8 +7,8 @@ import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Clock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function generateStaticParams() {
   return posts.map((post) => ({
@@ -37,13 +37,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <h1 className="text-4xl md:text-5xl font-headline font-bold">{post.title}</h1>
                 <p className="mt-4 text-lg text-muted-foreground">{post.excerpt}</p>
                  <div className="flex items-center justify-center mt-6 gap-8 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                        <Avatar className="h-8 w-8">
-                            <AvatarImage src={post.author.imageUrl} alt={post.author.name} />
-                            <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <span>By {post.author.name}</span>
-                    </div>
                     <div className="flex items-center gap-2">
                         <Clock className="h-4 w-4" />
                         <span>{readingTime} min read</span>
