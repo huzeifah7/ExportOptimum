@@ -17,7 +17,20 @@ export default function BlogPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-headline font-bold">Our Blogs</h1>
-            <div className="w-24 h-1 bg-primary mx-auto my-4"></div>
+            <svg
+              className="w-40 mx-auto my-4 text-primary"
+              viewBox="0 0 100 8"
+              preserveAspectRatio="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1 4C11.5 1.5 22.5 1.5 33 4C43.5 6.5 54.5 6.5 65 4C75.5 1.5 86.5 1.5 97 4"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+                strokeLinecap="round"
+              />
+            </svg>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               Insights, news, and stories from the world of avocados.
             </p>
