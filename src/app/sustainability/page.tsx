@@ -2,12 +2,10 @@
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, Recycle, Sun, Droplets, Wind, Globe, ShieldCheck } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Leaf, Recycle, Sun, Droplets, Wind, Globe } from 'lucide-react';
 import DomeGallery from '@/components/ui/dome-gallery';
 import SplitText from '@/components/ui/split-text';
+
 
 const keyInitiatives = [
   {
@@ -42,28 +40,8 @@ const keyInitiatives = [
   },
 ];
 
-const certifications = [
-  { id: 'cert-global-gap', name: 'Global G.A.P.', description: 'Ensuring safe and sustainable agricultural production.' },
-  { id: 'cert-brc-food', name: 'BRC Food', description: 'Guaranteeing quality, safety, and operational criteria.' },
-  { id: 'cert-smeta', name: 'SMETA', description: 'Demonstrating commitment to ethical trade and social responsibility.' },
-  { id: 'cert-grasp', name: 'GRASP', description: 'Assessing social practices on the farm, addressing worker health.' },
-  { id: 'cert-bio', name: 'Bio Certified', description: 'Confirming organic farming practices and natural integrity.' },
-  { id: 'cert-spring', name: 'SPRING', description: 'Promoting sustainable water management in agriculture.' },
-  { id: 'cert-usda-organic', name: 'USDA Organic', description: 'Verifying that produce is grown and processed according to federal guidelines.' },
-];
-
-const Marquee = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <div className={cn("relative flex w-full overflow-hidden", className)}>
-      <div className="flex w-max animate-marquee [--duration:60s] hover:[animation-play-state:paused]">
-        {children}
-        {children}
-      </div>
-    </div>
-);
-
 
 export default function SustainabilityPage() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'blog-2');
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -149,44 +127,6 @@ export default function SustainabilityPage() {
                     <DomeGallery overlayBlurColor="transparent" grayscale={false} />
                 </div>
             </div>
-        </section>
-
-        {/* Certifications Section */}
-        <section id="certifications" className="py-16 lg:py-24">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-headline font-bold">Certified &amp; Guaranteed</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                    Our adherence to the highest international standards is not just a claim—it's certified.
-                </p>
-            </div>
-            <Marquee>
-                {certifications.map((cert) => {
-                    const image = PlaceHolderImages.find(p => p.id === cert.id);
-                    return (
-                        <div key={cert.id} className="relative group mx-8 flex-shrink-0 flex flex-col items-center justify-center h-48 w-48">
-                            <div className="relative h-32 w-32 flex items-center justify-center p-4 bg-background rounded-lg shadow-sm">
-                                {image ? (
-                                    <Image
-                                        src={image.imageUrl}
-                                        alt={image.description}
-                                        width={100}
-                                        height={100}
-                                        className="object-contain"
-                                        data-ai-hint={image.imageHint}
-                                    />
-                                ) : (
-                                    <div className="text-center font-bold text-sm text-muted-foreground">{cert.name}</div>
-                                )}
-                            </div>
-                            <div className="absolute bottom-0 w-full p-2 bg-background/80 backdrop-blur-sm rounded-b-lg text-center transition-opacity duration-300">
-                                <p className="text-sm font-semibold text-foreground truncate">{cert.name}</p>
-                            </div>
-                        </div>
-                    )
-                })}
-            </Marquee>
-          </div>
         </section>
 
       </main>
