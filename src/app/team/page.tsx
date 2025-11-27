@@ -1,3 +1,4 @@
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -9,9 +10,9 @@ import Link from 'next/link';
 const teamMembers = [
   {
     id: 'ceo-portrait',
-    name: 'Abdellah El Yamlahi',
-    role: 'Owner & CEO',
-    bio: 'With over 20 years of experience in agriculture and international trade, Abdellah leads our company with a vision for quality and sustainability. He is also the president of the Moroccan Avocado Exporters Association (MAVA).',
+    name: 'Zakaria el Yamlahi',
+    role: 'CEO',
+    bio: 'With over 20 years of experience in agriculture and international trade, Zakaria leads our company with a vision for quality and sustainability. He is also the president of the Moroccan Avocado Exporters Association (MAVA).',
     imageHint: 'man portrait',
   },
   {
