@@ -4,6 +4,7 @@ import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Leaf, PackageCheck, Truck, Microscope, CheckCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const qualityProcess = [
   {
@@ -37,6 +38,16 @@ const certifications = [
   { id: 'cert-spring', name: 'SPRING', description: 'Promoting sustainable water management in agriculture.' },
   { id: 'cert-usda-organic', name: 'USDA Organic', description: 'Verifying that produce is grown and processed according to federal guidelines.' },
 ];
+
+const Marquee = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+    <div className={cn("relative flex w-full overflow-hidden", className)}>
+      <div className="flex w-max animate-marquee [--duration:60s] hover:[animation-play-state:paused]">
+        {children}
+        {children}
+      </div>
+    </div>
+);
+
 
 export default function QualityPage() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'quality-hero');
@@ -101,41 +112,33 @@ export default function QualityPage() {
         {/* Certifications Section */}
         <section id="certifications" className="py-16 lg:py-24">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-                <h2 className="text-4xl md:text-5xl font-headline font-bold">Certified & Guaranteed</h2>
+            <div className="text-center mb-16">
+                <h2 className="text-4xl md:text-5xl font-headline font-bold">Certified &amp; Guaranteed</h2>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                    Our adherence to the highest international standards is not just a claim—it's certified. We proudly hold multiple globally-recognized credentials that attest to our commitment to food safety, ethical practices, and sustainable agriculture.
+                    Our adherence to the highest international standards is not just a claim—it's certified. We proudly hold multiple globally-recognized credentials.
                 </p>
             </div>
-            <div className="max-w-4xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
-                    {certifications.map((cert) => {
-                        const image = PlaceHolderImages.find(p => p.id === cert.id);
-                        return (
-                            <div key={cert.id} className="flex items-start gap-6 group">
-                                <div className="bg-background p-4 rounded-lg border flex items-center justify-center aspect-square w-24 h-24 flex-shrink-0 transition-transform group-hover:scale-110 group-hover:shadow-lg">
-                                    {image ? (
-                                        <Image
-                                            src={image.imageUrl}
-                                            alt={image.description}
-                                            width={80}
-                                            height={80}
-                                            className="object-contain"
-                                            data-ai-hint={image.imageHint}
-                                        />
-                                    ) : (
-                                        <div className="text-center font-bold text-xs">{cert.name}</div>
-                                    )}
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold font-headline">{cert.name}</h3>
-                                    <p className="mt-1 text-muted-foreground">{cert.description}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
+            <Marquee>
+                {certifications.map((cert) => {
+                    const image = PlaceHolderImages.find(p => p.id === cert.id);
+                    return (
+                        <div key={cert.id} className="relative mx-8 flex h-28 w-64 items-center justify-center">
+                            {image ? (
+                                <Image
+                                    src={image.imageUrl}
+                                    alt={image.description}
+                                    width={180}
+                                    height={70}
+                                    className="object-contain"
+                                    data-ai-hint={image.imageHint}
+                                />
+                            ) : (
+                                <div className="text-center font-bold">{cert.name}</div>
+                            )}
+                        </div>
+                    )
+                })}
+            </Marquee>
           </div>
         </section>
 
