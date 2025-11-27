@@ -11,12 +11,29 @@ import {
 import { ChevronDown, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { navItems } from './nav-items';
+import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function Header() {
   const mobileNavItems = navItems.flatMap(group => group.items);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className={cn(
+      "sticky top-0 z-50 w-full transition-all duration-300",
+      scrolled ? "border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" : "bg-transparent"
+    )}>
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
         <Link href="/" aria-label="Home">
           <Logo />
@@ -30,7 +47,7 @@ export default function Header() {
                  <Link 
                     key={group.label}
                     href={item.href}
-                    className="text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
+                    className={cn("font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100", scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white')}
                   >
                     {group.label}
                   </Link>
@@ -39,7 +56,7 @@ export default function Header() {
 
             return (
               <DropdownMenu key={group.label}>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none">
+                <DropdownMenuTrigger className={cn("flex items-center gap-1 font-medium relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100 outline-none", scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white')}>
                   {group.label} <ChevronDown className="h-4 w-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -60,14 +77,14 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
+              <Button variant="outline" size="icon" className={cn(scrolled ? '' : 'text-white bg-transparent border-white/50 hover:bg-white/10 hover:text-white')}>
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
-              <SheetHeader className="sr-only">
-                <SheetTitle>Mobile Menu</SheetTitle>
+              <SheetHeader>
+                <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
               </SheetHeader>
               <div className="p-4">
                 <div className="mb-8">
