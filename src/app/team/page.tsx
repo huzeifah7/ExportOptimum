@@ -70,11 +70,11 @@ export default function TeamPage() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <AnimatedGradientBackground>
-        <main className="flex-grow py-16 lg:py-24">
+        <main className="flex-grow py-16 lg:py-24 bg-transparent">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Leadership</h1>
-              <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+              <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
                 The passionate individuals dedicated to bringing you the best avocados from Morocco.
               </p>
             </div>
