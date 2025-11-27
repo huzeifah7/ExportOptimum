@@ -17,6 +17,7 @@ export default function BlogPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-headline font-bold">Our Blogs</h1>
+            <div className="w-24 h-1 bg-primary mx-auto my-4"></div>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               Insights, news, and stories from the world of avocados.
             </p>
