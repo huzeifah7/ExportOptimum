@@ -23,12 +23,7 @@ export const navItems = [
   {
     label: 'News',
     items: [
-      { label: 'News', href: '/blog' }
-    ]
-  },
-  {
-    label: 'Sustainability',
-    items: [
+      { label: 'Blogs', href: '/blog' },
       { label: 'Sustainability', href: '/sustainability' }
     ]
   }
