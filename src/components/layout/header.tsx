@@ -4,13 +4,20 @@ import CardNav from './CardNav';
 import { navItems as originalNavItems } from './nav-items';
 import Link from 'next/link';
 
+const cardColors = [
+  { bgColor: "#0D0716", textColor: "#fff" },
+  { bgColor: "#170D27", textColor: "#fff" },
+  { bgColor: "#271E37", textColor: "#fff" },
+  { bgColor: "#1A1625", textColor: "#fff" },
+];
+
 const App = () => {
-  const items = originalNavItems.map(item => {
+  const items = originalNavItems.map((item, index) => {
       // Map your original items to the structure CardNav expects
       return {
           label: item.label,
-          bgColor: "#0D0716", // Example color, adjust as needed
-          textColor: "#fff", // Example color, adjust as needed
+          bgColor: cardColors[index % cardColors.length].bgColor,
+          textColor: cardColors[index % cardColors.length].textColor,
           links: item.items?.map(subItem => ({
               label: subItem.label,
               href: subItem.href,
