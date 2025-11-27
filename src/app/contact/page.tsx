@@ -1,180 +1,244 @@
-
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import React, { useState, useEffect } from 'react';
+import { InView } from 'react-intersection-observer';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Mail, Phone, MapPin } from 'lucide-react';
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import './Contact.css';
+import emailjs from '@emailjs/browser';
 
-
-const formSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email({ message: 'Please enter a valid email address.' }),
-  subject: z.string().min(5, { message: 'Subject must be at least 5 characters.' }),
-  message: z
-    .string()
-    .min(10, { message: 'Message must be at least 10 characters.' }),
-});
-
-export default function ContactPage() {
-  const { toast } = useToast();
-  const contactImage = PlaceHolderImages.find(p => p.id === 'about-us-hero');
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    },
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    country: '',
+    subject: '',
+    message: '',
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: 'Message Sent!',
-      description:
-        'Thank you for contacting us. We will get back to you shortly.',
-    });
-    form.reset();
-  }
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const SendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { fullName, email, country, subject, message } = formData;
+
+    if (!fullName || !email || !country || !subject || !message) {
+      setError('Please fill in all fields.');
+      return;
+    }
+
+    emailjs
+      .sendForm('service_6fm8f0o', 'template_vwbievm', e.currentTarget, '6MH_KK4KcTnc9M-Nh')
+      .then(
+        (result) => {
+          setSuccessMessage('Message sent successfully!');
+          setError(null);
+          setFormData({
+            fullName: '',
+            email: '',
+            country: '',
+            subject: '',
+            message: '',
+          });
+          setIsModalOpen(true);
+        },
+        (error) => {
+          console.error(error.text);
+          setError('Failed to send message. Please try again.');
+        }
+      );
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-        <Header />
-        <main className="flex-grow flex items-center">
-            <div className="grid lg:grid-cols-2 w-full h-full">
-                <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
-                    <div className="max-w-lg mx-auto w-full">
-                         <div className="mb-8">
-                            <h1 className="text-4xl md:text-5xl font-headline font-bold">
-                                Get in Touch
-                            </h1>
-                            <p className="mt-4 text-lg text-muted-foreground">
-                                Have a question or a proposal? We'd love to hear from you.
-                            </p>
-                        </div>
-                        <Form {...form}>
-                            <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6"
-                            >
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Full Name</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="John Doe" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                                />
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                    <FormLabel>Email Address</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="name@example.com" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    </FormItem>
-                                )}
-                                />
-                            <FormField
-                                control={form.control}
-                                name="subject"
-                                render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Subject</FormLabel>
-                                    <FormControl>
-                                    <Input placeholder="Inquiry about Hass avocados" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="message"
-                                render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Your Message</FormLabel>
-                                    <FormControl>
-                                    <Textarea
-                                        placeholder="Leave your message here..."
-                                        className="min-h-[120px]"
-                                        {...field}
-                                    />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                                )}
-                            />
-                            <div className="text-left">
-                                <Button type="submit" size="lg">
-                                Send Message
-                                </Button>
-                            </div>
-                            </form>
-                        </Form>
-                        <div className="mt-12 pt-8 border-t">
-                            <h3 className="text-lg font-bold font-headline mb-4">Or contact us directly:</h3>
-                            <div className="space-y-4">
-                                <a href="mailto:contact@exportoptimum.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                                    <Mail className="w-5 h-5 text-accent" />
-                                    <span>contact@exportoptimum.com</span>
-                                </a>
-                                <a href="tel:+1234567890" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                                    <Phone className="w-5 h-5 text-accent" />
-                                    <span>+1 (234) 567-890</span>
-                                </a>
-                                 <div className="flex items-start gap-3 text-muted-foreground">
-                                    <MapPin className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
-                                    <span>123 Produce Lane, Fruit Valley, 90210</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div className="bg-gray-100">
+      <Header />
+      <div className="contact-container flex flex-col md:flex-row bg-gray-100">
+        <div className="imgContactBg"></div>
+
+        <InView triggerOnce>
+          {({ inView, ref }) => (
+            <div
+              ref={ref}
+              className={`form-container md:w-1/2 p-6 ml-2 transition-transform duration-1000 ease-in-out ${
+                inView ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
+              }`}
+              id="Contact"
+            >
+              <h1 className="text-4xl font-semibold text-left titleContact pt-5 pl-5">
+                <span className="letterTitle">G</span>et in <span className="letterTitle">T</span>ouch
+              </h1>
+              <p className="summa text-3xl text-gray-700 text-left pl-48">Questions? Concerns?</p>
+              <p className="text-gray-600 mt-4 ml-8 w-3xl mx-auto">
+                Feel free to reach out to the team at Export Optimum; we would be delighted to explore how we can assist you.
+              </p>
+
+              <form onSubmit={SendEmail} className="mt-8 max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+                {error && <div className="text-red-500">{error}</div>}
+
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    placeholder="Country"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="Subject"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                  />
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Message"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                    rows={5}
+                  />
+
+                  <button type="submit" className="w-full mt-4 py-3 bg-[#acd629] text-white font-semibold rounded-lg">
+                    Send Message
+                  </button>
                 </div>
-                <div className="hidden lg:block relative">
-                    {contactImage && (
-                        <Image
-                            src={contactImage.imageUrl}
-                            alt={contactImage.description}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={contactImage.imageHint}
-                        />
-                    )}
-                     <div className="absolute inset-0 bg-gradient-to-l from-black/20 to-transparent" />
-                </div>
+              </form>
             </div>
-        </main>
-        <Footer />
+          )}
+        </InView>
+
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50"
+            onClick={closeModal}
+          >
+            <div
+              className="bg-white p-6 rounded-lg max-w-sm mx-auto animate-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="modal-content text-center">
+                <div className="checkmark-icon">
+                  <span className="checkmark">✓</span>
+                </div>
+                <h2 className="text-2xl font-semibold text-center text-green-600 mt-4">Success!</h2>
+                <p className="text-center text-gray-800 mt-4">{successMessage}</p>
+                <div className="flex justify-center mt-6">
+                  <button
+                    onClick={closeModal}
+                    className="bg-[#acd629] text-white px-4 py-2 rounded-lg"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <InView triggerOnce>
+          {({ inView, ref }) => (
+            <div
+              ref={ref}
+              className={`map-container md:w-1/2 p-6 mt-48 transition-opacity duration-1000 ease-in-out ${
+                inView ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <div className="map-container relative">
+                <div className="map-placeholder"></div>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3236.7520424391584!2d-6.0869577!3d35.0590408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0a35c19587a823%3A0x2fcb600171fc75d9!2sExport%20Optimum%20SARL!5e0!3m2!1sen!2sma!4v1678997611642!5m2!1sen!2sma"
+                  width="80%"
+                  height="300"
+                  style={{ border: 0, boxShadow: '10px 1px 50px rgba(0, 0, 0, 0.5)' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="relative"
+                ></iframe>
+              </div>
+            </div>
+          )}
+        </InView>
+      </div>
+
+      <InView triggerOnce>
+        {({ inView, ref }) => (
+          <div
+            ref={ref}
+            className={`connect-section p-6 text-left mt-2 transition-opacity duration-1000 ease-in-out ${
+              inView ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <h1 className="text-3xl font-bold text-gray-600">Let's Connect Virtually</h1>
+            <p className="text-lg text-gray-700 mt-4">
+              Learn more about how Export Optimum can elevate your avocado export needs by connecting face-to-face with our experts today.
+            </p>
+          </div>
+        )}
+      </InView>
+
+      <InView triggerOnce>
+        {({ inView, ref }) => (
+          <div
+            ref={ref}
+            className={`client-section p-6 text-left transition-opacity duration-1000 ease-in-out ${
+              inView ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <h1 className="text-4xl font-bold text-gray-600">Client is First</h1>
+            <div className="flex flex-col md:flex-row gap-6">
+              <p className="text-lg text-gray-700 mt-4">
+                At Export Optimum, trust is our priority. We strive to make every customer feel like family, fostering strong relationships and ensuring a collaborative experience that goes beyond being just another company in the industry.
+              </p>
+              <button
+                onClick={() => document.getElementById('Contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="mt-4 text-lg font-semibold bg-[#acd629] text-white py-2 px-6 rounded-lg w-fit"
+              >
+                Request a meeting
+              </button>
+            </div>
+          </div>
+        )}
+      </InView>
+
+      <Footer />
     </div>
   );
-}
+};
 
-    
+export default Contact;
