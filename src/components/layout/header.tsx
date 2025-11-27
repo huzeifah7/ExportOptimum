@@ -5,10 +5,10 @@ import { navItems as originalNavItems } from './nav-items';
 import Link from 'next/link';
 
 const cardColors = [
-  { bgColor: "#0D0716", textColor: "#fff" },
-  { bgColor: "#170D27", textColor: "#fff" },
-  { bgColor: "#271E37", textColor: "#fff" },
-  { bgColor: "#1A1625", textColor: "#fff" },
+  { bgColor: "#4B6F21", textColor: "#ffffff" },
+  { bgColor: "#405D1B", textColor: "#ffffff" },
+  { bgColor: "#354B15", textColor: "#ffffff" },
+  { bgColor: "#2A3A10", textColor: "#ffffff" },
 ];
 
 const App = () => {
