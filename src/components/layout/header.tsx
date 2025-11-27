@@ -38,9 +38,9 @@ const NavDropdown = ({ group, scrolled }: { group: (typeof navItems)[number], sc
         {group.label} <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
       </button>
     </DropdownMenuTrigger>
-    <DropdownMenuContent>
+    <DropdownMenuContent className="w-48 bg-background/80 backdrop-blur-sm">
       {group.items.map(item => (
-        <DropdownMenuItem asChild key={item.href}>
+        <DropdownMenuItem asChild key={item.href} className="focus:bg-accent/50">
           <Link href={item.href}>{item.label}</Link>
         </DropdownMenuItem>
       ))}
