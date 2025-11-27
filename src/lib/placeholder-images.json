@@ -21,7 +21,7 @@
     {
       "id": "avocado-zutano",
       "description": "A shiny, yellow-green Zutano avocado",
-      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado zutano"
     },
     {
@@ -33,7 +33,7 @@
     {
       "id": "berry-blueberry",
       "description": "A bowl of fresh blueberries",
-      "imageUrl": "https://images.unsplash.com/photo-1498557850523-233680d249de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibHVlYmVycmllc3xlbnwwfHx8fDE3NjQzMDczMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1498557850523-233680d249de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibHVlYmVycmllc3xlbnwwfHx8fDE3NjQzMDczMDh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "blueberry"
     },
     {
@@ -189,8 +189,8 @@
     {
       "id": "about-us-hero",
       "description": "Wide shot of a lush avocado grove under a clear blue sky",
-      "imageUrl": "https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib.rb-4.1.0&q=80&w=1080",
-      "imageHint": "avocado grove"
+      "imageUrl": "https://images.unsplash.com/photo-1520923642038-b42e5f14b772?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "contact background"
     },
     {
       "id": "about-us-mission",
