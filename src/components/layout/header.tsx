@@ -14,6 +14,38 @@ import { navItems } from './nav-items';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
+const NavLink = ({ href, children, scrolled }: { href: string, children: React.ReactNode, scrolled: boolean }) => (
+  <Link
+    href={href}
+    className={cn(
+      "relative font-medium px-3 py-2 rounded-md transition-colors",
+      scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white',
+      "after:absolute after:bottom-1 after:left-0 after:right-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-out hover:after:origin-bottom-left hover:after:scale-x-100"
+    )}
+  >
+    {children}
+  </Link>
+);
+
+const NavDropdown = ({ group, scrolled }: { group: typeof navItems[0], scrolled: boolean }) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger className={cn(
+      "group/trigger relative flex items-center gap-1 font-medium px-3 py-2 rounded-md transition-colors outline-none",
+      scrolled ? 'text-muted-foreground hover:text-foreground' : 'text-white/80 hover:text-white',
+      "after:absolute after:bottom-1 after:left-0 after:right-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-out group-hover/trigger:after:origin-bottom-left group-hover/trigger:after:scale-x-100"
+    )}>
+      {group.label} <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      {group.items.map(item => (
+        <DropdownMenuItem asChild key={item.href}>
+          <Link href={item.href}>{item.label}</Link>
+        </DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
 export default function Header() {
   const mobileNavItems = navItems.flatMap(group => group.items);
   const [scrolled, setScrolled] = useState(false);
@@ -44,32 +76,13 @@ export default function Header() {
             const isSingleItem = !group.items || group.items.length === 1;
             const mainItem = group.items?.[0] ?? { href: '/', label: group.label };
 
-            if (isSingleItem) {
-              return (
-                 <Link 
-                    key={group.label}
-                    href={mainItem.href}
-                    className={cn("font-medium px-3 py-2 rounded-md transition-colors", scrolled ? 'text-muted-foreground hover:text-foreground hover:bg-muted/50' : 'text-white/80 hover:text-white hover:bg-white/10')}
-                  >
-                    {group.label}
-                  </Link>
-              );
-            }
-
-            return (
-              <DropdownMenu key={group.label}>
-                <DropdownMenuTrigger className={cn("flex items-center gap-1 font-medium px-3 py-2 rounded-md transition-colors outline-none", scrolled ? 'text-muted-foreground hover:text-foreground hover:bg-muted/50' : 'text-white/80 hover:text-white hover:bg-white/10')}>
-                  {group.label} <ChevronDown className="h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {group.items.map(item => (
-                    <DropdownMenuItem asChild key={item.href}>
-                      <Link href={item.href}>{item.label}</Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )
+            return isSingleItem ? (
+              <NavLink key={group.label} href={mainItem.href} scrolled={scrolled}>
+                {group.label}
+              </NavLink>
+            ) : (
+              <NavDropdown key={group.label} group={group} scrolled={scrolled} />
+            );
           })}
         </nav>
 
