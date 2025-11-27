@@ -122,19 +122,22 @@ export default function QualityPage() {
                 {certifications.map((cert) => {
                     const image = PlaceHolderImages.find(p => p.id === cert.id);
                     return (
-                        <div key={cert.id} className="relative mx-8 flex h-28 w-64 items-center justify-center">
-                            {image ? (
-                                <Image
-                                    src={image.imageUrl}
-                                    alt={image.description}
-                                    width={180}
-                                    height={70}
-                                    className="object-contain"
-                                    data-ai-hint={image.imageHint}
-                                />
-                            ) : (
-                                <div className="text-center font-bold">{cert.name}</div>
-                            )}
+                        <div key={cert.id} className="relative mx-8 flex flex-col items-center justify-center h-40 w-64">
+                            <div className="h-28 flex items-center justify-center">
+                                {image ? (
+                                    <Image
+                                        src={image.imageUrl}
+                                        alt={image.description}
+                                        width={180}
+                                        height={70}
+                                        className="object-contain"
+                                        data-ai-hint={image.imageHint}
+                                    />
+                                ) : (
+                                    <div className="text-center font-bold">{cert.name}</div>
+                                )}
+                            </div>
+                            <p className="mt-2 text-center font-semibold text-muted-foreground">{cert.name}</p>
                         </div>
                     )
                 })}
