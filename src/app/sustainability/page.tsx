@@ -1,3 +1,4 @@
+'use client';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -5,6 +6,8 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Leaf, Recycle, Sun, Droplets, Wind, Globe, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import DomeGallery from '@/components/ui/dome-gallery';
+import SplitText from '@/components/ui/split-text';
 
 const keyInitiatives = [
   {
@@ -79,7 +82,29 @@ export default function SustainabilityPage() {
           )}
           <div className="absolute inset-0 bg-black/60" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">Cultivating a Greener Tomorrow</h1>
+             <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-4">
+              <SplitText
+                tag="span"
+                text="Cultivating"
+                splitType="chars"
+              />
+              <SplitText
+                tag="span"
+                text="a"
+                className="text-brand"
+                splitType="chars"
+              />
+              <SplitText
+                tag="span"
+                text="Greener"
+                splitType="chars"
+              />
+               <SplitText
+                tag="span"
+                text="Tomorrow"
+                splitType="chars"
+              />
+            </h1>
             <p className="mt-4 max-w-3xl text-lg md:text-xl">
               Our commitment to the planet is as deep as our roots in Moroccan soil.
             </p>
@@ -119,6 +144,21 @@ export default function SustainabilityPage() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* Gallery Section */}
+        <section className="py-16 lg:py-24">
+            <div className="container mx-auto px-4">
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl md:text-5xl font-headline font-bold">A Glimpse Into Our World</h2>
+                    <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+                        Explore scenes from our groves, our facilities, and our community.
+                    </p>
+                </div>
+                <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
+                    <DomeGallery />
+                </div>
+            </div>
         </section>
 
         {/* Certifications Section */}
