@@ -50,7 +50,7 @@ const CardNav: React.FC<CardNavProps> = ({
 
   const calculateHeight = () => {
     const navEl = navRef.current;
-    if (!navEl) return 260;
+    if (!navEl) return 220;
 
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     if (isMobile) {
@@ -80,7 +80,7 @@ const CardNav: React.FC<CardNavProps> = ({
         return topBar + contentHeight + padding;
       }
     }
-    return 260;
+    return 220;
   };
 
   const createTimeline = () => {
@@ -196,11 +196,9 @@ const CardNav: React.FC<CardNavProps> = ({
               <div className="nav-card-label">{item.label}</div>
               <div className="nav-card-links">
                 {item.links?.map((lnk, i) => (
-                  <Link key={`${lnk.label}-${i}`} href={lnk.href} passHref>
-                    <span className="nav-card-link" aria-label={lnk.ariaLabel}>
-                      <ArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
-                      {lnk.label}
-                    </span>
+                  <Link key={`${lnk.label}-${i}`} href={lnk.href} className="nav-card-link" aria-label={lnk.ariaLabel}>
+                    <ArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
+                    {lnk.label}
                   </Link>
                 ))}
               </div>
