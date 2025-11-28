@@ -11,6 +11,7 @@ import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, deleteDoc, doc } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { deleteDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 type Product = {
   id: string;
@@ -26,28 +27,28 @@ export default function ManageProductsPage() {
   const { toast } = useToast();
 
   const productsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
     return collection(firestore, "products");
   }, [firestore]);
 
   const { data: products, isLoading } = useCollection<Product>(productsQuery);
 
-  const handleDelete = async (productId: string, productName: string) => {
+  const handleDelete = (productId: string, productName: string) => {
     if (confirm(`Are you sure you want to delete "${productName}"?`)) {
-      const docRef = doc(firestore, "products", productId);
-      try {
-        await deleteDoc(docRef);
-        toast({
-          title: "Product Deleted",
-          description: `"${productName}" has been successfully deleted.`,
-        });
-      } catch (error) {
-        console.error("Error deleting document: ", error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Could not delete product. Please try again.",
-        });
+      if (!firestore) {
+          toast({
+              variant: "destructive",
+              title: "Error",
+              description: "Database connection not found.",
+          });
+          return;
       }
+      const docRef = doc(firestore, "products", productId);
+      deleteDocumentNonBlocking(docRef);
+      toast({
+        title: "Product Deleted",
+        description: `"${productName}" has been successfully deleted.`,
+      });
     }
   };
 
@@ -115,6 +116,16 @@ export default function ManageProductsPage() {
           </Card>
         ))}
       </div>
+      {!isLoading && products?.length === 0 && (
+            <Card>
+                <CardContent className="text-center py-12 text-muted-foreground">
+                    <p>No products found.</p>
+                    <Button variant="link" asChild className="mt-2">
+                        <Link href="/admin/products/add">Add the first product!</Link>
+                    </Button>
+                </CardContent>
+            </Card>
+      )}
     </div>
   );
 }
