@@ -1,29 +1,76 @@
 
-import { posts } from '@/lib/blog-data';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { notFound } from 'next/navigation';
+'use client';
+import { useParams, notFound } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { Clock } from 'lucide-react';
+import { Clock, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc, Timestamp } from 'firebase/firestore';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export function generateStaticParams() {
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
+type BlogPost = {
+  id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  content: string;
+  imageUrl?: string;
+  imageHint?: string;
+  publishDate: Timestamp;
+};
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = posts.find((p) => p.slug === params.slug);
+const BlogDetailSkeleton = () => (
+    <div className="flex flex-col min-h-screen bg-background">
+        <Header />
+        <main className="flex-grow py-16 lg:py-24">
+            <div className="container mx-auto px-4">
+                <article className="max-w-4xl mx-auto">
+                    <div className="text-center mb-8">
+                        <Skeleton className="h-6 w-24 mx-auto mb-4" />
+                        <Skeleton className="h-12 w-3/4 mx-auto" />
+                        <Skeleton className="h-6 w-full max-w-lg mx-auto mt-4" />
+                        <div className="flex items-center justify-center mt-6 gap-8">
+                            <Skeleton className="h-5 w-20" />
+                        </div>
+                    </div>
+                    <Skeleton className="w-full h-[500px] rounded-lg mb-12" />
+                     <div className="prose prose-lg max-w-none mx-auto">
+                        <Skeleton className="h-4 w-full mb-2" />
+                        <Skeleton className="h-4 w-full mb-2" />
+                        <Skeleton className="h-4 w-5/6" />
+                     </div>
+                </article>
+            </div>
+        </main>
+        <Footer />
+    </div>
+);
+
+
+export default function BlogPostPage() {
+  const params = useParams();
+  const postId = params.id as string;
+  const firestore = useFirestore();
+
+  const blogPostRef = useMemoFirebase(() => {
+    if (!firestore || !postId) return null;
+    return doc(firestore, 'blogPosts', postId);
+  }, [firestore, postId]);
+
+  const { data: post, isLoading } = useDoc<BlogPost>(blogPostRef);
+
+  if (isLoading) {
+    return <BlogDetailSkeleton />;
+  }
 
   if (!post) {
     notFound();
   }
 
-  const image = PlaceHolderImages.find((p) => p.id === post.id);
   const readingTime = Math.ceil(post.content.split(' ').length / 200); // Average reading speed
 
   return (
@@ -44,10 +91,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 </div>
             </div>
 
-            {image && (
+            {post.imageUrl && (
               <div className="rounded-lg overflow-hidden shadow-lg mb-12">
                 <Image
-                  src={image.imageUrl}
+                  src={post.imageUrl}
                   alt={post.title}
                   width={1200}
                   height={600}
@@ -58,7 +105,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             )}
 
             <div className="prose prose-lg max-w-none mx-auto text-foreground/90 dark:prose-invert prose-headings:font-headline">
-              {post.content.split('\n').map((paragraph, index) => {
+              {post.content.split('\\n').map((paragraph, index) => {
                 const trimmed = paragraph.trim();
                 if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
                   return <h3 key={index} className="font-bold text-2xl mt-8 mb-4">{trimmed.substring(2, trimmed.length-2)}</h3>
