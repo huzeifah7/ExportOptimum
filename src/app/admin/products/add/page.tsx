@@ -14,6 +14,9 @@ import Link from 'next/link';
 
 export default function AddProductPage() {
     const router = useRouter();
+    const [productName, setProductName] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +32,21 @@ export default function AddProductPage() {
         }
     };
 
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        const newProduct = {
+            name: productName,
+            description,
+            category,
+            image: imagePreview,
+        };
+        console.log("New Product Saved:", newProduct);
+        // Here we would typically send the data to a server or database.
+        // For now, we'll just log it and then redirect.
+        alert('Product data logged to console. Check your browser developer tools.');
+        router.push('/admin/products');
+    };
+
     return (
         <div>
             <div className="flex items-center gap-4 mb-8">
@@ -39,7 +57,7 @@ export default function AddProductPage() {
                 </Button>
                 <h1 className="text-3xl font-bold font-headline">Add New Product</h1>
             </div>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit}>
                 <Card>
                     <CardHeader>
                         <CardTitle>Product Details</CardTitle>
@@ -48,15 +66,27 @@ export default function AddProductPage() {
                         <div className="lg:col-span-2 space-y-6">
                             <div className="space-y-2">
                                 <Label htmlFor="product-name">Product Name</Label>
-                                <Input id="product-name" placeholder="e.g., Hass Avocado" />
+                                <Input 
+                                    id="product-name" 
+                                    placeholder="e.g., Hass Avocado" 
+                                    value={productName}
+                                    onChange={(e) => setProductName(e.target.value)}
+                                    required
+                                />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="product-description">Description</Label>
-                                <Textarea id="product-description" placeholder="A short description of the product..." />
+                                <Textarea 
+                                    id="product-description" 
+                                    placeholder="A short description of the product..." 
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    required
+                                />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="product-category">Category</Label>
-                                <Select>
+                                <Select onValueChange={setCategory} value={category}>
                                     <SelectTrigger id="product-category">
                                         <SelectValue placeholder="Select a category" />
                                     </SelectTrigger>
@@ -79,7 +109,7 @@ export default function AddProductPage() {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end gap-2 border-t pt-6">
-                        <Button variant="outline" onClick={() => router.push('/admin/products')}>Cancel</Button>
+                        <Button variant="outline" type="button" onClick={() => router.push('/admin/products')}>Cancel</Button>
                         <Button type="submit">Save Product</Button>
                     </CardFooter>
                 </Card>
