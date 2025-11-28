@@ -28,6 +28,13 @@ export default function AdminLoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+
+    if (!auth) {
+      setError('Authentication service is not available. Please try again later.');
+      return;
+    }
+
     if (username === 'adminX' && password === 'adminx1') {
       try {
         await signInAnonymously(auth);
@@ -41,7 +48,7 @@ export default function AdminLoginPage() {
       setError('Invalid username or password');
     }
   };
-
+  
   if (!isClient) {
     return null;
   }
