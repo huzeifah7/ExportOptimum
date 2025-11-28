@@ -8,12 +8,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
+import { useAuth } from '@/firebase';
+import { signInAnonymously } from 'firebase/auth';
 
 export default function AdminLoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
+  const auth = useAuth();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -23,11 +26,17 @@ export default function AdminLoginPage() {
     }
   }, [router]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (username === 'adminX' && password === 'adminx1') {
-      localStorage.setItem('isAdminAuthenticated', 'true');
-      router.replace('/admin/dashboard');
+      try {
+        await signInAnonymously(auth);
+        localStorage.setItem('isAdminAuthenticated', 'true');
+        router.replace('/admin/dashboard');
+      } catch (authError) {
+        console.error("Firebase anonymous sign-in failed:", authError);
+        setError('Login failed. Please try again.');
+      }
     } else {
       setError('Invalid username or password');
     }
@@ -36,7 +45,7 @@ export default function AdminLoginPage() {
   if (!isClient) {
     return null;
   }
-
+  
   const isAuthenticated = typeof window !== 'undefined' && localStorage.getItem('isAdminAuthenticated') === 'true';
 
   if(isAuthenticated) {
