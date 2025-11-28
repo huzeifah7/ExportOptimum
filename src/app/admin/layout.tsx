@@ -31,7 +31,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Logo } from '@/components/logo';
 import {
   DropdownMenu,
@@ -43,7 +43,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useUser } from '@/firebase';
+import { useUser, useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
 
 
 const adminNavItems = [
@@ -111,38 +112,34 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const auth = useAuth();
   const { user, isUserLoading } = useUser();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
-    setIsAuthenticated(authStatus);
-
-    if (!isUserLoading && !authStatus) {
+    if (!isUserLoading && !user) {
+      localStorage.removeItem('isAdminAuthenticated');
       router.replace('/admin/login');
     }
-  }, [router, isUserLoading]);
+  }, [isUserLoading, user, router]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (auth) {
+      await signOut(auth);
+    }
     localStorage.removeItem('isAdminAuthenticated');
-    setIsAuthenticated(false);
     router.replace('/admin/login');
   };
 
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
-
-  if (isUserLoading || isAuthenticated === null) {
+  
+  if (isUserLoading || !user) {
     return (
         <div className="flex h-screen w-full items-center justify-center bg-background">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
         </div>
     );
-  }
-  
-  if (!isAuthenticated || !user) {
-    return null;
   }
 
   return (
