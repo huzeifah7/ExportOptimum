@@ -14,7 +14,7 @@ service cloud.firestore {
 
     match /blogPosts/{blogPostId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow create, update, delete: if isAdmin();
     }
 
     match /avocadoExportData/{avocadoExportDataId} {
