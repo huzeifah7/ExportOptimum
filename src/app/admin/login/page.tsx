@@ -18,8 +18,7 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     setIsClient(true);
-    const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
-    if (isAuthenticated) {
+    if (localStorage.getItem('isAdminAuthenticated') === 'true') {
       router.replace('/admin/dashboard');
     }
   }, [router]);
