@@ -10,7 +10,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarGroup,
 } from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
@@ -100,16 +99,21 @@ export default function AdminLayout({
   useEffect(() => {
     const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
     setIsAuthenticated(authStatus);
-    if (!authStatus) {
-      router.replace('/admin');
+    if (!authStatus && pathname !== '/admin/login') {
+      router.replace('/admin/login');
     }
   }, [router, pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
     setIsAuthenticated(false);
-    router.replace('/admin');
+    router.replace('/admin/login');
   };
+
+  // If the path is the login page, we don't want to render the admin layout
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
   
   if (isAuthenticated === null) {
     return null; // or a loading spinner
