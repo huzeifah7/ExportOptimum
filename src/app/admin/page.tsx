@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -17,7 +18,6 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     setIsClient(true);
-    // Check if the user is already authenticated and redirect them to the dashboard
     const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
     if (isAuthenticated) {
       router.replace('/admin/dashboard');
@@ -34,12 +34,16 @@ export default function AdminLoginPage() {
     }
   };
 
-  // Prevent rendering the form on the server or before the client-side check is complete
   if (!isClient) {
     return null;
   }
-  
-  // This part will only be rendered on the client if the user is not authenticated
+
+  const isAuthenticated = typeof window !== 'undefined' && localStorage.getItem('isAdminAuthenticated') === 'true';
+
+  if(isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-secondary/50">
       <Card className="w-full max-w-sm shadow-2xl">

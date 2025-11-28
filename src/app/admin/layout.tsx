@@ -1,3 +1,4 @@
+
 'use client';
 import {
   SidebarProvider,
@@ -94,17 +95,15 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [isClient, setIsClient] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setIsClient(true);
     const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
     setIsAuthenticated(authStatus);
     if (!authStatus) {
       router.replace('/admin');
     }
-  }, [router]);
+  }, [router, pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
@@ -112,8 +111,12 @@ export default function AdminLayout({
     router.replace('/admin');
   };
   
-  if (!isClient || !isAuthenticated) {
-    return null; // Render nothing until client-side check is complete and authenticated
+  if (isAuthenticated === null) {
+    return null; // or a loading spinner
+  }
+
+  if (!isAuthenticated) {
+    return null; // Redirecting is handled in useEffect
   }
 
   return (
