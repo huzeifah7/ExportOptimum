@@ -6,13 +6,16 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 export default function ManageProductsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold font-headline">Manage Products</h1>
-        <Button>Add New Product</Button>
+        <Button asChild>
+            <Link href="/admin/products/add">Add New Product</Link>
+        </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {produce.map((product) => {
