@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './animations.css';
 import { Toaster } from "@/components/ui/toaster";
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
   title: 'Avocado Export Hub',
@@ -21,7 +22,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Hurricane&family=PT+Sans:wght@400;700&family=Nunito:wght@400;700;800&family=Montserrat:wght@400;700&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased bg-background">
-        {children}
+        <FirebaseClientProvider>
+          {children}
+        </FirebaseClientProvider>
         <Toaster />
       </body>
     </html>

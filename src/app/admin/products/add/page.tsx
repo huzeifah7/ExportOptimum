@@ -11,9 +11,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useFirestore } from '@/firebase';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { collection } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AddProductPage() {
     const router = useRouter();
+    const firestore = useFirestore();
+    const { toast } = useToast();
+
     const [productName, setProductName] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
@@ -32,18 +39,36 @@ export default function AddProductPage() {
         }
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const slugify = (text: string) => {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w-]+/g, '')       // Remove all non-word chars
+            .replace(/--+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start of text
+            .replace(/-+$/, '');            // Trim - from end of text
+    }
+
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        const slug = slugify(productName);
+
         const newProduct = {
             name: productName,
             description,
             category,
-            image: imagePreview,
+            imageUrl: imagePreview,
+            slug: slug,
+            imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`
         };
-        console.log("New Product Saved:", newProduct);
-        // Here we would typically send the data to a server or database.
-        // For now, we'll just log it and then redirect.
-        alert('Product data logged to console. Check your browser developer tools.');
+
+        const productsCollection = collection(firestore, 'products');
+        await addDocumentNonBlocking(productsCollection, newProduct);
+
+        toast({
+          title: "Product Added",
+          description: `${productName} has been successfully added.`,
+        });
+
         router.push('/admin/products');
     };
 
@@ -86,7 +111,7 @@ export default function AddProductPage() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="product-category">Category</Label>
-                                <Select onValueChange={setCategory} value={category}>
+                                <Select onValueChange={setCategory} value={category} required>
                                     <SelectTrigger id="product-category">
                                         <SelectValue placeholder="Select a category" />
                                     </SelectTrigger>

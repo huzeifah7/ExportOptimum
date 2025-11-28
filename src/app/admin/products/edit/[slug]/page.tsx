@@ -11,14 +11,35 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { produce } from '@/lib/produce-data';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { notFound } from 'next/navigation';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
+
+type Product = {
+    id: string;
+    name: string;
+    description: string;
+    category: string;
+    imageUrl?: string;
+    slug: string;
+};
 
 export default function EditProductPage() {
     const router = useRouter();
     const params = useParams();
-    const slug = params.slug;
+    const productId = params.slug as string;
+    const firestore = useFirestore();
+    const { toast } = useToast();
+
+    const productRef = useMemoFirebase(() => {
+        if (!productId) return null;
+        return doc(firestore, 'products', productId);
+    }, [firestore, productId]);
+
+    const { data: product, isLoading } = useDoc<Product>(productRef);
 
     const [productName, setProductName] = useState('');
     const [description, setDescription] = useState('');
@@ -26,21 +47,52 @@ export default function EditProductPage() {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     useEffect(() => {
-        const product = produce.find((p) => p.slug === slug);
         if (product) {
             setProductName(product.name);
             setDescription(product.description);
             setCategory(product.category);
-            const image = PlaceHolderImages.find((img) => img.id === product.id);
-            if(image) {
-                setImagePreview(image.imageUrl);
+            if(product.imageUrl) {
+                setImagePreview(product.imageUrl);
             }
-        } else {
-            // If the product is not found, you can redirect or show a 404 page
-            notFound();
         }
-    }, [slug]);
+    }, [product]);
 
+    if (isLoading) {
+        return (
+            <div>
+                 <div className="flex items-center gap-4 mb-8">
+                    <Skeleton className="h-10 w-10" />
+                    <Skeleton className="h-9 w-48" />
+                </div>
+                <Card>
+                    <CardHeader>
+                        <Skeleton className="h-8 w-40" />
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div className="lg:col-span-2 space-y-6">
+                            <Skeleton className="h-10 w-full" />
+                            <Skeleton className="h-20 w-full" />
+                            <Skeleton className="h-10 w-full" />
+                        </div>
+                        <div className='space-y-4'>
+                            <Skeleton className="h-4 w-24" />
+                            <Skeleton className="h-10 w-full" />
+                            <Skeleton className="aspect-square w-full" />
+                        </div>
+                    </CardContent>
+                    <CardFooter className="flex justify-end gap-2 border-t pt-6">
+                        <Skeleton className="h-10 w-24" />
+                        <Skeleton className="h-10 w-24" />
+                    </CardFooter>
+                </Card>
+            </div>
+        )
+    }
+
+    if (!product && !isLoading) {
+        notFound();
+    }
+    
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -49,24 +101,41 @@ export default function EditProductPage() {
                 setImagePreview(reader.result as string);
             };
             reader.readAsDataURL(file);
-        } else {
-            setImagePreview(null);
         }
     };
+    
+    const slugify = (text: string) => {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w-]+/g, '')
+            .replace(/--+/g, '-')
+            .replace(/^-+/, '')
+            .replace(/-+$/, '');
+    }
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        
+        if (!productRef) return;
+
+        const slug = slugify(productName);
+
         const updatedProduct = {
-            slug,
             name: productName,
             description,
             category,
-            image: imagePreview,
+            imageUrl: imagePreview,
+            slug: slug,
+            imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`
         };
-        console.log("Updated Product Saved:", updatedProduct);
-        // Here we would typically send the data to a server or database.
-        // For now, we'll just log it and then redirect.
-        alert('Product data logged to console. Check your browser developer tools.');
+
+        setDocumentNonBlocking(productRef, updatedProduct, { merge: true });
+
+        toast({
+            title: "Product Updated",
+            description: `${productName} has been successfully updated.`,
+        });
+
         router.push('/admin/products');
     };
 
@@ -109,7 +178,7 @@ export default function EditProductPage() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="product-category">Category</Label>
-                                <Select onValueChange={setCategory} value={category}>
+                                <Select onValueChange={setCategory} value={category} required>
                                     <SelectTrigger id="product-category">
                                         <SelectValue placeholder="Select a category" />
                                     </SelectTrigger>

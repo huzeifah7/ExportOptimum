@@ -1,5 +1,38 @@
 {
   "entities": {
+    "Product": {
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product in the catalog.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the product."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the product."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category the product belongs to (e.g., 'Avocado', 'Berries')."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the product image.",
+          "format": "uri"
+        },
+        "imageHint": {
+          "type": "string",
+          "description": "AI hint for the product image."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the product."
+        }
+      },
+      "required": ["name", "description", "category", "slug"]
+    },
     "AvocadoExportData": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "AvocadoExportData",
@@ -244,6 +277,14 @@
   "firestore": {
     "structure": [
       {
+        "path": "/products/{productId}",
+        "definition": {
+          "entityName": "Product",
+          "schema": { "$ref": "#/backend/entities/Product" },
+          "description": "Stores all product information for the catalog."
+        }
+      },
+      {
         "path": "/avocadoExportData/{avocadoExportDataId}",
         "definition": {
           "entityName": "AvocadoExportData",
@@ -356,6 +397,6 @@
         }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to support the Avocado Export Hub's features while adhering to the principles of Authorization Independence, Structural Segregation, and Access Modeling. All collections are top-level, avoiding hierarchical authorization and enabling simple security rules. \n\nEach collection is designed to store a specific type of data, ensuring a homogeneous security posture (Strategy B). For instance, `avocadoExportData` stores key export statistics, `qualityCertifications` holds information about quality assurance certifications, and so on. This segregation simplifies security rules as each collection can have its own set of rules without interfering with others.\n\nAuthorization Independence (Strategy A) is achieved because no collection depends on data in another collection for access control. All data is publicly accessible, so authorization is not a concern.\n\nThe structure also supports the required QAPs as all collections are designed for public `list` operations. There is no need for filtering based on user roles or permissions.\n"
+    "reasoning": "The Firestore data structure is designed to support the Avocado Export Hub's features while adhering to the principles of Authorization Independence, Structural Segregation, and Access Modeling. All collections are top-level, avoiding hierarchical authorization and enabling simple security rules. \n\nEach collection is designed to store a specific type of data, ensuring a homogeneous security posture (Strategy B). For instance, `avocadoExportData` stores key export statistics, `qualityCertifications` holds information about quality assurance certifications, and so on. This segregation simplifies security rules as each collection can have its own set of rules without interfering with others.\n\nThe structure also supports the required QAPs as all collections are designed for public `list` operations. There is no need for filtering based on user roles or permissions.\n"
   }
 }

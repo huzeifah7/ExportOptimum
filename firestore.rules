@@ -1,139 +1,50 @@
-/**
- * Core Philosophy: This ruleset enforces a strict public read-only model.
- * All data in the database is considered public information intended for display
- * on a website. Anyone, including unauthenticated visitors, can read any
- * document or list any collection. To ensure data integrity and prevent
- * unauthorized modifications, all write operations (create, update, delete)
- * from client applications are explicitly denied. Data is expected to be
- * managed by administrators using the Firebase Console or a trusted server
- * environment with the Admin SDK.
- *
- * Data Structure: The database uses a flat, non-hierarchical structure. Each
- * data type (e.g., Blog Posts, Testimonials, Partners) is stored in its own
- * top-level collection. This segregation simplifies security management, as
- * a single, clear rule can be applied to each collection without affecting others.
- * There are no user-specific subcollections, as the application does not have
- * user accounts or private data.
- *
- * Key Security Decisions:
- * - Public Read Access: All collections are publicly readable to support the
- *   website's content display needs.
- * - Universal Write Denial: All client-side write operations are disabled to
- *   protect the public data from being altered.
- * - No Authentication Required: The rules do not require users to be signed in
- *   to read data, accommodating all website visitors.
- */
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // -------------------------------------------------------------------------
-    // Helper Functions
-    // -------------------------------------------------------------------------
-
-    /**
-     * Helper to clarify that a resource is intended for public read access.
-     * Always returns true.
-     */
-    function isPublicRead() {
-      return true;
+    function isAdmin() {
+      return request.auth != null;
     }
 
-    /**
-     * Helper to clarify that writes are disallowed from clients.
-     * All data modifications must be done via the Admin SDK or Console.
-     * Always returns false.
-     */
-    function isAdminWrite() {
-      return false;
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // -------------------------------------------------------------------------
-    // Collection Rules
-    // -------------------------------------------------------------------------
-
-    /**
-     * @description Publicly readable export statistics for the website's hero section.
-     * @path /avocadoExportData/{avocadoExportDataId}
-     * @allow (get) Any user, authenticated or not, can read an export data document.
-     * @deny (create) No user can create a new export data document from the client.
-     * @principle Enforces a public read-only model for site content.
-     */
     match /avocadoExportData/{avocadoExportDataId} {
-      allow get, list: if isPublicRead();
-      allow create, update, delete: if isAdminWrite();
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
 
-    /**
-     * @description Publicly readable quality certifications.
-     * @path /qualityCertifications/{qualityCertificationId}
-     * @allow (get) Any user, authenticated or not, can read a certification document.
-     * @deny (update) No user can update a certification document from the client.
-     * @principle Enforces a public read-only model for site content.
-     */
     match /qualityCertifications/{qualityCertificationId} {
-      allow get, list: if isPublicRead();
-      allow create, update, delete: if isAdminWrite();
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
 
-    /**
-     * @description Publicly readable information about avocado varieties.
-     * @path /avocadoVarieties/{avocadoVarietyId}
-     * @allow (list) Any user, authenticated or not, can list all avocado varieties.
-     * @deny (delete) No user can delete an avocado variety document from the client.
-     * @principle Enforces a public read-only model for site content.
-     */
     match /avocadoVarieties/{avocadoVarietyId} {
-      allow get, list: if isPublicRead();
-      allow create, update, delete: if isAdminWrite();
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
 
-    /**
-     * @description Publicly readable client testimonials.
-     * @path /clientTestimonials/{clientTestimonialId}
-     * @allow (get) Any user, authenticated or not, can read a client testimonial.
-     * @deny (create) No user can create a new testimonial from the client.
-     * @principle Enforces a public read-only model for site content.
-     */
     match /clientTestimonials/{clientTestimonialId} {
-      allow get, list: if isPublicRead();
-      allow create, update, delete: if isAdminWrite();
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
 
-    /**
-     * @description Publicly readable information about company partners.
-     * @path /partners/{partnerId}
-     * @allow (list) Any user, authenticated or not, can list all partner documents.
-     * @deny (update) No user can update a partner document from the client.
-     * @principle Enforces a public read-only model for site content.
-     */
     match /partners/{partnerId} {
-      allow get, list: if isPublicRead();
-      allow create, update, delete: if isAdminWrite();
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
 
-    /**
-     * @description Publicly readable blog posts.
-     * @path /blogPosts/{blogPostId}
-     * @allow (get) Any user, authenticated or not, can read a blog post.
-     * @deny (create) No user can create a new blog post from the client.
-     * @principle Enforces a public read-only model for site content.
-     */
     match /blogPosts/{blogPostId} {
-      allow get, list: if isPublicRead();
-      allow create, update, delete: if isAdminWrite();
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
 
-    /**
-     * @description Publicly readable contact information.
-     * @path /contactInformation/{contactInformationId}
-     * @allow (get) Any user, authenticated or not, can read a contact info document.
-     * @deny (delete) No user can delete a contact info document from the client.
-     * @principle Enforces a public read-only model for site content.
-     */
     match /contactInformation/{contactInformationId} {
-      allow get, list: if isPublicRead();
-      allow create, update, delete: if isAdminWrite();
+      allow get, list: if true;
+      allow create, update, delete: if false;
     }
   }
 }
