@@ -116,8 +116,8 @@ export default function AdminLayout({
   const { user, isUserLoading } = useUser();
 
   useEffect(() => {
+    // If auth state is not loading and there's no user, redirect to login
     if (!isUserLoading && !user) {
-      localStorage.removeItem('isAdminAuthenticated');
       router.replace('/admin/login');
     }
   }, [isUserLoading, user, router]);
@@ -126,7 +126,7 @@ export default function AdminLayout({
     if (auth) {
       await signOut(auth);
     }
-    localStorage.removeItem('isAdminAuthenticated');
+    // No need to remove from localStorage, useEffect will handle redirection
     router.replace('/admin/login');
   };
 
@@ -134,12 +134,18 @@ export default function AdminLayout({
     return <>{children}</>;
   }
   
-  if (isUserLoading || !user) {
+  // Show a loader while Firebase is determining the auth state
+  if (isUserLoading) {
     return (
         <div className="flex h-screen w-full items-center justify-center bg-background">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
         </div>
     );
+  }
+
+  // If loading is finished but there is still no user, we are redirecting, so render nothing.
+  if (!user) {
+    return null;
   }
 
   return (

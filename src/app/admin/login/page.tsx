@@ -19,16 +19,14 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const auth = useAuth();
-  const { user } = useUser();
-  const [isClient, setIsClient] = useState(false);
-
+  const { user, isUserLoading } = useUser();
+  
   useEffect(() => {
-    setIsClient(true);
-    // If the user is already authenticated (both locally and with Firebase), redirect them.
-    if (localStorage.getItem('isAdminAuthenticated') === 'true' && user) {
+    // If auth is no longer loading and a user exists, redirect to dashboard.
+    if (!isUserLoading && user) {
       router.replace('/admin/dashboard');
     }
-  }, [router, user]);
+  }, [router, user, isUserLoading]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,13 +41,8 @@ export default function AdminLoginPage() {
 
     if (username === 'adminX' && password === 'adminx1') {
       try {
-        const userCredential = await signInAnonymously(auth);
-        if (userCredential.user) {
-          localStorage.setItem('isAdminAuthenticated', 'true');
-          router.replace('/admin/dashboard');
-        } else {
-           throw new Error('Anonymous sign-in failed to return a user.');
-        }
+        await signInAnonymously(auth);
+        // The useEffect will handle the redirect once the user state is updated.
       } catch (authError) {
         console.error("Firebase anonymous sign-in failed:", authError);
         setError('Login failed. Please try again.');
@@ -61,22 +54,18 @@ export default function AdminLoginPage() {
     }
   };
   
-  if (!isClient) {
-    return null;
+  // While Firebase is checking the user's auth state, show a full-screen loader.
+  if (isUserLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-secondary/50">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    )
   }
-  
-  const isAuthenticated = typeof window !== 'undefined' && localStorage.getItem('isAdminAuthenticated') === 'true';
 
-  if(isAuthenticated) {
-     // If we think we're authenticated but are waiting for the firebase user, show a loader.
-    if (!user) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-secondary/50">
-                <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            </div>
-        )
-    }
-    return null; // Redirecting is handled in useEffect
+  // If a user is already logged in, this component will be blank while useEffect redirects.
+  if (user) {
+    return null;
   }
 
   return (
