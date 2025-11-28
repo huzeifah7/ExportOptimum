@@ -40,65 +40,49 @@ export default function AddProductPage() {
                 <h1 className="text-3xl font-bold font-headline">Add New Product</h1>
             </div>
             <form onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Product Details</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="space-y-2">
-                                    <Label htmlFor="product-name">Product Name</Label>
-                                    <Input id="product-name" placeholder="e.g., Hass Avocado" />
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Product Details</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div className="lg:col-span-2 space-y-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="product-name">Product Name</Label>
+                                <Input id="product-name" placeholder="e.g., Hass Avocado" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="product-description">Description</Label>
+                                <Textarea id="product-description" placeholder="A short description of the product..." />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="product-category">Category</Label>
+                                <Select>
+                                    <SelectTrigger id="product-category">
+                                        <SelectValue placeholder="Select a category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="avocado">Avocado</SelectItem>
+                                        <SelectItem value="berries">Berries</SelectItem>
+                                        <SelectItem value="other">Other</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+                        <div className="space-y-4">
+                            <Label htmlFor="product-image">Product Image</Label>
+                            <Input id="product-image" type="file" accept="image/*" onChange={handleImageChange} />
+                            {imagePreview && (
+                                <div className="mt-4 rounded-lg overflow-hidden border aspect-square w-full relative">
+                                    <img src={imagePreview} alt="Image preview" className="object-cover w-full h-full" />
                                 </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="product-description">Description</Label>
-                                    <Textarea id="product-description" placeholder="A short description of the product..." />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="product-category">Category</Label>
-                                    <Select>
-                                        <SelectTrigger id="product-category">
-                                            <SelectValue placeholder="Select a category" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="avocado">Avocado</SelectItem>
-                                            <SelectItem value="berries">Berries</SelectItem>
-                                            <SelectItem value="other">Other</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                    <div className="space-y-8">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Product Image</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-2">
-                                    <Label htmlFor="product-image">Image Upload</Label>
-                                    <Input id="product-image" type="file" accept="image/*" onChange={handleImageChange} />
-                                </div>
-                                {imagePreview && (
-                                    <div className="mt-4 rounded-lg overflow-hidden border aspect-square w-full relative">
-                                        <img src={imagePreview} alt="Image preview" className="object-cover w-full h-full" />
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Actions</CardTitle>
-                            </CardHeader>
-                            <CardFooter className="flex justify-end gap-2">
-                                <Button variant="outline" onClick={() => router.push('/admin/products')}>Cancel</Button>
-                                <Button type="submit">Save Product</Button>
-                            </CardFooter>
-                        </Card>
-                    </div>
-                </div>
+                            )}
+                        </div>
+                    </CardContent>
+                    <CardFooter className="flex justify-end gap-2 border-t pt-6">
+                        <Button variant="outline" onClick={() => router.push('/admin/products')}>Cancel</Button>
+                        <Button type="submit">Save Product</Button>
+                    </CardFooter>
+                </Card>
             </form>
         </div>
     );
