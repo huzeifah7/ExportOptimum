@@ -9,9 +9,7 @@ service cloud.firestore {
     }
 
     match /blogPosts/{docId} {
-      // Allow anyone to read posts
       allow read: if true;
-      // Allow admins to create, update, and delete posts
       allow create, update, delete: if request.auth.uid == "EjBWKAzrRLeMuEt4ipJYXFEjnot2";
     }
 
