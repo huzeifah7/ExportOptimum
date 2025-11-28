@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { useCollection, useFirestore, useMemoFirebase }from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 const categories = ['All', 'Avocado', 'Berries', 'Other'];
 
@@ -28,6 +29,7 @@ export default function ProductsPage() {
   const firestore = useFirestore();
 
   const productsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
     return collection(firestore, "products");
   }, [firestore]);
 
