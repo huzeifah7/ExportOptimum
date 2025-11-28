@@ -116,7 +116,7 @@ export default function AddBlogPage() {
                                     <Label htmlFor="blog-excerpt">Subtitle / Excerpt</Label>
                                     <Textarea 
                                         id="blog-excerpt" 
-                                        placeholder="A short summary or subtitle for the post." _
+                                        placeholder="A short summary or subtitle for the post."
                                         value={excerpt}
                                         onChange={(e) => setExcerpt(e.target.value)}
                                         required
