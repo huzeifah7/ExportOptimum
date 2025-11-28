@@ -1,10 +1,14 @@
 
+'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, PackageCheck, Truck, Microscope } from 'lucide-react';
+import { Leaf, PackageCheck, Truck, Microscope, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const qualityProcess = [
   {
@@ -29,15 +33,12 @@ const qualityProcess = [
   },
 ];
 
-const certifications = [
-  { id: 'cert-global-gap', name: 'Global G.A.P.', description: 'Ensuring safe and sustainable agricultural production.' },
-  { id: 'cert-brc-food', name: 'BRC Food', description: 'Guaranteeing quality, safety, and operational criteria.' },
-  { id: 'cert-smeta', name: 'SMETA', description: 'Demonstrating commitment to ethical trade and social responsibility.' },
-  { id: 'cert-grasp', name: 'GRASP', description: 'Assessing social practices on the farm, addressing worker health.' },
-  { id: 'cert-bio', name: 'Bio Certified', description: 'Confirming organic farming practices and natural integrity.' },
-  { id: 'cert-spring', name: 'SPRING', description: 'Promoting sustainable water management in agriculture.' },
-  { id: 'cert-usda-organic', name: 'USDA Organic', description: 'Verifying that produce is grown and processed according to federal guidelines.' },
-];
+type Certification = {
+    id: string;
+    name: string;
+    imageUrl?: string;
+    description?: string;
+}
 
 const Marquee = ({ children, className }: { children: React.ReactNode, className?: string }) => (
     <div className={cn("relative flex w-full overflow-hidden", className)}>
@@ -51,6 +52,14 @@ const Marquee = ({ children, className }: { children: React.ReactNode, className
 
 export default function QualityPage() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'quality-hero');
+  const firestore = useFirestore();
+
+  const certsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return collection(firestore, 'qualityCertifications');
+  }, [firestore]);
+
+  const { data: certifications, isLoading } = useCollection<Certification>(certsQuery);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -118,20 +127,23 @@ export default function QualityPage() {
                     Our adherence to the highest international standards is not just a claim—it's certified. We proudly hold multiple globally-recognized credentials.
                 </p>
             </div>
-            <Marquee>
-                {certifications.map((cert) => {
-                    const image = PlaceHolderImages.find(p => p.id === cert.id);
-                    return (
+            {isLoading && (
+              <div className="flex justify-center">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+              </div>
+            )}
+            {certifications && certifications.length > 0 && (
+                <Marquee>
+                    {certifications.map((cert) => (
                         <div key={cert.id} className="relative group mx-8 flex-shrink-0 flex flex-col items-center justify-center h-48 w-48">
                             <div className="relative h-32 w-32 flex items-center justify-center p-4 bg-background rounded-lg shadow-sm">
-                                {image ? (
+                                {cert.imageUrl ? (
                                     <Image
-                                        src={image.imageUrl}
-                                        alt={image.description}
+                                        src={cert.imageUrl}
+                                        alt={cert.name}
                                         width={100}
                                         height={100}
                                         className="object-contain"
-                                        data-ai-hint={image.imageHint}
                                     />
                                 ) : (
                                     <div className="text-center font-bold text-sm text-muted-foreground">{cert.name}</div>
@@ -141,9 +153,14 @@ export default function QualityPage() {
                                 <p className="text-sm font-semibold text-foreground truncate">{cert.name}</p>
                             </div>
                         </div>
-                    )
-                })}
-            </Marquee>
+                    ))}
+                </Marquee>
+            )}
+             {!isLoading && (!certifications || certifications.length === 0) && (
+              <div className="text-center py-12 text-muted-foreground">
+                  <p>No certifications to display at the moment.</p>
+              </div>
+            )}
           </div>
         </section>
 
