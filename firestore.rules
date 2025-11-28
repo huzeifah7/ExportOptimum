@@ -13,6 +13,11 @@ service cloud.firestore {
       allow create, update, delete: if request.auth.uid == "EjBWKAzrRLeMuEt4ipJYXFEjnot2";
     }
 
+    match /keyFigures/main {
+      allow read: if true;
+      allow write: if request.auth.uid == "EjBWKAzrRLeMuEt4ipJYXFEjnot2";
+    }
+
     match /avocadoExportData/{avocadoExportDataId} {
       allow get, list: if true;
       allow create, update, delete: if false;
@@ -44,3 +49,5 @@ service cloud.firestore {
     }
   }
 }
+
+    

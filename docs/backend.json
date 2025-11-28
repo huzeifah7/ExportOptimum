@@ -33,6 +33,26 @@
       },
       "required": ["name", "description", "category", "slug"]
     },
+    "KeyFigureStats": {
+      "title": "Key Figure Stats",
+      "type": "object",
+      "description": "Represents the key statistical figures for the business.",
+      "properties": {
+        "exportTons": {
+          "type": "number",
+          "description": "The total volume of yearly exports in tons."
+        },
+        "employees": {
+          "type": "number",
+          "description": "The total number of employees."
+        },
+        "majorCustomers": {
+          "type": "number",
+          "description": "The number of major customers."
+        }
+      },
+      "required": ["exportTons", "employees", "majorCustomers"]
+    },
     "AvocadoExportData": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "AvocadoExportData",
@@ -285,6 +305,14 @@
         }
       },
       {
+        "path": "/keyFigures/main",
+        "definition": {
+            "entityName": "KeyFigureStats",
+            "schema": { "$ref": "#/backend/entities/KeyFigureStats" },
+            "description": "Stores the key statistical figures for the business as a single document."
+        }
+      },
+      {
         "path": "/avocadoExportData/{avocadoExportDataId}",
         "definition": {
           "entityName": "AvocadoExportData",
@@ -400,3 +428,4 @@
     "reasoning": "The Firestore data structure is designed to support the Avocado Export Hub's features while adhering to the principles of Authorization Independence, Structural Segregation, and Access Modeling. All collections are top-level, avoiding hierarchical authorization and enabling simple security rules. \n\nEach collection is designed to store a specific type of data, ensuring a homogeneous security posture (Strategy B). For instance, `avocadoExportData` stores key export statistics, `qualityCertifications` holds information about quality assurance certifications, and so on. This segregation simplifies security rules as each collection can have its own set of rules without interfering with others.\n\nThe structure also supports the required QAPs as all collections are designed for public `list` operations. There is no need for filtering based on user roles or permissions.\n"
   }
 }
+    
