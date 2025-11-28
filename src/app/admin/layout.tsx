@@ -24,10 +24,23 @@ import {
   Handshake,
   LogOut,
   Leaf,
+  Settings,
+  ShieldCheck,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { Logo } from '@/components/logo';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 
 const adminNavItems = [
   {
@@ -149,20 +162,48 @@ export default function AdminLayout({
             </SidebarMenu>
           </SidebarContent>
           <SidebarFooter>
-             <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton onClick={handleLogout} tooltip="Logout">
-                        <LogOut />
-                        <span>Logout</span>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
+             {/* The logout button is now in the header dropdown */}
           </SidebarFooter>
         </Sidebar>
         <main className="flex-1 overflow-y-auto">
-             <header className="p-4 border-b flex items-center gap-4">
-                <SidebarTrigger />
-                <h1 className="text-xl font-semibold font-headline">Admin Panel</h1>
+             <header className="p-4 border-b flex items-center justify-between gap-4">
+                <div className='flex items-center gap-4'>
+                    <SidebarTrigger />
+                    <h1 className="text-xl font-semibold font-headline">Admin Panel</h1>
+                </div>
+                <div>
+                     <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="relative h-10 w-auto px-4 flex items-center gap-2">
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Admin" />
+                                    <AvatarFallback>A</AvatarFallback>
+                                </Avatar>
+                                <div className="text-left hidden sm:block">
+                                    <p className="font-medium text-sm">Admin</p>
+                                    <p className="text-xs text-muted-foreground">admin@example.com</p>
+                                </div>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56" align="end" forceMount>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Manage Profile</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <ShieldCheck className="mr-2 h-4 w-4" />
+                                <span>Edit Password</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={handleLogout}>
+                                <LogOut className="mr-2 h-4 w-4" />
+                                <span>Logout</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </header>
             <div className="p-8">
                 {children}
