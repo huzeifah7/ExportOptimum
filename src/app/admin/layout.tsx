@@ -23,6 +23,7 @@ import {
   Star,
   Handshake,
   LogOut,
+  Leaf,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -63,6 +64,11 @@ const adminNavItems = [
     href: '/admin/quality',
     icon: <BadgeCheck />,
     label: 'Manage Quality',
+  },
+  {
+    href: '/admin/sustainability',
+    icon: <Leaf />,
+    label: 'Manage Sustainability',
   },
   {
     href: '/admin/team',
