@@ -28,6 +28,7 @@ import {
   Settings,
   ShieldCheck,
   Home,
+  Loader2,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -42,6 +43,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useUser } from '@/firebase';
 
 
 const adminNavItems = [
@@ -109,6 +111,7 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { user, isUserLoading } = useUser();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -116,11 +119,11 @@ export default function AdminLayout({
     if (typeof window !== 'undefined') {
       const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
       setIsAuthenticated(authStatus);
-      if (!authStatus && pathname !== '/admin/login') {
+      if (!authStatus) {
         router.replace('/admin/login');
       }
     }
-  }, [router, pathname]);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
@@ -133,12 +136,20 @@ export default function AdminLayout({
     return <>{children}</>;
   }
   
-  if (isAuthenticated === null) {
-    return null; // or a loading spinner
+  // Show a full-screen loader while checking for local and Firebase auth state.
+  // This prevents rendering child routes before we know if the user is authenticated.
+  if (isAuthenticated === null || isUserLoading) {
+    return (
+        <div className="flex h-screen w-full items-center justify-center bg-background">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        </div>
+    );
   }
 
-  if (!isAuthenticated) {
-    return null; // Redirecting is handled in useEffect
+  // If not authenticated locally or there is no Firebase user, redirect.
+  if (!isAuthenticated || !user) {
+    // A simple return null is fine as the useEffect will handle the redirect.
+    return null; 
   }
 
   return (
