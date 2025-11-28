@@ -46,7 +46,8 @@ export default function KeyFigures() {
 
     const formatNumber = (num: number | undefined) => {
       if (num === undefined) return '0+';
-      return num.toLocaleString() + '+';
+      if (num < 100) return `${num}+`;
+      return `${Math.floor(num / 100) * 100}+`;
     }
 
     const stats = [
