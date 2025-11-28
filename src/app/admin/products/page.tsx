@@ -38,8 +38,10 @@ export default function ManageProductsPage() {
                 <Badge variant="secondary" className="w-fit">{product.category}</Badge>
               </CardHeader>
               <CardFooter className="mt-auto flex justify-end gap-2">
-                <Button variant="outline" size="sm">
-                  <Pencil className="mr-2 h-4 w-4" /> Edit
+                <Button variant="outline" size="sm" asChild>
+                  <Link href={`/admin/products/edit/${product.slug}`}>
+                    <Pencil className="mr-2 h-4 w-4" /> Edit
+                  </Link>
                 </Button>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="mr-2 h-4 w-4" /> Delete
