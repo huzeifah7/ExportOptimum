@@ -1,16 +1,17 @@
 
 'use client';
-import { useParams, notFound } from 'next/navigation';
+import { useParams, notFound, useRouter } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { Clock, Loader2 } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc, Timestamp } from 'firebase/firestore';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, limit, Timestamp } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useEffect, useState } from 'react';
 
 type BlogPost = {
   id: string;
@@ -18,6 +19,7 @@ type BlogPost = {
   excerpt: string;
   category: string;
   content: string;
+  slug: string;
   imageUrl?: string;
   imageHint?: string;
   publishDate: Timestamp;
@@ -53,23 +55,52 @@ const BlogDetailSkeleton = () => (
 
 export default function BlogPostPage() {
   const params = useParams();
-  const postId = params.id as string;
+  const slug = params.slug as string;
   const firestore = useFirestore();
+  const router = useRouter();
 
-  const blogPostRef = useMemoFirebase(() => {
-    if (!firestore || !postId) return null;
-    return doc(firestore, 'blogPosts', postId);
-  }, [firestore, postId]);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { data: post, isLoading } = useDoc<BlogPost>(blogPostRef);
+  const blogPostQuery = useMemoFirebase(() => {
+    if (!firestore || !slug) return null;
+    return query(
+        collection(firestore, 'blogPosts'), 
+        where('slug', '==', slug),
+        limit(1)
+    );
+  }, [firestore, slug]);
+
+  const { data: posts, isLoading: isCollectionLoading, error } = useCollection<BlogPost>(blogPostQuery);
+
+  useEffect(() => {
+    setIsLoading(isCollectionLoading);
+    if (posts) {
+      if (posts.length > 0) {
+        setPost(posts[0]);
+      } else {
+        setPost(null);
+      }
+    }
+  }, [posts, isCollectionLoading]);
+
 
   if (isLoading) {
     return <BlogDetailSkeleton />;
   }
 
-  if (!post) {
-    notFound();
+  if (!isLoading && !post) {
+    // Wait a moment before navigating to notFound, in case data is still loading
+    // or router is not ready. A more robust solution might use a dedicated loading state
+    // that resolves after a timeout.
+    setTimeout(() => notFound(), 100);
+    return <BlogDetailSkeleton />;
   }
+  
+  if (!post) {
+      return <BlogDetailSkeleton />;
+  }
+
 
   const readingTime = Math.ceil(post.content.split(' ').length / 200); // Average reading speed
 

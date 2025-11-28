@@ -1,0 +1,436 @@
+
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product in the catalog.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the product."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the product."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category the product belongs to (e.g., 'Avocado', 'Berries')."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the product image.",
+          "format": "uri"
+        },
+        "imageHint": {
+          "type": "string",
+          "description": "AI hint for the product image."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the product."
+        }
+      },
+      "required": ["name", "description", "category", "slug"]
+    },
+    "KeyFigureStats": {
+      "title": "Key Figure Stats",
+      "type": "object",
+      "description": "Represents the key statistical figures for the business.",
+      "properties": {
+        "exportTons": {
+          "type": "number",
+          "description": "The total volume of yearly exports in tons."
+        },
+        "employees": {
+          "type": "number",
+          "description": "The total number of employees."
+        },
+        "majorCustomers": {
+          "type": "number",
+          "description": "The number of major customers."
+        }
+      },
+      "required": ["exportTons", "employees", "majorCustomers"]
+    },
+    "AvocadoExportData": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AvocadoExportData",
+      "type": "object",
+      "description": "Represents the core export data and statistics showcased in the hero section.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Avocado Export Data entry."
+        },
+        "exportVolume": {
+          "type": "number",
+          "description": "Total volume of avocados exported (in tons)."
+        },
+        "year": {
+          "type": "number",
+          "description": "The year the export data refers to."
+        },
+        "destinationCountries": {
+          "type": "array",
+          "description": "List of destination countries for avocado exports.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "exportVolume",
+        "year",
+        "destinationCountries"
+      ]
+    },
+    "QualityCertification": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "QualityCertification",
+      "type": "object",
+      "description": "Represents a quality assurance certification held by the company.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Quality Certification."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the quality certification (e.g., GlobalGAP)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the certification and its significance."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the certification logo image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "imageUrl"
+      ]
+    },
+    "AvocadoVariety": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AvocadoVariety",
+      "type": "object",
+      "description": "Represents a specific variety of avocado exported.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Avocado Variety."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the avocado variety (e.g., Hass)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the avocado variety, including taste and texture."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the avocado variety image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "imageUrl"
+      ]
+    },
+    "ClientTestimonial": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ClientTestimonial",
+      "type": "object",
+      "description": "Represents a testimonial from a satisfied client.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Client Testimonial."
+        },
+        "clientName": {
+          "type": "string",
+          "description": "Name of the client giving the testimonial."
+        },
+        "testimonialText": {
+          "type": "string",
+          "description": "The text of the testimonial."
+        },
+        "clientCompany": {
+          "type": "string",
+          "description": "The name of the client's company."
+        }
+      },
+      "required": [
+        "id",
+        "clientName",
+        "testimonialText"
+      ]
+    },
+    "Partner": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Partner",
+      "type": "object",
+      "description": "Represents a trusted partner of the company.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Partner."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the partner organization."
+        },
+        "logoUrl": {
+          "type": "string",
+          "description": "URL of the partner's logo image.",
+          "format": "uri"
+        },
+        "websiteUrl": {
+          "type": "string",
+          "description": "URL of the partner's website.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "logoUrl"
+      ]
+    },
+    "BlogPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "BlogPost",
+      "type": "object",
+      "description": "Represents a blog post on the website.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Blog Post."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the blog post."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the blog post."
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the blog post (may be HTML or Markdown)."
+        },
+        "author": {
+          "type": "string",
+          "description": "Author of the blog post."
+        },
+        "publishDate": {
+          "type": "string",
+          "description": "Date and time the blog post was published.",
+          "format": "date-time"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to the blog post's cover image",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "slug",
+        "content",
+        "author",
+        "publishDate"
+      ]
+    },
+    "ContactInformation": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactInformation",
+      "type": "object",
+      "description": "Represents contact details for export inquiries.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Contact Information entry."
+        },
+        "address": {
+          "type": "string",
+          "description": "Physical address of the company."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Phone number for contact."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address for export inquiries.",
+          "format": "email"
+        },
+        "socialMediaLinks": {
+          "type": "array",
+          "description": "Links to the company's social media profiles.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "address",
+        "phoneNumber",
+        "email"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/products/{productId}",
+        "definition": {
+          "entityName": "Product",
+          "schema": { "$ref": "#/backend/entities/Product" },
+          "description": "Stores all product information for the catalog."
+        }
+      },
+      {
+        "path": "/keyFigures/main",
+        "definition": {
+            "entityName": "KeyFigureStats",
+            "schema": { "$ref": "#/backend/entities/KeyFigureStats" },
+            "description": "Stores the key statistical figures for the business as a single document."
+        }
+      },
+      {
+        "path": "/avocadoExportData/{avocadoExportDataId}",
+        "definition": {
+          "entityName": "AvocadoExportData",
+          "schema": {
+            "$ref": "#/backend/entities/AvocadoExportData"
+          },
+          "description": "Stores core export data and statistics showcased in the hero section.",
+          "params": [
+            {
+              "name": "avocadoExportDataId",
+              "description": "Unique identifier for the Avocado Export Data entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/qualityCertifications/{qualityCertificationId}",
+        "definition": {
+          "entityName": "QualityCertification",
+          "schema": {
+            "$ref": "#/backend/entities/QualityCertification"
+          },
+          "description": "Stores quality assurance certifications held by the company.",
+          "params": [
+            {
+              "name": "qualityCertificationId",
+              "description": "Unique identifier for the Quality Certification."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/avocadoVarieties/{avocadoVarietyId}",
+        "definition": {
+          "entityName": "AvocadoVariety",
+          "schema": {
+            "$ref": "#/backend/entities/AvocadoVariety"
+          },
+          "description": "Stores information about specific varieties of avocado exported.",
+          "params": [
+            {
+              "name": "avocadoVarietyId",
+              "description": "Unique identifier for the Avocado Variety."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/clientTestimonials/{clientTestimonialId}",
+        "definition": {
+          "entityName": "ClientTestimonial",
+          "schema": {
+            "$ref": "#/backend/entities/ClientTestimonial"
+          },
+          "description": "Stores testimonials from satisfied clients.",
+          "params": [
+            {
+              "name": "clientTestimonialId",
+              "description": "Unique identifier for the Client Testimonial."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/partners/{partnerId}",
+        "definition": {
+          "entityName": "Partner",
+          "schema": {
+            "$ref": "#/backend/entities/Partner"
+          },
+          "description": "Stores information about trusted partners of the company.",
+          "params": [
+            {
+              "name": "partnerId",
+              "description": "Unique identifier for the Partner."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/blogPosts/{blogPostId}",
+        "definition": {
+          "entityName": "BlogPost",
+          "schema": {
+            "$ref": "#/backend/entities/BlogPost"
+          },
+          "description": "Stores blog posts.",
+          "params": [
+            {
+              "name": "blogPostId",
+              "description": "Unique identifier for the Blog Post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/contactInformation/{contactInformationId}",
+        "definition": {
+          "entityName": "ContactInformation",
+          "schema": {
+            "$ref": "#/backend/entities/ContactInformation"
+          },
+          "description": "Stores contact details for export inquiries.",
+          "params": [
+            {
+              "name": "contactInformationId",
+              "description": "Unique identifier for the Contact Information entry."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the Avocado Export Hub's features while adhering to the principles of Authorization Independence, Structural Segregation, and Access Modeling. All collections are top-level, avoiding hierarchical authorization and enabling simple security rules. \n\nEach collection is designed to store a specific type of data, ensuring a homogeneous security posture (Strategy B). For instance, `avocadoExportData` stores key export statistics, `qualityCertifications` holds information about quality assurance certifications, and so on. This segregation simplifies security rules as each collection can have its own set of rules without interfering with others.\n\nThe structure also supports the required QAPs as all collections are designed for public `list` operations. There is no need for filtering based on user roles or permissions.\n"
+  }
+}
