@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
@@ -26,6 +27,7 @@ import {
   Leaf,
   Settings,
   ShieldCheck,
+  Home,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -110,10 +112,13 @@ export default function AdminLayout({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
-    setIsAuthenticated(authStatus);
-    if (!authStatus && pathname !== '/admin/login') {
-      router.replace('/admin/login');
+    // This check needs to be client-side only
+    if (typeof window !== 'undefined') {
+      const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
+      setIsAuthenticated(authStatus);
+      if (!authStatus && pathname !== '/admin/login') {
+        router.replace('/admin/login');
+      }
     }
   }, [router, pathname]);
 
@@ -161,8 +166,19 @@ export default function AdminLayout({
               ))}
             </SidebarMenu>
           </SidebarContent>
-          <SidebarFooter>
-             {/* The logout button is now in the header dropdown */}
+          <SidebarFooter className="p-2">
+            <SidebarSeparator />
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton
+                        onClick={() => router.push('/')}
+                        tooltip="Back to Site"
+                    >
+                        <Home />
+                        <span>Back to Site</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
         <main className="flex-1 overflow-y-auto">
