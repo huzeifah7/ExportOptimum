@@ -1,6 +1,6 @@
 
 'use client';
-import { useParams, notFound } from 'next/navigation';
+import { useParams, notFound, useRouter } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where, limit, Timestamp } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type BlogPost = {
   id: string;
@@ -55,15 +55,10 @@ const BlogDetailSkeleton = () => (
 
 export default function BlogPostPage() {
   const params = useParams();
-  const [slug, setSlug] = useState<string | null>(null);
-  
-  useEffect(() => {
-    if (params && params.slug) {
-      setSlug(params.slug as string);
-    }
-  }, [params]);
-
+  const slug = params?.slug as string;
   const firestore = useFirestore();
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const blogPostQuery = useMemoFirebase(() => {
     if (!firestore || !slug) return null;
@@ -76,14 +71,32 @@ export default function BlogPostPage() {
 
   const { data: posts, isLoading: isCollectionLoading, error } = useCollection<BlogPost>(blogPostQuery);
 
-  const post = posts?.[0];
+  useEffect(() => {
+    // Only update loading and post state if the slug is present
+    if (slug) {
+        setIsLoading(isCollectionLoading);
+        if (posts) {
+            if (posts.length > 0) {
+                setPost(posts[0]);
+            } else if (!isCollectionLoading) {
+                // If loading is finished and no posts are found, set post to null
+                setPost(null);
+            }
+        }
+    } else {
+        // If there's no slug, we are in an initial loading state
+        setIsLoading(true);
+    }
+  }, [slug, posts, isCollectionLoading]);
 
-  if (!slug || isCollectionLoading) {
+
+  if (isLoading) {
     return <BlogDetailSkeleton />;
   }
 
   if (!post) {
-      notFound();
+    notFound();
+    return null;
   }
 
   const readingTime = Math.ceil(post.content.split(' ').length / 200); // Average reading speed
