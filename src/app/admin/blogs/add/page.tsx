@@ -9,11 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
-import { useFirestore } from '@/firebase';
+import { useFirestore, useUser } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { serverTimestamp } from 'firebase/firestore';
@@ -22,6 +22,7 @@ export default function AddBlogPage() {
     const router = useRouter();
     const { toast } = useToast();
     const firestore = useFirestore();
+    const { user, isUserLoading } = useUser();
 
     const [title, setTitle] = useState('');
     const [excerpt, setExcerpt] = useState('');
@@ -54,8 +55,8 @@ export default function AddBlogPage() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         
-        if (!firestore) {
-            toast({ variant: 'destructive', title: 'Error', description: 'Database not connected.' });
+        if (!firestore || !user) {
+            toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to create a post.' });
             return;
         }
 
@@ -81,6 +82,8 @@ export default function AddBlogPage() {
 
         router.push('/admin/blogs');
     };
+
+    const isFormSubmittable = !isUserLoading && user && firestore;
 
     return (
         <div>
@@ -173,7 +176,10 @@ export default function AddBlogPage() {
                 </div>
                 <div className="mt-8 flex justify-end gap-2">
                     <Button variant="outline" type="button" onClick={() => router.push('/admin/blogs')}>Cancel</Button>
-                    <Button type="submit">Save Post</Button>
+                    <Button type="submit" disabled={!isFormSubmittable}>
+                         {!isFormSubmittable && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        Save Post
+                    </Button>
                 </div>
             </form>
         </div>
