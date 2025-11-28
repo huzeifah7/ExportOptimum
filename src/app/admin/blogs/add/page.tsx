@@ -13,10 +13,15 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { useFirestore } from '@/firebase';
+import { collection } from 'firebase/firestore';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function AddBlogPage() {
     const router = useRouter();
     const { toast } = useToast();
+    const firestore = useFirestore();
 
     const [title, setTitle] = useState('');
     const [excerpt, setExcerpt] = useState('');
@@ -36,9 +41,23 @@ export default function AddBlogPage() {
             setImagePreview(null);
         }
     };
+    
+    const slugify = (text: string) => {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w-]+/g, '')
+            .replace(/--+/g, '-')
+            .replace(/^-+/, '')
+            .replace(/-+$/, '');
+    }
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        
+        if (!firestore) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Database not connected.' });
+            return;
+        }
 
         const newPost = {
             title,
@@ -46,19 +65,21 @@ export default function AddBlogPage() {
             category,
             content,
             imageUrl: imagePreview,
+            slug: slugify(title),
+            imageHint: `${category.toLowerCase()} ${title.toLowerCase().split(' ')[0]}`,
+            author: 'Admin',
+            publishDate: serverTimestamp(),
         };
         
-        // For now, we'll just log the data to the console.
-        // We can wire this up to Firestore in the next step.
-        console.log("New Blog Post:", newPost);
+        const blogCollection = collection(firestore, 'blogPosts');
+        addDocumentNonBlocking(blogCollection, newPost);
 
         toast({
-          title: "Blog Post Ready",
-          description: "Blog post data logged to console. Check your browser developer tools.",
+          title: "Blog Post Added",
+          description: `${title} has been successfully added.`,
         });
 
-        // Uncomment the line below to redirect after submission
-        // router.push('/admin/blogs');
+        router.push('/admin/blogs');
     };
 
     return (
@@ -95,7 +116,7 @@ export default function AddBlogPage() {
                                     <Label htmlFor="blog-excerpt">Subtitle / Excerpt</Label>
                                     <Textarea 
                                         id="blog-excerpt" 
-                                        placeholder="A short summary or subtitle for the post." 
+                                        placeholder="A short summary or subtitle for the post." _
                                         value={excerpt}
                                         onChange={(e) => setExcerpt(e.target.value)}
                                         required

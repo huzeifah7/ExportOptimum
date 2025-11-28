@@ -12,6 +12,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /blogPosts/{blogPostId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     match /avocadoExportData/{avocadoExportDataId} {
       allow get, list: if true;
       allow create, update, delete: if false;
@@ -33,12 +38,7 @@ service cloud.firestore {
     }
 
     match /partners/{partnerId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
-    }
-
-    match /blogPosts/{blogPostId} {
-      allow get, list: if true;
+      allow get. list: if true;
       allow create, update, delete: if false;
     }
 
