@@ -4,7 +4,9 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isAdmin() {
-      return request.auth != null;
+      // Allow write access only to a specific admin UID.
+      // This is more secure than allowing any signed-in user.
+      return request.auth != null && request.auth.uid == "EjBWKAzrRLeMuEt4ipJYXFEjnot2";
     }
 
     match /products/{productId} {
