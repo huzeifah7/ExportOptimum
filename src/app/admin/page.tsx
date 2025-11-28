@@ -13,10 +13,12 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
     const isAuthenticated = localStorage.getItem('isAdminAuthenticated');
-    if (isAuthenticated) {
+    if (isAuthenticated === 'true') {
       router.replace('/admin/dashboard');
     }
   }, [router]);
@@ -30,6 +32,10 @@ export default function AdminLoginPage() {
       setError('Invalid username or password');
     }
   };
+
+  if (!isClient) {
+    return null; // Render nothing on the server
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-secondary/50">

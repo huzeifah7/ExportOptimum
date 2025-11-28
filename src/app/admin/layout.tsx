@@ -95,22 +95,25 @@ export default function AdminLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    const isAuthenticated = localStorage.getItem('isAdminAuthenticated');
-    if (!isAuthenticated) {
+    const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
+    setIsAuthenticated(authStatus);
+    if (!authStatus) {
       router.replace('/admin');
     }
   }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
+    setIsAuthenticated(false);
     router.replace('/admin');
   };
   
-  if (!isClient) {
-    return null;
+  if (!isClient || !isAuthenticated) {
+    return null; // Render nothing until client-side check is complete and authenticated
   }
 
   return (
