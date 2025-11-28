@@ -115,15 +115,13 @@ export default function AdminLayout({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // This check needs to be client-side only
-    if (typeof window !== 'undefined') {
-      const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
-      setIsAuthenticated(authStatus);
-      if (!authStatus) {
-        router.replace('/admin/login');
-      }
+    const authStatus = localStorage.getItem('isAdminAuthenticated') === 'true';
+    setIsAuthenticated(authStatus);
+
+    if (!isUserLoading && !authStatus) {
+      router.replace('/admin/login');
     }
-  }, [router]);
+  }, [router, isUserLoading]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
@@ -131,25 +129,20 @@ export default function AdminLayout({
     router.replace('/admin/login');
   };
 
-  // If the path is the login page, we don't want to render the admin layout
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
-  
-  // Show a full-screen loader while checking for local and Firebase auth state.
-  // This prevents rendering child routes before we know if the user is authenticated.
-  if (isAuthenticated === null || isUserLoading) {
+
+  if (isUserLoading || isAuthenticated === null) {
     return (
         <div className="flex h-screen w-full items-center justify-center bg-background">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
         </div>
     );
   }
-
-  // If not authenticated locally or there is no Firebase user, redirect.
+  
   if (!isAuthenticated || !user) {
-    // A simple return null is fine as the useEffect will handle the redirect.
-    return null; 
+    return null;
   }
 
   return (
