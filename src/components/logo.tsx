@@ -17,9 +17,6 @@ export function Logo() {
   return (
     <div className="flex items-center gap-2" aria-label="Avocado Export Hub">
       <AvocadoIcon className="h-8 w-8 text-accent" />
-      <span className="hidden sm:inline-block font-headline text-xl font-bold group-data-[sidebar=sidebar]:group-data-[collapsible=icon]:hidden">
-        Avocado Export Hub
-      </span>
     </div>
   );
 }
