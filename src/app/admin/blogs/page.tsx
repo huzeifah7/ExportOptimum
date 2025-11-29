@@ -102,7 +102,7 @@ export default function ManageBlogsPage() {
                 </CardContent>
                 <CardFooter className="mt-auto flex justify-end gap-2">
                   <Button variant="outline" size="sm" asChild>
-                    <Link href={`#`}>
+                    <Link href={`/admin/blogs/edit/${post.id}`}>
                       <Pencil className="mr-2 h-4 w-4" /> Edit
                     </Link>
                   </Button>

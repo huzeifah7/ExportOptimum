@@ -76,7 +76,7 @@ export default function BlogPage() {
               {isLoading && Array.from({ length: 3 }).map((_, i) => <PostCardSkeleton key={i} />)}
               {posts?.map((post) => {
                 return (
-                  <Link href={`/blog/${post.slug}`} key={post.id} className="group block">
+                  <Link href={`/blog/${post.id}`} key={post.id} className="group block">
                       <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col h-full bg-background/50 backdrop-blur-sm border-primary/10">
                       {post.imageUrl && (
                           <div className="overflow-hidden relative h-64">
