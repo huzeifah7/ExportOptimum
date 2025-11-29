@@ -1,6 +1,6 @@
 
 'use client';
-import { useParams, notFound, useRouter } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -57,8 +57,6 @@ export default function BlogPostPage() {
   const params = useParams();
   const slug = params?.slug as string;
   const firestore = useFirestore();
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const blogPostQuery = useMemoFirebase(() => {
     if (!firestore || !slug) return null;
@@ -69,36 +67,23 @@ export default function BlogPostPage() {
     );
   }, [firestore, slug]);
 
-  const { data: posts, isLoading: isCollectionLoading, error } = useCollection<BlogPost>(blogPostQuery);
+  const { data: posts, isLoading: isCollectionLoading } = useCollection<BlogPost>(blogPostQuery);
+  
+  const post = posts?.[0];
 
   useEffect(() => {
-    // Only update loading and post state if the slug is present
-    if (slug) {
-        setIsLoading(isCollectionLoading);
-        if (posts) {
-            if (posts.length > 0) {
-                setPost(posts[0]);
-            } else if (!isCollectionLoading) {
-                // If loading is finished and no posts are found, set post to null
-                setPost(null);
-            }
-        }
-    } else {
-        // If there's no slug, we are in an initial loading state
-        setIsLoading(true);
-    }
-  }, [slug, posts, isCollectionLoading]);
+      // This effect triggers a re-render once loading is complete but no post is found.
+      // This is necessary for notFound() to work correctly in a client component.
+      if (!isCollectionLoading && !post) {
+        notFound();
+      }
+  }, [isCollectionLoading, post]);
+  
 
-
-  if (isLoading) {
+  if (isCollectionLoading || !post) {
     return <BlogDetailSkeleton />;
   }
-
-  if (!post) {
-    notFound();
-    return null;
-  }
-
+  
   const readingTime = Math.ceil(post.content.split(' ').length / 200); // Average reading speed
 
   return (
