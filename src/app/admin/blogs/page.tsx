@@ -9,6 +9,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Image from 'next/image';
 import { Badge } from "@/components/ui/badge";
 import { Pencil, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { deleteDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { doc } from "firebase/firestore";
 
 type BlogPost = {
   id: string;
@@ -22,6 +25,7 @@ type BlogPost = {
 
 export default function ManageBlogsPage() {
   const firestore = useFirestore();
+  const { toast } = useToast();
 
   const blogPostsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -38,6 +42,25 @@ export default function ManageBlogsPage() {
         day: 'numeric',
     });
   }
+
+  const handleDelete = (postId: string, postTitle: string) => {
+    if (!firestore) {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Database connection not found.",
+        });
+        return;
+    }
+    if (confirm(`Are you sure you want to delete "${postTitle}"?`)) {
+      const docRef = doc(firestore, "blogPosts", postId);
+      deleteDocumentNonBlocking(docRef);
+      toast({
+        title: "Blog Post Deleted",
+        description: `"${postTitle}" has been successfully deleted.`,
+      });
+    }
+  };
 
   return (
     <div>
@@ -109,6 +132,7 @@ export default function ManageBlogsPage() {
                   <Button
                     variant="destructive"
                     size="sm"
+                    onClick={() => handleDelete(post.id, post.title)}
                   >
                     <Trash2 className="mr-2 h-4 w-4" /> Delete
                   </Button>
