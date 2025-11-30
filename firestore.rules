@@ -13,8 +13,12 @@ service cloud.firestore {
     }
 
     match /sustainabilityGallery/{imageId} {
-      allow get, list: if true;
+      allow get: if true;
       allow create, update, delete: if request.auth != null;
+    }
+
+    match /sustainabilityGallery {
+        allow list: if true;
     }
 
     match /blogPosts/{docId} {
