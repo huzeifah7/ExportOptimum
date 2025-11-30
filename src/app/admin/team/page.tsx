@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import {
   collection,
   doc,
-  addDoc,
+  setDoc,
   updateDoc,
   deleteDoc,
   serverTimestamp,
@@ -148,11 +148,12 @@ export default function ManageTeamPage() {
 
     try {
       let photoUrl = currentMember?.photoUrl || '';
+      const memberId = currentMember?.id || doc(collection(firestore, 'teamMembers')).id;
 
       // Upload a new image if one is provided.
       if (imageFile) {
         // If editing and there's an old image, delete it from storage.
-        if (currentMember?.photoUrl) {
+        if (currentMember?.id && currentMember.photoUrl) {
           try {
             const oldImageRef = ref(storage, currentMember.photoUrl);
             await deleteObject(oldImageRef);
@@ -162,29 +163,29 @@ export default function ManageTeamPage() {
           }
         }
 
-        const imageRef = ref(storage, `team/${Date.now()}_${imageFile.name}`);
+        const imageRef = ref(storage, `team/${memberId}/${imageFile.name}`);
         await uploadBytes(imageRef, imageFile);
         photoUrl = await getDownloadURL(imageRef);
       }
 
-      const memberData = {
-        ...formData,
-        photoUrl,
-        updatedAt: serverTimestamp(),
-      };
-      
       if (currentMember?.id) {
         // Update existing member.
         const memberDoc = doc(firestore, 'teamMembers', currentMember.id);
-        await updateDoc(memberDoc, memberData);
+        await updateDoc(memberDoc, {
+          ...formData,
+          photoUrl,
+          updatedAt: serverTimestamp(),
+        });
         toast({ title: 'Team member updated successfully.' });
       } else {
         // Create new member.
-        const docWithId = doc(collection(firestore, 'teamMembers'));
-        await addDoc(collection(firestore, 'teamMembers'), {
-          ...memberData,
-          id: docWithId.id,
-          createdAt: serverTimestamp(),
+        const memberDoc = doc(firestore, 'teamMembers', memberId);
+        await setDoc(memberDoc, {
+            ...formData,
+            id: memberId,
+            photoUrl,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
         });
         toast({ title: 'Team member added successfully.' });
       }
