@@ -4,6 +4,7 @@
     "method": ["GET", "PUT", "POST", "DELETE"],
     "responseHeader": [
       "Content-Type",
+      "Content-Length",
       "x-goog-resumable"
     ],
     "maxAgeSeconds": 3600
