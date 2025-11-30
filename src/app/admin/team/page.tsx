@@ -147,48 +147,53 @@ export default function ManageTeamPage() {
     setIsSubmitting(true);
 
     try {
-      let photoUrl = currentMember?.photoUrl || '';
       const isEditing = !!currentMember?.id;
-      
-      // Correctly generate a new ID only when creating a new member
+      let photoUrl = isEditing ? currentMember.photoUrl : '';
+
+      // Define a unique ID for the member.
+      // If editing, use the existing ID. If creating, generate a new one.
       const memberId = isEditing ? currentMember.id! : doc(collection(firestore, 'teamMembers')).id;
 
-      // Upload a new image if one is provided.
+      // 1. Handle Image Upload
       if (imageFile) {
-        // If editing and there's an old image, delete it from storage.
+        // If editing and there's an old image, delete it from storage first.
         if (isEditing && currentMember.photoUrl) {
           try {
             const oldImageRef = ref(storage, currentMember.photoUrl);
             await deleteObject(oldImageRef);
           } catch (error: any) {
-            // Log error but don't block the update process if deletion fails.
-            console.warn("Could not delete old image:", error);
+             if (error.code !== 'storage/object-not-found') {
+                console.warn("Could not delete old image, it may not exist:", error);
+             }
           }
         }
 
-        const imageRef = ref(storage, `team/${memberId}/${imageFile.name}`);
+        const imagePath = `team/${memberId}/${imageFile.name}`;
+        const imageRef = ref(storage, imagePath);
         await uploadBytes(imageRef, imageFile);
         photoUrl = await getDownloadURL(imageRef);
       }
-      
+
+      // 2. Prepare Data for Firestore
+      const memberData = {
+        ...formData,
+        id: memberId, // Ensure the ID is part of the document data
+        photoUrl,
+        updatedAt: serverTimestamp(),
+      };
+
+      // 3. Save to Firestore
       const memberDocRef = doc(firestore, 'teamMembers', memberId);
 
       if (isEditing) {
-        // Update existing member.
-        await updateDoc(memberDocRef, {
-          ...formData,
-          photoUrl,
-          updatedAt: serverTimestamp(),
-        });
+        // Update existing member document
+        await updateDoc(memberDocRef, { ...memberData });
         toast({ title: 'Team member updated successfully.' });
       } else {
-        // Create new member.
+        // Create new member document with a 'createdAt' field
         await setDoc(memberDocRef, {
-            ...formData,
-            id: memberId,
-            photoUrl,
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
+          ...memberData,
+          createdAt: serverTimestamp(),
         });
         toast({ title: 'Team member added successfully.' });
       }
@@ -199,7 +204,7 @@ export default function ManageTeamPage() {
       toast({
         variant: 'destructive',
         title: 'An error occurred.',
-        description: error.message,
+        description: error.message || "Could not save the team member.",
       });
     } finally {
       setIsSubmitting(false);
@@ -222,8 +227,15 @@ export default function ManageTeamPage() {
 
       // Delete image from Storage.
       if (memberToDelete.photoUrl) {
-        const imageRef = ref(storage, memberToDelete.photoUrl);
-        await deleteObject(imageRef);
+         try {
+            const imageRef = ref(storage, memberToDelete.photoUrl);
+            await deleteObject(imageRef);
+        } catch (error: any) {
+            if (error.code !== 'storage/object-not-found') {
+                console.error("Failed to delete image from storage:", error);
+                // We don't re-throw, as the main goal (deleting the DB entry) succeeded.
+            }
+        }
       }
 
       toast({ title: 'Team member deleted successfully.' });
