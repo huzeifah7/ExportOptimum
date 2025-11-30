@@ -67,7 +67,28 @@
           "format": "uri"
         }
       },
-      "required": ["name", "role", "bio"]
+      "required": ["name", "role", "bio", "photoUrl"]
+    },
+    "SustainabilityImage": {
+      "title": "Sustainability Image",
+      "type": "object",
+      "description": "Represents an image in the sustainability page gallery.",
+      "properties": {
+        "src": {
+          "type": "string",
+          "description": "URL of the gallery image.",
+          "format": "uri"
+        },
+        "alt": {
+          "type": "string",
+          "description": "Alt text for the gallery image."
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time"
+        }
+      },
+      "required": ["src", "alt"]
     },
     "KeyFigureStats": {
       "title": "Key Figure Stats",
@@ -351,6 +372,14 @@
           "entityName": "TeamMember",
           "schema": { "$ref": "#/backend/entities/TeamMember" },
           "description": "Stores information about company team members."
+        }
+      },
+      {
+        "path": "/sustainabilityGallery/{imageId}",
+        "definition": {
+          "entityName": "SustainabilityImage",
+          "schema": { "$ref": "#/backend/entities/SustainabilityImage" },
+          "description": "Stores images for the sustainability page gallery."
         }
       },
       {

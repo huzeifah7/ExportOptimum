@@ -1,10 +1,13 @@
+
 'use client';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Leaf, Recycle, Sun, Droplets, Wind, Globe } from 'lucide-react';
+import { Leaf, Recycle, Sun, Droplets, Wind, Globe, Loader2 } from 'lucide-react';
 import DomeGallery from '@/components/ui/dome-gallery';
 import SplitText from '@/components/ui/split-text';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, orderBy, query } from 'firebase/firestore';
 
 
 const keyInitiatives = [
@@ -40,8 +43,22 @@ const keyInitiatives = [
   },
 ];
 
+type SustainabilityImage = {
+  id: string;
+  src: string;
+  alt: string;
+};
+
 
 export default function SustainabilityPage() {
+  const firestore = useFirestore();
+
+  const galleryQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'sustainabilityGallery'), orderBy('createdAt', 'desc'));
+  }, [firestore]);
+
+  const { data: images, isLoading } = useCollection<SustainabilityImage>(galleryQuery);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -123,9 +140,22 @@ export default function SustainabilityPage() {
                         Explore scenes from our groves, our facilities, and our community.
                     </p>
                 </div>
-                <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
-                    <DomeGallery overlayBlurColor="transparent" grayscale={false} />
-                </div>
+                {isLoading && (
+                    <div className="flex justify-center items-center h-96">
+                        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                    </div>
+                )}
+                {!isLoading && images && images.length > 0 && (
+                    <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
+                        <DomeGallery images={images} overlayBlurColor="transparent" grayscale={false} />
+                    </div>
+                )}
+                {!isLoading && (!images || images.length === 0) && (
+                    <div className="text-center py-20 text-muted-foreground">
+                        <h3 className="text-2xl font-headline">Gallery Coming Soon</h3>
+                        <p>Check back to see glimpses of our sustainable practices in action.</p>
+                    </div>
+                )}
             </div>
         </section>
 
@@ -134,3 +164,5 @@ export default function SustainabilityPage() {
     </div>
   );
 }
+
+    
