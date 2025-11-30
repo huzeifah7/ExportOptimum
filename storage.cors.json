@@ -5,7 +5,11 @@
     "responseHeader": [
       "Content-Type",
       "Content-Length",
-      "x-goog-resumable"
+      "x-goog-resumable",
+      "X-Goog-Upload-Command",
+      "X-Goog-Upload-Offset",
+      "X-Goog-Upload-Status",
+      "X-Goog-Upload-Url"
     ],
     "maxAgeSeconds": 3600
   }
