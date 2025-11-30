@@ -13,10 +13,11 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
-import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { doc, setDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 type Product = {
     id: string;
@@ -35,7 +36,7 @@ export default function EditProductPage() {
     const { toast } = useToast();
 
     const productRef = useMemoFirebase(() => {
-        if (!productId) return null;
+        if (!productId || !firestore) return null;
         return doc(firestore, 'products', productId);
     }, [firestore, productId]);
 
@@ -44,7 +45,9 @@ export default function EditProductPage() {
     const [productName, setProductName] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (product) {
@@ -96,6 +99,7 @@ export default function EditProductPage() {
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
+            setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
@@ -116,27 +120,50 @@ export default function EditProductPage() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         
-        if (!productRef) return;
+        if (!productRef || !firestore) return;
+        setIsSubmitting(true);
 
-        const slug = slugify(productName);
+        try {
+            let finalImageUrl = product?.imageUrl;
 
-        const updatedProduct = {
-            name: productName,
-            description,
-            category,
-            imageUrl: imagePreview,
-            slug: slug,
-            imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`
-        };
+            if (imageFile) {
+                const storage = getStorage();
+                const imagePath = `products/${productId}/${imageFile.name}`;
+                const imageStorageRef = storageRef(storage, imagePath);
+                
+                await uploadBytes(imageStorageRef, imageFile);
+                finalImageUrl = await getDownloadURL(imageStorageRef);
+            }
 
-        setDocumentNonBlocking(productRef, updatedProduct, { merge: true });
+            const slug = slugify(productName);
 
-        toast({
-            title: "Product Updated",
-            description: `${productName} has been successfully updated.`,
-        });
+            const updatedProduct = {
+                name: productName,
+                description,
+                category,
+                imageUrl: finalImageUrl,
+                slug: slug,
+                imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`
+            };
 
-        router.push('/admin/products');
+            await setDoc(productRef, updatedProduct, { merge: true });
+
+            toast({
+                title: "Product Updated",
+                description: `${productName} has been successfully updated.`,
+            });
+
+            router.push('/admin/products');
+        } catch (error: any) {
+             console.error("Error updating product: ", error);
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: `There was a problem updating the product: ${error.message}`,
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -164,6 +191,7 @@ export default function EditProductPage() {
                                     value={productName}
                                     onChange={(e) => setProductName(e.target.value)}
                                     required
+                                    disabled={isSubmitting}
                                 />
                             </div>
                             <div className="space-y-2">
@@ -174,11 +202,12 @@ export default function EditProductPage() {
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     required
+                                    disabled={isSubmitting}
                                 />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="product-category">Category</Label>
-                                <Select onValueChange={setCategory} value={category} required>
+                                <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
                                     <SelectTrigger id="product-category">
                                         <SelectValue placeholder="Select a category" />
                                     </SelectTrigger>
@@ -192,17 +221,17 @@ export default function EditProductPage() {
                         </div>
                         <div className="space-y-4">
                             <Label htmlFor="product-image">Product Image</Label>
-                            <Input id="product-image" type="file" accept="image/*" onChange={handleImageChange} />
+                            <Input id="product-image" type="file" accept="image/*" onChange={handleImageChange} disabled={isSubmitting} />
                             {imagePreview && (
                                 <div className="mt-4 rounded-lg overflow-hidden border aspect-square w-full relative">
-                                    <img src={imagePreview} alt="Image preview" className="object-cover w-full h-full" />
+                                    <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
                                 </div>
                             )}
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end gap-2 border-t pt-6">
-                        <Button variant="outline" type="button" onClick={() => router.push('/admin/products')}>Cancel</Button>
-                        <Button type="submit">Save Changes</Button>
+                        <Button variant="outline" type="button" onClick={() => router.push('/admin/products')} disabled={isSubmitting}>Cancel</Button>
+                        <Button type="submit" disabled={isSubmitting}>Save Changes</Button>
                     </CardFooter>
                 </Card>
             </form>
