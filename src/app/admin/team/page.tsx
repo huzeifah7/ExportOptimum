@@ -148,12 +148,15 @@ export default function ManageTeamPage() {
 
     try {
       let photoUrl = currentMember?.photoUrl || '';
-      const memberId = currentMember?.id || doc(collection(firestore, 'teamMembers')).id;
+      const isEditing = !!currentMember?.id;
+      
+      // Correctly generate a new ID only when creating a new member
+      const memberId = isEditing ? currentMember.id! : doc(collection(firestore, 'teamMembers')).id;
 
       // Upload a new image if one is provided.
       if (imageFile) {
         // If editing and there's an old image, delete it from storage.
-        if (currentMember?.id && currentMember.photoUrl) {
+        if (isEditing && currentMember.photoUrl) {
           try {
             const oldImageRef = ref(storage, currentMember.photoUrl);
             await deleteObject(oldImageRef);
@@ -167,11 +170,12 @@ export default function ManageTeamPage() {
         await uploadBytes(imageRef, imageFile);
         photoUrl = await getDownloadURL(imageRef);
       }
+      
+      const memberDocRef = doc(firestore, 'teamMembers', memberId);
 
-      if (currentMember?.id) {
+      if (isEditing) {
         // Update existing member.
-        const memberDoc = doc(firestore, 'teamMembers', currentMember.id);
-        await updateDoc(memberDoc, {
+        await updateDoc(memberDocRef, {
           ...formData,
           photoUrl,
           updatedAt: serverTimestamp(),
@@ -179,8 +183,7 @@ export default function ManageTeamPage() {
         toast({ title: 'Team member updated successfully.' });
       } else {
         // Create new member.
-        const memberDoc = doc(firestore, 'teamMembers', memberId);
-        await setDoc(memberDoc, {
+        await setDoc(memberDocRef, {
             ...formData,
             id: memberId,
             photoUrl,
@@ -372,5 +375,3 @@ export default function ManageTeamPage() {
     </div>
   );
 }
-
-    
