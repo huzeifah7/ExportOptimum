@@ -34,6 +34,41 @@
       },
       "required": ["name", "description", "category", "slug"]
     },
+    "TeamMember": {
+      "title": "Team Member",
+      "type": "object",
+      "description": "Represents a staff member of the company.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the team member."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role or position of the team member."
+        },
+        "bio": {
+          "type": "string",
+          "description": "A short biography of the team member."
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "URL of the team member's photo.",
+          "format": "uri"
+        },
+        "linkedin": {
+          "type": "string",
+          "description": "URL to the team member's LinkedIn profile.",
+          "format": "uri"
+        },
+        "twitter": {
+          "type": "string",
+          "description": "URL to the team member's Twitter profile.",
+          "format": "uri"
+        }
+      },
+      "required": ["name", "role", "bio"]
+    },
     "KeyFigureStats": {
       "title": "Key Figure Stats",
       "type": "object",
@@ -311,6 +346,14 @@
         }
       },
       {
+        "path": "/teamMembers/{memberId}",
+        "definition": {
+          "entityName": "TeamMember",
+          "schema": { "$ref": "#/backend/entities/TeamMember" },
+          "description": "Stores information about company team members."
+        }
+      },
+      {
         "path": "/keyFigures/main",
         "definition": {
             "entityName": "KeyFigureStats",
@@ -434,3 +477,5 @@
     "reasoning": "The Firestore data structure is designed to support the Avocado Export Hub's features while adhering to the principles of Authorization Independence, Structural Segregation, and Access Modeling. All collections are top-level, avoiding hierarchical authorization and enabling simple security rules. \n\nEach collection is designed to store a specific type of data, ensuring a homogeneous security posture (Strategy B). For instance, `avocadoExportData` stores key export statistics, `qualityCertifications` holds information about quality assurance certifications, and so on. This segregation simplifies security rules as each collection can have its own set of rules without interfering with others.\n\nThe structure also supports the required QAPs as all collections are designed for public `list` operations. There is no need for filtering based on user roles or permissions.\n"
   }
 }
+
+    
