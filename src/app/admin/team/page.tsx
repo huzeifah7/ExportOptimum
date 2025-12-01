@@ -6,16 +6,8 @@ import {
   collection,
   doc,
   serverTimestamp,
-  updateDoc,
 } from 'firebase/firestore';
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from 'firebase/storage';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { getStorage } from 'firebase/storage';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -41,7 +33,7 @@ type TeamMember = {
   name: string;
   role: string;
   bio: string;
-  photoUrl: string;
+  photoUrl: string; // This will now be a Base64 Data URI
   linkedin?: string;
   twitter?: string;
 };
@@ -53,11 +45,11 @@ const initialFormState: Partial<TeamMember> = {
   bio: '',
   linkedin: '',
   twitter: '',
+  photoUrl: '',
 };
 
 export default function ManageTeamPage() {
   const firestore = useFirestore();
-  const storage = getStorage();
   const { toast } = useToast();
 
   const teamMembersQuery = useMemoFirebase(() => {
@@ -72,7 +64,6 @@ export default function ManageTeamPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentMember, setCurrentMember] = useState<Partial<TeamMember> | null>(null);
   const [formData, setFormData] = useState<Partial<TeamMember>>(initialFormState);
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [memberToDelete, setMemberToDelete] = useState<TeamMember | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -94,21 +85,24 @@ export default function ManageTeamPage() {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setImageFile(file);
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setImagePreview(base64String);
+        setFormData(prev => ({...prev, photoUrl: base64String}));
+      };
       reader.readAsDataURL(file);
     } else {
       setImagePreview(currentMember?.photoUrl || null);
+      setFormData(prev => ({...prev, photoUrl: currentMember?.photoUrl || ''}));
     }
   };
-
+  
   const handleAddClick = () => {
     setCurrentMember(null);
     setFormData(initialFormState);
-    setImageFile(null);
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
     setIsModalOpen(true);
@@ -122,71 +116,43 @@ export default function ManageTeamPage() {
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentMember(null);
-    setImageFile(null);
   };
 
   // Handles both creating and updating a team member.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!firestore || !storage) {
+    if (!firestore) {
       toast({ variant: 'destructive', title: 'Firebase not initialized.' });
       return;
     }
-
-    // Basic validation
+    
     if (!formData.name || !formData.role || !formData.bio) {
       toast({ variant: 'destructive', title: 'Please fill all required fields.' });
       return;
     }
-    if (!currentMember && !imageFile) {
-        toast({ variant: 'destructive', title: 'Image is required for new members.' });
-        return;
+    if (!formData.photoUrl) {
+      toast({ variant: 'destructive', title: 'An image is required.' });
+      return;
     }
 
     setIsSubmitting(true);
 
     try {
       const isEditing = !!currentMember?.id;
-      let photoUrl = isEditing ? currentMember.photoUrl : '';
-
       const memberId = isEditing ? currentMember.id! : doc(collection(firestore, 'teamMembers')).id;
       const memberDocRef = doc(firestore, 'teamMembers', memberId);
-
-      // 1. Handle Image Upload
-      if (imageFile) {
-        if (isEditing && currentMember.photoUrl) {
-          try {
-            const oldImageRef = ref(storage, currentMember.photoUrl);
-            await deleteObject(oldImageRef);
-          } catch (error: any) {
-             if (error.code !== 'storage/object-not-found') {
-                console.warn("Could not delete old image, it may not exist:", error);
-             }
-          }
-        }
-
-        const imagePath = `team/${memberId}/${imageFile.name}`;
-        const imageRef = ref(storage, imagePath);
-        await uploadBytes(imageRef, imageFile);
-        photoUrl = await getDownloadURL(imageRef);
-      }
-
-      // 2. Prepare Data for Firestore
-      const memberData: Omit<TeamMember, 'id'> & {updatedAt: any, createdAt?: any} = {
+      
+      const memberData = {
         name: formData.name!,
         role: formData.role!,
         bio: formData.bio!,
-        photoUrl: photoUrl!,
-        linkedin: formData.linkedin,
-        twitter: formData.twitter,
+        photoUrl: formData.photoUrl!,
+        linkedin: formData.linkedin || '',
+        twitter: formData.twitter || '',
         updatedAt: serverTimestamp(),
+        ...(isEditing ? {} : { createdAt: serverTimestamp() }),
       };
-      
-      if (!isEditing) {
-        memberData.createdAt = serverTimestamp();
-      }
 
-      // 3. Save to Firestore
       await setDoc(memberDocRef, memberData, { merge: isEditing });
 
       toast({ title: isEditing ? 'Team member updated' : 'Team member added' });
@@ -210,24 +176,12 @@ export default function ManageTeamPage() {
 
   // Handles the deletion of a team member.
   const handleDelete = async () => {
-    if (!memberToDelete || !firestore || !storage) return;
+    if (!memberToDelete || !firestore) return;
 
     setIsSubmitting(true);
     try {
       const docRef = doc(firestore, 'teamMembers', memberToDelete.id);
-      deleteDocumentNonBlocking(docRef);
-
-      if (memberToDelete.photoUrl) {
-         try {
-            const imageRef = ref(storage, memberToDelete.photoUrl);
-            await deleteObject(imageRef);
-        } catch (error: any) {
-            if (error.code !== 'storage/object-not-found') {
-                console.error("Failed to delete image from storage:", error);
-            }
-        }
-      }
-
+      await deleteDoc(docRef);
       toast({ title: 'Team member deleted successfully.' });
     } catch (error: any) {
       console.error('Error deleting member:', error);
@@ -329,7 +283,7 @@ export default function ManageTeamPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="photo">Photo</Label>
-              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} />
+              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} required={!currentMember} />
               {imagePreview && (
                 <div className="mt-2">
                   <Image src={imagePreview} alt="Preview" width={100} height={100} className="rounded-md object-cover" />
@@ -338,7 +292,7 @@ export default function ManageTeamPage() {
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button type="button" variant="secondary">Cancel</Button>
+                <Button type="button" variant="secondary" onClick={closeModal}>Cancel</Button>
               </DialogClose>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (
@@ -377,3 +331,5 @@ export default function ManageTeamPage() {
     </div>
   );
 }
+
+    

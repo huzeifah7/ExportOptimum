@@ -53,8 +53,11 @@
         },
         "photoUrl": {
           "type": "string",
-          "description": "URL of the team member's photo.",
-          "format": "uri"
+          "description": "A Base64 encoded data URI of the team member's photo.",
+          "contentEncoding": "base64",
+          "media": {
+            "type": "image/png"
+          }
         },
         "linkedin": {
           "type": "string",

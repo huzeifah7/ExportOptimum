@@ -1,69 +1,50 @@
 
+'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
 import { Linkedin, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import { AnimatedGradientBackground } from '@/components/ui/animated-gradient-background';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const teamMembers = [
-  {
-    id: 'owner-portrait',
-    name: 'Abdellah el Yamlahi',
-    role: 'Owner & Founder',
-    bio: 'The visionary founder of our company, Abdellah\'s passion for agriculture and commitment to quality have been the driving forces behind our success. His leadership continues to inspire our mission.',
-    imageHint: 'man portrait',
-  },
-  {
-    id: 'ceo-portrait',
-    name: 'Zakaria el Yamlahi',
-    role: 'Chief Executive Officer',
-    bio: 'With over 20 years of experience in international trade, Zakaria leads our company with a vision for global reach and sustainability. He is also the president of the Moroccan Avocado Exporters Association (MAVA).',
-    imageHint: 'man portrait',
-  },
-  {
-    id: 'client-2',
-    name: 'Jane Smith',
-    role: 'Head of Operations',
-    bio: 'Jane orchestrates the complex logistics of getting our avocados from the farm to your table, ensuring freshness and quality every step of the way.',
-    imageHint: 'person portrait',
-  },
-  {
-    id: 'client-3',
-    name: 'Peter Jones',
-    role: 'Lead Agriculturist',
-    bio: 'Peter combines traditional farming wisdom with the latest in sustainable agriculture to oversee the health and productivity of our groves.',
-    imageHint: 'person portrait',
-  },
-   {
-    id: 'team-member-4',
-    name: 'Fatima Zahra',
-    role: 'Quality Assurance Manager',
-    bio: 'Fatima is responsible for ensuring that every avocado meets our stringent quality standards, from size and ripeness to taste and texture.',
-    imageHint: 'person portrait',
-  },
-  {
-    id: 'team-member-5',
-    name: 'Youssef Ait Benhaddou',
-    role: 'Supply Chain Coordinator',
-    bio: 'Youssef manages our network of partner farms, ensuring a steady and reliable supply of premium avocados throughout the season.',
-    imageHint: 'person portrait',
-  },
-  {
-    id: 'team-member-6',
-    name: 'Emily Williams',
-    role: 'International Sales Director',
-    bio: 'Emily builds and maintains relationships with our global partners, bringing the taste of Moroccan avocados to new markets.',
-    imageHint: 'person portrait',
-  }
-];
+type TeamMember = {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  photoUrl: string;
+  linkedin?: string;
+  twitter?: string;
+};
+
+const TeamMemberSkeleton = () => (
+    <Card className="flex flex-col text-center overflow-hidden shadow-lg bg-background/50 backdrop-blur-sm">
+      <Skeleton className="h-64 w-full" />
+      <CardContent className="p-6 flex-grow flex flex-col">
+        <Skeleton className="h-7 w-3/4 mx-auto mb-2" />
+        <Skeleton className="h-5 w-1/2 mx-auto mb-3" />
+        <Skeleton className="h-12 w-full" />
+        <div className="mt-4 flex justify-center gap-4">
+          <Skeleton className="h-5 w-5" />
+          <Skeleton className="h-5 w-5" />
+        </div>
+      </CardContent>
+    </Card>
+);
 
 export default function TeamPage() {
-  const [owner, ceo, ...otherMembers] = teamMembers;
-  const ownerImage = PlaceHolderImages.find((p) => p.id === owner.id);
-  const ceoImage = PlaceHolderImages.find((p) => p.id === ceo.id);
+  const firestore = useFirestore();
+  
+  const teamMembersQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return collection(firestore, 'teamMembers');
+  }, [firestore]);
+  
+  const { data: teamMembers, isLoading } = useCollection<TeamMember>(teamMembersQuery);
 
   return (
     <AnimatedGradientBackground>
@@ -77,110 +58,48 @@ export default function TeamPage() {
                 The passionate individuals dedicated to bringing you the best avocados from Morocco.
               </p>
             </div>
-
-            {/* Leadership Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
-              {/* Owner Card */}
-              <Card className="overflow-hidden shadow-lg border-2 border-primary/20 bg-background/50 backdrop-blur-sm">
-                  <div className="grid md:grid-cols-1 items-center">
-                      <div className="md:col-span-1">
-                          {ownerImage && (
-                          <Image
-                              src={ownerImage.imageUrl}
-                              alt={owner.name}
-                              width={500}
-                              height={600}
-                              className="object-cover w-full h-80"
-                              data-ai-hint={owner.imageHint}
-                          />
-                          )}
-                      </div>
-                      <div className="md:col-span-2 p-8">
-                          <h2 className="text-3xl font-headline font-bold text-primary">{owner.name}</h2>
-                          <p className="text-xl font-semibold text-muted-foreground mt-1">{owner.role}</p>
-                          <p className="mt-4 text-foreground/80">{owner.bio}</p>
-                           <div className="mt-6 flex gap-4">
-                              <Link href="#" className="text-muted-foreground hover:text-primary">
-                                  <Linkedin className="h-6 w-6" />
-                              </Link>
-                              <Link href="#" className="text-muted-foreground hover:text-primary">
-                                  <Twitter className="h-6 w-6" />
-                              </Link>
-                          </div>
-                      </div>
-                  </div>
-              </Card>
-
-              {/* CEO Card */}
-              <Card className="overflow-hidden shadow-lg border-2 border-primary/20 bg-background/50 backdrop-blur-sm">
-                  <div className="grid md:grid-cols-1 items-center">
-                      <div className="md:col-span-1">
-                          {ceoImage && (
-                          <Image
-                              src={ceoImage.imageUrl}
-                              alt={ceo.name}
-                              width={500}
-                              height={600}
-                              className="object-cover w-full h-80"
-                              data-ai-hint={ceo.imageHint}
-                          />
-                          )}
-                      </div>
-                      <div className="md:col-span-2 p-8">
-                          <h2 className="text-3xl font-headline font-bold text-primary">{ceo.name}</h2>
-                          <p className="text-xl font-semibold text-muted-foreground mt-1">{ceo.role}</p>
-                          <p className="mt-4 text-foreground/80">{ceo.bio}</p>
-                           <div className="mt-6 flex gap-4">
-                              <Link href="#" className="text-muted-foreground hover:text-primary">
-                                  <Linkedin className="h-6 w-6" />
-                              </Link>
-                              <Link href="#" className="text-muted-foreground hover:text-primary">
-                                  <Twitter className="h-6 w-6" />
-                              </Link>
-                          </div>
-                      </div>
-                  </div>
-              </Card>
-            </div>
             
-            <div className="text-center my-16">
-              <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Dedicated Team</h2>
-            </div>
-
-            {/* Other Team Members */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {otherMembers.map((member) => {
-                const image = PlaceHolderImages.find((p) => p.id === member.id);
-                return (
-                  <Card key={member.name} className="flex flex-col text-center overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group bg-background/50 backdrop-blur-sm">
+            {isLoading && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {Array.from({length: 6}).map((_, i) => <TeamMemberSkeleton key={i} />)}
+              </div>
+            )}
+            
+            {!isLoading && teamMembers && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {teamMembers.map((member) => (
+                  <Card key={member.id} className="flex flex-col text-center overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group bg-background/50 backdrop-blur-sm">
                     <div className="relative h-64 w-full overflow-hidden">
-                      {image && (
-                          <Image
-                            src={image.imageUrl}
-                            alt={member.name}
-                            fill
-                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                            data-ai-hint={member.imageHint}
-                          />
-                      )}
+                        <Image
+                          src={member.photoUrl}
+                          alt={member.name}
+                          fill
+                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                        />
                     </div>
                     <CardContent className="p-6 flex-grow flex flex-col">
                       <h3 className="font-headline text-2xl font-bold">{member.name}</h3>
                       <p className="text-primary font-semibold mt-1">{member.role}</p>
                       <p className="text-muted-foreground mt-3 text-sm flex-grow">{member.bio}</p>
                       <div className="mt-4 flex justify-center gap-4">
-                          <Link href="#" className="text-muted-foreground hover:text-primary">
+                          {member.linkedin && <Link href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
                               <Linkedin className="h-5 w-5" />
-                          </Link>
-                          <Link href="#" className="text-muted-foreground hover:text-primary">
+                          </Link>}
+                          {member.twitter && <Link href={member.twitter} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
                               <Twitter className="h-5 w-5" />
-                          </Link>
+                          </Link>}
                       </div>
                     </CardContent>
                   </Card>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            )}
+            {!isLoading && !teamMembers?.length && (
+                 <div className="text-center py-20 text-foreground/80">
+                    <h3 className="text-2xl font-headline">Our Team is Growing!</h3>
+                    <p>Information about our dedicated team members will be available here soon.</p>
+                </div>
+            )}
           </div>
         </main>
         <Footer />
@@ -188,3 +107,5 @@ export default function TeamPage() {
     </AnimatedGradientBackground>
   );
 }
+
+    
