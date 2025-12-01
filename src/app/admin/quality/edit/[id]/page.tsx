@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -6,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -27,8 +28,10 @@ export default function EditCertificationPage() {
     const params = useParams();
     const certId = params.id as string;
     const firestore = useFirestore();
+    const storage = getStorage();
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const certRef = useMemoFirebase(() => {
         if (!certId || !firestore) return null;
@@ -38,6 +41,7 @@ export default function EditCertificationPage() {
     const { data: certification, isLoading, error } = useDoc<Certification>(certRef);
 
     const [name, setName] = useState('');
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     useEffect(() => {
@@ -51,7 +55,6 @@ export default function EditCertificationPage() {
         }
     }, [certification]);
 
-    // Error/fallback UI
     if (error) {
         return (
             <div className="flex flex-col items-center justify-center py-20">
@@ -63,7 +66,6 @@ export default function EditCertificationPage() {
         );
     }
 
-    // Loading UI
     if (isLoading) {
         return (
             <div>
@@ -93,7 +95,6 @@ export default function EditCertificationPage() {
         );
     }
 
-    // Not found fallback
     if (!isLoading && !certification) {
         return (
             <div className="flex flex-col items-center justify-center py-20">
@@ -105,10 +106,10 @@ export default function EditCertificationPage() {
         );
     }
 
-    // Change image preview
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
+            setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
@@ -117,36 +118,28 @@ export default function EditCertificationPage() {
         }
     };
 
-    // Submit changes
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-
         if (!certRef) return;
 
-        try {
-            let imageUrl = certification?.imageUrl || null;
+        setIsSubmitting(true);
 
-            // If a new image selected, upload it to Firebase Storage
-            if (
-                fileInputRef.current &&
-                fileInputRef.current.files?.length &&
-                fileInputRef.current.files[0]
-            ) {
-                const file = fileInputRef.current.files[0];
-                const storage = getStorage();
-                // Use certification id and file name for storage ref
-                const storageRef = ref(storage, `certifications/${certId}/${file.name}`);
-                await uploadBytes(storageRef, file);
-                imageUrl = await getDownloadURL(storageRef);
+        try {
+            let finalImageUrl = certification?.imageUrl || '';
+
+            if (imageFile) {
+                const imageStorageRef = ref(storage, `certifications/${certId}/${imageFile.name}`);
+                await uploadBytes(imageStorageRef, imageFile);
+                finalImageUrl = await getDownloadURL(imageStorageRef);
             }
 
             const updatedCertification = {
                 name: name,
-                imageUrl: imageUrl,
+                imageUrl: finalImageUrl,
                 description: `${name} certification logo`,
             };
 
-            await setDocumentNonBlocking(certRef, updatedCertification, { merge: true });
+            setDocumentNonBlocking(certRef, updatedCertification, { merge: true });
 
             toast({
                 title: "Certification Updated",
@@ -155,11 +148,14 @@ export default function EditCertificationPage() {
 
             router.push('/admin/quality');
         } catch (err) {
+            console.error(err);
             toast({
                 variant: "destructive",
                 title: "Error",
                 description: "Failed to update certification."
             });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -187,6 +183,7 @@ export default function EditCertificationPage() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
+                                disabled={isSubmitting}
                             />
                         </div>
                         <div className="space-y-4">
@@ -197,6 +194,7 @@ export default function EditCertificationPage() {
                                 accept="image/*"
                                 ref={fileInputRef}
                                 onChange={handleImageChange}
+                                disabled={isSubmitting}
                             />
                             {imagePreview && (
                                 <div className="mt-4 rounded-lg overflow-hidden border aspect-square w-48 relative">
@@ -211,8 +209,9 @@ export default function EditCertificationPage() {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end gap-2 border-t pt-6">
-                        <Button variant="outline" type="button" onClick={() => router.push('/admin/quality')}>Cancel</Button>
-                        <Button type="submit">
+                        <Button variant="outline" type="button" onClick={() => router.push('/admin/quality')} disabled={isSubmitting}>Cancel</Button>
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Save Changes
                         </Button>
                     </CardFooter>
