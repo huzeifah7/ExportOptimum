@@ -1,14 +1,12 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   collection,
   doc,
-  setDoc,
-  updateDoc,
-  deleteDoc,
   serverTimestamp,
+  updateDoc,
 } from 'firebase/firestore';
 import {
   ref,
@@ -35,6 +33,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { deleteDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 
 // Defines the data structure for a team member.
 type TeamMember = {
@@ -76,14 +75,13 @@ export default function ManageTeamPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [memberToDelete, setMemberToDelete] = useState<TeamMember | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Effect to update form and image preview when 'currentMember' changes (for editing).
   useEffect(() => {
     if (currentMember) {
       setFormData(currentMember);
-      if (currentMember.photoUrl) {
-        setImagePreview(currentMember.photoUrl);
-      }
+      setImagePreview(currentMember.photoUrl || null);
     } else {
       setFormData(initialFormState);
       setImagePreview(null);
@@ -112,6 +110,7 @@ export default function ManageTeamPage() {
     setFormData(initialFormState);
     setImageFile(null);
     setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
     setIsModalOpen(true);
   };
 
@@ -150,13 +149,11 @@ export default function ManageTeamPage() {
       const isEditing = !!currentMember?.id;
       let photoUrl = isEditing ? currentMember.photoUrl : '';
 
-      // Define a unique ID for the member.
-      // If editing, use the existing ID. If creating, generate a new one.
       const memberId = isEditing ? currentMember.id! : doc(collection(firestore, 'teamMembers')).id;
+      const memberDocRef = doc(firestore, 'teamMembers', memberId);
 
       // 1. Handle Image Upload
       if (imageFile) {
-        // If editing and there's an old image, delete it from storage first.
         if (isEditing && currentMember.photoUrl) {
           try {
             const oldImageRef = ref(storage, currentMember.photoUrl);
@@ -175,29 +172,24 @@ export default function ManageTeamPage() {
       }
 
       // 2. Prepare Data for Firestore
-      const memberData = {
-        ...formData,
-        id: memberId, // Ensure the ID is part of the document data
-        photoUrl,
+      const memberData: Omit<TeamMember, 'id'> & {updatedAt: any, createdAt?: any} = {
+        name: formData.name!,
+        role: formData.role!,
+        bio: formData.bio!,
+        photoUrl: photoUrl!,
+        linkedin: formData.linkedin,
+        twitter: formData.twitter,
         updatedAt: serverTimestamp(),
       };
-
-      // 3. Save to Firestore
-      const memberDocRef = doc(firestore, 'teamMembers', memberId);
-
-      if (isEditing) {
-        // Update existing member document
-        await updateDoc(memberDocRef, { ...memberData });
-        toast({ title: 'Team member updated successfully.' });
-      } else {
-        // Create new member document with a 'createdAt' field
-        await setDoc(memberDocRef, {
-          ...memberData,
-          createdAt: serverTimestamp(),
-        });
-        toast({ title: 'Team member added successfully.' });
+      
+      if (!isEditing) {
+        memberData.createdAt = serverTimestamp();
       }
 
+      // 3. Save to Firestore
+      setDocumentNonBlocking(memberDocRef, memberData, { merge: isEditing });
+
+      toast({ title: isEditing ? 'Team member updated' : 'Team member added' });
       closeModal();
     } catch (error: any) {
       console.error('Error saving team member:', error);
@@ -222,10 +214,9 @@ export default function ManageTeamPage() {
 
     setIsSubmitting(true);
     try {
-      // Delete Firestore document.
-      await deleteDoc(doc(firestore, 'teamMembers', memberToDelete.id));
+      const docRef = doc(firestore, 'teamMembers', memberToDelete.id);
+      deleteDocumentNonBlocking(docRef);
 
-      // Delete image from Storage.
       if (memberToDelete.photoUrl) {
          try {
             const imageRef = ref(storage, memberToDelete.photoUrl);
@@ -233,14 +224,11 @@ export default function ManageTeamPage() {
         } catch (error: any) {
             if (error.code !== 'storage/object-not-found') {
                 console.error("Failed to delete image from storage:", error);
-                // We don't re-throw, as the main goal (deleting the DB entry) succeeded.
             }
         }
       }
 
       toast({ title: 'Team member deleted successfully.' });
-      setIsDeleteDialogOpen(false);
-      setMemberToDelete(null);
     } catch (error: any) {
       console.error('Error deleting member:', error);
       toast({
@@ -250,6 +238,8 @@ export default function ManageTeamPage() {
       });
     } finally {
       setIsSubmitting(false);
+      setIsDeleteDialogOpen(false);
+      setMemberToDelete(null);
     }
   };
 
@@ -339,7 +329,7 @@ export default function ManageTeamPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="photo">Photo</Label>
-              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} />
+              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} />
               {imagePreview && (
                 <div className="mt-2">
                   <Image src={imagePreview} alt="Preview" width={100} height={100} className="rounded-md object-cover" />
