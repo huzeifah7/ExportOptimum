@@ -7,8 +7,17 @@ import {
   doc,
   serverTimestamp,
   setDoc,
+  updateDoc,
+  deleteDoc,
 } from 'firebase/firestore';
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { getStorage } from 'firebase/storage';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -26,20 +35,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 
-// Defines the data structure for a team member.
 type TeamMember = {
   id: string;
   name: string;
   role: string;
   bio: string;
-  photoUrl: string; // This will now be a Base64 Data URI
+  photoUrl: string;
   linkedin?: string;
   twitter?: string;
 };
 
-// Initial state for the form when adding a new team member.
 const initialFormState: Partial<TeamMember> = {
   name: '',
   role: '',
@@ -51,6 +57,7 @@ const initialFormState: Partial<TeamMember> = {
 
 export default function ManageTeamPage() {
   const firestore = useFirestore();
+  const storage = getStorage();
   const { toast } = useToast();
 
   const teamMembersQuery = useMemoFirebase(() => {
@@ -65,11 +72,11 @@ export default function ManageTeamPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentMember, setCurrentMember] = useState<Partial<TeamMember> | null>(null);
   const [formData, setFormData] = useState<Partial<TeamMember>>(initialFormState);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [memberToDelete, setMemberToDelete] = useState<TeamMember | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Effect to update form and image preview when 'currentMember' changes (for editing).
   useEffect(() => {
     if (currentMember) {
       setFormData(currentMember);
@@ -88,24 +95,25 @@ export default function ManageTeamPage() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast({ variant: 'destructive', title: 'File too large', description: 'Please select an image smaller than 5MB.' });
+        return;
+      }
+      setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64String = reader.result as string;
-        setImagePreview(base64String);
-        setFormData(prev => ({...prev, photoUrl: base64String}));
+        setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
-    } else {
-      setImagePreview(currentMember?.photoUrl || null);
-      setFormData(prev => ({...prev, photoUrl: currentMember?.photoUrl || ''}));
     }
   };
-  
+
   const handleAddClick = () => {
     setCurrentMember(null);
     setFormData(initialFormState);
     setImagePreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    setSelectedFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
     setIsModalOpen(true);
   };
 
@@ -117,13 +125,20 @@ export default function ManageTeamPage() {
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentMember(null);
+    setSelectedFile(null);
   };
 
-  // Handles both creating and updating a team member.
+  const uploadStaffImage = async (file: File, memberId: string): Promise<string> => {
+    if (!storage) throw new Error("Storage not initialized");
+    const imageRef = storageRef(storage, `team/${memberId}/${file.name}`);
+    const snapshot = await uploadBytes(imageRef, file);
+    return getDownloadURL(snapshot.ref);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!firestore) {
-      toast({ variant: 'destructive', title: 'Firebase not initialized.' });
+      toast({ variant: 'destructive', title: 'Database not initialized.' });
       return;
     }
     
@@ -131,9 +146,10 @@ export default function ManageTeamPage() {
       toast({ variant: 'destructive', title: 'Please fill all required fields.' });
       return;
     }
-    if (!formData.photoUrl) {
-      toast({ variant: 'destructive', title: 'An image is required.' });
-      return;
+
+    if (!currentMember && !selectedFile) {
+        toast({ variant: 'destructive', title: 'Image Required', description: 'Please select an image for the new staff member.' });
+        return;
     }
 
     setIsSubmitting(true);
@@ -141,21 +157,34 @@ export default function ManageTeamPage() {
     try {
       const isEditing = !!currentMember?.id;
       const memberId = isEditing ? currentMember.id! : doc(collection(firestore, 'teamMembers')).id;
-      const memberDocRef = doc(firestore, 'teamMembers', memberId);
-      
+      let photoUrl = formData.photoUrl || '';
+
+      // --- Image Upload Logic ---
+      if (selectedFile) {
+        photoUrl = await uploadStaffImage(selectedFile, memberId);
+      }
+
       const memberData = {
-        id: memberId,
-        name: formData.name!,
-        role: formData.role!,
-        bio: formData.bio!,
-        photoUrl: formData.photoUrl!,
+        name: formData.name,
+        role: formData.role,
+        bio: formData.bio,
+        photoUrl: photoUrl,
         linkedin: formData.linkedin || '',
         twitter: formData.twitter || '',
-        updatedAt: serverTimestamp(),
-        ...(isEditing ? {} : { createdAt: serverTimestamp() }),
       };
 
-      await setDoc(memberDocRef, memberData, { merge: isEditing });
+      const memberDocRef = doc(firestore, 'teamMembers', memberId);
+
+      if (isEditing) {
+        await updateDoc(memberDocRef, { ...memberData, updatedAt: serverTimestamp() });
+      } else {
+        await setDoc(memberDocRef, {
+            ...memberData,
+            id: memberId,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+        });
+      }
 
       toast({ title: isEditing ? 'Team member updated' : 'Team member added' });
       closeModal();
@@ -176,14 +205,29 @@ export default function ManageTeamPage() {
     setIsDeleteDialogOpen(true);
   };
 
-  // Handles the deletion of a team member.
   const handleDelete = async () => {
     if (!memberToDelete || !firestore) return;
 
     setIsSubmitting(true);
     try {
+      // Delete Firestore document
       const docRef = doc(firestore, 'teamMembers', memberToDelete.id);
       await deleteDoc(docRef);
+
+      // Delete image from Storage
+      if (memberToDelete.photoUrl && storage) {
+        try {
+          const imageRef = storageRef(storage, memberToDelete.photoUrl);
+          await deleteObject(imageRef);
+        } catch (storageError: any) {
+          // If the image doesn't exist, we don't need to block the process.
+          // This can happen if a previous deletion failed midway.
+          if (storageError.code !== 'storage/object-not-found') {
+            console.warn("Could not delete old image from storage:", storageError);
+          }
+        }
+      }
+
       toast({ title: 'Team member deleted successfully.' });
     } catch (error: any) {
       console.error('Error deleting member:', error);
@@ -285,7 +329,7 @@ export default function ManageTeamPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="photo">Photo</Label>
-              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} required={!currentMember} />
+              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} />
               {imagePreview && (
                 <div className="mt-2">
                   <Image src={imagePreview} alt="Preview" width={100} height={100} className="rounded-md object-cover" />
@@ -333,5 +377,3 @@ export default function ManageTeamPage() {
     </div>
   );
 }
-
-    
