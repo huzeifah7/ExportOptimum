@@ -187,7 +187,7 @@ export default function ManageTeamPage() {
       }
 
       // 3. Save to Firestore
-      setDocumentNonBlocking(memberDocRef, memberData, { merge: isEditing });
+      await setDoc(memberDocRef, memberData, { merge: isEditing });
 
       toast({ title: isEditing ? 'Team member updated' : 'Team member added' });
       closeModal();
