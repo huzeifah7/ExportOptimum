@@ -6,6 +6,7 @@ import {
   collection,
   doc,
   serverTimestamp,
+  setDoc,
 } from 'firebase/firestore';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { deleteDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 
 // Defines the data structure for a team member.
 type TeamMember = {
@@ -143,6 +144,7 @@ export default function ManageTeamPage() {
       const memberDocRef = doc(firestore, 'teamMembers', memberId);
       
       const memberData = {
+        id: memberId,
         name: formData.name!,
         role: formData.role!,
         bio: formData.bio!,
