@@ -1,7 +1,9 @@
 [
   {
     "origin": [
-      "*"
+      "http://localhost:3000",
+      "http://localhost:9002",
+      "https://9000-firebase-studio-1763723896206.cluster-ikslh4rdsnbqsvu5nw3v4dqjj2.cloudworkstations.dev"
     ],
     "method": [
       "GET",
