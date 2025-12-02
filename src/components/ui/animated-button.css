@@ -12,12 +12,12 @@
 .magic-button {
   position: relative;
   padding: 15px 45px;
-  background: #fec195;
+  background: hsl(var(--primary));
   font-size: 17px;
   font-weight: 500;
-  color: #181818;
+  color: hsl(var(--primary-foreground));
   cursor: pointer;
-  border: 1px solid #fec195;
+  border: 1px solid hsl(var(--primary));
   border-radius: 8px;
   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
 }
@@ -29,25 +29,25 @@
 .magic-button {
   position: relative;
   padding: 15px 45px;
-  background: #fec195;
+  background: hsl(var(--primary));
   font-size: 17px;
   font-weight: 500;
-  color: #181818;
+  color: hsl(var(--primary-foreground));
   cursor: pointer;
-  border: 1px solid #fec195;
+  border: 1px solid hsl(var(--primary));
   border-radius: 8px;
   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
 }
 
 .magic-button:hover {
-  border: 1px solid #f3b182;
+  border: 1px solid hsl(var(--accent));
   background: linear-gradient(
     85deg,
-    #fec195,
-    #fcc196,
-    #fabd92,
-    #fac097,
-    #fac39c
+    hsl(var(--primary)),
+    hsl(var(--accent)),
+    hsl(var(--primary)),
+    hsl(var(--accent)),
+    hsl(var(--primary))
   );
   animation: wind 2s ease-in-out infinite;
 }
@@ -78,6 +78,10 @@
 .magic-button:hover .icon-1 {
   animation: slay-1 3s cubic-bezier(0.52, 0, 0.58, 1) infinite;
   transform: rotate(10deg);
+}
+
+.magic-button .fil0 {
+    fill: hsl(var(--accent));
 }
 
 @keyframes slay-1 {
