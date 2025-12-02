@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -68,7 +69,7 @@ const Contact = () => {
   return (
     <div className="bg-background">
       <Header />
-      <div className="contact-container flex flex-col md:flex-row bg-background">
+      <div className="contact-container flex flex-col md:flex-row bg-background mt-24">
         <div className="imgContactBg"></div>
 
         <InView triggerOnce>
