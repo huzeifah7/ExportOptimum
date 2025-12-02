@@ -26,25 +26,8 @@
 /* From Uiverse.io by MuhammadHasann */
 
 .magic-button:hover {
-  border: 1px solid hsl(var(--accent));
-  background: linear-gradient(
-    85deg,
-    hsl(var(--primary)),
-    hsl(var(--accent) / 0.8),
-    hsl(var(--primary)),
-    hsl(var(--accent) / 0.8)
-  );
-  background-size: 400% 100%;
-  animation: wind 1.5s ease-out forwards;
-}
-
-@keyframes wind {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
-  }
+  background: hsl(var(--primary) / 0.9);
+  border-color: hsl(var(--primary));
 }
 
 .icon-1 {
