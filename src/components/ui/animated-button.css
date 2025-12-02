@@ -23,14 +23,13 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* From Uiverse.io by MuhammadHasann */
 
 .magic-button:hover {
-  background: hsl(var(--primary) / 0.9);
+  background: hsl(var(--primary) / 0.85);
   border-color: hsl(var(--primary));
 }
 
-.icon-1 {
+.magic-button .icon-1 {
   position: absolute;
   top: 0;
   right: 0;
@@ -62,7 +61,7 @@
   }
 }
 
-.icon-2 {
+.magic-button .icon-2 {
   position: absolute;
   top: 0;
   left: 25px;
@@ -90,7 +89,7 @@
   }
 }
 
-.icon-3 {
+.magic-button .icon-3 {
   position: absolute;
   top: 0;
   left: 0;
