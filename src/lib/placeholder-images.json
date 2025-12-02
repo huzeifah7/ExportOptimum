@@ -9,7 +9,7 @@
     {
       "id": "avocado-hass",
       "description": "A ripe Hass avocado, cut in half",
-      "imageUrl": "https://images.unsplash.com/photo-1630898042976-ede9b22a81b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhdm9jYWRvJTIwaGFzc3xlbnwwfHx8fDE3NjM3MjQ5MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1630898042976-ede9b22a81b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhdm9jYWRvJTIwaGFzc3xlbnwwfHx8fDE3NjM3MjQ5MjJ8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado hass"
     },
     {
@@ -21,13 +21,13 @@
     {
       "id": "avocado-zutano",
       "description": "A shiny, yellow-green Zutano avocado",
-      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado zutano"
     },
     {
       "id": "berry-strawberry",
       "description": "A basket of fresh strawberries",
-      "imageUrl": "https://images.unsplash.com/photo-1588313398092-2b933182de95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJpZXN8ZW58MHx8fHwxNzY0MzA3MzA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1588313398092-2b933182de95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJpZXN8ZW58MHx8fHwxNzY0MzA3MzA4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "strawberry"
     },
     {
@@ -45,7 +45,7 @@
     {
       "id": "client-1",
       "description": "Portrait of a satisfied client",
-      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
@@ -134,9 +134,9 @@
     },
     {
       "id": "about-us-page",
-      "description": "Team of farmers standing in an avocado grove",
-      "imageUrl": "https://images.unsplash.com/photo-1703934169714-23d2e34d6f38?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "imageHint": "avocado grove"
+      "description": "Avocado being sliced",
+      "imageUrl": "https://images.unsplash.com/photo-1632671044786-c7e1329510fb?q=80&w=470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "avocado slice"
     },
     {
       "id": "cert-smeta",
@@ -195,7 +195,7 @@
     {
       "id": "about-us-mission",
       "description": "A farmer holding a freshly picked avocado with a smile",
-      "imageUrl": "https://images.unsplash.com/photo-1615890886616-9359051448a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXJtZXIlMjBob2xkaW5nJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjQwOTQ4NTh8MA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1615890886616-9359051448a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXJtZXIlMjBob2xkaW5nJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjQwOTQ4NTh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "farmer avocado"
     },
     {
@@ -207,19 +207,19 @@
     {
       "id": "timeline-2",
       "description": "A cargo ship with containers, representing global export",
-      "imageUrl": "https://images.unsplash.com/photo-1611262529845-8c7f21207137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJnbyUyMHNoaXB8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1611262529845-8c7f21207137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJnbyUyMHNoaXB8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "cargo ship"
     },
     {
       "id": "timeline-3",
       "description": "A hand holding soil with a small green plant, symbolizing sustainability",
-      "imageUrl": "https://images.unsplash.com/photo-1593113630424-386b24546422?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiaW8lMjBjZXJ0aWZpY2F0aW9ufGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1593113630424-386b24546422?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiaW8lMjBjZXJ0aWZpY2F0aW9ufGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "bio certification"
     },
     {
       "id": "timeline-4",
       "description": "A world map with pins on different continents, showing global reach",
-      "imageUrl": "https://images.unsplash.com/photo-1543269865-cbf427effbad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBuZXR3b3JrfGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1543269865-cbf427effbad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBuZXR3b3JrfGVufDB8fHx8MTc2NDA5NDg1OHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "global network"
     },
     {
@@ -231,19 +231,19 @@
     {
       "id": "team-member-5",
       "description": "Portrait of a male professional",
-      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
       "id": "team-member-6",
       "description": "Portrait of a professional woman in a business setting",
-      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
       "id": "quality-hero",
       "description": "A close-up shot of a perfect, ripe avocado being sliced open, revealing its vibrant green interior.",
-      "imageUrl": "https://images.unsplash.com/photo-1601035902409-c32375a7c044?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwc2xpY2V8ZW58MHx8fHwxNzY0MjYxMTM5fDA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1601035902409-c32375a7c044?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwc2xpY2V8ZW58MHx8fHwxNzY0MjYxMTM5fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado slice"
     },
     {
