@@ -84,7 +84,7 @@ const Contact = () => {
               <h1 className="text-4xl font-semibold text-left titleContact pt-5 pl-5">
                 <span className="letterTitle">G</span>et in <span className="letterTitle">T</span>ouch
               </h1>
-              <p className="summa text-3xl text-gray-700 text-left pl-48">Questions? Concerns?</p>
+              <p className="summa text-3xl text-gray-700 text-left pl-48 italic">Questions? Concerns?</p>
               <p className="text-gray-600 mt-4 ml-8 w-3xl mx-auto">
                 Feel free to reach out to the team at Export Optimum; we would be delighted to explore how we can assist you.
               </p>
