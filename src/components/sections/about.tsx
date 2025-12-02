@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -58,8 +59,8 @@ export default function About() {
         }}
       />
       <div className="container mx-auto px-4 relative">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="rounded-lg overflow-hidden shadow-lg group">
+        <div className="grid lg:grid-cols-5 gap-12 items-center">
+          <div className="lg:col-span-2 rounded-lg overflow-hidden shadow-lg group">
             {aboutImage && (
               <Image
                 src={aboutImage.imageUrl}
@@ -71,7 +72,7 @@ export default function About() {
               />
             )}
           </div>
-          <div className="text-center lg:text-left">
+          <div className="lg:col-span-3 text-center lg:text-left">
             <SplitText tag="h2" text="From Our Groves to Your Table" className="text-4xl md:text-5xl font-headline font-bold" textAlign="left" />
             <p className="mt-4 text-lg text-muted-foreground">
               As a trusted name in the global avocado market, we are passionate about quality and committed to sustainable farming. We bring the rich, creamy taste of Moroccan avocados to the world.
