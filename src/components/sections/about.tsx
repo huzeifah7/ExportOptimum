@@ -73,7 +73,7 @@ export default function About() {
               />
             )}
           </div>
-          <div className="lg:col-start-1 lg:row-start-1 lg:col-span-1 text-center lg:text-left">
+          <div className="text-center lg:text-left">
             <SplitText tag="h2" text="From Our Groves to Your Table" className="text-4xl md:text-5xl font-headline font-bold" textAlign="left" />
             <p className="mt-4 text-lg text-muted-foreground">
               As a trusted name in the global avocado market, we are passionate about quality and committed to sustainable farming. We bring the rich, creamy taste of Moroccan avocados to the world. Our journey begins in the sun-drenched groves of Morocco, where we meticulously cultivate each fruit to perfection.
