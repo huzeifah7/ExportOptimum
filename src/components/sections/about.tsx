@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import SplitText from '@/components/ui/split-text';
+import { AnimatedButton } from '@/components/ui/animated-button';
 
 export default function About() {
   const aboutImage = PlaceHolderImages.find(p => p.id === 'about-us-page');
@@ -72,20 +73,18 @@ export default function About() {
               />
             )}
           </div>
-          <div className="lg:col-span-1 text-center lg:text-left">
+          <div className="lg:col-start-1 lg:row-start-1 lg:col-span-1 text-center lg:text-left">
             <SplitText tag="h2" text="From Our Groves to Your Table" className="text-4xl md:text-5xl font-headline font-bold" textAlign="left" />
             <p className="mt-4 text-lg text-muted-foreground">
               As a trusted name in the global avocado market, we are passionate about quality and committed to sustainable farming. We bring the rich, creamy taste of Moroccan avocados to the world. Our journey begins in the sun-drenched groves of Morocco, where we meticulously cultivate each fruit to perfection.
             </p>
             <p className="mt-4 text-lg text-muted-foreground">
-              We believe in a philosophy of excellence that extends from the soil to your table. By integrating advanced farming techniques with a deep respect for the environment, we ensure that every avocado we export is not only delicious but also grown responsibly. Our dedication to traceability and a reliable cold chain guarantees that our produce arrives with maximum freshness and flavor.
+              We believe in a philosophy of excellence that extends from the soil to your table. By integrating advanced farming techniques with a deep respect for the environment, we ensure that every avocado we export is not only delicious but also grown responsibly. Our dedication to traceability and a reliable cold chain guarantees that our produce arrives with maximum freshness and flavor. We are not just suppliers; we are partners in delivering nature's finest to discerning customers worldwide.
             </p>
             <div className="mt-8">
-              <Button asChild size="lg">
-                <Link href="/about">
-                  Learn More About Us <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+              <Link href="/about">
+                <AnimatedButton label="Learn More About Us" />
+              </Link>
             </div>
           </div>
         </div>
