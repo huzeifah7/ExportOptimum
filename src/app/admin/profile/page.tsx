@@ -7,15 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { useUser, useAuth } from '@/firebase';
+import { useUser, useAuth, useFirestore } from '@/firebase';
 import { updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider, updateEmail } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, setDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Camera, Edit } from 'lucide-react';
 
 export default function ManageProfilePage() {
     const { user, isUserLoading } = useUser();
     const auth = useAuth();
+    const firestore = useFirestore();
     const storage = getStorage();
     const { toast } = useToast();
 
@@ -63,7 +65,7 @@ export default function ManageProfilePage() {
 
     const handleProfileSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!user || !auth || !auth.currentUser) return;
+        if (!user || !auth?.currentUser || !firestore) return;
 
         setIsSubmitting(true);
 
@@ -104,13 +106,25 @@ export default function ManageProfilePage() {
                 photoURL = await getDownloadURL(snapshot.ref);
             }
             
-            // Check if profile data has actually changed
-             if(displayName !== originalState.displayName || (photoURL && photoURL !== originalState.photoURL)) {
+            const profileDataChanged = displayName !== originalState.displayName || (photoURL && photoURL !== originalState.photoURL);
+            
+            // Update Auth profile
+            if (profileDataChanged) {
                 await updateProfile(auth.currentUser, {
                     displayName: displayName,
                     photoURL: photoURL,
                 });
-             }
+            }
+            
+            // Update Firestore user profile document
+            const userDocRef = doc(firestore, 'users', user.uid);
+            const userProfileData = {
+                displayName: displayName,
+                email: email,
+                photoURL: photoURL || user.photoURL,
+            };
+            await setDoc(userDocRef, userProfileData, { merge: true });
+
 
             toast({ title: "Profile Updated", description: "Your profile details have been saved." });
             setOriginalState({ displayName, email, photoURL: photoURL || '' });
@@ -246,3 +260,5 @@ export default function ManageProfilePage() {
         </div>
     );
 }
+
+    

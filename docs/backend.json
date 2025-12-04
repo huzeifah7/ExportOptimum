@@ -1,5 +1,28 @@
+
 {
   "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "type": "object",
+      "description": "Represents a user's public profile information.",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address.",
+          "format": "email"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "URL of the user's profile picture.",
+          "format": "uri"
+        }
+      },
+      "required": ["displayName", "email"]
+    },
     "Product": {
       "title": "Product",
       "type": "object",
@@ -32,6 +55,62 @@
         }
       },
       "required": ["name", "description", "category", "slug"]
+    },
+    "TeamMember": {
+      "title": "Team Member",
+      "type": "object",
+      "description": "Represents a staff member of the company.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the team member."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role or position of the team member."
+        },
+        "bio": {
+          "type": "string",
+          "description": "A short biography of the team member."
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "URL of the team member's photo.",
+          "format": "uri"
+        },
+        "linkedin": {
+          "type": "string",
+          "description": "URL to the team member's LinkedIn profile.",
+          "format": "uri"
+        },
+        "twitter": {
+          "type": "string",
+          "description": "URL to the team member's Twitter profile.",
+          "format": "uri"
+        }
+      },
+      "required": ["name", "role", "bio", "photoUrl"]
+    },
+    "SustainabilityImage": {
+      "title": "Sustainability Image",
+      "type": "object",
+      "description": "Represents an image in the sustainability page gallery.",
+      "properties": {
+        "src": {
+          "type": "string",
+          "description": "URL of the gallery image.",
+          "format": "uri"
+        },
+        "alt": {
+          "type": "string",
+          "description": "Alt text for the gallery image."
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time"
+        }
+      },
+      "required": ["src", "alt"]
     },
     "KeyFigureStats": {
       "title": "Key Figure Stats",
@@ -149,36 +228,35 @@
       ]
     },
     "ClientTestimonial": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "ClientTestimonial",
+      "title": "Client Testimonial",
       "type": "object",
       "description": "Represents a testimonial from a satisfied client.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Client Testimonial."
-        },
-        "clientName": {
+        "author": {
           "type": "string",
           "description": "Name of the client giving the testimonial."
         },
-        "testimonialText": {
+        "company": {
+          "type": "string",
+          "description": "The name of the client's company."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role or title of the author at their company."
+        },
+        "reviewText": {
           "type": "string",
           "description": "The text of the testimonial."
         },
-        "clientCompany": {
+        "status": {
           "type": "string",
-          "description": "The name of the client's company."
+          "enum": ["active", "not active"],
+          "description": "The visibility status of the review."
         }
       },
-      "required": [
-        "id",
-        "clientName",
-        "testimonialText"
-      ]
+      "required": ["author", "company", "reviewText", "status"]
     },
     "Partner": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Partner",
       "type": "object",
       "description": "Represents a trusted partner of the company.",
@@ -222,6 +300,10 @@
           "type": "string",
           "description": "Title of the blog post."
         },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the blog post."
+        },
         "content": {
           "type": "string",
           "description": "Content of the blog post (may be HTML or Markdown)."
@@ -244,6 +326,7 @@
       "required": [
         "id",
         "title",
+        "slug",
         "content",
         "author",
         "publishDate"
@@ -296,12 +379,36 @@
   },
   "firestore": {
     "structure": [
+       {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": { "$ref": "#/backend/entities/UserProfile" },
+          "description": "Stores public profile information for all users."
+        }
+      },
       {
         "path": "/products/{productId}",
         "definition": {
           "entityName": "Product",
           "schema": { "$ref": "#/backend/entities/Product" },
           "description": "Stores all product information for the catalog."
+        }
+      },
+      {
+        "path": "/teamMembers/{memberId}",
+        "definition": {
+          "entityName": "TeamMember",
+          "schema": { "$ref": "#/backend/entities/TeamMember" },
+          "description": "Stores information about company team members."
+        }
+      },
+      {
+        "path": "/sustainabilityGallery/{imageId}",
+        "definition": {
+          "entityName": "SustainabilityImage",
+          "schema": { "$ref": "#/backend/entities/SustainabilityImage" },
+          "description": "Stores images for the sustainability page gallery."
         }
       },
       {
@@ -367,13 +474,7 @@
           "schema": {
             "$ref": "#/backend/entities/ClientTestimonial"
           },
-          "description": "Stores testimonials from satisfied clients.",
-          "params": [
-            {
-              "name": "clientTestimonialId",
-              "description": "Unique identifier for the Client Testimonial."
-            }
-          ]
+          "description": "Stores testimonials from satisfied clients."
         }
       },
       {
@@ -383,13 +484,7 @@
           "schema": {
             "$ref": "#/backend/entities/Partner"
           },
-          "description": "Stores information about trusted partners of the company.",
-          "params": [
-            {
-              "name": "partnerId",
-              "description": "Unique identifier for the Partner."
-            }
-          ]
+          "description": "Stores information about trusted partners of the company."
         }
       },
       {
@@ -428,4 +523,5 @@
     "reasoning": "The Firestore data structure is designed to support the Avocado Export Hub's features while adhering to the principles of Authorization Independence, Structural Segregation, and Access Modeling. All collections are top-level, avoiding hierarchical authorization and enabling simple security rules. \n\nEach collection is designed to store a specific type of data, ensuring a homogeneous security posture (Strategy B). For instance, `avocadoExportData` stores key export statistics, `qualityCertifications` holds information about quality assurance certifications, and so on. This segregation simplifies security rules as each collection can have its own set of rules without interfering with others.\n\nThe structure also supports the required QAPs as all collections are designed for public `list` operations. There is no need for filtering based on user roles or permissions.\n"
   }
 }
+
     
