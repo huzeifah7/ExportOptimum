@@ -1,87 +1,163 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, BarChart, DollarSign, Users } from "lucide-react";
+
+'use client';
+
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { BarChart, FileText, Package, Users } from "lucide-react";
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import { collection, query, orderBy, limit, Timestamp } from 'firebase/firestore';
+import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { BlogPostByCategoryChart } from "@/components/admin/BlogPostByCategoryChart";
+
+type Product = { id: string; };
+type BlogPost = {
+    id: string;
+    title: string;
+    category: string;
+    publishDate: Timestamp;
+};
+
+const StatCard = ({ title, value, icon, isLoading, description }: { title: string, value: string | number, icon: React.ReactNode, isLoading: boolean, description?: string }) => (
+    <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{title}</CardTitle>
+            {icon}
+        </CardHeader>
+        <CardContent>
+            {isLoading ? (
+                <>
+                    <Skeleton className="h-8 w-20" />
+                    {description && <Skeleton className="h-4 w-32 mt-1" />}
+                </>
+            ) : (
+                <>
+                    <div className="text-2xl font-bold">{value}</div>
+                    {description && <p className="text-xs text-muted-foreground">{description}</p>}
+                </>
+            )}
+        </CardContent>
+    </Card>
+);
 
 export default function DashboardPage() {
-  return (
-    <div className="flex flex-col lg:flex-row gap-8 h-[calc(100vh-10rem)]">
-        <div className="flex-grow lg:w-2/3 overflow-y-auto pr-4">
-            <h1 className="text-3xl font-bold font-headline mb-8">Dashboard</h1>
+    const firestore = useFirestore();
+
+    const productsQuery = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return collection(firestore, "products");
+    }, [firestore]);
+
+    const blogPostsQuery = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return collection(firestore, "blogPosts");
+    }, [firestore]);
+
+    const recentBlogsQuery = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return query(collection(firestore, "blogPosts"), orderBy('publishDate', 'desc'), limit(5));
+    }, [firestore]);
+
+    const { data: products, isLoading: isLoadingProducts } = useCollection<Product>(productsQuery);
+    const { data: blogPosts, isLoading: isLoadingBlogs } = useCollection<BlogPost>(blogPostsQuery);
+    const { data: recentBlogPosts, isLoading: isLoadingRecentBlogs } = useCollection<BlogPost>(recentBlogsQuery);
+
+    const formatDate = (timestamp: Timestamp | null) => {
+        if (!timestamp) return 'No date';
+        return timestamp.toDate().toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+        });
+    }
+
+    return (
+        <div className="flex flex-col gap-8">
+            <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
+
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                    Total Revenue
-                    </CardTitle>
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">$45,231.89</div>
-                    <p className="text-xs text-muted-foreground">
-                    +20.1% from last month
-                    </p>
-                </CardContent>
+                <StatCard
+                    title="Total Products"
+                    value={products?.length || 0}
+                    icon={<Package className="h-4 w-4 text-muted-foreground" />}
+                    isLoading={isLoadingProducts}
+                    description="Number of items in your catalog."
+                />
+                <StatCard
+                    title="Total Blog Posts"
+                    value={blogPosts?.length || 0}
+                    icon={<FileText className="h-4 w-4 text-muted-foreground" />}
+                    isLoading={isLoadingBlogs}
+                    description="Total articles published."
+                />
+                <StatCard
+                    title="Emails Received"
+                    value="0"
+                    icon={<Users className="h-4 w-4 text-muted-foreground" />}
+                    isLoading={false}
+                    description="From contact form (coming soon)."
+                />
+                <StatCard
+                    title="Sales"
+                    value="0"
+                    icon={<BarChart className="h-4 w-4 text-muted-foreground" />}
+                    isLoading={false}
+                    description="eCommerce not yet implemented."
+                />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <Card className="lg:col-span-3">
+                    <CardHeader>
+                        <CardTitle>Blog Posts by Category</CardTitle>
+                        <CardDescription>A breakdown of your content focus.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="h-[350px] pr-6">
+                        {isLoadingBlogs ? (
+                            <Skeleton className="w-full h-full" />
+                        ) : (
+                            <BlogPostByCategoryChart posts={blogPosts || []} />
+                        )}
+                    </CardContent>
                 </Card>
-                <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                    Subscriptions
-                    </CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">+2350</div>
-                    <p className="text-xs text-muted-foreground">
-                    +180.1% from last month
-                    </p>
-                </CardContent>
-                </Card>
-                <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                    <BarChart className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">+12,234</div>
-                    <p className="text-xs text-muted-foreground">
-                    +19% from last month
-                    </p>
-                </CardContent>
-                </Card>
-                <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-                    <Activity className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">+573</div>
-                    <p className="text-xs text-muted-foreground">
-                    +201 since last hour
-                    </p>
-                </CardContent>
+                <Card className="lg:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Recent Activity</CardTitle>
+                        <CardDescription>The latest blog posts published.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        {isLoadingRecentBlogs ? (
+                            <div className="space-y-4">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                    <div key={i} className="flex justify-between">
+                                        <Skeleton className="h-5 w-48" />
+                                        <Skeleton className="h-5 w-24" />
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <ul className="space-y-4">
+                                {recentBlogPosts?.map(post => (
+                                    <li key={post.id} className="flex justify-between items-center text-sm">
+                                        <div>
+                                            <p className="font-medium">{post.title}</p>
+                                            <p className="text-xs text-muted-foreground capitalize">{post.category}</p>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">{formatDate(post.publishDate)}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        { !isLoadingRecentBlogs && recentBlogPosts?.length === 0 && (
+                            <p className="text-sm text-muted-foreground text-center py-8">No recent blog posts.</p>
+                        )}
+                        <Button asChild variant="outline" className="w-full mt-6">
+                            <Link href="/admin/blogs">View All Posts</Link>
+                        </Button>
+                    </CardContent>
                 </Card>
             </div>
-            <div className="mt-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Welcome, Admin!</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p>This is your central hub for managing the website. Use the sidebar to navigate through different sections.</p>
-                        </CardContent>
-                    </Card>
-            </div>
+
         </div>
-        <div className="hidden lg:flex lg:w-1/3 flex-col items-center justify-center bg-secondary/30 rounded-lg p-4">
-            <div className="w-full max-w-[300px] h-[600px] bg-background shadow-2xl rounded-3xl border-4 border-foreground/80 overflow-hidden relative">
-                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-foreground/80 rounded-b-xl z-20"></div>
-                <iframe
-                    src="/"
-                    className="w-full h-full border-0"
-                    title="Live Preview"
-                ></iframe>
-            </div>
-            <p className="text-muted-foreground text-sm mt-4">Live Site Preview</p>
-        </div>
-    </div>
-  );
+    );
 }
