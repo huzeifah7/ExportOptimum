@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useUser, useAuth } from '@/firebase';
-import { updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider, updateEmail } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Camera, Edit } from 'lucide-react';
@@ -69,19 +69,29 @@ export default function ManageProfilePage() {
 
         try {
             let photoURL = user.photoURL;
+            const needsReauth = newPassword || email !== originalState.email;
 
-            // Handle password change
-            if (newPassword) {
+            // Handle email and password changes which require re-authentication
+            if (needsReauth) {
                 if (!currentPassword) {
-                    toast({ variant: 'destructive', title: "Current Password Required", description: "Please enter your current password to set a new one." });
+                    toast({ variant: 'destructive', title: "Current Password Required", description: "Please enter your current password to change your email or set a new password." });
                     setIsSubmitting(false);
                     return;
                 }
-                if(user.email){
-                    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+                 if(originalState.email){
+                    const credential = EmailAuthProvider.credential(originalState.email, currentPassword);
                     await reauthenticateWithCredential(auth.currentUser, credential);
-                    await updatePassword(auth.currentUser, newPassword);
-                    toast({ title: "Password Updated", description: "Your password has been changed successfully." });
+
+                    if (email !== originalState.email) {
+                        await updateEmail(auth.currentUser, email);
+                        toast({ title: "Email Updated", description: "Your email address has been changed successfully." });
+                    }
+                    
+                    if (newPassword) {
+                        await updatePassword(auth.currentUser, newPassword);
+                        toast({ title: "Password Updated", description: "Your password has been changed successfully." });
+                    }
+                    
                     setNewPassword('');
                     setCurrentPassword('');
                 }
@@ -95,7 +105,7 @@ export default function ManageProfilePage() {
             }
             
             // Check if profile data has actually changed
-             if(displayName !== originalState.displayName || (imageFile && photoURL !== originalState.photoURL)) {
+             if(displayName !== originalState.displayName || (photoURL && photoURL !== originalState.photoURL)) {
                 await updateProfile(auth.currentUser, {
                     displayName: displayName,
                     photoURL: photoURL,
@@ -113,7 +123,11 @@ export default function ManageProfilePage() {
             if (error.code === 'auth/wrong-password') {
                 description = "Incorrect current password. Please try again.";
             } else if (error.code === 'auth/requires-recent-login') {
-                description = "This operation is sensitive and requires recent authentication. Please log out and log back in before changing your password."
+                description = "This operation is sensitive and requires recent authentication. Please log out and log back in before changing your email or password."
+            } else if (error.code === 'auth/email-already-in-use') {
+                description = "This email is already in use by another account."
+            } else if (error.code === 'auth/invalid-email') {
+                description = "The email address is not valid."
             }
             toast({ variant: 'destructive', title: "Update Failed", description: description });
         } finally {
@@ -196,18 +210,22 @@ export default function ManageProfilePage() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email Address</Label>
-                                 <p className="text-lg text-muted-foreground">{email || "Not set"}</p>
+                                {isEditing ? (
+                                     <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                ) : (
+                                    <p className="text-lg text-muted-foreground">{email || "Not set"}</p>
+                                )}
                             </div>
                             {isEditing && (
                                 <>
-                                    <CardTitle className="pt-4 border-t">Change Password</CardTitle>
-                                    <CardDescription>Leave fields blank to keep your current password.</CardDescription>
+                                    <CardTitle className="pt-4 border-t">Security</CardTitle>
+                                    <CardDescription>To change your email or password, please provide your current password.</CardDescription>
                                     <div className="space-y-2">
                                         <Label htmlFor="currentPassword">Current Password</Label>
                                         <Input id="currentPassword" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="newPassword">New Password</Label>
+                                        <Label htmlFor="newPassword">New Password (optional)</Label>
                                         <Input id="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                                     </div>
                                 </>
