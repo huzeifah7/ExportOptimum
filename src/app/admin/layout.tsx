@@ -3,7 +3,6 @@
 import {
   SidebarProvider,
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarMenu,
   SidebarMenuItem,
@@ -24,7 +23,6 @@ import {
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import { Logo } from '@/components/logo';
 import { useUser } from '@/firebase';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -130,13 +128,6 @@ export default function AdminLayout({
         <AdminHeader />
         <div className="flex flex-1 overflow-hidden">
             <Sidebar collapsible="icon">
-              <SidebarHeader>
-                <div className="flex items-center justify-center p-2">
-                    <Link href="/" aria-label="Back to site">
-                        <Logo />
-                    </Link>
-                </div>
-              </SidebarHeader>
               <SidebarContent className="p-2">
                 <SidebarMenu>
                   {adminNavItems.map((item) => (
