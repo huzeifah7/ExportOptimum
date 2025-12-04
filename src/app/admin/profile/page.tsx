@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useUser, useAuth } from '@/firebase';
-import { updateProfile } from 'firebase/auth';
+import { updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Camera, Edit, X } from 'lucide-react';
+import { Loader2, Camera, Edit } from 'lucide-react';
 
 export default function ManageProfilePage() {
     const { user, isUserLoading } = useUser();
@@ -23,6 +23,8 @@ export default function ManageProfilePage() {
     
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
     
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -68,6 +70,23 @@ export default function ManageProfilePage() {
         try {
             let photoURL = user.photoURL;
 
+            // Handle password change
+            if (newPassword) {
+                if (!currentPassword) {
+                    toast({ variant: 'destructive', title: "Current Password Required", description: "Please enter your current password to set a new one." });
+                    setIsSubmitting(false);
+                    return;
+                }
+                if(user.email){
+                    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+                    await reauthenticateWithCredential(auth.currentUser, credential);
+                    await updatePassword(auth.currentUser, newPassword);
+                    toast({ title: "Password Updated", description: "Your password has been changed successfully." });
+                    setNewPassword('');
+                    setCurrentPassword('');
+                }
+            }
+
             // Only upload a new image if a new file has been selected
             if (imageFile) {
                 const storageRef = ref(storage, `avatars/${user.uid}/${imageFile.name}`);
@@ -90,7 +109,13 @@ export default function ManageProfilePage() {
 
         } catch (error: any) {
             console.error("Error updating profile:", error);
-            toast({ variant: 'destructive', title: "Update Failed", description: error.message });
+            let description = "An unknown error occurred.";
+            if (error.code === 'auth/wrong-password') {
+                description = "Incorrect current password. Please try again.";
+            } else if (error.code === 'auth/requires-recent-login') {
+                description = "This operation is sensitive and requires recent authentication. Please log out and log back in before changing your password."
+            }
+            toast({ variant: 'destructive', title: "Update Failed", description: description });
         } finally {
             setIsSubmitting(false);
         }
@@ -101,6 +126,8 @@ export default function ManageProfilePage() {
         setEmail(originalState.email);
         setImagePreview(originalState.photoURL);
         setImageFile(null);
+        setNewPassword('');
+        setCurrentPassword('');
         setIsEditing(false);
     }
     
@@ -171,6 +198,20 @@ export default function ManageProfilePage() {
                                 <Label htmlFor="email">Email Address</Label>
                                  <p className="text-lg text-muted-foreground">{email || "Not set"}</p>
                             </div>
+                            {isEditing && (
+                                <>
+                                    <CardTitle className="pt-4 border-t">Change Password</CardTitle>
+                                    <CardDescription>Leave fields blank to keep your current password.</CardDescription>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="currentPassword">Current Password</Label>
+                                        <Input id="currentPassword" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="newPassword">New Password</Label>
+                                        <Input id="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </CardContent>
                      {isEditing && (

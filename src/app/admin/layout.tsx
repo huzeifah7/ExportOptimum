@@ -218,10 +218,6 @@ export default function AdminLayout({
                                  <span>Manage Profile</span>
                                </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <ShieldCheck className="mr-2 h-4 w-4" />
-                                <span>Edit Password</span>
-                            </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={handleLogout}>
                                 <LogOut className="mr-2 h-4 w-4" />
