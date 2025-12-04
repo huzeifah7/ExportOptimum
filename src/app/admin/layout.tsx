@@ -126,36 +126,36 @@ export default function AdminLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-secondary/50">
-        <Sidebar collapsible="icon">
-          <SidebarHeader>
-            <div className="flex items-center justify-center p-2">
-                <Link href="/" aria-label="Back to site">
-                    <Logo />
-                </Link>
-            </div>
-          </SidebarHeader>
-          <SidebarContent className="p-2">
-            <SidebarMenu>
-              {adminNavItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    onClick={() => router.push(item.href)}
-                    isActive={pathname.startsWith(item.href)}
-                    tooltip={item.label}
-                    size="sm"
-                  >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarContent>
-        </Sidebar>
-        <div className="flex-1 flex flex-col overflow-y-auto">
-            <AdminHeader />
-            <main className="flex-1 p-8">
+      <div className="flex flex-col h-screen bg-secondary/50">
+        <AdminHeader />
+        <div className="flex flex-1 overflow-hidden">
+            <Sidebar collapsible="icon">
+              <SidebarHeader>
+                <div className="flex items-center justify-center p-2">
+                    <Link href="/" aria-label="Back to site">
+                        <Logo />
+                    </Link>
+                </div>
+              </SidebarHeader>
+              <SidebarContent className="p-2">
+                <SidebarMenu>
+                  {adminNavItems.map((item) => (
+                    <SidebarMenuItem key={item.href}>
+                      <SidebarMenuButton
+                        onClick={() => router.push(item.href)}
+                        isActive={pathname.startsWith(item.href)}
+                        tooltip={item.label}
+                        size="sm"
+                      >
+                        {item.icon}
+                        <span>{item.label}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarContent>
+            </Sidebar>
+            <main className="flex-1 p-8 overflow-y-auto">
                 {children}
             </main>
         </div>
