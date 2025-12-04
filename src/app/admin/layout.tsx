@@ -178,46 +178,6 @@ export default function AdminLayout({
               ))}
             </SidebarMenu>
           </SidebarContent>
-          <SidebarFooter className="p-2">
-            <SidebarSeparator />
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-auto w-full justify-start p-2">
-                        <div className="flex items-center gap-3 w-full">
-                            <Avatar className="h-8 w-8">
-                                <AvatarImage src={user?.photoURL || undefined} alt="Admin" />
-                                <AvatarFallback>{user?.displayName?.charAt(0) ?? 'A'}</AvatarFallback>
-                            </Avatar>
-                            <div className="text-left hidden group-data-[state=expanded]:block">
-                                <p className="font-medium text-sm truncate">{user?.displayName || 'Admin'}</p>
-                            </div>
-                        </div>
-                        <MoreHorizontal className="h-4 w-4 hidden ml-auto group-data-[state=expanded]:block" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 mb-2 ml-2" side="top" align="start">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                        <Link href="/admin/profile">
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Manage Profile</span>
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                         <Link href="/">
-                            <Home className="mr-2 h-4 w-4" />
-                            <span>Back to Site</span>
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Logout</span>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarFooter>
         </Sidebar>
         <main className="flex-1 flex flex-col overflow-y-auto">
              <header className="p-4 border-b flex items-center justify-between gap-4 bg-background">
@@ -225,7 +185,40 @@ export default function AdminLayout({
                     <SidebarTrigger />
                     <h1 className="text-xl font-semibold font-headline">Admin Panel</h1>
                 </div>
-                {/* User dropdown removed from here */}
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-auto p-0 rounded-full">
+                            <Avatar className="h-8 w-8">
+                                <AvatarImage src={user?.photoURL || undefined} alt="Admin" />
+                                <AvatarFallback>{user?.displayName?.charAt(0) ?? 'A'}</AvatarFallback>
+                            </Avatar>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56" align="end">
+                        <DropdownMenuLabel>
+                            <p className="font-medium text-sm truncate">{user?.displayName || 'Admin'}</p>
+                            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href="/admin/profile">
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Manage Profile</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/">
+                                <Home className="mr-2 h-4 w-4" />
+                                <span>Back to Site</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={handleLogout}>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span>Logout</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </header>
             <div className="p-8 flex-1">
                 {children}
