@@ -45,6 +45,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useUser, useAuth } from '@/firebase';
 import { signOut } from 'firebase/auth';
+import Link from 'next/link';
 
 
 const adminNavItems = [
@@ -199,21 +200,23 @@ export default function AdminLayout({
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="relative h-10 w-auto px-4 flex items-center gap-2">
                                 <Avatar className="h-8 w-8">
-                                    <AvatarImage src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Admin" />
+                                    <AvatarImage src={user?.photoURL || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080"} alt="Admin" />
                                     <AvatarFallback>A</AvatarFallback>
                                 </Avatar>
                                 <div className="text-left hidden sm:block">
-                                    <p className="font-medium text-sm">Admin</p>
-                                    <p className="text-xs text-muted-foreground">admin@example.com</p>
+                                    <p className="font-medium text-sm">{user?.displayName || 'Admin'}</p>
+                                    <p className="text-xs text-muted-foreground">{user?.email || 'admin@example.com'}</p>
                                 </div>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56" align="end" forceMount>
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <Settings className="mr-2 h-4 w-4" />
-                                <span>Manage Profile</span>
+                            <DropdownMenuItem asChild>
+                               <Link href="/admin/profile">
+                                 <Settings className="mr-2 h-4 w-4" />
+                                 <span>Manage Profile</span>
+                               </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <ShieldCheck className="mr-2 h-4 w-4" />
