@@ -29,6 +29,7 @@ import {
   ShieldCheck,
   Home,
   Loader2,
+  MoreHorizontal,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -151,11 +152,13 @@ export default function AdminLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-background">
-        <Sidebar collapsible="offcanvas">
+      <div className="flex h-screen bg-secondary/50">
+        <Sidebar collapsible="icon">
           <SidebarHeader>
             <div className="flex items-center gap-2 p-2">
-                <Logo />
+                <Link href="/" aria-label="Back to site">
+                    <Logo />
+                </Link>
             </div>
           </SidebarHeader>
           <SidebarContent className="p-2">
@@ -164,8 +167,9 @@ export default function AdminLayout({
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
                     onClick={() => router.push(item.href)}
-                    isActive={pathname === item.href}
+                    isActive={pathname.startsWith(item.href)}
                     tooltip={item.label}
+                    size="sm"
                   >
                     {item.icon}
                     <span>{item.label}</span>
@@ -176,58 +180,54 @@ export default function AdminLayout({
           </SidebarContent>
           <SidebarFooter className="p-2">
             <SidebarSeparator />
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton
-                        onClick={() => router.push('/')}
-                        tooltip="Back to Site"
-                    >
-                        <Home />
-                        <span>Back to Site</span>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-auto w-full justify-start p-2">
+                        <div className="flex items-center gap-3 w-full">
+                            <Avatar className="h-8 w-8">
+                                <AvatarImage src={user?.photoURL || undefined} alt="Admin" />
+                                <AvatarFallback>{user?.displayName?.charAt(0) ?? 'A'}</AvatarFallback>
+                            </Avatar>
+                            <div className="text-left hidden group-data-[state=expanded]:block">
+                                <p className="font-medium text-sm truncate">{user?.displayName || 'Admin'}</p>
+                            </div>
+                        </div>
+                        <MoreHorizontal className="h-4 w-4 hidden ml-auto group-data-[state=expanded]:block" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 mb-2 ml-2" side="top" align="start">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href="/admin/profile">
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Manage Profile</span>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                         <Link href="/">
+                            <Home className="mr-2 h-4 w-4" />
+                            <span>Back to Site</span>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Logout</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
           </SidebarFooter>
         </Sidebar>
-        <main className="w-full flex-1 flex flex-col overflow-y-auto">
-             <header className="p-4 border-b flex items-center justify-between gap-4">
+        <main className="flex-1 flex flex-col overflow-y-auto">
+             <header className="p-4 border-b flex items-center justify-between gap-4 bg-background">
                 <div className='flex items-center gap-4'>
                     <SidebarTrigger />
                     <h1 className="text-xl font-semibold font-headline">Admin Panel</h1>
                 </div>
-                <div>
-                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="relative h-10 w-auto px-4 flex items-center gap-2">
-                                <Avatar className="h-8 w-8">
-                                    <AvatarImage src={user?.photoURL || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080"} alt="Admin" />
-                                    <AvatarFallback>A</AvatarFallback>
-                                </Avatar>
-                                <div className="text-left hidden sm:block">
-                                    <p className="font-medium text-sm">{user?.displayName || 'Admin'}</p>
-                                    <p className="text-xs text-muted-foreground">{user?.email || 'admin@example.com'}</p>
-                                </div>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56" align="end" forceMount>
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                               <Link href="/admin/profile">
-                                 <Settings className="mr-2 h-4 w-4" />
-                                 <span>Manage Profile</span>
-                               </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={handleLogout}>
-                                <LogOut className="mr-2 h-4 w-4" />
-                                <span>Logout</span>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
+                {/* User dropdown removed from here */}
             </header>
-            <div className="p-8">
+            <div className="p-8 flex-1">
                 {children}
             </div>
         </main>
