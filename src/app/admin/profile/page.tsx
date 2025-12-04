@@ -38,8 +38,8 @@ export default function ManageProfilePage() {
     useEffect(() => {
         if (user) {
             const profileState = {
-                displayName: user.displayName || '',
-                email: user.email || '',
+                displayName: user.displayName || 'Admin',
+                email: user.email || 'admin@example.com',
                 photoURL: user.photoURL || '',
             }
             setDisplayName(profileState.displayName);

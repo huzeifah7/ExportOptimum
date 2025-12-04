@@ -9,12 +9,12 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
 import { useAuth, useUser } from '@/firebase';
-import { signInAnonymously } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Loader2 } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@example.com');
+  const [password, setPassword] = useState('password');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -39,18 +39,26 @@ export default function AdminLoginPage() {
       return;
     }
 
-    if (username === 'adminX' && password === 'adminx1') {
-      try {
-        await signInAnonymously(auth);
-        // The useEffect will handle the redirect once the user state is updated.
-      } catch (authError) {
-        console.error("Firebase anonymous sign-in failed:", authError);
-        setError('Login failed. Please try again.');
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // The useEffect will handle the redirect once the user state is updated.
+    } catch (signInError: any) {
+      // If sign-in fails because the user does not exist, create the user.
+      if (signInError.code === 'auth/user-not-found' || signInError.code === 'auth/invalid-credential') {
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          // The onAuthStateChanged listener in the provider will automatically handle
+          // the user state update and the useEffect will trigger the redirect.
+        } catch (signUpError: any) {
+          console.error("Firebase sign-up failed:", signUpError);
+          setError('Failed to create an admin account. Please try again.');
+          setLoading(false);
+        }
+      } else {
+        console.error("Firebase sign-in failed:", signInError);
+        setError('Login failed. Please check your credentials and try again.');
         setLoading(false);
       }
-    } else {
-      setError('Invalid username or password');
-      setLoading(false);
     }
   };
   
@@ -81,13 +89,13 @@ export default function AdminLoginPage() {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="username"
-                type="text"
-                placeholder="adminX"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                type="email"
+                placeholder="admin@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
               />
