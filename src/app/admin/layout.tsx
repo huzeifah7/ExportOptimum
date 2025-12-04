@@ -152,7 +152,7 @@ export default function AdminLayout({
   return (
     <SidebarProvider>
       <div className="flex h-screen bg-background">
-        <Sidebar collapsible="icon">
+        <Sidebar collapsible="offcanvas">
           <SidebarHeader>
             <div className="flex items-center gap-2 p-2">
                 <Logo />
@@ -189,7 +189,7 @@ export default function AdminLayout({
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <main className="flex-1 overflow-y-auto">
+        <main className="w-full overflow-y-auto">
              <header className="p-4 border-b flex items-center justify-between gap-4">
                 <div className='flex items-center gap-4'>
                     <SidebarTrigger />
