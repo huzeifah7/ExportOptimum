@@ -95,7 +95,7 @@ export default function ManageProfilePage() {
             }
             
             // Check if profile data has actually changed
-             if(displayName !== originalState.displayName || photoURL !== originalState.photoURL) {
+             if(displayName !== originalState.displayName || (imageFile && photoURL !== originalState.photoURL)) {
                 await updateProfile(auth.currentUser, {
                     displayName: displayName,
                     photoURL: photoURL,
