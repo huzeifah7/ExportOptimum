@@ -5,12 +5,9 @@ import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
-  SidebarFooter,
-  SidebarTrigger,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
@@ -23,30 +20,15 @@ import {
   Users,
   Star,
   Handshake,
-  LogOut,
   Leaf,
-  Settings,
-  ShieldCheck,
-  Home,
-  Loader2,
-  MoreHorizontal,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { Logo } from '@/components/logo';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useUser, useAuth } from '@/firebase';
-import { signOut } from 'firebase/auth';
+import { useUser } from '@/firebase';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import AdminHeader from '@/components/layout/admin-header';
 
 
 const adminNavItems = [
@@ -114,7 +96,6 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const auth = useAuth();
   const { user, isUserLoading } = useUser();
 
   useEffect(() => {
@@ -124,13 +105,6 @@ export default function AdminLayout({
     }
   }, [isUserLoading, user, router]);
 
-  const handleLogout = async () => {
-    if (auth) {
-      await signOut(auth);
-    }
-    // No need to remove from localStorage, useEffect will handle redirection
-    router.replace('/admin/login');
-  };
 
   if (pathname === '/admin/login') {
     return <>{children}</>;
@@ -155,7 +129,7 @@ export default function AdminLayout({
       <div className="flex h-screen bg-secondary/50">
         <Sidebar collapsible="icon">
           <SidebarHeader>
-            <div className="flex items-center gap-2 p-2">
+            <div className="flex items-center justify-center p-2">
                 <Link href="/" aria-label="Back to site">
                     <Logo />
                 </Link>
@@ -179,51 +153,12 @@ export default function AdminLayout({
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
-        <main className="flex-1 flex flex-col overflow-y-auto">
-             <header className="p-4 border-b flex items-center justify-between gap-4 bg-background">
-                <div className='flex items-center gap-4'>
-                    <SidebarTrigger />
-                    <h1 className="text-xl font-semibold font-headline">Admin Panel</h1>
-                </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-auto p-0 rounded-full">
-                            <Avatar className="h-8 w-8">
-                                <AvatarImage src={user?.photoURL || undefined} alt="Admin" />
-                                <AvatarFallback>{user?.displayName?.charAt(0) ?? 'A'}</AvatarFallback>
-                            </Avatar>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56" align="end">
-                        <DropdownMenuLabel>
-                            <p className="font-medium text-sm truncate">{user?.displayName || 'Admin'}</p>
-                            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
-                        </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href="/admin/profile">
-                                <Settings className="mr-2 h-4 w-4" />
-                                <span>Manage Profile</span>
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href="/">
-                                <Home className="mr-2 h-4 w-4" />
-                                <span>Back to Site</span>
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleLogout}>
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>Logout</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </header>
-            <div className="p-8 flex-1">
+        <div className="flex-1 flex flex-col overflow-y-auto">
+            <AdminHeader />
+            <main className="flex-1 p-8">
                 {children}
-            </div>
-        </main>
+            </main>
+        </div>
       </div>
     </SidebarProvider>
   );
