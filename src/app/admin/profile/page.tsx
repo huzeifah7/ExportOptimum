@@ -69,7 +69,7 @@ export default function ManageProfilePage() {
 
         try {
             let photoURL = user.photoURL;
-            const needsReauth = newPassword || email !== originalState.email;
+            const needsReauth = newPassword || email !== auth.currentUser.email;
 
             // Handle email and password changes which require re-authentication
             if (needsReauth) {
@@ -78,11 +78,11 @@ export default function ManageProfilePage() {
                     setIsSubmitting(false);
                     return;
                 }
-                 if(originalState.email){
-                    const credential = EmailAuthProvider.credential(originalState.email, currentPassword);
+                 if(auth.currentUser.email){
+                    const credential = EmailAuthProvider.credential(auth.currentUser.email, currentPassword);
                     await reauthenticateWithCredential(auth.currentUser, credential);
 
-                    if (email !== originalState.email) {
+                    if (email !== auth.currentUser.email) {
                         await updateEmail(auth.currentUser, email);
                         toast({ title: "Email Updated", description: "Your email address has been changed successfully." });
                     }
@@ -120,7 +120,7 @@ export default function ManageProfilePage() {
         } catch (error: any) {
             console.error("Error updating profile:", error);
             let description = "An unknown error occurred.";
-            if (error.code === 'auth/wrong-password') {
+            if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
                 description = "Incorrect current password. Please try again.";
             } else if (error.code === 'auth/requires-recent-login') {
                 description = "This operation is sensitive and requires recent authentication. Please log out and log back in before changing your email or password."
