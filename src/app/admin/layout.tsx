@@ -97,7 +97,6 @@ export default function AdminLayout({
   const { user, isUserLoading } = useUser();
 
   useEffect(() => {
-    // If auth state is not loading and there's no user, redirect to login
     if (!isUserLoading && !user) {
       router.replace('/admin/login');
     }
@@ -108,7 +107,6 @@ export default function AdminLayout({
     return <>{children}</>;
   }
   
-  // Show a loader while Firebase is determining the auth state
   if (isUserLoading) {
     return (
         <div className="flex h-screen w-full items-center justify-center bg-background">
@@ -117,7 +115,6 @@ export default function AdminLayout({
     );
   }
 
-  // If loading is finished but there is still no user, we are redirecting, so render nothing.
   if (!user) {
     return null;
   }
@@ -127,8 +124,8 @@ export default function AdminLayout({
       <div className="flex flex-col h-screen bg-secondary/50">
         <AdminHeader />
         <div className="flex flex-1 overflow-hidden">
-            <Sidebar collapsible="icon">
-              <SidebarContent className="p-2">
+            <Sidebar collapsible="icon" className="bg-transparent border-none">
+              <SidebarContent>
                 <SidebarMenu>
                   {adminNavItems.map((item) => (
                     <SidebarMenuItem key={item.href}>
