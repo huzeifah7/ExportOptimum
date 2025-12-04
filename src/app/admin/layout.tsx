@@ -189,7 +189,7 @@ export default function AdminLayout({
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <main className="w-full flex-1 flex-col overflow-y-auto">
+        <main className="w-full flex-1 flex flex-col overflow-y-auto">
              <header className="p-4 border-b flex items-center justify-between gap-4">
                 <div className='flex items-center gap-4'>
                     <SidebarTrigger />
