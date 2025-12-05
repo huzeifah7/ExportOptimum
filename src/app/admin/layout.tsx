@@ -13,6 +13,7 @@ import {
   Handshake,
   Leaf,
   PanelLeft,
+  MessageSquare,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -30,6 +31,7 @@ const adminNavItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/admin/products', icon: Package, label: 'Products' },
   { href: '/admin/blogs', icon: FileText, label: 'Blogs' },
+  { href: '/admin/messages', icon: MessageSquare, label: 'Messages' },
   { href: '/admin/hero', icon: ImageIcon, label: 'Hero' },
   { href: '/admin/key-figures', icon: BarChart2, label: 'Key Figures' },
   { href: '/admin/about', icon: Info, label: 'About Us' },
