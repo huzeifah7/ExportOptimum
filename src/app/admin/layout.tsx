@@ -49,11 +49,11 @@ function SidebarNav() {
               href={item.href}
               className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 group
                 ${isActive 
-                  ? 'bg-blue-600 text-white' 
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                  ? 'bg-primary-foreground/10 text-white' 
+                  : 'text-primary-foreground/70 hover:bg-primary-foreground/5 hover:text-white'
                 }`}
             >
-              <item.icon size={20} className={`mr-3 ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-400'}`} />
+              <item.icon size={20} className={`mr-3 ${isActive ? 'text-white' : 'text-primary-foreground/60 group-hover:text-white'}`} />
               <span className="font-medium">{item.label}</span>
             </Link>
           )
@@ -65,18 +65,18 @@ function SidebarNav() {
 
 function Sidebar() {
   return (
-    <aside className="w-64 bg-slate-900 text-white hidden md:flex flex-col shadow-xl z-10">
-      <div className="h-16 flex items-center justify-center border-b border-slate-800">
-        <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
+    <aside className="w-64 bg-primary text-primary-foreground hidden md:flex flex-col shadow-xl z-10">
+      <div className="h-16 flex items-center justify-center border-b border-primary-foreground/20">
+        <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground">
           EXPORT OPTIMUM
         </Link>
       </div>
       <SidebarNav />
-      <div className="p-4 border-t border-slate-800">
-        <div className="bg-slate-800 rounded-lg p-4">
-          <p className="text-xs text-slate-400 mb-2">Export Optimum</p>
-          <div className="w-full bg-slate-700 rounded-full h-1.5">
-            <div className="bg-blue-500 h-1.5 rounded-full w-full"></div>
+      <div className="p-4 border-t border-primary-foreground/20">
+        <div className="bg-primary-foreground/10 rounded-lg p-4">
+          <p className="text-xs text-primary-foreground/80 mb-2">Export Optimum</p>
+          <div className="w-full bg-primary-foreground/20 rounded-full h-1.5">
+            <div className="bg-primary-foreground h-1.5 rounded-full w-full"></div>
           </div>
         </div>
       </div>
@@ -121,15 +121,14 @@ export default function AdminLayout({
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         
-        {/* Mobile Sidebar */}
         <Sheet open={isMobileNavOpen} onOpenChange={setMobileNavOpen}>
-            <SheetContent side="left" className="p-0 bg-slate-900 text-white border-r-0 w-64">
+            <SheetContent side="left" className="p-0 bg-primary text-primary-foreground border-r-0 w-64">
               <SheetHeader>
                 <SheetTitle className="sr-only">Admin Menu</SheetTitle>
               </SheetHeader>
               <div className="flex h-full flex-col">
-                <div className="h-16 flex items-center justify-center border-b border-slate-800">
-                  <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
+                <div className="h-16 flex items-center justify-center border-b border-primary-foreground/20">
+                  <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground">
                     EXPORT OPTIMUM
                   </Link>
                 </div>
