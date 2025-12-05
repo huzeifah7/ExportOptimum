@@ -63,8 +63,11 @@ service cloud.firestore {
     }
 
     match /messages/{messageId} {
-      allow read, delete: if request.auth != null;
+      allow get, delete: if request.auth != null;
       allow write: if true;
+    }
+    match /messages {
+      allow list: if request.auth != null;
     }
   }
 }
