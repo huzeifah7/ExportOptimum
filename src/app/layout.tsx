@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import './animations.css';
@@ -5,8 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
-  title: 'Avocado Export Hub',
-  description: 'Premium Moroccan Avocado Exports',
+  title: 'Export Optimum',
+  description: 'Premium Moroccan Exports',
 };
 
 export default function RootLayout({

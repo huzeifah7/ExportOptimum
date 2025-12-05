@@ -88,7 +88,7 @@ export default function AboutPage() {
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-3xl md:text-4xl font-headline font-bold">Rooted in Excellence</h2>
                     <p className="mt-4 text-lg text-muted-foreground">
-                        Avocado Export Hub was born from a simple yet powerful idea: to share the exceptional quality and taste of Moroccan avocados with the world. Our journey is one of dedication, innovation, and a deep respect for the land we cultivate. We are more than just exporters; we are custodians of a legacy, committed to delivering nature's finest with every shipment.
+                        Export Optimum was born from a simple yet powerful idea: to share the exceptional quality and taste of Moroccan avocados with the world. Our journey is one of dedication, innovation, and a deep respect for the land we cultivate. We are more than just exporters; we are custodians of a legacy, committed to delivering nature's finest with every shipment.
                     </p>
                 </div>
             </div>

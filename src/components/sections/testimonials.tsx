@@ -1,3 +1,4 @@
+
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -5,7 +6,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import SplitText from '@/components/ui/split-text';
 
 const testimonials = [
-  { id: 'client-1', name: 'John Doe', company: 'Global Grocers', text: 'The quality of avocados from Avocado Export Hub is consistently outstanding. Our customers love them!', imageHint: 'person portrait' },
+  { id: 'client-1', name: 'John Doe', company: 'Global Grocers', text: 'The quality of avocados from Export Optimum is consistently outstanding. Our customers love them!', imageHint: 'person portrait' },
   { id: 'client-2', name: 'Jane Smith', company: 'Fresh Foods Inc.', text: 'Reliable, professional, and always delivering the best. They are our go-to partner for avocados.', imageHint: 'person portrait' },
   { id: 'client-3', name: 'Peter Jones', company: 'Organic Market', text: 'Their organic avocados are second to none. The taste and texture are perfect.', imageHint: 'person portrait' },
 ];

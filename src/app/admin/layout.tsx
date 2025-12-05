@@ -1,3 +1,4 @@
+
 'use client';
 import {
   LayoutDashboard,
@@ -40,7 +41,7 @@ function Sidebar() {
     <aside className="w-64 bg-slate-900 text-white hidden md:flex flex-col shadow-xl z-10">
       <div className="h-16 flex items-center justify-center border-b border-slate-800">
         <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
-          AVOCADO HUB
+          EXPORT OPTIMUM
         </Link>
       </div>
       <nav className="flex-1 px-4 py-6 space-y-2">
@@ -64,7 +65,7 @@ function Sidebar() {
       </nav>
       <div className="p-4 border-t border-slate-800">
         <div className="bg-slate-800 rounded-lg p-4">
-          <p className="text-xs text-slate-400 mb-2">Avocado Export Hub</p>
+          <p className="text-xs text-slate-400 mb-2">Export Optimum</p>
           <div className="w-full bg-slate-700 rounded-full h-1.5">
             <div className="bg-blue-500 h-1.5 rounded-full w-full"></div>
           </div>
