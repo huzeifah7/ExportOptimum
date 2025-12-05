@@ -36,7 +36,8 @@ const StatCard = ({
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.5 }}
     transition={{ duration: 0.5, delay }}
     className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 text-center shadow-lg backdrop-blur-md"
   >
