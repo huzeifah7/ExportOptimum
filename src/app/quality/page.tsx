@@ -1,4 +1,3 @@
-
 'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -11,39 +10,7 @@ import { collection } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion } from 'framer-motion';
 import Marquee from '@/components/ui/marquee';
-
-const qualityPillars = [
-    {
-        icon: <Thermometer className="w-8 h-8 text-primary" />,
-        title: 'Freshness',
-        description: 'An unbroken cold chain and rapid logistics ensure our produce arrives as fresh as the day it was picked.',
-    },
-    {
-        icon: <ShieldCheck className="w-8 h-8 text-primary" />,
-        title: 'Hygiene & Safety',
-        description: 'We adhere to strict international hygiene protocols at every stage, from handling to packing.',
-    },
-    {
-        icon: <GitBranch className="w-8 h-8 text-primary" />,
-        title: 'Traceability',
-        description: 'Every batch is fully traceable, providing complete transparency from our orchards to your facility.',
-    },
-     {
-        icon: <Sprout className="w-8 h-8 text-primary" />,
-        title: 'Sustainability',
-        description: 'Responsible farming practices that respect the land, conserve water, and support our ecosystem.',
-    },
-    {
-        icon: <HandHelping className="w-8 h-8 text-primary" />,
-        title: 'Professional Handling',
-        description: 'Our trained teams handle produce with the utmost care to prevent bruising and maintain perfect condition.',
-    },
-    {
-        icon: <PackageCheck className="w-8 h-8 text-primary" />,
-        title: 'Advanced Packing',
-        description: 'Our modern facilities use precision technology to sort, grade, and pack produce for optimal protection.',
-    },
-];
+import MagicBento from '@/components/ui/MagicBento';
 
 const processSteps = [
   {
@@ -85,24 +52,6 @@ type Certification = {
     imageUrl?: string;
     description?: string;
 }
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: 'spring', stiffness: 100 },
-  },
-};
-
 
 export default function QualityPage() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'quality-hero');
@@ -158,33 +107,26 @@ export default function QualityPage() {
         </motion.section>
 
         {/* Quality Pillars Section */}
-        <section className="py-20 lg:py-32 bg-background">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
+        <section className="py-20 lg:py-32 bg-gray-900 flex items-center justify-center">
+            <div className="w-full max-w-7xl mx-auto px-4">
+                <div className="text-center mb-16 text-white">
                     <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Quality Pillars</h2>
-                    <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+                    <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-300">
                         These are the non-negotiable principles that guide our operations and guarantee the superiority of our produce.
                     </p>
                 </div>
-                 <motion.div 
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                    {qualityPillars.map((pillar) => (
-                        <motion.div key={pillar.title} variants={itemVariants}>
-                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-full text-center hover:-translate-y-2 hover:shadow-lg transition-transform duration-300">
-                                <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
-                                    {pillar.icon}
-                                </div>
-                                <h3 className="text-xl font-bold font-headline">{pillar.title}</h3>
-                                <p className="mt-2 text-muted-foreground">{pillar.description}</p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </motion.div>
+                 <MagicBento 
+                  textAutoHide={true}
+                  enableStars={true}
+                  enableSpotlight={true}
+                  enableBorderGlow={true}
+                  enableTilt={true}
+                  enableMagnetism={true}
+                  clickEffect={true}
+                  spotlightRadius={300}
+                  particleCount={12}
+                  glowColor="80, 200, 120"
+                />
             </div>
         </section>
         
