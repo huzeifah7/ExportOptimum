@@ -43,6 +43,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Search, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 type Message = DocumentData & {
   id: string;
@@ -253,7 +254,7 @@ const MessageCard: React.FC<{ message: Message; onDelete: () => void }> = ({ mes
                 )}>
                     {message.message || 'No message content.'}
                 </p>
-                {(message.message?.split('\n').length > 3 || message.message?.length > 200) && (
+                {(message.message?.split('\\n').length > 3 || message.message?.length > 200) && (
                     <Button variant="link" size="sm" className="p-0 h-auto mt-2 text-primary" onClick={() => setIsExpanded(!isExpanded)}>
                        {isExpanded ? (
                            <>View less <ChevronUp className="ml-1 h-4 w-4"/></>
@@ -287,3 +288,5 @@ const MessageCardSkeleton = () => (
         </CardContent>
     </Card>
 );
+
+    
