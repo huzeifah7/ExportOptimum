@@ -607,5 +607,3 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
     </Dialog>
   );
 }
-
-    

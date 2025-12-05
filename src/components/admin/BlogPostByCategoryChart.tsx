@@ -12,15 +12,15 @@ import {
 } from 'recharts';
 import { useMemo } from 'react';
 
-type BlogPost = {
+type Post = {
     category: string;
 };
 
-type BlogPostByCategoryChartProps = {
-    posts: BlogPost[];
+type PostByCategoryChartProps = {
+    posts: Post[];
 };
 
-export function BlogPostByCategoryChart({ posts }: BlogPostByCategoryChartProps) {
+export function BlogPostByCategoryChart({ posts }: PostByCategoryChartProps) {
     const data = useMemo(() => {
         const categoryCounts = posts.reduce((acc, post) => {
             const category = post.category || 'Uncategorized';

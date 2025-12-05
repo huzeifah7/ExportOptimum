@@ -31,53 +31,13 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, Timestamp, orderBy, limit } from 'firebase/firestore';
+import { BlogPostByCategoryChart } from '@/components/admin/BlogPostByCategoryChart';
+import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
 
-// --- DUMMY DATA ---
-
-const statCardsData = [
-  {
-    title: 'Products',
-    value: '1,250',
-    trend: '+15.2%',
-    trendDirection: 'up' as const,
-    icon: Package,
-  },
-  {
-    title: 'Blog Posts',
-    value: '82',
-    trend: '+5.1%',
-    trendDirection: 'up' as const,
-    icon: FileText,
-  },
-  {
-    title: 'Last Messages',
-    value: '12',
-    trend: '24h',
-    trendDirection: 'neutral' as const,
-    icon: MessageSquare,
-  },
-  {
-    title: 'Website Views',
-    value: '12,890',
-    trend: '-2.1%',
-    trendDirection: 'down' as const,
-    icon: Eye,
-  },
-    {
-    title: 'Actuality',
-    value: 'Summer Sale',
-    trend: 'Active',
-    trendDirection: 'neutral' as const,
-    icon: Megaphone,
-  },
-  {
-    title: 'Social Traffic',
-    value: '4,567',
-    trend: '+33.8%',
-    trendDirection: 'up' as const,
-    icon: Users,
-  },
-];
+// --- DUMMY DATA (for components not connected to live data) ---
 
 const lineChartData = [
   { name: 'Jan', views: 4000 },
@@ -87,14 +47,6 @@ const lineChartData = [
   { name: 'May', views: 6000 },
   { name: 'Jun', views: 5500 },
   { name: 'Jul', views: 7000 },
-];
-
-const barChartData = [
-  { name: 'Avocado', sales: 4000 },
-  { name: 'Citrus', sales: 3000 },
-  { name: 'Berries', sales: 2000 },
-  { name: 'Vegetables', sales: 2780 },
-  { name: 'Herbs', sales: 1890 },
 ];
 
 const pieChartData = [
@@ -116,6 +68,7 @@ interface StatCardProps {
   trend: string;
   trendDirection: TrendDirection;
   icon: React.ElementType;
+  isLoading?: boolean;
 }
 
 // --- ANIMATION VARIANTS ---
@@ -175,6 +128,7 @@ const StatCard: React.FC<StatCardProps> = ({
   trend,
   trendDirection,
   icon: Icon,
+  isLoading,
 }) => (
   <motion.div variants={itemVariants} whileHover={{ scale: 1.03 }}>
     <Card className="rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
@@ -183,8 +137,17 @@ const StatCard: React.FC<StatCardProps> = ({
         <Icon className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div className="text-3xl font-bold">{value}</div>
-        <TrendIndicator direction={trendDirection} value={trend} />
+        {isLoading ? (
+            <>
+                <Skeleton className="h-8 w-1/2" />
+                <Skeleton className="h-4 w-1/3 mt-1" />
+            </>
+        ) : (
+            <>
+                <div className="text-3xl font-bold">{value}</div>
+                <TrendIndicator direction={trendDirection} value={trend} />
+            </>
+        )}
       </CardContent>
     </Card>
   </motion.div>
@@ -224,29 +187,21 @@ const LineChartCard: React.FC = () => (
   </motion.div>
 );
 
-const BarChartCard: React.FC = () => (
+const BarChartCard: React.FC<{posts: any[], isLoading: boolean}> = ({posts, isLoading}) => (
   <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }}>
      <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
       <CardHeader>
-        <CardTitle>Product Performance</CardTitle>
-        <CardDescription>Sales by category this month</CardDescription>
+        <CardTitle>Content Performance</CardTitle>
+        <CardDescription>Number of blog posts by category</CardDescription>
       </CardHeader>
       <CardContent className="h-[300px] w-full p-2">
-        <ResponsiveContainer>
-          <BarChart data={barChartData} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
-            <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-            <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: 'hsl(var(--background))',
-                border: '1px solid hsl(var(--border))',
-                borderRadius: '0.75rem',
-              }}
-              cursor={{ fill: 'hsl(var(--secondary))' }}
-            />
-            <Bar dataKey="sales" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+        {isLoading ? (
+            <div className="flex items-center justify-center h-full">
+                <Skeleton className="h-full w-full" />
+            </div>
+        ) : (
+            <BlogPostByCategoryChart posts={posts} />
+        )}
       </CardContent>
     </Card>
   </motion.div>
@@ -291,10 +246,115 @@ const DonutChartCard: React.FC = () => (
   </motion.div>
 );
 
+const RecentActivity: React.FC<{products: any[], isLoading: boolean}> = ({products, isLoading}) => (
+    <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }}>
+        <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
+            <CardHeader>
+                <CardTitle>Recent Activity</CardTitle>
+                <CardDescription>Latest products added to the catalog</CardDescription>
+            </CardHeader>
+            <CardContent className="h-[300px] space-y-4 overflow-y-auto">
+                {isLoading && Array.from({length: 3}).map((_, i) => (
+                    <div key={i} className="flex items-center gap-4">
+                        <Skeleton className="h-12 w-12 rounded-md" />
+                        <div className="space-y-2">
+                           <Skeleton className="h-4 w-32" />
+                           <Skeleton className="h-3 w-24" />
+                        </div>
+                    </div>
+                ))}
+                {!isLoading && products.map(product => (
+                    <div key={product.id} className="flex items-center gap-4">
+                        <div className="relative h-12 w-12 rounded-md overflow-hidden bg-muted">
+                            {product.imageUrl && <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />}
+                        </div>
+                        <div>
+                            <p className="font-semibold">{product.name}</p>
+                            <p className="text-sm text-muted-foreground capitalize">{product.category}</p>
+                        </div>
+                    </div>
+                ))}
+                {!isLoading && products.length === 0 && <p className="text-muted-foreground">No recent product activity.</p>}
+            </CardContent>
+        </Card>
+    </motion.div>
+);
+
 
 // --- MAIN DASHBOARD COMPONENT ---
 
 export default function DashboardPage() {
+  const firestore = useFirestore();
+
+  // --- Firestore Queries ---
+  const productsQuery = useMemoFirebase(() => firestore ? collection(firestore, 'products') : null, [firestore]);
+  const blogPostsQuery = useMemoFirebase(() => firestore ? collection(firestore, 'blogPosts') : null, [firestore]);
+  const messagesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    return query(collection(firestore, 'messages'), where('createdAt', '>=', Timestamp.fromDate(twentyFourHoursAgo)));
+  }, [firestore]);
+  const recentProductsQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'products'), orderBy('createdAt', 'desc'), limit(5)) : null, [firestore]);
+
+  // --- Data Fetching ---
+  const { data: products, isLoading: isLoadingProducts } = useCollection(productsQuery);
+  const { data: blogPosts, isLoading: isLoadingBlogPosts } = useCollection(blogPostsQuery);
+  const { data: recentMessages, isLoading: isLoadingMessages } = useCollection(messagesQuery);
+  const { data: recentProducts, isLoading: isLoadingRecentProducts } = useCollection(recentProductsQuery);
+
+
+  // --- Static Data ---
+  const statCardsData = [
+    {
+        title: 'Products',
+        value: products?.length.toString() ?? '0',
+        trend: '+15.2%',
+        trendDirection: 'up' as const,
+        icon: Package,
+        isLoading: isLoadingProducts,
+    },
+    {
+        title: 'Blog Posts',
+        value: blogPosts?.length.toString() ?? '0',
+        trend: '+5.1%',
+        trendDirection: 'up' as const,
+        icon: FileText,
+        isLoading: isLoadingBlogPosts,
+    },
+    {
+        title: 'Last Messages',
+        value: recentMessages?.length.toString() ?? '0',
+        trend: '24h',
+        trendDirection: 'neutral' as const,
+        icon: MessageSquare,
+        isLoading: isLoadingMessages,
+    },
+    {
+        title: 'Website Views',
+        value: '12,890',
+        trend: '-2.1%',
+        trendDirection: 'down' as const,
+        icon: Eye,
+        isLoading: false,
+    },
+    {
+        title: 'Actuality',
+        value: 'Summer Sale',
+        trend: 'Active',
+        trendDirection: 'neutral' as const,
+        icon: Megaphone,
+        isLoading: false,
+    },
+    {
+        title: 'Social Traffic',
+        value: '4,567',
+        trend: '+33.8%',
+        trendDirection: 'up' as const,
+        icon: Users,
+        isLoading: false,
+    },
+  ];
+
   return (
     <div className="flex-1 space-y-8 p-8 pt-6 bg-background">
       <div className="flex items-center justify-between space-y-2">
@@ -321,7 +381,7 @@ export default function DashboardPage() {
          animate="visible"
        >
         <LineChartCard />
-        <BarChartCard />
+        <BarChartCard posts={blogPosts || []} isLoading={isLoadingBlogPosts} />
       </motion.div>
       <motion.div 
          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
@@ -330,17 +390,7 @@ export default function DashboardPage() {
          animate="visible"
        >
         <DonutChartCard />
-        <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }}>
-            <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
-                <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>Latest actions and updates</CardDescription>
-                </CardHeader>
-                <CardContent className="h-[300px]">
-                    <p className="text-muted-foreground">Activity feed coming soon...</p>
-                </CardContent>
-            </Card>
-        </motion.div>
+        <RecentActivity products={recentProducts || []} isLoading={isLoadingRecentProducts} />
       </motion.div>
 
     </div>
