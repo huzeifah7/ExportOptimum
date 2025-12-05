@@ -110,10 +110,8 @@ export default function AboutUsPage() {
   const stats = [
     { icon: <Leaf className="h-8 w-8" />, value: '200 ha', label: 'Orchards', delay: 0.1 },
     { icon: <Ship className="h-8 w-8" />, value: '10k+ tons', label: 'Annual Export', delay: 0.2 },
-    { icon: <Globe className="h-8 w-8" />, value: '~20%', label: 'National Share', delay: 0.3 },
-    { icon: <Package className="h-8 w-8" />, value: '16/day', label: 'Truck Capacity', delay: 0.4 },
-    { icon: <Thermometer className="h-8 w-8" />, value: '5+', label: 'Cold Rooms', delay: 0.5 },
-    { icon: <ShieldCheck className="h-8 w-8" />, value: 'Certified', label: 'GlobalG.A.P.', delay: 0.6 },
+    { icon: <Thermometer className="h-8 w-8" />, value: '5+', label: 'Cold Rooms', delay: 0.3 },
+    { icon: <ShieldCheck className="h-8 w-8" />, value: 'Certified', label: 'GlobalG.A.P.', delay: 0.4 },
   ];
 
   const timelineItems = [
@@ -240,7 +238,7 @@ export default function AboutUsPage() {
         {/* Stats Section */}
         <section className="py-20 lg:py-32 bg-gray-50">
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     {stats.map((stat) => (
                         <StatCard key={stat.label} {...stat} />
                     ))}
