@@ -26,7 +26,7 @@ service cloud.firestore {
 
     match /blogPosts/{docId} {
       allow read: if true;
-      allow create, update, delete: if request.auth.uid == "EjBWKAzrRLeMuEt4ipJYXFEjnot2";
+      allow create, update, delete: if request.auth != null;
     }
 
     match /keyFigures/main {
@@ -41,7 +41,7 @@ service cloud.firestore {
 
     match /qualityCertifications/{qualityCertificationId} {
       allow read: if true;
-      allow write: if request.auth.uid == "EjBWKAzrRLeMuEt4ipJYXFEjnot2";
+      allow write: if request.auth != null;
     }
 
     match /avocadoVarieties/{avocadoVarietyId} {
@@ -65,7 +65,7 @@ service cloud.firestore {
     }
 
     match /messages/{messageId} {
-      allow read, delete: if request.auth != null;
+      allow get, list, delete: if request.auth != null;
       allow write: if true;
     }
      match /messages {
