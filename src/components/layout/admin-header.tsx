@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -10,21 +11,49 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useAuth, useUser } from '@/firebase';
+import { useAuth, useCollection, useFirestore, useMemoFirebase, useUser } from '@/firebase';
 import { Home, LogOut, Settings, Bell, ChevronDown, Menu } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Logo } from "../logo";
+import { useEffect, useState } from "react";
+import { collection, query, where, Timestamp } from "firebase/firestore";
 
 interface AdminHeaderProps {
   onMobileNavToggle: () => void;
 }
 
+type Message = {
+  id: string;
+  createdAt: Timestamp;
+}
+
 export default function AdminHeader({ onMobileNavToggle }: AdminHeaderProps) {
     const { user } = useUser();
     const auth = useAuth();
+    const firestore = useFirestore();
     const router = useRouter();
+    const [lastViewTimestamp, setLastViewTimestamp] = useState<Timestamp | null>(null);
+
+    useEffect(() => {
+        const storedTimestamp = localStorage.getItem('lastMessagesView');
+        if (storedTimestamp) {
+            setLastViewTimestamp(Timestamp.fromDate(new Date(storedTimestamp)));
+        }
+    }, []);
+    
+    const newMessagesQuery = useMemoFirebase(() => {
+        if (!firestore || !lastViewTimestamp) return null;
+        return query(
+            collection(firestore, 'messages'),
+            where('createdAt', '>', lastViewTimestamp)
+        );
+    }, [firestore, lastViewTimestamp]);
+
+    const { data: newMessages } = useCollection<Message>(newMessagesQuery);
+
+    const hasNewMessages = (newMessages?.length ?? 0) > 0;
     
     const handleLogout = async () => {
         if (auth) {
@@ -67,10 +96,12 @@ export default function AdminHeader({ onMobileNavToggle }: AdminHeaderProps) {
 
           {/* RIGHT: Profile Info & Dropdown */}
           <div className="flex items-center gap-6">
-            <button className="text-gray-400 hover:text-gray-600 transition-colors relative">
-              <Bell size={20} />
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
-            </button>
+            <Button asChild variant="ghost" className="text-gray-400 hover:text-gray-600 transition-colors relative h-auto w-auto p-2">
+              <Link href="/admin/messages">
+                <Bell size={20} />
+                {hasNewMessages && <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>}
+              </Link>
+            </Button>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="flex items-center gap-3 focus:outline-none group p-1 rounded-full hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200 h-auto">

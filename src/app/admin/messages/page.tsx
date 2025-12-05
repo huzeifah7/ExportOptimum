@@ -90,6 +90,11 @@ export default function MessagesPage() {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
+  useEffect(() => {
+    // When the user visits this page, update the timestamp in localStorage
+    localStorage.setItem('lastMessagesView', new Date().toISOString());
+  }, []);
+
   const messagesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(collection(firestore, 'messages'), orderBy('createdAt', 'desc'));
@@ -379,5 +384,3 @@ const MessageCardSkeleton = () => (
         </CardContent>
     </Card>
 );
-
-    
