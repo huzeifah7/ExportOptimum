@@ -3,28 +3,28 @@ export const navItems = [
   {
     label: 'About us',
     items: [
-      { label: 'About us', href: '/about' },
-      { label: 'Export optimum team', href: '/team' }
+      { label: 'Our Story', href: '/about-us' },
+      { label: 'Export Optimum Team', href: '/team' }
     ]
   },
   {
     label: 'Quality',
     items: [
-      { label: 'Quality', href: '/quality' },
+      { label: 'Our Process', href: '/quality' },
       { label: 'Certifications', href: '/quality#certifications' }
     ]
   },
   {
     label: 'Our Produce',
     items: [
-      { label: 'Our Produce', href: '/products' }
+      { label: 'All Produce', href: '/products' }
     ]
   },
   {
-    label: 'News',
+    label: 'News & Insights',
     items: [
-      { label: 'Blogs', href: '/blog' },
-      { label: 'Sustainability', href: '/sustainability' }
+      { label: 'From the Grove Blog', href: '/blog' },
+      { label: 'Sustainability Efforts', href: '/sustainability' }
     ]
   }
 ];

@@ -193,6 +193,24 @@
       "imageHint": "contact background"
     },
     {
+      "id": "about-us-c1",
+      "description": "Inside of a modern, clean packing station for produce.",
+      "imageUrl": "https://images.unsplash.com/photo-1760095435041-3957a2fa220e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGFja2luZyUyMHN0YXRpb258ZW58MHx8fHwxNzY0OTQyMzI4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "packing station"
+    },
+    {
+      "id": "about-us-c2",
+      "description": "A close up of workers hands sorting avocados.",
+      "imageUrl": "https://images.unsplash.com/photo-1637869824764-32afa9ce4ffb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhdm9jYWRvJTIwc29ydGluZ3xlbnwwfHx8fDE3NjQ5NDIzMjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "avocado sorting"
+    },
+    {
+      "id": "about-us-c3",
+      "description": "A temperature gauge in a modern cold room.",
+      "imageUrl": "https://images.unsplash.com/photo-1573575536645-051d14056400?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb2xkJTIwcm9vbXxlbnwwfHx8fDE3NjQ5NDIzMjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cold room"
+    },
+    {
       "id": "about-us-mission",
       "description": "A farmer holding a freshly picked avocado with a smile",
       "imageUrl": "https://images.unsplash.com/photo-1615890886616-9359051448a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXJtZXIlMjBob2xkaW5nJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjQwOTQ4NTh8MA&ixlib-rb-4.1.0&q=80&w=1080",
@@ -201,7 +219,7 @@
     {
       "id": "timeline-1",
       "description": "A small avocado seedling sprouting from the ground",
-      "imageUrl": "https://images.unsplash.com/photo-1627521873883-34e268a183d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwc2VlZGxpbmd8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1627521873883-34e268a183d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwc2VlZGxpbmd8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado seedling"
     },
     {
@@ -231,13 +249,13 @@
     {
       "id": "team-member-5",
       "description": "Portrait of a male professional",
-      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
       "id": "team-member-6",
       "description": "Portrait of a professional woman in a business setting",
-      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {

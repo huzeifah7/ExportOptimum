@@ -1,230 +1,318 @@
 
+'use client';
+import React from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import {
+  Leaf,
+  Globe,
+  Users,
+  Award,
+  ShieldCheck,
+  Package,
+  Ship,
+  Thermometer,
+  ArrowRight,
+  TrendingUp,
+  HeartHandshake,
+  Lightbulb,
+} from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, Target, Globe, Users, Award, Briefcase } from 'lucide-react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
-const timelineEvents = [
-  {
-    year: '2010',
-    title: 'The Seed is Planted',
-    description: 'Our founders, driven by a passion for quality agriculture, establish the first avocado groves in the fertile regions of Morocco.',
-    imageId: 'timeline-1'
-  },
-  {
-    year: '2015',
-    title: 'First International Export',
-    description: 'After years of perfecting our cultivation methods, we successfully completed our first international shipment to Europe, marking our entry into the global market.',
-    imageId: 'timeline-2'
-  },
-  {
-    year: '2020',
-    title: 'Embracing Sustainability',
-    description: 'We achieved major sustainability milestones, implementing water-saving irrigation and receiving our first organic certifications.',
-    imageId: 'timeline-3'
-  },
-  {
-    year: '2024',
-    title: 'Expanding Horizons',
-    description: 'With a network spanning continents, we continue to grow, innovate, and share the finest Moroccan avocados with the world.',
-    imageId: 'timeline-4'
-  },
-];
+const StatCard = ({
+  icon,
+  value,
+  label,
+  delay,
+}: {
+  icon: React.ReactNode;
+  value: string;
+  label: string;
+  delay: number;
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay }}
+    className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 text-center shadow-lg backdrop-blur-md"
+  >
+    <div className="relative z-10">
+      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/5 text-primary">
+        {icon}
+      </div>
+      <p className="text-4xl font-bold font-headline text-white">{value}</p>
+      <p className="mt-1 text-sm text-white/70">{label}</p>
+    </div>
+  </motion.div>
+);
 
-const teamMembers = [
-    {
-      id: 'client-1',
-      name: 'John Doe',
-      role: 'Chief Executive Officer',
-      imageHint: 'person portrait',
-    },
-    {
-      id: 'client-2',
-      name: 'Jane Smith',
-      role: 'Head of Operations',
-      imageHint: 'person portrait',
-    },
-    {
-      id: 'client-3',
-      name: 'Peter Jones',
-      role: 'Lead Agriculturist',
-      imageHint: 'person portrait',
-    },
-];
+const TimelineStep = ({
+  icon,
+  title,
+  description,
+  isLast = false,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  isLast?: boolean;
+}) => (
+  <div className="relative flex items-start">
+    <div className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-2 border-primary bg-background">
+      {icon}
+    </div>
+    {!isLast && (
+      <div className="absolute left-6 top-12 h-full w-0.5 bg-border" />
+    )}
+    <div className="ml-6 pb-12">
+      <h4 className="text-xl font-bold font-headline">{title}</h4>
+      <p className="mt-1 text-muted-foreground">{description}</p>
+    </div>
+  </div>
+);
 
-export default function AboutPage() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'about-us-hero');
-  const missionImage = PlaceHolderImages.find(p => p.id === 'about-us-mission');
+const ValueCard = ({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) => (
+  <div className="rounded-xl border border-border bg-background p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+      {icon}
+    </div>
+    <h4 className="text-xl font-bold font-headline">{title}</h4>
+    <p className="mt-2 text-muted-foreground">{description}</p>
+  </div>
+);
+
+export default function AboutUsPage() {
+  const heroRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const heroImage = PlaceHolderImages.find((p) => p.id === 'about-us-hero');
+  const collageImage1 = PlaceHolderImages.find((p) => p.id === 'about-us-c1');
+  const collageImage2 = PlaceHolderImages.find((p) => p.id === 'about-us-c2');
+  const collageImage3 = PlaceHolderImages.find((p) => p.id === 'about-us-c3');
+
+  const stats = [
+    { icon: <Leaf className="h-8 w-8" />, value: '200 ha', label: 'Orchards', delay: 0.1 },
+    { icon: <Ship className="h-8 w-8" />, value: '10k+ tons', label: 'Annual Export', delay: 0.2 },
+    { icon: <Globe className="h-8 w-8" />, value: '~20%', label: 'National Share', delay: 0.3 },
+    { icon: <Package className="h-8 w-8" />, value: '16/day', label: 'Truck Capacity', delay: 0.4 },
+    { icon: <Thermometer className="h-8 w-8" />, value: '5+', label: 'Cold Rooms', delay: 0.5 },
+    { icon: <ShieldCheck className="h-8 w-8" />, value: 'Certified', label: 'GlobalG.A.P.', delay: 0.6 },
+  ];
+
+  const timelineItems = [
+    { icon: <Leaf className="h-6 w-6 text-primary" />, title: 'Cultivation & Growth', description: 'In the fertile Gharb-Loukkos region, our 200 hectares of GlobalG.A.P.-certified orchards are meticulously cared for to produce the finest Hass avocados.' },
+    { icon: <Users className="h-6 w-6 text-primary" />, title: 'Precision Harvesting', description: 'Our expert teams hand-pick each avocado at its peak ripeness, ensuring optimal flavor, texture, and a longer shelf life for our partners.' },
+    { icon: <Package className="h-6 w-6 text-primary" />, title: 'Advanced Packing', description: 'Our state-of-the-art packing station sorts, grades, and packages produce with precision, maintaining its integrity from the moment it leaves the tree.' },
+    { icon: <Thermometer className="h-6 w-6 text-primary" />, title: 'Reliable Cold Chain', description: 'With multiple cold rooms and a capacity of 16 trucks per day, we guarantee an unbroken cold chain, preserving freshness from our door to yours.' },
+    { icon: <Ship className="h-6 w-6 text-primary" />, title: 'Global Export', description: 'Our logistics network ensures timely and reliable delivery to our partners across Europe and beyond, including the Netherlands, France, Spain, and the UK.', isLast: true },
+  ];
+
+  const values = [
+    { icon: <Award className="h-7 w-7" />, title: 'Uncompromising Quality', description: 'From soil to shipment, excellence is our standard. We deliver produce that consistently exceeds global benchmarks.' },
+    { icon: <HeartHandshake className="h-7 w-7" />, title: 'Long-Term Partnership', description: 'We build relationships founded on trust, reliability, and mutual success. Your growth is our priority.' },
+    { icon: <TrendingUp className="h-7 w-7" />, title: 'Continuous Innovation', description: 'We invest in modern agricultural techniques and technology to enhance efficiency, sustainability, and product quality.' },
+    { icon: <Lightbulb className="h-7 w-7" />, title: 'Sustainable Future', description: 'As stewards of the land, we are deeply committed to environmentally-conscious farming that nurtures our planet.' },
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
-        
         {/* Hero Section */}
-        <section className="relative h-[60vh] text-white">
+        <motion.section ref={heroRef} style={{ opacity: heroOpacity }} className="relative h-screen text-white flex items-center justify-center overflow-hidden">
           {heroImage && (
-            <Image 
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover"
-              data-ai-hint={heroImage.imageHint}
-            />
+            <motion.div className="absolute inset-0 z-0" style={{ y: heroImageY }}>
+              <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.description}
+                fill
+                className="object-cover"
+                priority
+                data-ai-hint={heroImage.imageHint}
+              />
+            </motion.div>
           )}
-          <div className="absolute inset-0 bg-black/50" />
-          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">Our Story</h1>
-            <p className="mt-4 max-w-3xl text-lg md:text-xl">From Moroccan Soil to Global Tables: A Journey of Passion and Quality.</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="relative z-10 text-center px-4 max-w-4xl"
+          >
+            <h1 className="text-5xl md:text-7xl font-headline font-extrabold tracking-tight">
+              Pioneering Moroccan Agriculture for the World
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-white/80">
+              Discover the story of Export Optimum: a journey of passion, precision, and partnership from the heart of Morocco's most fertile lands to the global stage.
+            </p>
+          </motion.div>
+        </motion.section>
+
+        {/* Who We Are Section */}
+        <section className="py-20 lg:py-32 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <motion.h2
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-4xl md:text-5xl font-headline font-bold"
+                >
+                  Rooted in Excellence, Grown for the Globe.
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="mt-6 text-lg text-muted-foreground"
+                >
+                  Export Optimum is more than an agricultural exporter; we are a cornerstone of Morocco's fresh produce industry. From our 200-hectare, GlobalG.A.P.-certified orchards in the renowned Gharb–Loukkos region, we cultivate premium Hass avocados and other produce with a deep respect for both tradition and innovation.
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="mt-4 text-lg text-muted-foreground"
+                >
+                  Our mission is to deliver unparalleled quality and reliability to our international partners. This is made possible by our vertically integrated operation, from meticulous orchard management to our state-of-the-art packing and cold storage facility, ensuring every shipment arrives in perfect condition.
+                </motion.p>
+              </div>
+              <div className="relative h-96 lg:h-[500px]">
+                {collageImage1 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="absolute top-0 left-0 w-2/3 h-2/3 rounded-xl overflow-hidden shadow-lg"
+                  >
+                    <Image src={collageImage1.imageUrl} alt={collageImage1.description} fill className="object-cover" data-ai-hint={collageImage1.imageHint}/>
+                  </motion.div>
+                )}
+                {collageImage2 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="absolute bottom-0 right-0 w-1/2 h-1/2 rounded-xl overflow-hidden shadow-2xl border-4 border-background"
+                  >
+                    <Image src={collageImage2.imageUrl} alt={collageImage2.description} fill className="object-cover" data-ai-hint={collageImage2.imageHint}/>
+                  </motion.div>
+                )}
+                {collageImage3 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8, x: 50 }}
+                    whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                    className="absolute top-1/4 right-1/4 w-1/3 h-1/3 rounded-full overflow-hidden shadow-md -translate-x-1/2 -translate-y-1/2 border-4 border-background"
+                  >
+                    <Image src={collageImage3.imageUrl} alt={collageImage3.description} fill className="object-cover" data-ai-hint={collageImage3.imageHint}/>
+                  </motion.div>
+                )}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Introduction Section */}
-        <section className="py-16 lg:py-24">
-            <div className="container mx-auto px-4">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Rooted in Excellence</h2>
-                    <p className="mt-4 text-lg text-muted-foreground">
-                        Export Optimum was born from a simple yet powerful idea: to share the exceptional quality and taste of Moroccan avocados with the world. Our journey is one of dedication, innovation, and a deep respect for the land we cultivate. We are more than just exporters; we are custodians of a legacy, committed to delivering nature's finest with every shipment.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        {/* Timeline Section */}
-        <section className="py-16 lg:py-24 bg-secondary/30 relative">
-             <div
-                className="absolute inset-0 z-0 opacity-50"
-                style={{
-                backgroundImage: `
-                    linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
-                    linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
-                `,
-                backgroundSize: "30px 30px",
-                }}
-            />
-            <div className="container mx-auto px-4 relative">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Journey Through Time</h2>
-                    <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                        A decade of growth, milestones, and unwavering commitment.
-                    </p>
-                </div>
-                <div className="relative">
-                    <div className="absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-border hidden md:block"></div>
-                    {timelineEvents.map((event, index) => {
-                        const image = PlaceHolderImages.find(p => p.id === event.imageId);
-                        const isEven = index % 2 === 0;
-                        return (
-                        <div key={event.year} className={`flex md:items-center w-full mb-8 md:mb-0 ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                            <div className="hidden md:flex w-1/2"></div>
-                            <div className="hidden md:flex justify-center w-12">
-                                <div className="z-10 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">{index + 1}</div>
-                            </div>
-                            <div className="w-full md:w-1/2 p-4">
-                                <div className={`bg-background p-6 rounded-lg shadow-lg border ${isEven ? 'md:ml-4' : 'md:mr-4'}`}>
-                                    <h3 className="text-2xl font-headline font-bold text-primary">{event.year}</h3>
-                                    <h4 className="text-xl font-bold mt-2">{event.title}</h4>
-                                    <p className="mt-2 text-muted-foreground">{event.description}</p>
-                                    {image && (
-                                        <Image src={image.imageUrl} alt={event.title} width={400} height={250} className="rounded-md mt-4 w-full object-cover h-48" data-ai-hint={image.imageHint}/>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                        )
-                    })}
-                </div>
-            </div>
-        </section>
-
-        {/* Mission and Vision */}
-        <section className="py-16 lg:py-24">
-            <div className="container mx-auto px-4">
-                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="order-2 lg:order-1">
-                        <h2 className="text-3xl font-headline font-bold mb-4">Our Mission & Vision</h2>
-                        <p className="text-muted-foreground mb-6">
-                            Our mission is to be the world's most trusted source of Moroccan avocados, celebrated for their superior quality and our unwavering commitment to sustainable and ethical practices. We envision a future where our avocados enrich tables globally, fostering healthy lifestyles and supporting the communities we work with.
-                        </p>
-                        <div className="space-y-4">
-                            <div className="flex items-start gap-4">
-                                <div className="p-2 bg-primary/10 text-primary rounded-full"><Award className="w-6 h-6" /></div>
-                                <div>
-                                    <h4 className="font-bold">Commitment to Quality</h4>
-                                    <p className="text-sm text-muted-foreground">Delivering excellence from grove to globe, every single time.</p>
-                                </div>
-                            </div>
-                             <div className="flex items-start gap-4">
-                                <div className="p-2 bg-primary/10 text-primary rounded-full"><Leaf className="w-6 h-6" /></div>
-                                <div>
-                                    <h4 className="font-bold">Sustainable Practices</h4>
-                                    <p className="text-sm text-muted-foreground">Nurturing the land that nurtures us for future generations.</p>
-                                </div>
-                            </div>
-                             <div className="flex items-start gap-4">
-                                <div className="p-2 bg-primary/10 text-primary rounded-full"><Users className="w-6 h-6" /></div>
-                                <div>
-                                    <h4 className="font-bold">Community Empowerment</h4>
-                                    <p className="text-sm text-muted-foreground">Building strong partnerships and uplifting local communities.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="rounded-lg overflow-hidden shadow-lg group order-1 lg:order-2">
-                        {missionImage && (
-                        <Image
-                            src={missionImage.imageUrl}
-                            alt={missionImage.description}
-                            width={800}
-                            height={600}
-                            className="object-cover w-full group-hover:scale-105 transition-transform duration-300"
-                            data-ai-hint={missionImage.imageHint}
-                        />
-                        )}
-                    </div>
-                 </div>
-            </div>
-        </section>
-
-        {/* Team Preview */}
-        <section className="py-16 lg:py-24 bg-secondary/30">
+        {/* Stats Section */}
+        <section className="py-20 lg:py-32 bg-gradient-to-b from-black/80 to-black">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-headline font-bold">The People Behind the Produce</h2>
-              <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                Our team’s dedication and expertise are the secret ingredients to our success.
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {stats.map((stat) => (
+                <StatCard key={stat.label} {...stat} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Journey Section */}
+        <section className="py-20 lg:py-32">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16 max-w-3xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-headline font-bold">From Orchard to World</h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Our vertically integrated process guarantees quality and traceability at every stage, delivering on our promise of excellence from the soil to the shelf.
               </p>
             </div>
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {teamMembers.map((member) => {
-                const image = PlaceHolderImages.find((p) => p.id === member.id);
-                return (
-                    <div key={member.name} className="text-center group">
-                        {image && (
-                            <div className="relative w-48 h-48 mx-auto rounded-full overflow-hidden shadow-lg border-4 border-background group-hover:border-primary transition-colors">
-                                <Image
-                                src={image.imageUrl}
-                                alt={member.name}
-                                fill
-                                className="object-cover"
-                                data-ai-hint={member.imageHint}
-                                />
-                            </div>
-                        )}
-                        <h3 className="mt-4 text-xl font-bold font-headline">{member.name}</h3>
-                        <p className="text-muted-foreground">{member.role}</p>
-                    </div>
-                );
-                })}
+            <div className="max-w-2xl mx-auto">
+              {timelineItems.map((item, index) => (
+                 <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                >
+                    <TimelineStep {...item} isLast={index === timelineItems.length - 1} />
+                </motion.div>
+              ))}
             </div>
-            <div className="text-center mt-12">
-                <Button asChild size="lg">
-                    <Link href="/team">Meet Our Full Team</Link>
-                </Button>
+          </div>
+        </section>
+
+        {/* Leadership & Values Section */}
+        <section className="py-20 lg:py-32 bg-secondary/30">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Guiding Principles</h2>
+              <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+                As leaders in the Moroccan Avocado Association (MAVA) and active participants in global fairs like Fruit Attraction, we are driven by a core set of values that define who we are.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {values.map((value, index) => (
+                <motion.div
+                  key={value.title}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <ValueCard {...value} />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+        
+        {/* CTA Section */}
+        <section className="py-20 lg:py-32 bg-gradient-to-tr from-primary via-brand to-accent text-primary-foreground">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-4xl md:text-5xl font-headline font-bold">
+              Become a Partner in Quality
+            </h2>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/80">
+              Join us in delivering the world's finest produce. Contact our team to explore partnership opportunities and secure your supply of premium Moroccan avocados.
+            </p>
+            <div className="mt-8">
+              <Button asChild size="lg" variant="secondary" className="text-lg">
+                <Link href="/contact">
+                  Contact Us <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
