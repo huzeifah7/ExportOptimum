@@ -82,11 +82,6 @@ function SidebarNav({ isCollapsed }: { isCollapsed: boolean }) {
 function Sidebar({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: () => void }) {
   return (
     <aside className={cn("bg-primary text-primary-foreground hidden md:flex flex-col shadow-xl z-10 transition-[width] duration-300", isCollapsed ? 'w-20' : 'w-64')}>
-      <div className="h-16 flex items-center justify-center border-b border-primary-foreground/20">
-        <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground whitespace-nowrap">
-          {isCollapsed ? 'EO' : 'EXPORT OPTIMUM'}
-        </Link>
-      </div>
       <SidebarNav isCollapsed={isCollapsed} />
       <div className="p-4 border-t border-primary-foreground/20">
          <Button
@@ -143,10 +138,7 @@ export default function AdminLayout({
         <Sheet open={isMobileNavOpen} onOpenChange={setMobileNavOpen}>
             <SheetContent side="left" className="p-0 bg-primary text-primary-foreground border-r-0 w-64">
               <SheetHeader className="p-4 border-b border-primary-foreground/20">
-                <SheetTitle className="sr-only">Admin Menu</SheetTitle>
-                 <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground text-center">
-                    EXPORT OPTIMUM
-                  </Link>
+                 <SheetTitle className="sr-only">Admin Menu</SheetTitle>
               </SheetHeader>
               <div className="flex h-full flex-col">
                 <SidebarNav isCollapsed={false} />
