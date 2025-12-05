@@ -20,6 +20,7 @@ import { Loader2 } from 'lucide-react';
 import AdminHeader from '@/components/layout/admin-header';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const adminNavItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -38,7 +39,8 @@ const adminNavItems = [
 function SidebarNav() {
   const pathname = usePathname();
   return (
-     <nav className="flex-1 px-4 py-6 space-y-2">
+    <ScrollArea className="flex-1">
+     <nav className="px-4 py-6 space-y-2">
         {adminNavItems.map((item) => {
           const isActive = pathname?.startsWith(item.href);
           return (
@@ -57,6 +59,7 @@ function SidebarNav() {
           )
         })}
       </nav>
+    </ScrollArea>
   )
 }
 
