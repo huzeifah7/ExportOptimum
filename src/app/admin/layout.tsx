@@ -1,13 +1,4 @@
-
 'use client';
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-} from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
   Package,
@@ -26,21 +17,63 @@ import React, { useEffect } from 'react';
 import { useUser } from '@/firebase';
 import { Loader2 } from 'lucide-react';
 import AdminHeader from '@/components/layout/admin-header';
-
+import Link from 'next/link';
 
 const adminNavItems = [
-  { href: '/admin/dashboard', icon: <LayoutDashboard />, label: 'Dashboard' },
-  { href: '/admin/products', icon: <Package />, label: 'Manage Products' },
-  { href: '/admin/blogs', icon: <FileText />, label: 'Manage Blogs' },
-  { href: '/admin/hero', icon: <ImageIcon />, label: 'Manage Hero Section' },
-  { href: '/admin/key-figures', icon: <BarChart2 />, label: 'Manage Key Figures' },
-  { href: '/admin/about', icon: <Info />, label: 'Manage About Us' },
-  { href: '/admin/quality', icon: <BadgeCheck />, label: 'Manage Quality' },
-  { href: '/admin/sustainability', icon: <Leaf />, label: 'Manage Sustainability' },
-  { href: '/admin/team', icon: <Users />, label: 'Manage Team' },
-  { href: '/admin/reviews', icon: <Star />, label: 'Manage Client Reviews' },
-  { href: '/admin/partners', icon: <Handshake />, label: 'Manage Partners' },
+  { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/admin/products', icon: Package, label: 'Products' },
+  { href: '/admin/blogs', icon: FileText, label: 'Blogs' },
+  { href: '/admin/hero', icon: ImageIcon, label: 'Hero' },
+  { href: '/admin/key-figures', icon: BarChart2, label: 'Key Figures' },
+  { href: '/admin/about', icon: Info, label: 'About Us' },
+  { href: '/admin/quality', icon: BadgeCheck, label: 'Quality' },
+  { href: '/admin/sustainability', icon: Leaf, label: 'Sustainability' },
+  { href: '/admin/team', icon: Users, label: 'Team' },
+  { href: '/admin/reviews', icon: Star, label: 'Reviews' },
+  { href: '/admin/partners', icon: Handshake, label: 'Partners' },
 ];
+
+function Sidebar() {
+  const pathname = usePathname();
+
+  return (
+    <aside className="w-64 bg-slate-900 text-white hidden md:flex flex-col shadow-xl z-10">
+      <div className="h-16 flex items-center justify-center border-b border-slate-800">
+        <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
+          AVOCADO HUB
+        </Link>
+      </div>
+      <nav className="flex-1 px-4 py-6 space-y-2">
+        {adminNavItems.map((item) => {
+          const isActive = pathname?.startsWith(item.href);
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 group
+                ${isActive 
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                }`}
+            >
+              <item.icon size={20} className={`mr-3 ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-400'}`} />
+              <span className="font-medium">{item.label}</span>
+            </Link>
+          )
+        })}
+      </nav>
+      <div className="p-4 border-t border-slate-800">
+        <div className="bg-slate-800 rounded-lg p-4">
+          <p className="text-xs text-slate-400 mb-2">Avocado Export Hub</p>
+          <div className="w-full bg-slate-700 rounded-full h-1.5">
+            <div className="bg-blue-500 h-1.5 rounded-full w-full"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 
 export default function AdminLayout({
   children,
@@ -72,37 +105,16 @@ export default function AdminLayout({
   if (!user) return null;
 
   return (
-    <SidebarProvider>
-        <div className="flex flex-col h-screen bg-background">
-            <AdminHeader />
-            <div className="flex flex-1 overflow-hidden">
-                <Sidebar 
-                  variant="sidebar"
-                  collapsible="icon" 
-                >
-                  <SidebarContent>
-                    <SidebarMenu>
-                      {adminNavItems.map((item) => (
-                        <SidebarMenuItem key={item.href}>
-                          <SidebarMenuButton
-                            onClick={() => router.push(item.href)}
-                            isActive={pathname?.startsWith(item.href)}
-                            tooltip={item.label}
-                            size="sm"
-                          >
-                            {item.icon}
-                            <span>{item.label}</span>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      ))}
-                    </SidebarMenu>
-                  </SidebarContent>
-                </Sidebar>
-                <main className="flex-1 overflow-y-auto p-8">
-                  {children}
-                </main>
-            </div>
-        </div>
-    </SidebarProvider>
+    <div className="flex h-screen bg-gray-50 overflow-hidden">
+      <Sidebar />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <AdminHeader />
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+          <div className="max-w-7xl mx-auto">
+              {children}
+          </div>
+        </main>
+      </div>
+    </div>
   );
 }

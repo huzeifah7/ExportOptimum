@@ -1,9 +1,5 @@
-
 'use client';
 
-import { Logo } from '@/components/logo';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import Link from 'next/link';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,9 +11,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth, useUser } from '@/firebase';
-import { Home, LogOut, Settings } from 'lucide-react';
+import { Home, LogOut, Settings, Bell, ChevronDown } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function AdminHeader() {
     const { user } = useUser();
@@ -32,21 +29,34 @@ export default function AdminHeader() {
     };
 
     return (
-        <header className="h-16 flex items-center justify-between px-4 border-b bg-background z-20">
-            <div className="flex items-center gap-4">
-                 <SidebarTrigger className="md:hidden" />
-                 <Link href="/" aria-label="Back to site">
-                    <Logo />
-                </Link>
-                 <h1 className="text-xl font-semibold hidden md:block">Admin Panel</h1>
-            </div>
+        <header className="bg-white h-16 border-b border-gray-200 flex items-center justify-between px-8 sticky top-0 z-20 shadow-sm">
+          {/* LEFT: Spacer, as sidebar contains the brand */}
+          <div className="w-64" />
+
+          {/* CENTER: Admin Panel Title */}
+          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
+            <h1 className="text-lg font-semibold text-gray-600 bg-gray-100 px-4 py-1 rounded-full">
+              Admin Panel
+            </h1>
+          </div>
+
+          {/* RIGHT: Profile Info & Dropdown */}
+          <div className="flex items-center gap-6">
+            <button className="text-gray-400 hover:text-gray-600 transition-colors relative">
+              <Bell size={20} />
+              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+            </button>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                        <Avatar className="h-10 w-10">
+                    <Button variant="ghost" className="flex items-center gap-3 focus:outline-none group p-1 rounded-full hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200 h-auto">
+                        <Avatar className="h-9 w-9">
                             <AvatarImage src={user?.photoURL || undefined} alt="Admin" />
                             <AvatarFallback>{user?.displayName?.charAt(0)?.toUpperCase() ?? 'A'}</AvatarFallback>
                         </Avatar>
+                        <div className="hidden md:flex flex-col items-start">
+                          <span className="text-sm font-semibold text-gray-700 group-hover:text-gray-900">{user?.displayName || 'Admin'}</span>
+                        </div>
+                        <ChevronDown size={16} className="text-gray-400" />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
@@ -57,10 +67,10 @@ export default function AdminHeader() {
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
+                     <DropdownMenuItem asChild>
                         <Link href="/admin/profile">
                             <Settings className="mr-2 h-4 w-4" />
-                            <span>Manage Profile</span>
+                            <span>My Profile</span>
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
@@ -70,12 +80,13 @@ export default function AdminHeader() {
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
+                    <DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600 focus:bg-red-50">
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Logout</span>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
+          </div>
         </header>
     );
 }
