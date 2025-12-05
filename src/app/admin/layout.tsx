@@ -19,7 +19,7 @@ import { useUser } from '@/firebase';
 import { Loader2 } from 'lucide-react';
 import AdminHeader from '@/components/layout/admin-header';
 import Link from 'next/link';
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 const adminNavItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -113,25 +113,28 @@ export default function AdminLayout({
   if (!user) return null;
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <Sidebar />
-      
-      {/* Mobile Sidebar */}
-      <Sheet open={isMobileNavOpen} onOpenChange={setMobileNavOpen}>
-          <SheetContent side="left" className="p-0 bg-slate-900 text-white border-r-0 w-64">
-            <div className="flex h-full flex-col">
-              <div className="h-16 flex items-center justify-center border-b border-slate-800">
-                <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
-                  EXPORT OPTIMUM
-                </Link>
+    <div className="flex h-screen bg-gray-50 overflow-hidden flex-col">
+      <AdminHeader onMobileNavToggle={() => setMobileNavOpen(true)} />
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+        
+        {/* Mobile Sidebar */}
+        <Sheet open={isMobileNavOpen} onOpenChange={setMobileNavOpen}>
+            <SheetContent side="left" className="p-0 bg-slate-900 text-white border-r-0 w-64">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Admin Menu</SheetTitle>
+              </SheetHeader>
+              <div className="flex h-full flex-col">
+                <div className="h-16 flex items-center justify-center border-b border-slate-800">
+                  <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
+                    EXPORT OPTIMUM
+                  </Link>
+                </div>
+                <SidebarNav />
               </div>
-              <SidebarNav />
-            </div>
-          </SheetContent>
-      </Sheet>
+            </SheetContent>
+        </Sheet>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <AdminHeader onMobileNavToggle={() => setMobileNavOpen(true)} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
           <div className="max-w-7xl mx-auto">
               {children}
