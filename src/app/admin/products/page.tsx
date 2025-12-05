@@ -61,19 +61,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import {
-  ChevronDown,
   Search,
   PlusCircle,
   Edit,
   Trash2,
-  Image as ImageIcon,
+  ImageIcon,
   Loader2,
   X,
-  AlertCircle,
   ChevronLeft,
   ChevronRight,
-  MoreHorizontal
 } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
 
 // Flexible type for Firestore documents
 type FirestoreProduct = DocumentData & { id: string };
@@ -118,8 +116,7 @@ export default function ManageProductsPage() {
     // Search
     if (searchTerm) {
       products = products.filter(p =>
-        p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.sku?.toLowerCase().includes(searchTerm.toLowerCase())
+        p.name?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -138,10 +135,10 @@ export default function ManageProductsPage() {
             return (bDate?.toMillis() || 0) - (aDate?.toMillis() || 0);
             case 'oldest':
             return (aDate?.toMillis() || 0) - (bDate?.toMillis() || 0);
-            case 'price-low-high':
-            return (a.price || 0) - (b.price || 0);
-            case 'price-high-low':
-            return (b.price || 0) - (a.price || 0);
+            case 'name-asc':
+                return (a.name || '').localeCompare(b.name || '');
+            case 'name-desc':
+                return (b.name || '').localeCompare(a.name || '');
             default:
             return 0;
         }
@@ -240,7 +237,7 @@ export default function ManageProductsPage() {
         <div className="relative md:col-span-2">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             <Input
-                placeholder="Search by name or SKU..."
+                placeholder="Search by name..."
                 className="pl-10"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -263,8 +260,8 @@ export default function ManageProductsPage() {
           <SelectContent>
             <SelectItem value="newest">Newest</SelectItem>
             <SelectItem value="oldest">Oldest</SelectItem>
-            <SelectItem value="price-low-high">Price: Low to High</SelectItem>
-            <SelectItem value="price-high-low">Price: High to Low</SelectItem>
+            <SelectItem value="name-asc">Name: A-Z</SelectItem>
+            <SelectItem value="name-desc">Name: Z-A</SelectItem>
           </SelectContent>
         </Select>
         <div className="md:col-start-4 flex justify-end">
@@ -282,9 +279,7 @@ export default function ManageProductsPage() {
                 <TableRow>
                 <TableHead className="w-[80px]">Image</TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead className="hidden md:table-cell">SKU</TableHead>
                 <TableHead className="hidden lg:table-cell">Category</TableHead>
-                <TableHead className="hidden md:table-cell">Price</TableHead>
                 <TableHead>Actions</TableHead>
                 </TableRow>
             </TableHeader>
@@ -294,9 +289,7 @@ export default function ManageProductsPage() {
                     <TableRow key={i}>
                     <TableCell><Skeleton className="h-12 w-12 rounded-md" /></TableCell>
                     <TableCell><Skeleton className="h-5 w-40" /></TableCell>
-                    <TableCell className="hidden md:table-cell"><Skeleton className="h-5 w-24" /></TableCell>
                     <TableCell className="hidden lg:table-cell"><Skeleton className="h-5 w-20" /></TableCell>
-                    <TableCell className="hidden md:table-cell"><Skeleton className="h-5 w-16" /></TableCell>
                     <TableCell><Skeleton className="h-8 w-20" /></TableCell>
                     </TableRow>
                 ))
@@ -313,11 +306,7 @@ export default function ManageProductsPage() {
                         </div>
                     </TableCell>
                     <TableCell className="font-medium">{product.name || product.id}</TableCell>
-                    <TableCell className="hidden md:table-cell text-muted-foreground">{product.sku || 'N/A'}</TableCell>
                     <TableCell className="hidden lg:table-cell capitalize text-muted-foreground">{product.category || 'Uncategorized'}</TableCell>
-                    <TableCell className="hidden md:table-cell text-muted-foreground">
-                        {product.price != null ? `$${Number(product.price).toFixed(2)}` : 'N/A'}
-                    </TableCell>
                     <TableCell>
                         <div className="flex items-center gap-2">
                         <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)}>
@@ -428,20 +417,23 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         setFormData(product);
         setImagePreview(product.imageUrl || null);
       } else {
-        setFormData({});
+        setFormData({ name: '', description: '', category: ''});
         setImagePreview(null);
       }
       setImageFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   }, [isOpen, product, isEditing]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleSelectChange = (value: string) => {
+    setFormData(prev => ({ ...prev, category: value }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -454,12 +446,25 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
     }
   };
 
+  const slugify = (text: string) => {
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/--+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!firestore || !storage) return;
 
     if (!formData.name) {
         toast({ variant: 'destructive', title: 'Name is required' });
+        return;
+    }
+    if (!isEditing && !imageFile) {
+        toast({ variant: 'destructive', title: 'Image is required for new products' });
         return;
     }
 
@@ -476,10 +481,15 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         imageUrl = await getDownloadURL(imageStorageRef);
       }
 
+      const slug = slugify(formData.name);
+
       const productData = {
-        ...formData,
-        price: Number(formData.price) || 0,
+        name: formData.name,
+        description: formData.description || '',
+        category: formData.category || '',
         imageUrl,
+        slug,
+        imageHint: `${(formData.category || '').toLowerCase()} ${formData.name.toLowerCase().split(' ')[0]}`,
         updatedAt: serverTimestamp(),
       };
 
@@ -526,17 +536,22 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                     <label htmlFor="name" className="text-sm font-medium">Product Name</label>
                     <Input id="name" name="name" value={formData.name || ''} onChange={handleInputChange} required />
                 </div>
-                 <div>
-                    <label htmlFor="sku" className="text-sm font-medium">SKU</label>
-                    <Input id="sku" name="sku" value={formData.sku || ''} onChange={handleInputChange} />
+                <div>
+                    <label htmlFor="description" className="text-sm font-medium">Description</label>
+                    <Textarea id="description" name="description" value={formData.description || ''} onChange={handleInputChange} />
                 </div>
                  <div>
                     <label htmlFor="category" className="text-sm font-medium">Category</label>
-                    <Input id="category" name="category" value={formData.category || ''} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label htmlFor="price" className="text-sm font-medium">Price</label>
-                    <Input id="price" name="price" type="number" value={formData.price || ''} onChange={handleInputChange} />
+                    <Select onValueChange={handleSelectChange} value={formData.category || ''}>
+                        <SelectTrigger id="category">
+                            <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="avocado">Avocado</SelectItem>
+                            <SelectItem value="berries">Berries</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
             {/* Right Column */}
