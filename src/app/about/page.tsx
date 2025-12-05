@@ -104,7 +104,6 @@ export default function AboutUsPage() {
 
   const heroImage = PlaceHolderImages.find((p) => p.id === 'about-us-hero');
   const collageImage2 = PlaceHolderImages.find((p) => p.id === 'about-us-c2');
-  const collageImage3 = PlaceHolderImages.find((p) => p.id === 'about-us-c3');
 
   const stats = [
     { icon: <Leaf className="h-8 w-8" />, value: '200 ha', label: 'Orchards', delay: 0.1 },
@@ -216,7 +215,6 @@ export default function AboutUsPage() {
                     <Image src={collageImage2.imageUrl} alt={collageImage2.description} fill className="object-cover" data-ai-hint={collageImage2.imageHint}/>
                   </motion.div>
                 )}
-                {collageImage3 && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8, x: 50 }}
                     whileInView={{ opacity: 1, scale: 1, x: 0 }}
@@ -224,9 +222,8 @@ export default function AboutUsPage() {
                     transition={{ duration: 0.5, delay: 0.5 }}
                     className="absolute top-1/4 right-1/4 w-1/3 h-1/3 rounded-full overflow-hidden shadow-md -translate-x-1/2 -translate-y-1/2 border-4 border-background"
                   >
-                    <Image src={collageImage3.imageUrl} alt={collageImage3.description} fill className="object-cover" data-ai-hint={collageImage3.imageHint}/>
+                    <Image src="/avocado1.png" alt="A single perfect avocado" fill className="object-cover" data-ai-hint="avocado fruit"/>
                   </motion.div>
-                )}
               </div>
             </div>
           </div>
