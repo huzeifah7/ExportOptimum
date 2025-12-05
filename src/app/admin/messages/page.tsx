@@ -30,6 +30,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -41,7 +49,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, Search, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Mail, Search, Trash2, ChevronDown, ChevronUp, User, Globe, Info, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -55,6 +63,19 @@ type Message = DocumentData & {
   createdAt?: Timestamp;
 };
 
+// --- Helper Functions ---
+const formatDate = (timestamp: Timestamp | undefined) => {
+    if (!timestamp) return 'Unknown date';
+    return timestamp.toDate().toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+};
+
+
 // --- Main Page Component ---
 export default function MessagesPage() {
   const firestore = useFirestore();
@@ -62,8 +83,12 @@ export default function MessagesPage() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [countryFilter, setCountryFilter] = useState('all');
+  
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState<Message | null>(null);
+  
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
   const messagesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -99,6 +124,11 @@ export default function MessagesPage() {
     setIsDeleteDialogOpen(true);
   };
   
+  const openDetailModal = (message: Message) => {
+    setSelectedMessage(message);
+    setIsDetailModalOpen(true);
+  };
+
   const handleDeleteMessage = async () => {
     if (!messageToDelete || !firestore) return;
     try {
@@ -179,7 +209,11 @@ export default function MessagesPage() {
           ) : filteredMessages.length > 0 ? (
             filteredMessages.map(message => (
                 <motion.div key={message.id} layout variants={{hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 }}}>
-                    <MessageCard message={message} onDelete={() => openDeleteDialog(message)} />
+                    <MessageCard 
+                        message={message} 
+                        onDelete={() => openDeleteDialog(message)}
+                        onClick={() => openDetailModal(message)}
+                    />
                 </motion.div>
             ))
           ) : (
@@ -208,6 +242,15 @@ export default function MessagesPage() {
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Message Detail Modal */}
+      {selectedMessage && (
+        <MessageDetailModal 
+            isOpen={isDetailModalOpen}
+            onClose={() => setIsDetailModalOpen(false)}
+            message={selectedMessage}
+        />
+      )}
+
     </motion.div>
   );
 }
@@ -215,61 +258,109 @@ export default function MessagesPage() {
 
 // --- Message Card Component ---
 
-const MessageCard: React.FC<{ message: Message; onDelete: () => void }> = ({ message, onDelete }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { toast } = useToast();
+const MessageCard: React.FC<{ message: Message; onDelete: (e: React.MouseEvent) => void; onClick: () => void }> = ({ message, onDelete, onClick }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
 
-  const formatDate = (timestamp: Timestamp | undefined) => {
-    if (!timestamp) return 'Unknown date';
-    return timestamp.toDate().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+    const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
 
-  return (
-    <motion.div whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}>
-        <Card className="shadow-sm hover:shadow-md transition-shadow duration-300 relative">
-            <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-destructive" onClick={onDelete}>
-                <Trash2 className="h-4 w-4" />
-                <span className="sr-only">Delete message</span>
-            </Button>
-            <CardHeader>
-                <CardTitle className="font-headline text-xl">{message.fullName || 'No Name'}</CardTitle>
-                <CardDescription className="flex items-center gap-2 pt-1">
-                    <Mail className="h-4 w-4"/>
-                    <a href={`mailto:${message.email}`} className="hover:underline">{message.email || 'No Email'}</a>
-                    <span className='text-muted-foreground'>&bull;</span>
-                    <span className="capitalize">{message.country || 'No Country'}</span>
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p className="font-semibold text-foreground">{message.subject || 'No Subject'}</p>
-                <p className={cn(
-                    "text-muted-foreground mt-2 whitespace-pre-wrap",
-                    !isExpanded && 'line-clamp-3'
-                )}>
-                    {message.message || 'No message content.'}
-                </p>
-                {(message.message?.split('\\n').length > 3 || message.message?.length > 200) && (
-                    <Button variant="link" size="sm" className="p-0 h-auto mt-2 text-primary" onClick={() => setIsExpanded(!isExpanded)}>
-                       {isExpanded ? (
-                           <>View less <ChevronUp className="ml-1 h-4 w-4"/></>
-                       ) : (
-                           <>View more <ChevronDown className="ml-1 h-4 w-4" /></>
-                       )}
-                    </Button>
-                )}
-                <p className="text-xs text-muted-foreground mt-4 border-t pt-2">{formatDate(message.createdAt)}</p>
-            </CardContent>
-        </Card>
-    </motion.div>
-  );
+    return (
+        <motion.div whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}>
+            <Card 
+                className="shadow-sm hover:shadow-md transition-shadow duration-300 relative cursor-pointer"
+                onClick={onClick}
+            >
+                <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-destructive z-10" onClick={onDelete}>
+                    <Trash2 className="h-4 w-4" />
+                    <span className="sr-only">Delete message</span>
+                </Button>
+                <CardHeader>
+                    <CardTitle className="font-headline text-xl">{message.fullName || 'No Name'}</CardTitle>
+                    <CardDescription className="flex items-center gap-2 pt-1">
+                        <Mail className="h-4 w-4"/>
+                        <a href={`mailto:${message.email}`} className="hover:underline" onClick={stopPropagation}>{message.email || 'No Email'}</a>
+                        <span className='text-muted-foreground'>&bull;</span>
+                        <span className="capitalize">{message.country || 'No Country'}</span>
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="font-semibold text-foreground">{message.subject || 'No Subject'}</p>
+                    <p className={cn(
+                        "text-muted-foreground mt-2 whitespace-pre-wrap",
+                        !isExpanded && 'line-clamp-3'
+                    )}>
+                        {message.message || 'No message content.'}
+                    </p>
+                    {(message.message?.split('\\n').length > 3 || message.message?.length > 200) && (
+                        <Button variant="link" size="sm" className="p-0 h-auto mt-2 text-primary" onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}>
+                           {isExpanded ? (
+                               <>View less <ChevronUp className="ml-1 h-4 w-4"/></>
+                           ) : (
+                               <>View more <ChevronDown className="ml-1 h-4 w-4" /></>
+                           )}
+                        </Button>
+                    )}
+                    <p className="text-xs text-muted-foreground mt-4 border-t pt-2">{formatDate(message.createdAt)}</p>
+                </CardContent>
+            </Card>
+        </motion.div>
+    );
 };
 
+
+// --- Message Detail Modal ---
+interface MessageDetailModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    message: Message;
+}
+
+const MessageDetailModal: React.FC<MessageDetailModalProps> = ({ isOpen, onClose, message }) => {
+    return (
+        <Dialog open={isOpen} onOpenChange={onClose}>
+            <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                    <DialogTitle>{message.subject || "Message Details"}</DialogTitle>
+                    <DialogDescription>
+                        Full message received on {formatDate(message.createdAt)}
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4 grid gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div className="flex items-center gap-2">
+                           <User className="h-5 w-5 text-muted-foreground" />
+                           <span className="font-medium">{message.fullName}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                           <Mail className="h-5 w-5 text-muted-foreground" />
+                           <a href={`mailto:${message.email}`} className="text-primary hover:underline">{message.email}</a>
+                        </div>
+                         <div className="flex items-center gap-2">
+                           <Globe className="h-5 w-5 text-muted-foreground" />
+                           <span className="capitalize">{message.country}</span>
+                        </div>
+                         <div className="flex items-center gap-2">
+                           <Calendar className="h-5 w-5 text-muted-foreground" />
+                           <span>{formatDate(message.createdAt)}</span>
+                        </div>
+                    </div>
+                     <div className="space-y-2">
+                        <h3 className="font-semibold flex items-center gap-2"><Info className="h-5 w-5 text-muted-foreground" />Subject</h3>
+                        <p className="text-muted-foreground">{message.subject}</p>
+                     </div>
+                    <div className="space-y-2">
+                        <h3 className="font-semibold">Message</h3>
+                        <div className="p-4 bg-secondary/50 rounded-md text-muted-foreground whitespace-pre-wrap max-h-96 overflow-y-auto">
+                            {message.message}
+                        </div>
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button variant="outline" onClick={onClose}>Close</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+}
 
 // --- Skeleton Component ---
 
