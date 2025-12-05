@@ -103,7 +103,6 @@ export default function AboutUsPage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const heroImage = PlaceHolderImages.find((p) => p.id === 'about-us-hero');
-  const collageImage1 = PlaceHolderImages.find((p) => p.id === 'about-us-c1');
   const collageImage2 = PlaceHolderImages.find((p) => p.id === 'about-us-c2');
   const collageImage3 = PlaceHolderImages.find((p) => p.id === 'about-us-c3');
 
@@ -197,17 +196,15 @@ export default function AboutUsPage() {
                 </motion.p>
               </div>
               <div className="relative h-96 lg:h-[500px]">
-                {collageImage1 && (
-                  <motion.div
+                <motion.div
                     initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
                     whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                     className="absolute top-0 left-0 w-2/3 h-2/3 rounded-xl overflow-hidden shadow-lg"
                   >
-                    <Image src={collageImage1.imageUrl} alt={collageImage1.description} fill className="object-cover" data-ai-hint={collageImage1.imageHint}/>
+                    <Image src="/avocad3.avif" alt="Lush avocado orchard" fill className="object-cover" data-ai-hint="avocado orchard"/>
                   </motion.div>
-                )}
                 {collageImage2 && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8, y: 50 }}
