@@ -220,7 +220,7 @@ export default function AboutUsPage() {
                     whileInView={{ opacity: 1, scale: 1, x: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
-                    className="absolute top-1/4 right-1/4 w-1/3 h-1/3 rounded-full overflow-hidden shadow-md -translate-x-1/2 -translate-y-1/2 border-4 border-background"
+                    className="absolute top-1/4 right-1/4 w-40 h-40 rounded-full overflow-hidden shadow-md -translate-x-1/2 -translate-y-1/2"
                   >
                     <Image src="/avocado1.png" alt="A single perfect avocado" fill className="object-cover" data-ai-hint="avocado fruit"/>
                   </motion.div>
