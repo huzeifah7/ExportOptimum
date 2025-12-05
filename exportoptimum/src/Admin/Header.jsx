@@ -8,8 +8,11 @@ export default function Header() {
     const dropdownRef = useRef(null);
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('user'));
-        setCurrentUser(user);
+        const userString = localStorage.getItem('user');
+        if (userString) {
+            const user = JSON.parse(userString);
+            setCurrentUser(user);
+        }
     }, []);
 
     // Close dropdown when clicking outside
