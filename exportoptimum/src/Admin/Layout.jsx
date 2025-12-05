@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import Sidebar from './Sidebar'; // Ensure correct path
+import Sidebar from './Sidebar';
+import Header from './Header';
 
 export default function Layout() {
     const navigate = useNavigate();
@@ -26,20 +27,27 @@ export default function Layout() {
                 navigate('/Login', { replace: true });
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
     
 
     return (
         <div className="flex min-h-screen bg-gray-100">
+            {/* Header */}
+            <Header />
+            
+            {/* Sidebar */}
             <div className={`transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-16' : 'w-56'}`}>
                 <Sidebar
                     isCollapsed={isSidebarCollapsed}
                     setIsCollapsed={setIsSidebarCollapsed}
-                    currentUser={currentUser} // Pass currentUser as a prop
+                    currentUser={currentUser}
                 />
             </div>
-            <div className="flex-1 p-6 bg-gray-100">
+            
+            {/* Main Content */}
+            <div className="flex-1 pt-20 p-6 bg-gray-100">
                 <Outlet />
             </div>
         </div>

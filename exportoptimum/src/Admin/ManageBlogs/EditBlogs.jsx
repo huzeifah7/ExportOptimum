@@ -3,14 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReactQuill from "react-quill"; // Import ReactQuill
 import "react-quill/dist/quill.snow.css"; // Import Quill's CSS
-import Sidebar from "../Sidebar";
 
 const EditBlog = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [blog, setBlog] = useState(null);
   const [error, setError] = useState(null); 
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [editedBlog, setEditedBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -97,11 +95,7 @@ const EditBlog = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <div
-        className={`flex-1 p-6 bg-gray-100 transition-all duration-300 ease-in-out md:ml-${
-          isSidebarCollapsed ? "16" : "56"
-        }`}
-      >
+      <div className="flex-1 p-6 bg-gray-100 transition-all duration-300 ease-in-out">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-gray-800">Edit Blog</h2>
           <form onSubmit={handleSubmit} className="space-y-4">

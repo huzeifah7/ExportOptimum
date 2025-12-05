@@ -3,11 +3,9 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import emailsData from "../../Data/Emails.json";
 import logo from "../../EOLogo.png";
-import Sidebar from "../Sidebar";
 
 const Emails = () => {
   const [emails, setEmails] = useState([]);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     setEmails(emailsData);

@@ -5,7 +5,6 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css"; // Import Quill's CSS
 
 const AddBlogs = () => {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     author: "",
