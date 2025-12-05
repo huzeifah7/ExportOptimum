@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   LineChart,
@@ -49,7 +49,7 @@ const lineChartData = [
   { name: 'Jul', views: 7000 },
 ];
 
-const pieChartData = [
+const initialPieChartData = [
   { name: 'Facebook', value: 400 },
   { name: 'Instagram', value: 300 },
   { name: 'LinkedIn', value: 300 },
@@ -207,7 +207,7 @@ const BarChartCard: React.FC<{posts: any[], isLoading: boolean}> = ({posts, isLo
   </motion.div>
 );
 
-const DonutChartCard: React.FC = () => (
+const DonutChartCard: React.FC<{ socialData: { name: string, value: number }[] }> = ({ socialData }) => (
   <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }} className="lg:col-span-2">
     <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
       <CardHeader>
@@ -218,7 +218,7 @@ const DonutChartCard: React.FC = () => (
         <ResponsiveContainer>
           <PieChart>
             <Pie
-              data={pieChartData}
+              data={socialData}
               cx="50%"
               cy="50%"
               innerRadius={60}
@@ -227,7 +227,7 @@ const DonutChartCard: React.FC = () => (
               paddingAngle={5}
               dataKey="value"
             >
-              {pieChartData.map((entry, index) => (
+              {socialData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={PIE_CHART_COLORS[index % PIE_CHART_COLORS.length]} />
               ))}
             </Pie>
@@ -286,6 +286,11 @@ const RecentActivity: React.FC<{products: any[], isLoading: boolean}> = ({produc
 export default function DashboardPage() {
   const firestore = useFirestore();
 
+  // State for simulated live data
+  const [websiteViews, setWebsiteViews] = useState(12890);
+  const [socialTraffic, setSocialTraffic] = useState(4567);
+  const [socialData, setSocialData] = useState(initialPieChartData);
+
   // --- Firestore Queries ---
   const productsQuery = useMemoFirebase(() => firestore ? collection(firestore, 'products') : null, [firestore]);
   const blogPostsQuery = useMemoFirebase(() => firestore ? collection(firestore, 'blogPosts') : null, [firestore]);
@@ -302,6 +307,25 @@ export default function DashboardPage() {
   const { data: recentMessages, isLoading: isLoadingMessages } = useCollection(messagesQuery);
   const { data: recentProducts, isLoading: isLoadingRecentProducts } = useCollection(recentProductsQuery);
 
+  // --- Live Data Simulation Effect ---
+  useEffect(() => {
+    const viewInterval = setInterval(() => {
+        setWebsiteViews(v => v + Math.floor(Math.random() * 5) - 1);
+    }, 3000);
+
+    const socialInterval = setInterval(() => {
+        setSocialTraffic(v => v + Math.floor(Math.random() * 3));
+        setSocialData(prevData => prevData.map(d => ({
+            ...d,
+            value: Math.max(50, d.value + Math.floor(Math.random() * 20) - 10)
+        })));
+    }, 5000);
+
+    return () => {
+        clearInterval(viewInterval);
+        clearInterval(socialInterval);
+    };
+  }, []);
 
   // --- Static Data ---
   const statCardsData = [
@@ -331,7 +355,7 @@ export default function DashboardPage() {
     },
     {
         title: 'Website Views',
-        value: '12,890',
+        value: websiteViews.toLocaleString(),
         trend: '-2.1%',
         trendDirection: 'down' as const,
         icon: Eye,
@@ -347,7 +371,7 @@ export default function DashboardPage() {
     },
     {
         title: 'Social Traffic',
-        value: '4,567',
+        value: socialTraffic.toLocaleString(),
         trend: '+33.8%',
         trendDirection: 'up' as const,
         icon: Users,
@@ -389,7 +413,7 @@ export default function DashboardPage() {
          initial="hidden"
          animate="visible"
        >
-        <DonutChartCard />
+        <DonutChartCard socialData={socialData} />
         <RecentActivity products={recentProducts || []} isLoading={isLoadingRecentProducts} />
       </motion.div>
 
