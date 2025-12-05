@@ -103,7 +103,6 @@ export default function AboutUsPage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const heroImage = PlaceHolderImages.find((p) => p.id === 'about-us-hero');
-  const collageImage2 = PlaceHolderImages.find((p) => p.id === 'about-us-c2');
 
   const stats = [
     { icon: <Leaf className="h-8 w-8" />, value: '200 ha', label: 'Orchards', delay: 0.1 },
@@ -204,7 +203,6 @@ export default function AboutUsPage() {
                   >
                     <Image src="/avocad3.avif" alt="Lush avocado orchard" fill className="object-cover" data-ai-hint="avocado orchard"/>
                   </motion.div>
-                {collageImage2 && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8, y: 50 }}
                     whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -212,16 +210,15 @@ export default function AboutUsPage() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="absolute bottom-0 right-0 w-1/2 h-1/2 rounded-xl overflow-hidden shadow-2xl border-4 border-background"
                   >
-                    <Image src={collageImage2.imageUrl} alt={collageImage2.description} fill className="object-cover" data-ai-hint={collageImage2.imageHint}/>
+                    <Image src="/Avocadooo.jpg" alt="A close up of a ripe avocado" fill className="object-cover" data-ai-hint="ripe avocado"/>
                   </motion.div>
-                )}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8, x: 50 }}
                     whileInView={{ opacity: 1, scale: 1, x: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
-                    className="absolute top-1/4 right-1/4 w-40 h-40 rounded-full overflow-hidden shadow-md -translate-x-1/2 -translate-y-1/2"
-                  >
+                    className="absolute top-1/4 right-1/4 w-40 h-32 overflow-hidden p-4 -translate-x-1/2 -translate-y-1/4"
+                    >
                     <Image src="/avocado1.png" alt="A single perfect avocado" fill className="object-cover" data-ai-hint="avocado fruit"/>
                   </motion.div>
               </div>
