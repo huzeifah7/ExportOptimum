@@ -4,34 +4,80 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, PackageCheck, Truck, Microscope, Loader2 } from 'lucide-react';
+import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, ShieldCheck, Thermometer, GitBranch, Sprout, HandHelping } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { motion } from 'framer-motion';
+import Marquee from '@/components/ui/marquee';
 
-const qualityProcess = [
+const qualityPillars = [
+    {
+        icon: <Thermometer className="w-8 h-8 text-primary" />,
+        title: 'Freshness',
+        description: 'An unbroken cold chain and rapid logistics ensure our produce arrives as fresh as the day it was picked.',
+    },
+    {
+        icon: <ShieldCheck className="w-8 h-8 text-primary" />,
+        title: 'Hygiene & Safety',
+        description: 'We adhere to strict international hygiene protocols at every stage, from handling to packing.',
+    },
+    {
+        icon: <GitBranch className="w-8 h-8 text-primary" />,
+        title: 'Traceability',
+        description: 'Every batch is fully traceable, providing complete transparency from our orchards to your facility.',
+    },
+     {
+        icon: <Sprout className="w-8 h-8 text-primary" />,
+        title: 'Sustainability',
+        description: 'Responsible farming practices that respect the land, conserve water, and support our ecosystem.',
+    },
+    {
+        icon: <HandHelping className="w-8 h-8 text-primary" />,
+        title: 'Professional Handling',
+        description: 'Our trained teams handle produce with the utmost care to prevent bruising and maintain perfect condition.',
+    },
+    {
+        icon: <PackageCheck className="w-8 h-8 text-primary" />,
+        title: 'Advanced Packing',
+        description: 'Our modern facilities use precision technology to sort, grade, and pack produce for optimal protection.',
+    },
+];
+
+const processSteps = [
   {
-    icon: <Leaf className="w-10 h-10 text-primary" />,
-    title: 'Meticulous Harvesting',
-    description: 'Our avocados are hand-picked at the perfect stage of maturity by experienced farmers to ensure optimal flavor, texture, and nutrient content. Each fruit is handled with care to prevent bruising.',
+    icon: Leaf,
+    title: 'Cultivation & Growing',
+    description: 'In the fertile Gharb-Loukkos region, our 200+ hectares of orchards are cultivated using modern, water-efficient irrigation and sustainable farming practices.',
   },
   {
-    icon: <Microscope className="w-10 h-10 text-primary" />,
-    title: 'Rigorous Sorting & Grading',
-    description: 'Upon arrival at our facility, every avocado undergoes a strict inspection for size, quality, and ripeness. We use both advanced technology and expert eyes to sort and grade the fruit according to international standards.',
+    icon: HandHelping,
+    title: 'Harvesting',
+    description: 'Each avocado is hand-picked at its optimal maturity by our skilled teams, ensuring peak flavor and a longer shelf life.',
   },
   {
-    icon: <PackageCheck className="w-10 h-10 text-primary" />,
-    title: 'State-of-the-Art Packing',
-    description: 'We use advanced, automated packing lines to gently place avocados in protective, eco-friendly packaging. This process maintains the fruit\'s integrity and prepares it for its journey.',
+    icon: Microscope,
+    title: 'Sorting & Selection',
+    description: 'Upon arrival at our packing station, every piece of fruit undergoes rigorous manual and mechanical inspection for quality, size, and firmness.',
   },
   {
-    icon: <Truck className="w-10 h-10 text-primary" />,
-    title: 'Reliable Cold Chain Logistics',
-    description: 'From our packing house to the destination port, our avocados are kept in a temperature-controlled environment. This unbroken cold chain guarantees maximum freshness upon arrival.',
+    icon: Thermometer,
+    title: 'Cooling & Storage',
+    description: 'Produce is immediately moved to our advanced, temperature-controlled cold rooms, initiating an unbroken cold chain to preserve freshness.',
+  },
+  {
+    icon: PackageCheck,
+    title: 'Packing',
+    description: 'Our state-of-the-art packing line handles fruit with precision and care, ensuring it is hygienically packed and labeled for full traceability.',
+  },
+  {
+    icon: Truck,
+    title: 'Export Logistics',
+    description: 'With a capacity of up to 16 trucks per day, we guarantee efficient and reliable dispatch to our partners across Europe and beyond.',
   },
 ];
+
 
 type Certification = {
     id: string;
@@ -40,14 +86,22 @@ type Certification = {
     description?: string;
 }
 
-const Marquee = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <div className={cn("relative flex w-full overflow-hidden", className)}>
-      <div className="flex w-max animate-marquee [--duration:60s] hover:[animation-play-state:paused]">
-        {children}
-        {children}
-      </div>
-    </div>
-);
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 100 },
+  },
+};
 
 
 export default function QualityPage() {
@@ -66,7 +120,12 @@ export default function QualityPage() {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative h-[60vh] text-white">
+        <motion.section 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative h-[60vh] bg-gray-50 flex items-center justify-center"
+        >
           {heroImage && (
             <Image
               src={heroImage.imageUrl}
@@ -74,94 +133,152 @@ export default function QualityPage() {
               fill
               className="object-cover"
               data-ai-hint={heroImage.imageHint}
+              priority
             />
           )}
-          <div className="absolute inset-0 bg-black/60" />
-          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold">A Commitment to Excellence</h1>
-            <p className="mt-4 max-w-3xl text-lg md:text-xl">
-              From our groves to your table, we guarantee uncompromising quality at every step of the journey.
-            </p>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+          <div className="relative z-10 text-center px-4 text-white">
+            <motion.h1 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-4xl md:text-6xl font-headline font-extrabold"
+            >
+              Committed to Quality,<br/>From Farm to World.
+            </motion.h1>
+            <motion.p 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-white/90"
+            >
+              Our philosophy is simple: true quality is born from care, precision, and an unwavering commitment to excellence at every step.
+            </motion.p>
           </div>
-        </section>
+        </motion.section>
 
-        {/* Introduction Section */}
-        <section className="py-16 lg:py-24">
+        {/* Quality Pillars Section */}
+        <section className="py-20 lg:py-32 bg-background">
             <div className="container mx-auto px-4">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary">Quality You Can Taste and Trust</h2>
-                    <p className="mt-4 text-lg text-muted-foreground">
-                        Our quality assurance is not just a process; it's a promise. We integrate meticulous care, advanced technology, and rigorous international standards to ensure that every avocado we export is a perfect representation of our commitment to excellence. We believe that true quality is about more than just the final product—it's about the integrity of the entire journey.
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Quality Pillars</h2>
+                    <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+                        These are the non-negotiable principles that guide our operations and guarantee the superiority of our produce.
                     </p>
                 </div>
+                 <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
+                    {qualityPillars.map((pillar) => (
+                        <motion.div key={pillar.title} variants={itemVariants}>
+                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-full text-center hover:-translate-y-2 hover:shadow-lg transition-transform duration-300">
+                                <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
+                                    {pillar.icon}
+                                </div>
+                                <h3 className="text-xl font-bold font-headline">{pillar.title}</h3>
+                                <p className="mt-2 text-muted-foreground">{pillar.description}</p>
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.div>
             </div>
         </section>
         
-        {/* Quality Process Section */}
-        <section className="py-16 lg:py-24 bg-secondary/30">
+        {/* Process Timeline Section */}
+        <section className="py-20 lg:py-32 bg-gray-50">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-headline font-bold">From Grove to Globe: Our Process</h2>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-headline font-bold">From Grove to Globe</h2>
               <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                A step-by-step look at how we ensure premium quality.
+                Our vertically integrated process ensures complete control over quality, safety, and traceability at every stage.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {qualityProcess.map((step) => (
-                <div key={step.title} className="bg-background p-8 rounded-lg shadow-lg text-center flex flex-col items-center transform hover:-translate-y-2 transition-transform duration-300">
-                  <div className="flex-shrink-0 bg-primary/10 p-4 rounded-full">{step.icon}</div>
-                  <h3 className="mt-4 text-xl font-bold font-headline">{step.title}</h3>
-                  <p className="mt-2 text-muted-foreground flex-grow">{step.description}</p>
-                </div>
-              ))}
+            <div className="relative max-w-4xl mx-auto">
+                <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200" aria-hidden="true"></div>
+                {processSteps.map((step, index) => (
+                    <motion.div 
+                        key={step.title}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{ duration: 0.5, delay: 0.1 * index }}
+                        className="relative mb-12"
+                    >
+                        <div className={cn("flex items-center", index % 2 === 0 ? "justify-start" : "justify-end")}>
+                            <div className={cn("w-1/2", index % 2 === 0 ? "pr-8 text-right" : "pl-8 text-left")}>
+                               <motion.div
+                                 initial={{ x: index % 2 === 0 ? 50 : -50, opacity: 0 }}
+                                 whileInView={{ x: 0, opacity: 1 }}
+                                 viewport={{ once: true, amount: 0.5 }}
+                                 transition={{ duration: 0.6, delay: 0.2 + (0.1 * index) }}
+                               >
+                                  <h3 className="text-xl font-bold font-headline text-primary">{step.title}</h3>
+                                  <p className="mt-1 text-muted-foreground">{step.description}</p>
+                               </motion.div>
+                            </div>
+                        </div>
+                         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white flex items-center justify-center h-16 w-16 rounded-full border-2 border-primary shadow-lg">
+                           <step.icon className="w-8 h-8 text-primary" />
+                        </div>
+                    </motion.div>
+                ))}
             </div>
           </div>
         </section>
 
         {/* Certifications Section */}
-        <section id="certifications" className="py-16 lg:py-24">
+        <section id="certifications" className="py-20 lg:py-32 bg-background overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-headline font-bold">Certified &amp; Guaranteed</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                    Our adherence to the highest international standards is not just a claim—it's certified. We proudly hold multiple globally-recognized credentials.
+                <h2 className="text-4xl md:text-5xl font-headline font-bold">Certified, Verified, Trusted.</h2>
+                <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+                    Our commitment to international standards is your guarantee of food safety, environmental responsibility, and full traceability. We are proudly certified by globally recognized bodies.
                 </p>
             </div>
             {isLoading && (
-              <div className="flex justify-center">
-                  <Loader2 className="h-8 w-8 animate-spin" />
+              <div className="flex justify-center items-center h-24">
+                  <Skeleton className="h-16 w-3/4" />
               </div>
             )}
             {certifications && certifications.length > 0 && (
-                <Marquee>
+                <Marquee pauseOnHover className="[--duration:60s]">
                     {certifications.map((cert) => (
-                        <div key={cert.id} className="relative group mx-8 flex-shrink-0 flex flex-col items-center justify-center h-48 w-48">
-                            <div className="relative h-32 w-32 flex items-center justify-center p-4 bg-background rounded-lg shadow-sm">
+                        <div key={cert.id} className="flex-shrink-0 mx-8 flex flex-col items-center justify-center h-40 w-48 bg-white p-4 rounded-2xl border shadow-sm">
+                            <div className="relative h-20 w-full mb-2">
                                 {cert.imageUrl ? (
                                     <Image
                                         src={cert.imageUrl}
                                         alt={cert.name}
-                                        width={100}
-                                        height={100}
+                                        fill
                                         className="object-contain"
                                     />
                                 ) : (
-                                    <div className="text-center font-bold text-sm text-muted-foreground">{cert.name}</div>
+                                    <div className="w-full h-full bg-gray-100 rounded-md" />
                                 )}
                             </div>
-                            <div className="absolute bottom-0 w-full p-2 bg-background/80 backdrop-blur-sm rounded-b-lg text-center transition-opacity duration-300">
-                                <p className="text-sm font-semibold text-foreground truncate">{cert.name}</p>
-                            </div>
+                            <p className="text-sm font-semibold text-center text-foreground">{cert.name}</p>
                         </div>
                     ))}
                 </Marquee>
             )}
-             {!isLoading && (!certifications || certifications.length === 0) && (
-              <div className="text-center py-12 text-muted-foreground">
-                  <p>No certifications to display at the moment.</p>
-              </div>
-            )}
           </div>
+        </section>
+        
+        {/* Trust Message Section */}
+        <section className="py-20 lg:py-32 bg-gray-50">
+            <div className="container mx-auto px-4 text-center">
+                <div className="max-w-3xl mx-auto">
+                    <CheckCircle className="h-16 w-16 mx-auto text-primary" />
+                    <h2 className="mt-6 text-3xl md:text-4xl font-headline font-bold">Excellence, Delivered.</h2>
+                    <p className="mt-4 text-lg text-muted-foreground">
+                        Our process is designed for one purpose: to deliver the finest Moroccan produce to our partners with absolute confidence. From our soil to your shelves, we stand by our promise of quality, reliability, and trust.
+                    </p>
+                </div>
+            </div>
         </section>
 
       </main>
