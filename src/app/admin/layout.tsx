@@ -14,11 +14,12 @@ import {
   Leaf,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '@/firebase';
 import { Loader2 } from 'lucide-react';
 import AdminHeader from '@/components/layout/admin-header';
 import Link from 'next/link';
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 const adminNavItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -34,17 +35,10 @@ const adminNavItems = [
   { href: '/admin/partners', icon: Handshake, label: 'Partners' },
 ];
 
-function Sidebar() {
+function SidebarNav() {
   const pathname = usePathname();
-
   return (
-    <aside className="w-64 bg-slate-900 text-white hidden md:flex flex-col shadow-xl z-10">
-      <div className="h-16 flex items-center justify-center border-b border-slate-800">
-        <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
-          EXPORT OPTIMUM
-        </Link>
-      </div>
-      <nav className="flex-1 px-4 py-6 space-y-2">
+     <nav className="flex-1 px-4 py-6 space-y-2">
         {adminNavItems.map((item) => {
           const isActive = pathname?.startsWith(item.href);
           return (
@@ -63,6 +57,18 @@ function Sidebar() {
           )
         })}
       </nav>
+  )
+}
+
+function Sidebar() {
+  return (
+    <aside className="w-64 bg-slate-900 text-white hidden md:flex flex-col shadow-xl z-10">
+      <div className="h-16 flex items-center justify-center border-b border-slate-800">
+        <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
+          EXPORT OPTIMUM
+        </Link>
+      </div>
+      <SidebarNav />
       <div className="p-4 border-t border-slate-800">
         <div className="bg-slate-800 rounded-lg p-4">
           <p className="text-xs text-slate-400 mb-2">Export Optimum</p>
@@ -84,6 +90,7 @@ export default function AdminLayout({
   const router = useRouter();
   const pathname = usePathname();
   const { user, isUserLoading } = useUser();
+  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   const isLoginPage = (pathname ?? '').startsWith('/admin/login');
   
@@ -108,8 +115,23 @@ export default function AdminLayout({
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       <Sidebar />
+      
+      {/* Mobile Sidebar */}
+      <Sheet open={isMobileNavOpen} onOpenChange={setMobileNavOpen}>
+          <SheetContent side="left" className="p-0 bg-slate-900 text-white border-r-0 w-64">
+            <div className="flex h-full flex-col">
+              <div className="h-16 flex items-center justify-center border-b border-slate-800">
+                <Link href="/" className="text-lg font-bold tracking-wide text-blue-400">
+                  EXPORT OPTIMUM
+                </Link>
+              </div>
+              <SidebarNav />
+            </div>
+          </SheetContent>
+      </Sheet>
+
       <div className="flex-1 flex flex-col overflow-hidden">
-        <AdminHeader />
+        <AdminHeader onMobileNavToggle={() => setMobileNavOpen(true)} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
           <div className="max-w-7xl mx-auto">
               {children}

@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -11,12 +12,16 @@ import {
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth, useUser } from '@/firebase';
-import { Home, LogOut, Settings, Bell, ChevronDown } from 'lucide-react';
+import { Home, LogOut, Settings, Bell, ChevronDown, Menu } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function AdminHeader() {
+interface AdminHeaderProps {
+  onMobileNavToggle: () => void;
+}
+
+export default function AdminHeader({ onMobileNavToggle }: AdminHeaderProps) {
     const { user } = useUser();
     const auth = useAuth();
     const router = useRouter();
@@ -29,9 +34,19 @@ export default function AdminHeader() {
     };
 
     return (
-        <header className="bg-white h-16 border-b border-gray-200 flex items-center justify-between px-8 sticky top-0 z-20 shadow-sm">
-          {/* LEFT: Spacer, as sidebar contains the brand */}
-          <div className="w-64" />
+        <header className="bg-white h-16 border-b border-gray-200 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-20 shadow-sm">
+          {/* LEFT: Mobile nav toggle and search */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={onMobileNavToggle}
+            >
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+          </div>
 
           {/* CENTER: Admin Panel Title */}
           <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
