@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "../Sidebar";
 
 const ManageBlogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 12;
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     fetchBlogs();
@@ -42,11 +40,7 @@ const ManageBlogs = () => {
   return (
     <div className="flex min-h-screen bg-gray-100">
 
-      <div
-        className={`flex-1 p-6 bg-gray-100 transition-all duration-300 ease-in-out md:ml-${
-          isSidebarCollapsed ? "16" : "56"
-        }`}
-      >
+      <div className="flex-1 p-6 bg-gray-100 transition-all duration-300 ease-in-out">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-gray-800">Manage Blogs</h2>
           {error && <p className="text-red-500">{error}</p>}

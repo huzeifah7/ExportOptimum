@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
-import Sidebar from './Sidebar';
 import emails from '../Data/Emails.json';
 import notificationss from '../Data/Contact.json';
 import axios from 'axios';
@@ -13,7 +12,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [blogCount, setBlogCount] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [visitorsData, setVisitorsData] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,6 +38,7 @@ export default function Dashboard() {
     fetchVisitorCountry();
     fetchProducts();
     fetchBlogCount();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
   // Fetch Products from API
