@@ -1,4 +1,3 @@
-
 'use client';
 import {
   SidebarProvider,
@@ -7,7 +6,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
@@ -73,12 +71,12 @@ export default function AdminLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex flex-col h-screen w-full bg-secondary/50 overflow-hidden">
+      <div className="flex h-screen w-full flex-col overflow-hidden bg-secondary/50">
         <AdminHeader />
         <div className="flex flex-1 overflow-hidden">
             <Sidebar 
+              variant="inset"
               collapsible="icon" 
-              className="bg-background border-r"
             >
               <SidebarContent>
                 <SidebarMenu>
