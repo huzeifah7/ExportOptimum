@@ -1,3 +1,4 @@
+
 :root {
   --hue: 27;
   --sat: 69%;
@@ -5,8 +6,8 @@
   --purple-primary: rgba(132, 0, 255, 1);
   --purple-glow: rgba(132, 0, 255, 0.2);
   --purple-border: rgba(132, 0, 255, 0.8);
-  --border-color: #392e4e;
-  --background-dark: #060010;
+  --border-color: hsl(var(--border));
+  --background-dark: hsl(var(--background));
   color-scheme: light dark;
 }
 
@@ -50,7 +51,6 @@
 .magic-bento-card__content {
   display: flex;
   position: relative;
-  color: var(--white);
   z-index: 2;
 }
 

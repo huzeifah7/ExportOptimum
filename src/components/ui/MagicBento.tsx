@@ -1,3 +1,4 @@
+
 'use client';
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
@@ -551,7 +552,7 @@ const MagicBento: React.FC<BentoProps> = ({
           const cardProps = {
             className: baseClassName,
             style: {
-              backgroundColor: '#0c0c1b',
+              backgroundColor: 'hsl(var(--background))',
               '--glow-color': glowColor
             } as React.CSSProperties
           };
@@ -569,12 +570,12 @@ const MagicBento: React.FC<BentoProps> = ({
                 enableMagnetism={enableMagnetism}
               >
                 <div className="magic-bento-card__header">
-                  <div className="text-gray-400 text-sm">{card.label}</div>
-                  <div className="text-green-400">{card.icon}</div>
+                  <div className="text-muted-foreground text-sm">{card.label}</div>
+                  <div className="text-primary">{card.icon}</div>
                 </div>
                 <div className="magic-bento-card__content">
-                  <h2 className="magic-bento-card__title text-lg font-bold">{card.title}</h2>
-                  <p className="magic-bento-card__description text-gray-300">{card.description}</p>
+                  <h2 className="magic-bento-card__title text-lg font-bold text-foreground">{card.title}</h2>
+                  <p className="magic-bento-card__description text-muted-foreground">{card.description}</p>
                 </div>
               </ParticleCard>
             );
@@ -693,12 +694,12 @@ const MagicBento: React.FC<BentoProps> = ({
               }}
             >
               <div className="magic-bento-card__header">
-                <div className="text-gray-400 text-sm">{card.label}</div>
-                  <div className="text-green-400">{card.icon}</div>
+                <div className="text-muted-foreground text-sm">{card.label}</div>
+                  <div className="text-primary">{card.icon}</div>
               </div>
               <div className="magic-bento-card__content">
-                <h2 className="magic-bento-card__title text-lg font-bold">{card.title}</h2>
-                <p className="magic-bento-card__description text-gray-300">{card.description}</p>
+                <h2 className="magic-bento-card__title text-lg font-bold text-foreground">{card.title}</h2>
+                <p className="magic-bento-card__description text-muted-foreground">{card.description}</p>
               </div>
             </div>
           );

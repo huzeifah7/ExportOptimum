@@ -1,9 +1,10 @@
+
 'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, ShieldCheck, Thermometer, GitBranch, Sprout, HandHelping } from 'lucide-react';
+import { Leaf, PackageCheck, Truck, Microscope, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
@@ -19,19 +20,9 @@ const processSteps = [
     description: 'In the fertile Gharb-Loukkos region, our 200+ hectares of orchards are cultivated using modern, water-efficient irrigation and sustainable farming practices.',
   },
   {
-    icon: HandHelping,
-    title: 'Harvesting',
-    description: 'Each avocado is hand-picked at its optimal maturity by our skilled teams, ensuring peak flavor and a longer shelf life.',
-  },
-  {
     icon: Microscope,
     title: 'Sorting & Selection',
     description: 'Upon arrival at our packing station, every piece of fruit undergoes rigorous manual and mechanical inspection for quality, size, and firmness.',
-  },
-  {
-    icon: Thermometer,
-    title: 'Cooling & Storage',
-    description: 'Produce is immediately moved to our advanced, temperature-controlled cold rooms, initiating an unbroken cold chain to preserve freshness.',
   },
   {
     icon: PackageCheck,
@@ -107,11 +98,11 @@ export default function QualityPage() {
         </motion.section>
 
         {/* Quality Pillars Section */}
-        <section className="py-20 lg:py-32 bg-gray-900 flex items-center justify-center">
+        <section className="py-20 lg:py-32 bg-background flex items-center justify-center">
             <div className="w-full max-w-7xl mx-auto px-4">
-                <div className="text-center mb-16 text-white">
+                <div className="text-center mb-16 text-foreground">
                     <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Quality Pillars</h2>
-                    <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-300">
+                    <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
                         These are the non-negotiable principles that guide our operations and guarantee the superiority of our produce.
                     </p>
                 </div>
