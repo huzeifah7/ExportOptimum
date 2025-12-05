@@ -12,15 +12,19 @@ import {
   Star,
   Handshake,
   Leaf,
+  PanelLeft,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@/firebase';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ChevronLeft } from 'lucide-react';
 import AdminHeader from '@/components/layout/admin-header';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const adminNavItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -36,49 +40,63 @@ const adminNavItems = [
   { href: '/admin/partners', icon: Handshake, label: 'Partners' },
 ];
 
-function SidebarNav() {
+function SidebarNav({ isCollapsed }: { isCollapsed: boolean }) {
   const pathname = usePathname();
   return (
-    <ScrollArea className="flex-1">
-     <nav className="px-4 py-6 space-y-2">
-        {adminNavItems.map((item) => {
-          const isActive = pathname?.startsWith(item.href);
-          return (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`flex items-center px-4 py-3 rounded-lg transition-colors duration-200 group
-                ${isActive 
-                  ? 'bg-primary-foreground/10 text-white' 
-                  : 'text-primary-foreground/70 hover:bg-primary-foreground/5 hover:text-white'
-                }`}
-            >
-              <item.icon size={20} className={`mr-3 ${isActive ? 'text-white' : 'text-primary-foreground/60 group-hover:text-white'}`} />
-              <span className="font-medium">{item.label}</span>
-            </Link>
-          )
-        })}
-      </nav>
-    </ScrollArea>
+    <TooltipProvider>
+      <ScrollArea className="flex-1">
+       <nav className="px-2 py-6 space-y-2">
+          {adminNavItems.map((item) => {
+            const isActive = pathname?.startsWith(item.href);
+            return (
+              <Tooltip key={item.label} delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        'flex items-center px-4 py-3 rounded-lg transition-colors duration-200 group',
+                         isActive 
+                          ? 'bg-primary-foreground/10 text-white' 
+                          : 'text-primary-foreground/70 hover:bg-primary-foreground/5 hover:text-white',
+                         isCollapsed && 'justify-center'
+                      )}
+                    >
+                      <item.icon size={20} className={cn('shrink-0', !isCollapsed && 'mr-3')} />
+                      <span className={cn('font-medium', isCollapsed && 'sr-only')}>{item.label}</span>
+                    </Link>
+                  </TooltipTrigger>
+                  {isCollapsed && (
+                     <TooltipContent side="right" className="flex items-center gap-4">
+                        {item.label}
+                    </TooltipContent>
+                  )}
+              </Tooltip>
+            )
+          })}
+        </nav>
+      </ScrollArea>
+    </TooltipProvider>
   )
 }
 
-function Sidebar() {
+function Sidebar({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: () => void }) {
   return (
-    <aside className="w-64 bg-primary text-primary-foreground hidden md:flex flex-col shadow-xl z-10">
+    <aside className={cn("bg-primary text-primary-foreground hidden md:flex flex-col shadow-xl z-10 transition-[width] duration-300", isCollapsed ? 'w-20' : 'w-64')}>
       <div className="h-16 flex items-center justify-center border-b border-primary-foreground/20">
-        <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground">
-          EXPORT OPTIMUM
+        <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground whitespace-nowrap">
+          {isCollapsed ? 'EO' : 'EXPORT OPTIMUM'}
         </Link>
       </div>
-      <SidebarNav />
+      <SidebarNav isCollapsed={isCollapsed} />
       <div className="p-4 border-t border-primary-foreground/20">
-        <div className="bg-primary-foreground/10 rounded-lg p-4">
-          <p className="text-xs text-primary-foreground/80 mb-2">Export Optimum</p>
-          <div className="w-full bg-primary-foreground/20 rounded-full h-1.5">
-            <div className="bg-primary-foreground h-1.5 rounded-full w-full"></div>
-          </div>
-        </div>
+         <Button
+            variant="ghost"
+            className="w-full justify-center text-primary-foreground hover:bg-primary-foreground/10 hover:text-white"
+            onClick={onToggle}
+          >
+            <ChevronLeft className={cn("h-6 w-6 transition-transform", isCollapsed && "rotate-180")} />
+            <span className={cn("sr-only", !isCollapsed && "not-sr-only ml-2")}>{isCollapsed ? 'Expand' : 'Collapse'}</span>
+        </Button>
       </div>
     </aside>
   );
@@ -94,6 +112,7 @@ export default function AdminLayout({
   const pathname = usePathname();
   const { user, isUserLoading } = useUser();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const isLoginPage = (pathname ?? '').startsWith('/admin/login');
   
@@ -119,20 +138,18 @@ export default function AdminLayout({
     <div className="flex h-screen bg-gray-50 overflow-hidden flex-col">
       <AdminHeader onMobileNavToggle={() => setMobileNavOpen(true)} />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+        <Sidebar isCollapsed={isCollapsed} onToggle={() => setIsCollapsed(!isCollapsed)} />
         
         <Sheet open={isMobileNavOpen} onOpenChange={setMobileNavOpen}>
             <SheetContent side="left" className="p-0 bg-primary text-primary-foreground border-r-0 w-64">
-              <SheetHeader>
+              <SheetHeader className="p-4 border-b border-primary-foreground/20">
                 <SheetTitle className="sr-only">Admin Menu</SheetTitle>
-              </SheetHeader>
-              <div className="flex h-full flex-col">
-                <div className="h-16 flex items-center justify-center border-b border-primary-foreground/20">
-                  <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground">
+                 <Link href="/" className="text-lg font-bold tracking-widest text-primary-foreground text-center">
                     EXPORT OPTIMUM
                   </Link>
-                </div>
-                <SidebarNav />
+              </SheetHeader>
+              <div className="flex h-full flex-col">
+                <SidebarNav isCollapsed={false} />
               </div>
             </SheetContent>
         </Sheet>
