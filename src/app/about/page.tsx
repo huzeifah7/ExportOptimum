@@ -255,7 +255,7 @@ export default function AboutUsPage() {
         </section>
 
         {/* Leadership & Values Section */}
-        <section className="py-20 lg:py-32 bg-secondary/30">
+        <section className="py-20 lg:py-32 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Guiding Principles</h2>
