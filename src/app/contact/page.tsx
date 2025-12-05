@@ -6,9 +6,13 @@ import { InView } from 'react-intersection-observer';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import './Contact.css';
-import emailjs from '@emailjs/browser';
+import { useFirestore } from '@/firebase';
+import { collection, serverTimestamp } from 'firebase/firestore';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { Loader2 } from 'lucide-react';
 
 const Contact = () => {
+  const firestore = useFirestore();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -20,6 +24,7 @@ const Contact = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,8 +35,9 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const SendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
 
     const { fullName, email, country, subject, message } = formData;
 
@@ -40,26 +46,37 @@ const Contact = () => {
       return;
     }
 
-    emailjs
-      .sendForm('service_6fm8f0o', 'template_vwbievm', e.currentTarget, '6MH_KK4KcTnc9M-Nh')
-      .then(
-        (result) => {
-          setSuccessMessage('Message sent successfully!');
-          setError(null);
-          setFormData({
+    if (!firestore) {
+      setError('Message service is not available. Please try again later.');
+      return;
+    }
+    
+    setIsSubmitting(true);
+
+    try {
+        const messagesCollection = collection(firestore, 'messages');
+        const newMessage = {
+            ...formData,
+            createdAt: serverTimestamp(),
+        };
+        addDocumentNonBlocking(messagesCollection, newMessage);
+
+        setSuccessMessage('Your message has been sent successfully!');
+        setFormData({
             fullName: '',
             email: '',
             country: '',
             subject: '',
             message: '',
-          });
-          setIsModalOpen(true);
-        },
-        (error) => {
-          console.error(error.text);
-          setError('Failed to send message. Please try again.');
-        }
-      );
+        });
+        setIsModalOpen(true);
+
+    } catch (error) {
+        console.error('Error sending message:', error);
+        setError('Failed to send message. Please try again.');
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   const closeModal = () => {
@@ -89,8 +106,8 @@ const Contact = () => {
                 Feel free to reach out to the team at Export Optimum; we would be delighted to explore how we can assist you.
               </p>
 
-              <form onSubmit={SendEmail} className="mt-8 max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-                {error && <div className="text-red-500">{error}</div>}
+              <form onSubmit={handleSubmit} className="mt-8 max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+                {error && <div className="text-red-500 mb-4">{error}</div>}
 
                 <div className="space-y-4">
                   <input
@@ -100,6 +117,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Full Name"
                     className="w-full p-3 border border-gray-300 rounded-lg"
+                    disabled={isSubmitting}
                   />
                   <input
                     type="email"
@@ -108,6 +126,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Email"
                     className="w-full p-3 border border-gray-300 rounded-lg"
+                    disabled={isSubmitting}
                   />
                   <input
                     type="text"
@@ -116,6 +135,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Country"
                     className="w-full p-3 border border-gray-300 rounded-lg"
+                    disabled={isSubmitting}
                   />
                   <input
                     type="text"
@@ -124,6 +144,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Subject"
                     className="w-full p-3 border border-gray-300 rounded-lg"
+                    disabled={isSubmitting}
                   />
                   <textarea
                     name="message"
@@ -132,10 +153,12 @@ const Contact = () => {
                     placeholder="Message"
                     className="w-full p-3 border border-gray-300 rounded-lg"
                     rows={5}
+                    disabled={isSubmitting}
                   />
 
-                  <button type="submit" className="w-full mt-4 py-3 bg-[#acd629] text-white font-semibold rounded-lg">
-                    Send Message
+                  <button type="submit" className="w-full mt-4 py-3 bg-[#acd629] text-white font-semibold rounded-lg flex items-center justify-center" disabled={isSubmitting}>
+                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
                 </div>
               </form>
