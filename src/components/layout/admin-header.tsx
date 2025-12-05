@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -16,6 +15,7 @@ import { Home, LogOut, Settings, Bell, ChevronDown, Menu } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Logo } from "../logo";
 
 interface AdminHeaderProps {
   onMobileNavToggle: () => void;
@@ -46,13 +46,23 @@ export default function AdminHeader({ onMobileNavToggle }: AdminHeaderProps) {
               <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle Menu</span>
             </Button>
+            <div className="hidden md:block">
+              <Link href="/">
+                <Logo />
+              </Link>
+            </div>
           </div>
 
           {/* CENTER: Admin Panel Title */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
-            <h1 className="text-lg font-semibold text-gray-600 bg-gray-100 px-4 py-1 rounded-full">
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <Link href="/admin/dashboard" className="text-lg font-semibold text-gray-600 bg-gray-100 px-4 py-1 rounded-full hidden md:block">
               Admin Panel
-            </h1>
+            </Link>
+            <div className="md:hidden">
+              <Link href="/">
+                  <Logo />
+              </Link>
+            </div>
           </div>
 
           {/* RIGHT: Profile Info & Dropdown */}
