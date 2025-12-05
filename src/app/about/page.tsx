@@ -208,9 +208,9 @@ export default function AboutUsPage() {
                     whileInView={{ opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="absolute bottom-0 right-0 w-1/2 h-1/2 rounded-xl overflow-hidden shadow-2xl border-4 border-background"
+                    className="absolute bottom-0 right-0 w-3/5 h-auto"
                   >
-                    <Image src="/Avocadooo.jpg" alt="A close up of a ripe avocado" fill className="object-cover" data-ai-hint="ripe avocado"/>
+                    <Image src="/Avocadooo.jpg" alt="A close up of a ripe avocado" width={400} height={400} className="object-cover shadow-2xl" data-ai-hint="ripe avocado"/>
                   </motion.div>
               </div>
             </div>
@@ -230,7 +230,7 @@ export default function AboutUsPage() {
 
 
         {/* Journey Section */}
-        <section className="py-20 lg:py-32">
+        <section className="py-20 lg:py-32 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-headline font-bold">From Orchard to World</h2>
@@ -255,7 +255,7 @@ export default function AboutUsPage() {
         </section>
 
         {/* Leadership & Values Section */}
-        <section className="py-20 lg:py-32 bg-gray-50">
+        <section className="py-20 lg:py-32 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-headline font-bold">Our Guiding Principles</h2>
