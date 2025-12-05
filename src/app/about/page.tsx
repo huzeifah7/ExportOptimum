@@ -212,15 +212,6 @@ export default function AboutUsPage() {
                   >
                     <Image src="/Avocadooo.jpg" alt="A close up of a ripe avocado" fill className="object-cover" data-ai-hint="ripe avocado"/>
                   </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8, x: 50 }}
-                    whileInView={{ opacity: 1, scale: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.5, delay: 0.5 }}
-                    className="absolute top-1/4 right-1/4 w-40 h-32 overflow-hidden p-4 -translate-x-1/2 -translate-y-1/4"
-                    >
-                    <Image src="/avocado1.png" alt="A single perfect avocado" fill className="object-cover" data-ai-hint="avocado fruit"/>
-                  </motion.div>
               </div>
             </div>
           </div>
