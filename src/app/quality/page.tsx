@@ -247,7 +247,8 @@ export default function QualityPage() {
             {certifications && certifications.length > 0 && (
                 <Marquee pauseOnHover className="[--duration:60s]">
                     {certifications.map((cert) => (
-                        <div key={cert.id} className="flex-shrink-0 mx-8 flex flex-col items-center justify-center h-40 w-48 bg-white p-4 rounded-2xl border shadow-sm">
+                        <div key={cert.id} className="group relative flex-shrink-0 mx-8 flex flex-col items-center justify-center h-40 w-48 p-4 rounded-2xl transition-all duration-300">
+                             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
                             <div className="relative h-20 w-full mb-2">
                                 {cert.imageUrl ? (
                                     <Image
@@ -260,7 +261,7 @@ export default function QualityPage() {
                                     <div className="w-full h-full bg-gray-100 rounded-md" />
                                 )}
                             </div>
-                            <p className="text-sm font-semibold text-center text-foreground">{cert.name}</p>
+                             <p className="font-headline text-base font-bold text-center text-foreground tracking-wide">{cert.name}</p>
                         </div>
                     ))}
                 </Marquee>
