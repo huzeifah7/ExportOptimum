@@ -34,22 +34,21 @@ const StatCard = ({
   label: string;
   delay: number;
 }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.5 }}
-    transition={{ duration: 0.5, delay }}
-    className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 text-center shadow-lg backdrop-blur-md"
-  >
-    <div className="relative z-10">
-      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/5 text-primary">
-        {icon}
-      </div>
-      <p className="text-4xl font-bold font-headline text-white">{value}</p>
-      <p className="mt-1 text-sm text-white/70">{label}</p>
-    </div>
-  </motion.div>
+    <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.5, delay }}
+        className="bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow duration-300"
+    >
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+            {icon}
+        </div>
+        <p className="text-4xl font-bold font-headline text-foreground">{value}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{label}</p>
+    </motion.div>
 );
+
 
 const TimelineStep = ({
   icon,
@@ -239,15 +238,16 @@ export default function AboutUsPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-20 lg:py-32 bg-gradient-to-b from-black/80 to-black">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              {stats.map((stat) => (
-                <StatCard key={stat.label} {...stat} />
-              ))}
+        <section className="py-20 lg:py-32 bg-gray-50">
+            <div className="container mx-auto px-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    {stats.map((stat) => (
+                        <StatCard key={stat.label} {...stat} />
+                    ))}
+                </div>
             </div>
-          </div>
         </section>
+
 
         {/* Journey Section */}
         <section className="py-20 lg:py-32">
