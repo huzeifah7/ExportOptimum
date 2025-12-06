@@ -75,7 +75,7 @@ export default function ProductsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="py-24 lg:py-36 bg-gradient-to-br from-green-50 via-gray-50 to-yellow-50 text-center"
+            className="py-16 lg:py-20 bg-gradient-to-br from-green-50 via-gray-50 to-yellow-50 text-center"
         >
             <div className="container mx-auto px-4">
                 <motion.h1 
@@ -98,7 +98,7 @@ export default function ProductsPage() {
         </motion.section>
 
         {/* Dynamic Product Grid */}
-        <div className="py-16 lg:py-24 bg-background">
+        <div className="py-12 lg:py-16 bg-background">
           <div className="container mx-auto px-4">
             <motion.div
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
