@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { LiquidChrome } from '@/components/ui/LiquidChrome';
 
 type Product = {
   id: string;
@@ -147,8 +148,16 @@ export default function ProductsPage() {
         </div>
 
         {/* Contact CTA Section */}
-        <section className="py-20 lg:py-32 bg-gradient-to-tr from-primary via-brand to-accent text-primary-foreground">
-          <div className="container mx-auto px-4 text-center">
+        <section className="relative py-20 lg:py-32 text-primary-foreground overflow-hidden">
+          <div className="absolute inset-0 z-0">
+             <LiquidChrome
+                baseColor={[0.4, 0.5, 0.3]} // RGB values between 0 and 1, e.g., a nice green
+                speed={0.4}
+                amplitude={0.3}
+                interactive={true}
+              />
+          </div>
+          <div className="relative z-10 container mx-auto px-4 text-center">
             <h2 className="text-4xl md:text-5xl font-headline font-bold">
               Interested in Our Produce?
             </h2>
