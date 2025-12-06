@@ -18,9 +18,7 @@ export default function Home() {
         <Hero />
         <KeyFigures />
         <About />
-        <section id="quality">
-          <Quality />
-        </section>
+        <Quality />
         <Varieties />
         <Ceo />
         <Testimonials />

@@ -1,7 +1,5 @@
 'use client';
-import { Award, Ship, Users, Globe } from 'lucide-react';
 import Image from 'next/image';
-import { PlaceHolderImages, ImagePlaceholder } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -9,10 +7,42 @@ import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
 import SplitText from '@/components/ui/split-text';
 
-const heroSlides: (ImagePlaceholder & { type?: 'image' | 'video' })[] = [
-  { id: 'hero-slide-1', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080', description: 'Lush avocado farm with sun shining through the leaves', imageHint: 'avocado farm' },
-  { id: 'hero-slide-2', type: 'image', imageUrl: 'https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzYzOTk3MDUzfDA&ixlib=rb-4.1.0&q=80&w=1080', description: 'Close-up of ripe avocados hanging from a tree', imageHint: 'avocado tree' },
-  { id: 'hero-video-1', type: 'video', videoUrl: 'https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4', imageUrl: 'https://images.unsplash.com/photo-1554139681-ae4844fd51b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbG93JTIwbW90aW9uJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjM5OTcwNzF8MA&ixlib=rb-4.1.0&q=80&w=1080', description: 'A slow motion video of avocados being washed', imageHint: 'avocado video' }
+// Define a type for our hero media. This makes it flexible.
+type HeroMedia = {
+  id: string;
+  type: 'image' | 'video';
+  url: string;
+  alt: string;
+  imageHint: string;
+  // Optional poster for videos for faster initial load
+  poster?: string;
+};
+
+// This data would typically come from a CMS or a database.
+// For this example, we'll define it here.
+const heroSlides: HeroMedia[] = [
+  {
+    id: 'slide-1',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080',
+    alt: 'Lush avocado farm with sun shining through the leaves',
+    imageHint: 'avocado farm'
+  },
+  {
+    id: 'slide-2',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzYzOTk3MDUzfDA&ixlib=rb-4.1.0&q=80&w=1080',
+    alt: 'Close-up of ripe avocados hanging from a tree',
+    imageHint: 'avocado tree'
+  },
+  {
+    id: 'slide-3',
+    type: 'video',
+    url: 'https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4',
+    poster: 'https://images.unsplash.com/photo-1554139681-ae4844fd51b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbG93JTIwbW90aW9uJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjM5OTcwNzF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    alt: 'A slow motion video of avocados being washed',
+    imageHint: 'avocado video'
+  }
 ];
 
 export default function Hero() {
@@ -21,7 +51,7 @@ export default function Hero() {
   );
 
   return (
-    <section className="relative w-full h-[90vh] text-white overflow-hidden">
+    <section className="relative w-full h-screen text-white overflow-hidden">
       <Carousel
         className="absolute inset-0 w-full h-full"
         plugins={[plugin.current]}
@@ -30,30 +60,32 @@ export default function Hero() {
         opts={{ loop: true }}
       >
         <CarouselContent className="h-full">
-          {heroSlides.map((slide) => (
+          {heroSlides.map((slide, index) => (
             <CarouselItem key={slide.id} className="h-full">
-              {slide.type === 'video' ? (
-                <video
-                  src={slide.videoUrl}
-                  poster={slide.imageUrl}
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                >
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <Image
-                  src={slide.imageUrl}
-                  alt={slide.description}
-                  fill
-                  className="object-cover"
-                  priority={slide.id === 'hero-slide-1'}
-                  data-ai-hint={slide.imageHint}
-                />
-              )}
+              <div className="w-full h-full relative">
+                {slide.type === 'video' ? (
+                  <video
+                    src={slide.url}
+                    poster={slide.poster}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <Image
+                    src={slide.url}
+                    alt={slide.alt}
+                    fill
+                    className="object-cover"
+                    priority={index === 0} // Prioritize loading the first image
+                    data-ai-hint={slide.imageHint}
+                  />
+                )}
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -61,7 +93,7 @@ export default function Hero() {
         <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white bg-black/30 hover:bg-black/50 border-white/50 hover:border-white" />
       </Carousel>
 
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20" />
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
         <div className="flex flex-col items-center justify-center flex-grow">
