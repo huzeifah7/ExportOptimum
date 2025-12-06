@@ -23,7 +23,7 @@ export const navItems = [
   {
     label: 'News & Insights',
     items: [
-      { label: 'From the Grove Blog', href: '/blog' },
+      { label: 'Blogs', href: '/blog' },
       { label: 'Sustainability Efforts', href: '/sustainability' }
     ]
   }
