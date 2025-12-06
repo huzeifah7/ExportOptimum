@@ -37,39 +37,39 @@ const MOBILE_BREAKPOINT = 768;
 
 const cardData: BentoCardProps[] = [
   {
-    icon: <Thermometer className="w-8 h-8 text-primary" />,
+    icon: <Thermometer className="w-10 h-10 text-primary" />,
     title: 'Freshness',
-    description: 'An unbroken cold chain and rapid logistics ensure our produce arrives as fresh as the day it was picked.',
+    description: 'An unbroken cold chain and rapid logistics ensure produce arrives as fresh as the day it was picked.',
     label: 'Pillar 1'
   },
   {
-    icon: <ShieldCheck className="w-8 h-8 text-primary" />,
+    icon: <ShieldCheck className="w-10 h-10 text-primary" />,
     title: 'Hygiene & Safety',
     description: 'We adhere to strict international hygiene protocols at every stage, from handling to packing.',
     label: 'Pillar 2'
   },
   {
-    icon: <GitBranch className="w-8 h-8 text-primary" />,
+    icon: <GitBranch className="w-10 h-10 text-primary" />,
     title: 'Traceability',
     description: 'Every batch is fully traceable, providing complete transparency from our orchards to your facility.',
     label: 'Pillar 3'
   },
    {
-    icon: <Sprout className="w-8 h-8 text-primary" />,
+    icon: <Sprout className="w-10 h-10 text-primary" />,
     title: 'Sustainability',
     description: 'Responsible farming practices that respect the land, conserve water, and support our ecosystem.',
     label: 'Pillar 4'
   },
   {
-    icon: <HandHelping className="w-8 h-8 text-primary" />,
+    icon: <HandHelping className="w-10 h-10 text-primary" />,
     title: 'Professional Handling',
     description: 'Our trained teams handle produce with the utmost care to prevent bruising and maintain perfect condition.',
     label: 'Pillar 5'
   },
   {
-    icon: <PackageCheck className="w-8 h-8 text-primary" />,
+    icon: <PackageCheck className="w-10 h-10 text-primary" />,
     title: 'Advanced Packing',
-    description: 'Our modern facilities use precision technology to sort, grade, and pack produce for optimal protection.',
+    description: 'Our modern facilities use precision technology to sort, grade, and pack for optimal protection.',
     label: 'Pillar 6'
   },
 ];
@@ -569,12 +569,11 @@ const MagicBento: React.FC<BentoProps> = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
-                <div className="magic-bento-card__header">
-                  <div className="text-muted-foreground text-sm">{card.label}</div>
+                <div className="magic-bento-card__icon">
                   <div className="text-primary">{card.icon}</div>
                 </div>
                 <div className="magic-bento-card__content">
-                  <h2 className="magic-bento-card__title text-lg font-bold text-foreground">{card.title}</h2>
+                  <h2 className="magic-bento-card__title font-headline text-foreground">{card.title}</h2>
                   <p className="magic-bento-card__description text-muted-foreground">{card.description}</p>
                 </div>
               </ParticleCard>
@@ -693,12 +692,11 @@ const MagicBento: React.FC<BentoProps> = ({
                 el.addEventListener('click', handleClick);
               }}
             >
-              <div className="magic-bento-card__header">
-                <div className="text-muted-foreground text-sm">{card.label}</div>
+              <div className="magic-bento-card__icon">
                   <div className="text-primary">{card.icon}</div>
               </div>
               <div className="magic-bento-card__content">
-                <h2 className="magic-bento-card__title text-lg font-bold text-foreground">{card.title}</h2>
+                <h2 className="magic-bento-card__title font-headline text-foreground">{card.title}</h2>
                 <p className="magic-bento-card__description text-muted-foreground">{card.description}</p>
               </div>
             </div>
