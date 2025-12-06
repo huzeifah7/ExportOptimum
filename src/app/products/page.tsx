@@ -151,21 +151,21 @@ export default function ProductsPage() {
         <section className="relative py-20 lg:py-32 text-primary-foreground overflow-hidden">
           <div className="absolute inset-0 z-0">
              <LiquidChrome
-                baseColor={[0.4, 0.5, 0.3]} // RGB values between 0 and 1, e.g., a nice green
+                baseColor={[0.9, 0.9, 0.9]}
                 speed={0.4}
                 amplitude={0.3}
                 interactive={true}
               />
           </div>
           <div className="relative z-10 container mx-auto px-4 text-center">
-            <h2 className="text-4xl md:text-5xl font-headline font-bold">
+            <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
               Interested in Our Produce?
             </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/80">
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
               We partner with importers, distributors, and retailers worldwide. Contact our export team to discuss your needs and discover the quality of Export Optimum.
             </p>
             <div className="mt-8">
-              <Button asChild size="lg" variant="secondary" className="text-lg shadow-lg hover:scale-105 transition-transform">
+              <Button asChild size="lg" variant="default" className="text-lg shadow-lg hover:scale-105 transition-transform">
                 <Link href="/contact">
                   Become a Partner <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
