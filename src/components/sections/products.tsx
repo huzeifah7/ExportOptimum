@@ -111,12 +111,12 @@ export default function Products() {
                         )}
                     </Link>
                     <div className="absolute top-0 right-0 w-28 h-28">
-                        <div className="absolute transform rotate-45 bg-primary text-primary-foreground text-center font-semibold py-1 right-[-34px] top-[32px] w-[170px] shadow-md">
+                        <div className="absolute transform rotate-45 bg-primary text-primary-foreground text-center font-semibold py-1 right-[-34px] top-[32px] w-[170px]">
                            {product.category}
                         </div>
                     </div>
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col flex-grow bg-card text-card-foreground">
                   <h3 className="font-headline text-2xl font-bold text-foreground">{product.name}</h3>
                   <p className="mt-2 text-base text-muted-foreground line-clamp-2 flex-grow">{product.description}</p>
                   <div className="mt-4">
