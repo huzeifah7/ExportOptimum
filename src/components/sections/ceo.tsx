@@ -27,7 +27,7 @@ export default function Ceo() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="/abdo-hd-600x601.png"
+                src="https://placehold.co/600x601/png"
                 alt="Portrait of Abdellah El Yamlahi, CEO of Export Optimum"
                 width={600}
                 height={601}
