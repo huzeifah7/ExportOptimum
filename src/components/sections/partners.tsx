@@ -1,51 +1,96 @@
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import SplitText from '@/components/ui/split-text';
 
-const partnerIds = ['partner-1', 'partner-2', 'partner-3', 'partner-4', 'partner-5'];
+'use client';
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Marquee from '@/components/ui/marquee';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+
+const partnerIds = [
+  'partner-1', 
+  'partner-2', 
+  'partner-3', 
+  'partner-4', 
+  'partner-5',
+  'cert-smeta',
+  'cert-grasp',
+  'cert-bio',
+];
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: 'easeOut',
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: 'easeOut',
+    },
+  },
+};
 
 export default function Partners() {
   const partners = partnerIds.map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean);
 
   return (
-    <section id="partners" className="py-16 lg:py-24 relative bg-background">
-       <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(45deg, transparent 49%, hsl(var(--border)) 49%, hsl(var(--border)) 51%, transparent 51%),
-            linear-gradient(-45deg, transparent 49%, hsl(var(--border)) 49%, hsl(var(--border)) 51%, transparent 51%)
-          `,
-          backgroundSize: "40px 40px",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
-          maskImage:
-            "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
-        }}
-      />
-      <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-12">
-          <SplitText tag="h2" text="Our Trusted Partners" className="text-4xl md:text-5xl font-headline font-bold" />
+    <motion.section
+      id="partners"
+      className="py-20 lg:py-32 bg-gray-50/50"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      <div className="container mx-auto px-4">
+        <motion.div variants={itemVariants} className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
+            Our Trusted Partners
+          </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            We collaborate with leading companies in the global food industry.
+            We proudly collaborate with leading organizations and certification bodies worldwide.
           </p>
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
-          {partners.map((partner) => (
-            partner &&
-            <div key={partner.id}>
-              <Image
-                src={partner.imageUrl}
-                alt={partner.description}
-                width={158}
-                height={48}
-                className="object-contain contrast-0 hover:contrast-100 transition-all duration-300"
-                data-ai-hint={partner.imageHint}
-              />
-            </div>
-          ))}
+        </motion.div>
+
+        <div className="relative">
+          {/* Fading edges for a seamless look */}
+          <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-gray-50/50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-gray-50/50 to-transparent z-10 pointer-events-none" />
+
+          <Marquee pauseOnHover className="[--duration:60s]">
+            {partners.map((partner) => (
+              partner && (
+                <div
+                  key={partner.id}
+                  className="mx-8 flex h-24 w-48 items-center justify-center transition-opacity"
+                >
+                  <Image
+                    src={partner.imageUrl}
+                    alt={partner.description}
+                    width={150}
+                    height={60}
+                    className="object-contain contrast-0 brightness-0 opacity-40 transition-all duration-300 hover:opacity-100 hover:contrast-100 hover:brightness-100"
+                    data-ai-hint={partner.imageHint}
+                  />
+                </div>
+              )
+            ))}
+          </Marquee>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
