@@ -67,53 +67,6 @@ export default function Products() {
       id="products"
       className="py-16 lg:py-24 bg-background relative"
     >
-        <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
-          `,
-          backgroundSize: "20px 20px",
-          backgroundPosition: "0 0, 0 0",
-          maskImage: `
-              repeating-linear-gradient(
-                  to right,
-                  black 0px,
-                  black 3px,
-                  transparent 3px,
-                  transparent 8px
-                ),
-                repeating-linear-gradient(
-                  to bottom,
-                  black 0px,
-                  black 3px,
-                  transparent 3px,
-                  transparent 8px
-                ),
-                radial-gradient(ellipse 80% 80% at 100% 0%, #000 50%, transparent 90%)
-          `,
-          WebkitMaskImage: `
-                repeating-linear-gradient(
-                  to right,
-                  black 0px,
-                  black 3px,
-                  transparent 3px,
-                  transparent 8px
-                ),
-                repeating-linear-gradient(
-                  to bottom,
-                  black 0px,
-                  black 3px,
-                  transparent 3px,
-                  transparent 8px
-                ),
-                radial-gradient(ellipse 80% 80% at 100% 0%, #000 50%, transparent 90%)
-          `,
-          maskComposite: "intersect",
-          WebkitMaskComposite: "source-in",
-        }}
-      />
       <div className="container mx-auto px-4 relative z-10">
         <motion.div variants={itemVariants} className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
