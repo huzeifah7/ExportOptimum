@@ -38,7 +38,7 @@ const itemVariants = {
 };
 
 const ProductCardSkeleton = () => (
-    <div className="bg-white p-4 rounded-lg shadow-md">
+    <div className="bg-transparent p-4 rounded-lg shadow-md border">
         <Skeleton className="h-60 w-full rounded-md" />
         <div className="pt-6 space-y-3">
             <Skeleton className="h-6 w-3/4" />
@@ -65,9 +65,56 @@ export default function Products() {
       viewport={{ once: true, amount: 0.2 }}
       variants={containerVariants}
       id="products"
-      className="py-16 lg:py-24 bg-gray-50/50"
+      className="py-16 lg:py-24 bg-background relative"
     >
-      <div className="container mx-auto px-4">
+        <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
+          `,
+          backgroundSize: "20px 20px",
+          backgroundPosition: "0 0, 0 0",
+          maskImage: `
+              repeating-linear-gradient(
+                  to right,
+                  black 0px,
+                  black 3px,
+                  transparent 3px,
+                  transparent 8px
+                ),
+                repeating-linear-gradient(
+                  to bottom,
+                  black 0px,
+                  black 3px,
+                  transparent 3px,
+                  transparent 8px
+                ),
+                radial-gradient(ellipse 80% 80% at 100% 0%, #000 50%, transparent 90%)
+          `,
+          WebkitMaskImage: `
+                repeating-linear-gradient(
+                  to right,
+                  black 0px,
+                  black 3px,
+                  transparent 3px,
+                  transparent 8px
+                ),
+                repeating-linear-gradient(
+                  to bottom,
+                  black 0px,
+                  black 3px,
+                  transparent 3px,
+                  transparent 8px
+                ),
+                radial-gradient(ellipse 80% 80% at 100% 0%, #000 50%, transparent 90%)
+          `,
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
+      />
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div variants={itemVariants} className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
             Discover Our Produce
@@ -88,7 +135,7 @@ export default function Products() {
           ))}
           {!isLoading && products?.map((product) => (
             <motion.div key={product.id} variants={itemVariants} className="h-full">
-              <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
+              <div className="bg-transparent rounded-lg border shadow-md hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
                 <div className="relative overflow-hidden">
                     <Link href="/products" className="block">
                         {product.imageUrl ? (
@@ -97,11 +144,11 @@ export default function Products() {
                                 alt={product.name}
                                 width={500}
                                 height={400}
-                                className="object-cover w-full h-60 group-hover:scale-105 transition-transform duration-300"
+                                className="object-cover w-full h-60 group-hover:scale-105 transition-transform duration-300 rounded-t-lg"
                                 data-ai-hint={product.imageHint}
                             />
                         ) : (
-                            <div className="h-60 w-full bg-secondary flex items-center justify-center text-muted-foreground">No Image</div>
+                            <div className="h-60 w-full bg-secondary flex items-center justify-center text-muted-foreground rounded-t-lg">No Image</div>
                         )}
                     </Link>
                     <div className="absolute top-0 right-0 w-28 h-28">
