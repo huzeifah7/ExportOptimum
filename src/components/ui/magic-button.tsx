@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -24,8 +25,25 @@ export function MagicButton() {
                 <span className="btn-letter">o</span>
                 <span className="btn-letter">r</span>
                 <span className="btn-letter">e</span>
+                <span className="btn-letter">&nbsp;</span>
+                <span className="btn-letter">O</span>
+                <span className="btn-letter">u</span>
+                <span className="btn-letter">r</span>
+                <span className="btn-letter">&nbsp;</span>
+                <span className="btn-letter">T</span>
+                <span className="btn-letter">e</span>
+                <span className="btn-letter">a</span>
+                <span className="btn-letter">m</span>
             </div>
             <div className="txt-2">
+                 <span className="btn-letter">E</span>
+                <span className="btn-letter">x</span>
+                <span className="btn-letter">p</span>
+                <span className="btn-letter">l</span>
+                <span className="btn-letter">o</span>
+                <span className="btn-letter">r</span>
+                <span className="btn-letter">e</span>
+                <span className="btn-letter">&nbsp;</span>
                 <span className="btn-letter">O</span>
                 <span className="btn-letter">u</span>
                 <span className="btn-letter">r</span>
