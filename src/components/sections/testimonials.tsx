@@ -3,13 +3,10 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, where, orderBy, Timestamp } from 'firebase/firestore';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Star, MessageSquareQuote } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
 import Autoplay from "embla-carousel-autoplay";
 
 // --- Types & Interfaces ---
@@ -22,8 +19,48 @@ type Review = {
   reviewText: string;
   photoUrl?: string;
   rating?: number;
-  createdAt: Timestamp;
 };
+
+// --- Static Data ---
+const staticReviews: Review[] = [
+  {
+    id: 'review-1',
+    author: 'John Doe',
+    company: 'Global Imports',
+    role: 'CEO',
+    reviewText: 'Export Optimum has consistently delivered exceptional quality. Their avocados are the best on the market, and their logistics are seamless.',
+    photoUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    rating: 5,
+  },
+  {
+    id: 'review-2',
+    author: 'Jane Smith',
+    company: 'Fresh Produce B.V.',
+    role: 'Head of Procurement, Netherlands',
+    reviewText: 'Working with Export Optimum has been a game-changer. Their commitment to quality and traceability is unmatched. Highly recommended.',
+    photoUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080',
+    rating: 5,
+  },
+  {
+    id: 'review-3',
+    author: 'Samuel Lee',
+    company: 'Grocer Fresh UK',
+    role: 'Category Manager',
+    reviewText: 'The reliability of their cold chain is impressive. Our customers have noticed the difference in freshness and quality. A truly professional partner.',
+    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080',
+    rating: 4,
+  },
+    {
+    id: 'review-4',
+    author: 'Maria Garcia',
+    company: 'Mercado Fresco',
+    role: 'Owner, Spain',
+    reviewText: 'Our customers love the creamy texture and rich flavor of the Hass avocados from Export Optimum. They are our go-to supplier for premium produce.',
+    photoUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjM2OTE5NzZ8MA&ixlib.rb-4.1.0&q=80&w=1080',
+    rating: 5,
+  },
+];
+
 
 // --- Animation Variants ---
 
@@ -96,45 +133,13 @@ const ReviewCard = ({ review }: { review: Review }) => (
   </motion.div>
 );
 
-const ReviewSkeleton = () => (
-  <div className="h-full p-1">
-    <Card className="flex h-full flex-col overflow-hidden rounded-2xl border-border/50 bg-background/50 p-8 shadow-sm">
-      <Skeleton className="mb-4 h-8 w-8 rounded-full" />
-      <div className="flex-grow space-y-3">
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-5/6" />
-      </div>
-      <div className="mt-6 flex items-center gap-4 border-t border-border/50 pt-6">
-        <Skeleton className="h-14 w-14 rounded-full" />
-        <div className="flex-1 space-y-2">
-          <Skeleton className="h-5 w-3/4" />
-          <Skeleton className="h-4 w-1/2" />
-        </div>
-      </div>
-    </Card>
-  </div>
-);
-
 
 // --- Main Testimonials Component ---
 
 export default function Testimonials() {
-  const firestore = useFirestore();
   const carouselPlugin = React.useRef(
     Autoplay({ delay: 6000, stopOnInteraction: true })
   );
-
-  const reviewsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(
-      collection(firestore, 'clientTestimonials'),
-      where('status', '==', 'active'),
-      orderBy('createdAt', 'desc')
-    );
-  }, [firestore]);
-
-  const { data: reviews, isLoading } = useCollection<Review>(reviewsQuery);
 
   return (
     <motion.section
@@ -163,15 +168,7 @@ export default function Testimonials() {
           className="w-full max-w-6xl mx-auto"
         >
           <CarouselContent className="-ml-4">
-            {isLoading && (
-              Array.from({ length: 3 }).map((_, index) => (
-                <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                  <ReviewSkeleton />
-                </CarouselItem>
-              ))
-            )}
-            
-            {!isLoading && reviews?.map((review) => (
+            {staticReviews.map((review) => (
               <CarouselItem key={review.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
                 <ReviewCard review={review} />
               </CarouselItem>
@@ -181,7 +178,7 @@ export default function Testimonials() {
           <CarouselNext className="hidden sm:inline-flex -right-12" />
         </Carousel>
 
-        {!isLoading && !reviews?.length && (
+        {staticReviews.length === 0 && (
             <motion.div variants={itemVariants} className="text-center py-16 text-muted-foreground">
                 <h3 className="text-2xl font-headline">Building a Legacy of Trust</h3>
                 <p>We are grateful for our partners and will feature their feedback here soon.</p>
