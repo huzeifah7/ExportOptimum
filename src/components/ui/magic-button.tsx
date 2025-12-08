@@ -5,6 +5,9 @@ import Link from 'next/link';
 import './magic-button.css';
 
 export function MagicButton() {
+  const text = "Explore Our Team";
+  const letters = text.split('');
+
   return (
     <div className="btn-wrapper">
       <Link href="/team" passHref>
@@ -18,40 +21,14 @@ export function MagicButton() {
           </svg>
           <div className="txt-wrapper">
             <div className="txt-1">
-                <span className="btn-letter">E</span>
-                <span className="btn-letter">x</span>
-                <span className="btn-letter">p</span>
-                <span className="btn-letter">l</span>
-                <span className="btn-letter">o</span>
-                <span className="btn-letter">r</span>
-                <span className="btn-letter">e</span>
-                <span className="btn-letter">&nbsp;</span>
-                <span className="btn-letter">O</span>
-                <span className="btn-letter">u</span>
-                <span className="btn-letter">r</span>
-                <span className="btn-letter">&nbsp;</span>
-                <span className="btn-letter">T</span>
-                <span className="btn-letter">e</span>
-                <span className="btn-letter">a</span>
-                <span className="btn-letter">m</span>
+                {letters.map((letter, index) => (
+                    <span key={index} className="btn-letter">{letter === ' ' ? '\u00A0' : letter}</span>
+                ))}
             </div>
             <div className="txt-2">
-                 <span className="btn-letter">E</span>
-                <span className="btn-letter">x</span>
-                <span className="btn-letter">p</span>
-                <span className="btn-letter">l</span>
-                <span className="btn-letter">o</span>
-                <span className="btn-letter">r</span>
-                <span className="btn-letter">e</span>
-                <span className="btn-letter">&nbsp;</span>
-                <span className="btn-letter">O</span>
-                <span className="btn-letter">u</span>
-                <span className="btn-letter">r</span>
-                <span className="btn-letter">&nbsp;</span>
-                <span className="btn-letter">T</span>
-                <span className="btn-letter">e</span>
-                <span className="btn-letter">a</span>
-                <span className="btn-letter">m</span>
+                 {letters.map((letter, index) => (
+                    <span key={index} className="btn-letter">{letter === ' ' ? '\u00A0' : letter}</span>
+                ))}
             </div>
           </div>
         </button>

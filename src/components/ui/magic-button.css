@@ -14,7 +14,7 @@
   user-select: none;
   display: flex;
   justify-content: center;
-  padding: 0.5em 0.5em 0.5em 1.1em;
+  padding: 0.5em 1.5em; /* Adjusted padding */
   font-family: "Poppins", "Inter", "Segoe UI", sans-serif;
   font-size: 1em;
   font-weight: 400;
@@ -109,7 +109,7 @@
 }
 
 .btn-svg {
-  flex-grow: 1;
+  flex-shrink: 0; /* Prevent SVG from shrinking */
   height: 24px;
   margin-right: 0.5rem;
   fill: #e8e8e8;
@@ -132,7 +132,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  min-width: 6.4em;
+  white-space: nowrap; /* Prevent text from wrapping */
 }
 .txt-1,
 .txt-2 {
@@ -260,6 +260,19 @@
 .btn:focus .btn-letter:nth-child(13) {
   animation-delay: 0.96s;
 }
+.btn-letter:nth-child(14),
+.btn:focus .btn-letter:nth-child(14) {
+  animation-delay: 1.04s;
+}
+.btn-letter:nth-child(15),
+.btn:focus .btn-letter:nth-child(15) {
+  animation-delay: 1.12s;
+}
+.btn-letter:nth-child(16),
+.btn:focus .btn-letter:nth-child(16) {
+  animation-delay: 1.2s;
+}
+
 
 /* Active state */
 .btn:active {
