@@ -1,5 +1,5 @@
+
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 import { Leaf, Package, Truck } from 'lucide-react';
 import SplitText from '@/components/ui/split-text';
@@ -21,23 +21,19 @@ const features = [
 ];
 
 export default function Ceo() {
-  const ceoImage = PlaceHolderImages.find((p) => p.id === 'ceo-portrait');
-
   return (
     <section id="ceo" className="py-16 lg:py-24 bg-foreground text-background">
       <div className="container mx-auto px-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="rounded-lg overflow-hidden shadow-lg">
-            {ceoImage && (
               <Image
-                src={ceoImage.imageUrl}
-                alt={ceoImage.description}
-                width={800}
-                height={900}
+                src="/abdo-hd-600x601.png"
+                alt="Portrait of Abdellah El Yamlahi, CEO of Export Optimum"
+                width={600}
+                height={601}
                 className="object-cover w-full h-full"
-                data-ai-hint={ceoImage.imageHint}
+                data-ai-hint="man portrait"
               />
-            )}
           </div>
           <div>
             <SplitText tag="h2" text="&nbsp;Abdellah&nbsp; El &nbsp;Yamlahi &nbsp;" className="text-5xl font-subtitle text-bold text-accent" textAlign="left" splitType="words" /><br/>
