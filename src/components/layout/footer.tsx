@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram } from 'lucide-react';
-import { FooterLogo } from '@/components/footer-logo';
+import { Logo } from '@/components/logo';
 import { navItems } from './nav-items';
 import Header from './header';
 
@@ -24,7 +24,7 @@ export default function Footer() {
 				<div className="grid gap-10 lg:grid-cols-12">
 					<div className="lg:col-span-4 space-y-6">
 						<Link href="/" aria-label="Back to homepage">
-                            <FooterLogo />
+                            <Logo />
                         </Link>
 						<p className="text-sm text-muted-foreground">
 							Fresh Moroccan produce delivered with traceability, cold-chain reliability, and a commitment to sustainable partnerships.
