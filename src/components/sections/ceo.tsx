@@ -2,8 +2,8 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 import { Leaf, Package, Truck } from 'lucide-react';
-import { AnimatedButton } from '@/components/ui/animated-button';
 import SplitText from '@/components/ui/split-text';
+import { MagicButton } from '../ui/magic-button';
 
 const features = [
   {
@@ -58,9 +58,7 @@ export default function Ceo() {
             </div>
 
             <div className="mt-12">
-              <Link href="/team">
-                <AnimatedButton />
-              </Link>
+              <MagicButton />
             </div>
           </div>
         </div>
