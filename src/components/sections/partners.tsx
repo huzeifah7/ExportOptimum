@@ -82,7 +82,7 @@ export default function Partners() {
                     alt={partner.description}
                     width={150}
                     height={60}
-                    className="object-contain opacity-50 transition-opacity duration-300 hover:opacity-100"
+                    className="object-contain opacity-30 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
                     data-ai-hint={partner.imageHint}
                   />
                 </div>
