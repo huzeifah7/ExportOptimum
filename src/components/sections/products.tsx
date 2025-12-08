@@ -38,7 +38,7 @@ const itemVariants = {
 };
 
 const ProductCardSkeleton = () => (
-    <div className="bg-transparent p-4 rounded-lg shadow-md border">
+    <div className="bg-background/50 p-4 rounded-lg shadow-md border border-border/20">
         <Skeleton className="h-60 w-full rounded-md" />
         <div className="pt-6 space-y-3">
             <Skeleton className="h-6 w-3/4" />
@@ -88,7 +88,7 @@ export default function Products() {
           ))}
           {!isLoading && products?.map((product) => (
             <motion.div key={product.id} variants={itemVariants} className="h-full">
-              <div className="bg-transparent rounded-lg border shadow-md hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
+              <div className="bg-card rounded-lg border border-border/20 shadow-md hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
                 <div className="relative overflow-hidden">
                     <Link href="/products" className="block">
                         {product.imageUrl ? (
