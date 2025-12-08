@@ -38,7 +38,7 @@ const itemVariants = {
 };
 
 const ProductCardSkeleton = () => (
-    <div className="bg-background/50 p-4 rounded-lg shadow-md border border-border/20">
+    <div className="bg-transparent p-4 rounded-lg">
         <Skeleton className="h-60 w-full rounded-md" />
         <div className="pt-6 space-y-3">
             <Skeleton className="h-6 w-3/4" />
@@ -67,6 +67,12 @@ export default function Products() {
       id="products"
       className="py-16 lg:py-24 bg-background relative"
     >
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+            backgroundColor: 'hsl(var(--background))'
+        }}
+      />
       <div className="container mx-auto px-4 relative z-10">
         <motion.div variants={itemVariants} className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
@@ -88,7 +94,7 @@ export default function Products() {
           ))}
           {!isLoading && products?.map((product) => (
             <motion.div key={product.id} variants={itemVariants} className="h-full">
-              <div className="bg-card rounded-lg border border-border/20 shadow-md hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
+              <div className="rounded-lg group h-full flex flex-col">
                 <div className="relative overflow-hidden">
                     <Link href="/products" className="block">
                         {product.imageUrl ? (
