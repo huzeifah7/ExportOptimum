@@ -1,15 +1,14 @@
 
 'use client';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Leaf } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, limit } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
 import { motion } from 'framer-motion';
-import { Badge } from '../ui/badge';
 
 type Product = {
   id: string;
@@ -39,15 +38,14 @@ const itemVariants = {
 };
 
 const ProductCardSkeleton = () => (
-  <Card className="overflow-hidden border-border/20 shadow-sm h-full">
-    <Skeleton className="h-60 w-full" />
-    <CardContent className="p-6 space-y-3">
-      <Skeleton className="h-5 w-1/4" />
-      <Skeleton className="h-6 w-3/4" />
-      <Skeleton className="h-10 w-full" />
-      <Skeleton className="h-5 w-20 mt-2" />
-    </CardContent>
-  </Card>
+    <div className="bg-white p-4 rounded-lg shadow-md">
+        <Skeleton className="h-60 w-full rounded-md" />
+        <div className="pt-6 space-y-3">
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-28 mt-2" />
+        </div>
+    </div>
 );
 
 export default function Products() {
@@ -55,7 +53,7 @@ export default function Products() {
 
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    return query(collection(firestore, 'products'), orderBy('name'), limit(6));
+    return query(collection(firestore, 'products'), orderBy('name'), limit(3));
   }, [firestore]);
 
   const { data: products, isLoading } = useCollection<Product>(productsQuery);
@@ -89,42 +87,47 @@ export default function Products() {
             </motion.div>
           ))}
           {!isLoading && products?.map((product) => (
-            <motion.div key={product.id} variants={itemVariants}>
-              <Card className="overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group h-full flex flex-col border-border/30 bg-white">
-                <CardHeader className="p-0">
-                  {product.imageUrl ? (
-                    <div className="overflow-hidden relative h-60 w-full">
-                      <Image
-                        src={product.imageUrl}
-                        alt={product.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        data-ai-hint={product.imageHint}
-                      />
+            <motion.div key={product.id} variants={itemVariants} className="h-full">
+              <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 group h-full flex flex-col">
+                <div className="relative overflow-hidden">
+                    <Link href="/products" className="block">
+                        {product.imageUrl ? (
+                            <Image
+                                src={product.imageUrl}
+                                alt={product.name}
+                                width={500}
+                                height={400}
+                                className="object-cover w-full h-60 group-hover:scale-105 transition-transform duration-300"
+                                data-ai-hint={product.imageHint}
+                            />
+                        ) : (
+                            <div className="h-60 w-full bg-secondary flex items-center justify-center text-muted-foreground">No Image</div>
+                        )}
+                    </Link>
+                    <div className="absolute top-0 right-0 w-28 h-28">
+                        <div className="absolute transform rotate-45 bg-primary text-primary-foreground text-center font-semibold py-1 right-[-34px] top-[32px] w-[170px] shadow-md">
+                           {product.category}
+                        </div>
                     </div>
-                  ) : (
-                    <div className="h-60 w-full bg-secondary flex items-center justify-center text-muted-foreground">No Image</div>
-                  )}
-                </CardHeader>
-                <CardContent className="p-6 flex flex-col flex-grow">
-                  <Badge variant="secondary" className="w-fit capitalize mb-2">{product.category}</Badge>
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
                   <h3 className="font-headline text-2xl font-bold text-foreground">{product.name}</h3>
                   <p className="mt-2 text-base text-muted-foreground line-clamp-2 flex-grow">{product.description}</p>
-                  <div className="mt-4 pt-4 border-t border-border/20">
-                     <Button variant="link" asChild className="p-0 text-primary font-bold">
+                  <div className="mt-4">
+                     <Button asChild className="bg-primary/90 hover:bg-primary text-primary-foreground rounded-md transition-colors">
                         <Link href="/products">
-                            View Details <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            View Details
                         </Link>
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
 
         <motion.div variants={itemVariants} className="text-center mt-16">
-          <Button size="lg" asChild>
+          <Button size="lg" asChild className="bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
             <Link href="/products">
               View All Produce <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
