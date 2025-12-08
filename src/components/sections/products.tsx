@@ -67,7 +67,7 @@ export default function Products() {
       id="products"
       className="py-16 lg:py-24 bg-background relative"
     >
-      <div
+       <div
         className="absolute inset-0 z-0"
         style={{
             backgroundColor: 'hsl(var(--background))'
@@ -94,7 +94,7 @@ export default function Products() {
           ))}
           {!isLoading && products?.map((product) => (
             <motion.div key={product.id} variants={itemVariants} className="h-full">
-              <div className="rounded-lg group h-full flex flex-col">
+              <div className="rounded-lg group h-full flex flex-col border border-border/20">
                 <div className="relative overflow-hidden">
                     <Link href="/products" className="block">
                         {product.imageUrl ? (
@@ -116,7 +116,7 @@ export default function Products() {
                         </div>
                     </div>
                 </div>
-                <div className="p-6 flex flex-col flex-grow bg-card text-card-foreground">
+                <div className="p-6 flex flex-col flex-grow bg-transparent text-card-foreground">
                   <h3 className="font-headline text-2xl font-bold text-foreground">{product.name}</h3>
                   <p className="mt-2 text-base text-muted-foreground line-clamp-2 flex-grow">{product.description}</p>
                   <div className="mt-4">
