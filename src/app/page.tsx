@@ -6,7 +6,7 @@ import Blog from '@/components/sections/blog';
 import Footer from '@/components/layout/footer';
 import Quality from '@/components/sections/quality';
 import About from '@/components/sections/about';
-import Varieties from '@/components/sections/varieties';
+import Products from '@/components/sections/products';
 import Ceo from '@/components/sections/ceo';
 import KeyFigures from '@/components/sections/key-figures';
 
@@ -19,7 +19,7 @@ export default function Home() {
         <KeyFigures />
         <About />
         <Quality />
-        <Varieties />
+        <Products />
         <Ceo />
         <Testimonials />
         <Partners />
