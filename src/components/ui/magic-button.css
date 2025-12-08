@@ -134,6 +134,7 @@
   display: flex;
   align-items: center;
   white-space: nowrap; /* Prevent text from wrapping */
+  min-width: 10em;
 }
 .txt-1,
 .txt-2 {
