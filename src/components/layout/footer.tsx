@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram } from 'lucide-react';
 import { FooterLogo } from '@/components/footer-logo';
 import { navItems } from './nav-items';
+import Header from './header';
 
 const contactDetails = {
 	email: 'contact@exportoptimum.com',
@@ -18,6 +19,7 @@ const socialLinks = [
 export default function Footer() {
 	return (
 		<footer className="bg-foreground border-t border-border/20 text-background">
+			<Header />
 			<div className="container mx-auto py-12 px-6 lg:px-8">
 				<div className="grid gap-10 lg:grid-cols-12">
 					<div className="lg:col-span-4 space-y-6">
