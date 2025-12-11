@@ -6,6 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
 import SplitText from '@/components/ui/split-text';
+import { NewHeroButton } from '@/components/ui/NewHeroButton';
 
 // Define a type for our hero media. This makes it flexible.
 type HeroMedia = {
@@ -31,7 +32,7 @@ const heroSlides: HeroMedia[] = [
   {
     id: 'slide-2',
     type: 'image',
-    url: 'https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzYzOTk3MDUzfDA&ixlib=rb-4.1.0&q=80&w=1080',
+    url: 'https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzYzOTk3MDUzfDA&ixlib-rb-4.1.0&q=80&w=1080',
     alt: 'Close-up of ripe avocados hanging from a tree',
     imageHint: 'avocado tree'
   },
@@ -39,7 +40,7 @@ const heroSlides: HeroMedia[] = [
     id: 'slide-3',
     type: 'video',
     url: 'https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4',
-    poster: 'https://images.unsplash.com/photo-1554139681-ae4844fd51b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbG93JTIwbW90aW9uJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjM5OTcwNzF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    poster: 'https://images.unsplash.com/photo-1554139681-ae4844fd51b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbG93JTIwbW90aW9uJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjM5OTcwNzF8MA&ixlib-rb-4.1.0&q=80&w=1080',
     alt: 'A slow motion video of avocados being washed',
     imageHint: 'avocado video'
   }
@@ -123,9 +124,7 @@ export default function Hero() {
                delay={20}
             />
             <div className="mt-8">
-                <Link href="/contact">
-                    <Button size="lg">Request a Quote</Button>
-                </Link>
+                <NewHeroButton href="/contact" label="Request a Quote" />
             </div>
         </div>
       </div>
