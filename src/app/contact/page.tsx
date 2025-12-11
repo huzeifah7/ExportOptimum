@@ -2,14 +2,35 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { InView } from 'react-intersection-observer';
+import { motion } from 'framer-motion';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import './Contact.css';
 import { useFirestore } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { Loader2 } from 'lucide-react';
+import { Loader2, CheckCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, duration: 0.5 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: 'easeOut' },
+  },
+};
+
 
 const Contact = () => {
   const firestore = useFirestore();
@@ -84,141 +105,205 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-background">
+    <div className="flex flex-col min-h-screen bg-gray-50/50">
       <Header />
-      <div className="contact-container flex flex-col md:flex-row bg-background mt-24">
-        <div className="imgContactBg"></div>
-
-        <InView triggerOnce>
-          {({ inView, ref }) => (
-            <div
-              ref={ref}
-              className={`form-container md:w-1/2 p-6 ml-2 transition-transform duration-1000 ease-in-out ${
-                inView ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
-              }`}
-              id="Contact"
+      <main className="flex-grow">
+        <section className="py-16 lg:py-24 bg-gradient-to-br from-white via-gray-50 to-green-50">
+          <div className="container mx-auto px-4">
+            <motion.div 
+              className="text-center mb-16"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.5 }}
+              variants={containerVariants}
             >
-              <h1 className="text-4xl font-semibold text-left titleContact pt-5 pl-5">
-                <span className="letterTitle">G</span>et in <span className="letterTitle">T</span>ouch
-              </h1>
-              <p className="summa text-3xl text-gray-700 text-left pl-48 italic">Questions? Concerns?</p>
-              <p className="text-gray-600 mt-4 ml-8 w-3xl mx-auto">
-                Feel free to reach out to the team at Export Optimum; we would be delighted to explore how we can assist you.
-              </p>
+              <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl font-headline font-bold text-foreground">
+                Get in <span className="text-primary">Touch</span>
+              </motion.h1>
+              <motion.p variants={itemVariants} className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+                We’re here to answer your questions and explore partnership opportunities. Reach out to our team to discover how we can meet your needs.
+              </motion.p>
+            </motion.div>
 
-              <form onSubmit={handleSubmit} className="mt-8 max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-                {error && <div className="text-red-500 mb-4">{error}</div>}
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+               {/* Contact Form Section */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={containerVariants}
+                className="w-full"
+              >
+                <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-gray-100">
+                  <h2 className="text-3xl font-bold font-headline mb-6 text-foreground">Send us a Message</h2>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                     {error && (
+                      <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg text-sm">
+                        {error}
+                      </div>
+                    )}
 
-                <div className="space-y-4">
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    placeholder="Full Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    disabled={isSubmitting}
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    disabled={isSubmitting}
-                  />
-                  <input
-                    type="text"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
-                    placeholder="Country"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    disabled={isSubmitting}
-                  />
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="Subject"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    disabled={isSubmitting}
-                  />
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Message"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    rows={5}
-                    disabled={isSubmitting}
-                  />
+                    <div className="space-y-2">
+                        <Label htmlFor="fullName">Full Name</Label>
+                        <Input
+                          id="fullName"
+                          type="text"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleChange}
+                          placeholder="John Doe"
+                          className="w-full"
+                          disabled={isSubmitting}
+                          required
+                        />
+                    </div>
+                     <div className="grid sm:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email Address</Label>
+                             <Input
+                              id="email"
+                              type="email"
+                              name="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              placeholder="you@company.com"
+                              className="w-full"
+                              disabled={isSubmitting}
+                              required
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="country">Country</Label>
+                            <Input
+                              id="country"
+                              type="text"
+                              name="country"
+                              value={formData.country}
+                              onChange={handleChange}
+                              placeholder="e.g. Netherlands"
+                              className="w-full"
+                              disabled={isSubmitting}
+                              required
+                            />
+                        </div>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="subject">Subject</Label>
+                        <Input
+                          id="subject"
+                          type="text"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleChange}
+                          placeholder="Inquiry about Hass Avocados"
+                          className="w-full"
+                          disabled={isSubmitting}
+                          required
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="message">Message</Label>
+                        <Textarea
+                          id="message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder="Please describe your requirements..."
+                          className="w-full min-h-[120px]"
+                          rows={5}
+                          disabled={isSubmitting}
+                          required
+                        />
+                    </div>
 
-                  <button type="submit" className="w-full mt-4 py-3 bg-[#acd629] text-white font-semibold rounded-lg flex items-center justify-center" disabled={isSubmitting}>
-                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                  </button>
+                    <Button type="submit" className="w-full text-lg py-6 rounded-xl font-bold" disabled={isSubmitting}>
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        'Send Message'
+                      )}
+                    </Button>
+                  </form>
                 </div>
-              </form>
-            </div>
-          )}
-        </InView>
+              </motion.div>
 
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50"
-            onClick={closeModal}
-          >
-            <div
-              className="bg-white p-6 rounded-lg max-w-sm mx-auto animate-modal"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="modal-content text-center">
-                <div className="checkmark-icon">
-                  <span className="checkmark">✓</span>
-                </div>
-                <h2 className="text-2xl font-semibold text-center text-green-600 mt-4">Success!</h2>
-                <p className="text-center text-gray-800 mt-4">{successMessage}</p>
-                <div className="flex justify-center mt-6">
-                  <button
-                    onClick={closeModal}
-                    className="bg-[#acd629] text-white px-4 py-2 rounded-lg"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
+              {/* Map & Info Section */}
+               <motion.div
+                 initial="hidden"
+                 whileInView="visible"
+                 viewport={{ once: true, amount: 0.3 }}
+                 variants={containerVariants}
+                 className="space-y-8"
+               >
+                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 className="text-2xl font-bold font-headline mb-4">Contact Details</h3>
+                     <div className="space-y-4 text-muted-foreground">
+                        <div className="flex items-center gap-3">
+                            <Mail className="h-5 w-5 text-primary"/>
+                            <a href="mailto:contact@exportoptimum.com" className="hover:text-primary">contact@exportoptimum.com</a>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Phone className="h-5 w-5 text-primary"/>
+                            <span>+212 5 39 39 39 39</span>
+                        </div>
+                        <div className="flex items-start gap-3">
+                            <MapPin className="h-5 w-5 text-primary mt-1"/>
+                            <span>Export Optimum SARL, Larache, Morocco</span>
+                        </div>
+                    </div>
+                 </div>
+
+                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 className="text-2xl font-bold font-headline mb-4">Our Office</h3>
+                     <div className="aspect-video overflow-hidden rounded-xl shadow-inner">
+                        <iframe
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3236.7520424391584!2d-6.0869577!3d35.0590408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0a35c19587a823%3A0x2fcb600171fc75d9!2sExport%20Optimum%20SARL!5e0!3m2!1sen!2sma!4v1678997611642!5m2!1sen!2sma"
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
+                 </div>
+              </motion.div>
             </div>
           </div>
-        )}
+        </section>
+      </main>
 
-        <InView triggerOnce>
-          {({ inView, ref }) => (
-            <div
-              ref={ref}
-              className={`map-container md:w-1/2 p-6 mt-48 transition-opacity duration-1000 ease-in-out ${
-                inView ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div className="map-container relative">
-                <div className="map-placeholder"></div>
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3236.7520424391584!2d-6.0869577!3d35.0590408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0a35c19587a823%3A0x2fcb600171fc75d9!2sExport%20Optimum%20SARL!5e0!3m2!1sen!2sma!4v1678997611642!5m2!1sen!2sma"
-                  width="100%"
-                  height="300"
-                  style={{ border: 0, boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)' }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="relative"
-                ></iframe>
-              </div>
+      {/* Success Modal */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+          onClick={closeModal}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="bg-white p-8 rounded-2xl max-w-sm w-full mx-auto shadow-2xl text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-green-100 mb-4">
+              <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
-          )}
-        </InView>
-      </div>
+            <h2 className="text-2xl font-bold font-headline text-foreground">Success!</h2>
+            <p className="text-muted-foreground mt-2">{successMessage}</p>
+            <Button
+              onClick={closeModal}
+              className="mt-6 w-full"
+            >
+              Close
+            </Button>
+          </motion.div>
+        </div>
+      )}
 
       <Footer />
     </div>
