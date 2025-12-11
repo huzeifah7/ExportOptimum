@@ -4,7 +4,6 @@
 import { ArrowRight, CheckCircle, Leaf, Globe } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { AnimatedButton } from '@/components/ui/animated-button';
 import { motion } from 'framer-motion';
 
@@ -38,10 +37,6 @@ const highlightPoints = [
 ];
 
 export default function About() {
-  const aboutImage1 = PlaceHolderImages.find(p => p.id === 'about-us-c1');
-  const aboutImage2 = PlaceHolderImages.find(p => p.id === 'about-us-c2');
-  const aboutImage3 = PlaceHolderImages.find(p => p.id === 'about-us-c3');
-
   return (
     <motion.section
       id="about"
@@ -58,7 +53,6 @@ export default function About() {
             className="relative h-96 lg:h-[500px]"
             variants={itemVariants}
           >
-            {aboutImage1 && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
                 whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -67,15 +61,13 @@ export default function About() {
                 className="absolute top-0 left-0 w-2/3 h-2/3 rounded-xl overflow-hidden shadow-lg group"
               >
                 <Image
-                  src={aboutImage1.imageUrl}
-                  alt={aboutImage1.description}
+                  src="/avocad3.avif"
+                  alt="Lush avocado orchard"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  data-ai-hint={aboutImage1.imageHint}
+                  data-ai-hint="avocado orchard"
                 />
               </motion.div>
-            )}
-            {aboutImage2 && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, y: 50 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -84,16 +76,14 @@ export default function About() {
                 className="absolute bottom-0 right-0 w-3/5 h-auto rounded-xl overflow-hidden shadow-2xl group"
               >
                 <Image
-                  src={aboutImage2.imageUrl}
-                  alt={aboutImage2.description}
+                  src="/Avocadooo.jpg"
+                  alt="A close up of a ripe avocado"
                   width={400}
                   height={400}
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  data-ai-hint={aboutImage2.imageHint}
+                  data-ai-hint="ripe avocado"
                 />
               </motion.div>
-            )}
-            {aboutImage3 && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9, x: 20 }}
                     whileInView={{ opacity: 1, scale: 1, x: 0 }}
@@ -102,14 +92,13 @@ export default function About() {
                     className="absolute -bottom-8 -left-8 w-40 h-40 rounded-full overflow-hidden shadow-xl border-4 border-white group"
                 >
                     <Image
-                        src={aboutImage3.imageUrl}
-                        alt={aboutImage3.description}
+                        src="/avocado2.png"
+                        alt="Stylized avocado illustration"
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        data-ai-hint={aboutImage3.imageHint}
+                        data-ai-hint="avocado illustration"
                     />
                 </motion.div>
-            )}
           </motion.div>
 
           {/* Text Content Section */}
