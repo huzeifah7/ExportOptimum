@@ -65,7 +65,7 @@ export default function About() {
                 alt="Lush avocado orchard"
                 width={400}
                 height={300}
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                 data-ai-hint="avocado orchard"
               />
             </motion.div>
@@ -81,14 +81,14 @@ export default function About() {
                 alt="A close up of a ripe avocado"
                 width={430}
                 height={300}
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                 data-ai-hint="ripe avocado"
               />
             </motion.div>
           </motion.div>
 
           {/* Text Content Section */}
-          <motion.div variants={itemVariants}>
+          <motion.div variants={itemVariants} className="text-center lg:text-left">
             <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
               Rooted in Excellence, Grown for the World.
             </h2>
@@ -104,7 +104,7 @@ export default function About() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
-                    className="flex items-center gap-3"
+                    className="flex items-center gap-3 justify-center lg:justify-start"
                 >
                   <div className="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 text-primary">
                     <point.icon className="h-5 w-5" />
@@ -114,7 +114,7 @@ export default function About() {
               ))}
             </div>
 
-            <div className="mt-10">
+            <div className="mt-10 flex justify-center lg:justify-start">
               <Link href="/about">
                 <AnimatedButton label="Discover Our Story" />
               </Link>
