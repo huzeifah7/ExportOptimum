@@ -73,13 +73,13 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
-              className="absolute bottom-0 right-0 w-3/4 h-auto rounded-xl overflow-hidden shadow-2xl group"
+              className="absolute bottom-0 right-0 w-2/3 h-auto rounded-xl overflow-hidden shadow-2xl group"
             >
               <Image
                 src="/Avocadooo.jpg"
                 alt="A close up of a ripe avocado"
-                width={500}
-                height={350}
+                width={400}
+                height={400}
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                 data-ai-hint="ripe avocado"
               />
