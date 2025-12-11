@@ -73,7 +73,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
-              className="absolute bottom-0 right-0 w-4/5 h-auto rounded-xl overflow-hidden shadow-2xl group"
+              className="absolute bottom-0 right-0 w-3/4 h-auto rounded-xl overflow-hidden shadow-2xl group"
             >
               <Image
                 src="/Avocadooo.jpg"
