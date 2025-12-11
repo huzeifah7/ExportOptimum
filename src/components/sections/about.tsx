@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ArrowRight, CheckCircle, Leaf, Globe } from 'lucide-react';
@@ -49,7 +50,7 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image Collage Section */}
           <motion.div
-            className="relative h-96 lg:h-[500px]"
+            className="relative h-96 lg:h-[600px]"
             variants={itemVariants}
           >
             <motion.div
@@ -73,13 +74,13 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
-              className="absolute bottom-0 right-0 w-2/3 h-auto rounded-xl overflow-hidden shadow-2xl group"
+              className="absolute rotate-45 bottom-0 right-0 w-2/3 h-auto rounded-xl overflow-hidden shadow-2xl group"
             >
               <Image
                 src="/Avocadooo.jpg"
                 alt="A close up of a ripe avocado"
-                width={400}
-                height={400}
+                width={430}
+                height={300}
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                 data-ai-hint="ripe avocado"
               />
