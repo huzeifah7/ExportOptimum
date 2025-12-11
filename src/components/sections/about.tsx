@@ -1,4 +1,3 @@
-
 'use client';
 
 import { ArrowRight, CheckCircle, Leaf, Globe } from 'lucide-react';
@@ -53,37 +52,38 @@ export default function About() {
             className="relative h-96 lg:h-[500px]"
             variants={itemVariants}
           >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="absolute top-0 left-0 w-2/3 h-2/3 rounded-xl overflow-hidden shadow-lg group"
-              >
-                <Image
-                  src="/avocad3.avif"
-                  alt="Lush avocado orchard"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  data-ai-hint="avocado orchard"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 50 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="absolute bottom-0 right-0 w-3/5 h-auto rounded-xl overflow-hidden shadow-2xl group"
-              >
-                <Image
-                  src="/Avocadooo.jpg"
-                  alt="A close up of a ripe avocado"
-                  width={400}
-                  height={400}
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  data-ai-hint="ripe avocado"
-                />
-              </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20, rotate: -10 }}
+              whileInView={{ opacity: 1, y: 0, rotate: -4 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
+              className="absolute top-0 left-0 w-3/5 h-auto rounded-xl overflow-hidden shadow-2xl group"
+            >
+              <Image
+                src="/avocad3.avif"
+                alt="Lush avocado orchard"
+                width={400}
+                height={300}
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                data-ai-hint="avocado orchard"
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
+              className="absolute bottom-0 right-0 w-4/5 h-auto rounded-xl overflow-hidden shadow-2xl group"
+            >
+              <Image
+                src="/Avocadooo.jpg"
+                alt="A close up of a ripe avocado"
+                width={500}
+                height={350}
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                data-ai-hint="ripe avocado"
+              />
+            </motion.div>
           </motion.div>
 
           {/* Text Content Section */}
