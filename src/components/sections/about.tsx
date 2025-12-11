@@ -84,21 +84,6 @@ export default function About() {
                   data-ai-hint="ripe avocado"
                 />
               </motion.div>
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9, x: 20 }}
-                    whileInView={{ opacity: 1, scale: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.5, delay: 0.5 }}
-                    className="absolute -bottom-8 -left-8 w-40 h-40 rounded-full overflow-hidden shadow-xl border-4 border-white group"
-                >
-                    <Image
-                        src="/avocado2.png"
-                        alt="Stylized avocado illustration"
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        data-ai-hint="avocado illustration"
-                    />
-                </motion.div>
           </motion.div>
 
           {/* Text Content Section */}
