@@ -40,7 +40,7 @@ const heroSlides: HeroMedia[] = [
   {
     id: 'slide-3',
     type: 'image',
-    url: 'https://www.capitalfm.co.ke/news/files/2022/03/Kakuzi-KDF-1.jpeg',
+    url: 'https://www.capitalfm.co.ke/news/files/2022/03/Kakuzi-avocado-packhouse-683x1024.jpg',
     alt: 'Farmers sorting avocados at a facility',
     imageHint: 'avocado sorting'
   }

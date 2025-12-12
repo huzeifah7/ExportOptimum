@@ -1,5 +1,4 @@
 import Header from '@/components/layout/header';
-import Hero from '@/components/sections/hero';
 import Testimonials from '@/components/sections/testimonials';
 import Partners from '@/components/sections/partners';
 import Blog from '@/components/sections/blog';
@@ -9,13 +8,14 @@ import About from '@/components/sections/about';
 import Products from '@/components/sections/products';
 import Ceo from '@/components/sections/ceo';
 import KeyFigures from '@/components/sections/key-figures';
+import ModernHero from '@/components/sections/ModernHero';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
-        <Hero />
+        <ModernHero />
         <KeyFigures />
         <About />
         <Quality />

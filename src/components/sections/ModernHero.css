@@ -1,0 +1,53 @@
+.modern-hero__section {
+  @apply relative w-full h-[85vh] min-h-[600px] max-h-[1080px] bg-gradient-to-b from-gray-800 to-gray-900 text-white overflow-hidden;
+}
+
+.modern-hero__slide-container {
+  @apply w-full h-full relative;
+}
+
+.modern-hero__media {
+  @apply w-full h-full object-cover object-center;
+}
+
+.modern-hero__overlay {
+  @apply absolute inset-0 bg-black/40;
+}
+
+.modern-hero__content-wrapper {
+  @apply absolute inset-0 z-10 flex items-center justify-center;
+}
+
+.modern-hero__text-content {
+  @apply text-center flex flex-col items-center gap-6 max-w-4xl px-4;
+}
+
+.modern-hero__headline {
+  @apply text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.modern-hero__headline--accent {
+  color: #acd629;
+}
+
+.modern-hero__tagline {
+  @apply text-lg md:text-xl text-white/80 max-w-2xl;
+}
+
+.modern-hero__nav-arrow {
+  @apply absolute top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-black/20 text-white/70 backdrop-blur-sm border border-white/20 transition-all duration-300;
+  @apply hover:bg-black/40 hover:text-white hover:border-white/40;
+}
+
+.modern-hero__nav-arrow--left {
+  @apply left-4 md:left-8;
+}
+
+.modern-hero__nav-arrow--right {
+  @apply right-4 md:right-8;
+}
+
+.modern-hero__nav-arrow svg {
+  @apply h-6 w-6;
+}

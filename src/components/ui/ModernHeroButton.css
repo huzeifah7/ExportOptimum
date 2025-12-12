@@ -1,0 +1,21 @@
+.modern-hero-button {
+  @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#acd629] text-gray-900 font-bold rounded-full transition-all duration-300 ease-in-out;
+  @apply hover:shadow-lg hover:shadow-[#acd629]/30 hover:scale-105;
+  @apply active:scale-95;
+}
+
+.modern-hero-button__text {
+  @apply text-base leading-none;
+}
+
+.modern-hero-button__icon-wrapper {
+  @apply flex items-center justify-center;
+}
+
+.modern-hero-button__icon {
+  @apply h-5 w-5 transition-transform duration-300;
+}
+
+.modern-hero-button:hover .modern-hero-button__icon {
+  @apply translate-x-1;
+}
