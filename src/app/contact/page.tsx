@@ -224,22 +224,24 @@ const ContactPage = () => {
                      {/* FAQ */}
                     <motion.div variants={itemVariants}>
                         <h2 className="text-3xl font-bold font-headline mb-8 text-foreground text-center">Frequently Asked Questions</h2>
-                        <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto bg-background/30 p-4 rounded-2xl border border-border/10">
-                            {faqItems.map((item, index) => (
-                                <AccordionItem key={index} value={`item-${index}`}>
-                                    <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline">{item.question}</AccordionTrigger>
-                                    <AccordionContent className="text-muted-foreground">
-                                    {item.answer}
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
+                        <div className="w-full max-w-3xl mx-auto bg-background/50 backdrop-blur-xl rounded-3xl shadow-lg border border-border/10 p-4">
+                            <Accordion type="single" collapsible className="w-full">
+                                {faqItems.map((item, index) => (
+                                    <AccordionItem key={index} value={`item-${index}`}>
+                                        <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline">{item.question}</AccordionTrigger>
+                                        <AccordionContent className="text-muted-foreground">
+                                        {item.answer}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </div>
                     </motion.div>
                     
                     {/* Map */}
                     <motion.div variants={itemVariants}>
-                        <div className="bg-background/30 rounded-3xl shadow-xl border border-border/10 overflow-hidden p-2">
-                             <div className="aspect-w-16 aspect-h-[12] rounded-2xl overflow-hidden">
+                        <div className="bg-background/50 backdrop-blur-xl rounded-3xl shadow-2xl border border-border/10 overflow-hidden p-2">
+                             <div className="aspect-w-16 aspect-h-[12] md:aspect-h-9 lg:aspect-h-8 rounded-2xl overflow-hidden h-[500px]">
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3236.7520424391584!2d-6.0869577!3d35.0590408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0a35c19587a823%3A0x2fcb600171fc75d9!2sExport%20Optimum%20SARL!5e0!3m2!1sen!2sma!4v1678997611642!5m2!1sen!2sma"
                                     width="100%"
