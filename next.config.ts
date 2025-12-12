@@ -35,6 +35,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'thinkavocado.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.capitalfm.co.ke',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

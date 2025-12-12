@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -25,24 +26,23 @@ const heroSlides: HeroMedia[] = [
   {
     id: 'slide-1',
     type: 'image',
-    url: 'https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080',
+    url: 'https://images.unsplash.com/photo-1704960961278-a0376a031054?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     alt: 'Lush avocado farm with sun shining through the leaves',
     imageHint: 'avocado farm'
   },
   {
     id: 'slide-2',
     type: 'image',
-    url: 'https://images.unsplash.com/photo-1519996529648-28948d353f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZ3JvdmV8ZW58MHx8fHwxNzYzOTk3MDUzfDA&ixlib-rb-4.1.0&q=80&w=1080',
-    alt: 'Close-up of ripe avocados hanging from a tree',
-    imageHint: 'avocado tree'
+    url: 'https://thinkavocado.com/wp-content/uploads/2021/03/checking-avocado-by-hand-ss220621-1080x630.jpg',
+    alt: 'Close-up of ripe avocados being inspected by hand',
+    imageHint: 'avocado inspection'
   },
   {
     id: 'slide-3',
-    type: 'video',
-    url: 'https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4',
-    poster: 'https://images.unsplash.com/photo-1554139681-ae4844fd51b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbG93JTIwbW90aW9uJTIwYXZvY2Fkb3xlbnwwfHx8fDE3NjM5OTcwNzF8MA&ixlib-rb-4.1.0&q=80&w=1080',
-    alt: 'A slow motion video of avocados being washed',
-    imageHint: 'avocado video'
+    type: 'image',
+    url: 'https://www.capitalfm.co.ke/news/files/2025/03/Kakuzi-KDF-1.jpeg',
+    alt: 'Farmers sorting avocados at a facility',
+    imageHint: 'avocado sorting'
   }
 ];
 
