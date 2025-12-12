@@ -111,12 +111,20 @@ const ContactPage = () => {
                 variants={containerVariants}
             >
                 <div className="container mx-auto px-4">
+                  <div className="inline-block relative">
                     <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-headline font-bold text-foreground tracking-tight">
                         Let's <span className="text-primary">Connect</span>
                     </motion.h1>
-                    <motion.p variants={itemVariants} className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                        We're ready to answer your questions and explore how we can meet your needs for premium Moroccan produce.
-                    </motion.p>
+                    <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.5, ease: "circOut" }} className="absolute -bottom-2 left-0 right-0 h-4 origin-left">
+                        <svg viewBox="0 0 200 12" preserveAspectRatio="none" className="w-full h-full text-primary">
+                            <path d="M 1 6 C 30 12, 170 0, 199 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+                        </svg>
+                    </motion.div>
+                  </div>
+
+                  <motion.p variants={itemVariants} className="mt-8 max-w-2xl mx-auto text-lg text-muted-foreground">
+                      We're ready to answer your questions and explore how we can meet your needs for premium Moroccan produce.
+                  </motion.p>
                 </div>
             </motion.section>
 
