@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -111,7 +112,7 @@ const ContactPage = () => {
             >
                 <div className="container mx-auto px-4">
                     <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-headline font-bold text-foreground tracking-tight">
-                        Let's Connect
+                        Let's <span className="text-primary">Connect</span>
                     </motion.h1>
                     <motion.p variants={itemVariants} className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
                         We're ready to answer your questions and explore how we can meet your needs for premium Moroccan produce.
@@ -272,5 +273,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-
-    
