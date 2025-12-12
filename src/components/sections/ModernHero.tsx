@@ -10,10 +10,11 @@ import './ModernHero.css';
 const slides = [
   {
     type: 'image',
-    src: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhdm9jYWRvJTIwdG9hc3R8ZW58MHx8fHwxNzYzNjMzMDgyfDA&ixlib-rb-4.1.0&q=80&w=1080',
+    src: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhdm9jYWRvJTIwdG9hc3R8ZW58MHx8fHwxNzYzNjMzMDgyfDA&ixlib=rb-4.1.0&q=80&w=1080',
     alt: 'Freshly prepared avocado toast on a rustic plate',
     headline: ['Pure', 'Avocado', 'Experience'],
     tagline: 'From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.',
+    ctaLabel: 'Request a Quote',
   },
   {
     type: 'video',
@@ -22,13 +23,15 @@ const slides = [
     alt: 'Drone footage flying over vast avocado orchards',
     headline: ['Sustainable', 'Farming,', 'Global Reach'],
     tagline: 'We combine traditional farming wisdom with modern technology to deliver the finest produce worldwide.',
+    ctaLabel: 'Learn About Our Process',
   },
   {
     type: 'image',
-    src: 'https://images.unsplash.com/photo-1611262529845-8c7f21207137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJnbyUyMHNoaXB8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib-rb-4.1.0&q=80&w=1080',
+    src: 'https://images.unsplash.com/photo-1611262529845-8c7f21207137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJnbyUyMHNoaXB8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib=rb-4.1.0&q=80&w=1080',
     alt: 'A large container ship on the ocean, representing global export',
     headline: ['Reliable', 'Logistics,', 'Guaranteed Freshness'],
     tagline: 'Our state-of-the-art cold chain and logistics network ensures your produce arrives in perfect condition.',
+    ctaLabel: 'Become a Partner',
   },
 ];
 
@@ -85,7 +88,7 @@ const ModernHero = () => {
                 {slides[current].headline[0]} <span className="modern-hero__headline--accent">{slides[current].headline[1]}</span> {slides[current].headline[2]}
               </h1>
               <p className="modern-hero__tagline">{slides[current].tagline}</p>
-              <ModernHeroButton href="/contact" />
+              <ModernHeroButton href="/contact" label={slides[current].ctaLabel} />
             </motion.div>
           </AnimatePresence>
         </div>

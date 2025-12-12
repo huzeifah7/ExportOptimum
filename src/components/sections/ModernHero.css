@@ -1,5 +1,5 @@
 .modern-hero__section {
-  @apply relative w-full h-[85vh] min-h-[600px] max-h-[1080px] bg-gradient-to-b from-gray-800 to-gray-900 text-white overflow-hidden;
+  @apply relative w-full h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white overflow-hidden;
 }
 
 .modern-hero__slide-container {
@@ -11,7 +11,7 @@
 }
 
 .modern-hero__overlay {
-  @apply absolute inset-0 bg-black/40;
+  @apply absolute inset-0 bg-gradient-to-b from-gray-900/20 via-gray-900/40 to-gray-900/70;
 }
 
 .modern-hero__content-wrapper {
