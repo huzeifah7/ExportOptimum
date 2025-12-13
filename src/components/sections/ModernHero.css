@@ -36,8 +36,8 @@
 }
 
 .modern-hero__nav-arrow {
-  @apply absolute top-1/2 -translate-y-1/2 z-20 h-24 w-14 rounded-lg bg-black/10 text-white/60 backdrop-blur-sm border border-white/10 transition-all duration-300 flex items-center justify-center;
-  @apply hover:bg-black/30 hover:text-white hover:border-white/20;
+  @apply absolute top-1/2 -translate-y-1/2 z-20 h-14 w-14 rounded-full bg-black/10 text-white/60 backdrop-blur-sm border border-white/10 transition-all duration-300 flex items-center justify-center;
+  @apply hover:bg-black/30 hover:text-white hover:border-white/20 hover:scale-105;
 }
 
 .modern-hero__nav-arrow--left {
