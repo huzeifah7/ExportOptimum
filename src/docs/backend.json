@@ -316,10 +316,6 @@
       "type": "object",
       "description": "Represents contact details for export inquiries.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Contact Information entry."
-        },
         "address": {
           "type": "string",
           "description": "Physical address of the company."
@@ -332,17 +328,9 @@
           "type": "string",
           "description": "Email address for export inquiries.",
           "format": "email"
-        },
-        "socialMediaLinks": {
-          "type": "array",
-          "description": "Links to the company's social media profiles.",
-          "items": {
-            "type": "string"
-          }
         }
       },
       "required": [
-        "id",
         "address",
         "phoneNumber",
         "email"
@@ -474,24 +462,16 @@
         }
       },
       {
-        "path": "/contactInformation/{contactInformationId}",
+        "path": "/contactInformation/main",
         "definition": {
           "entityName": "ContactInformation",
           "schema": {
             "$ref": "#/backend/entities/ContactInformation"
           },
-          "description": "Stores contact details for export inquiries.",
-          "params": [
-            {
-              "name": "contactInformationId",
-              "description": "Unique identifier for the Contact Information entry."
-            }
-          ]
+          "description": "Stores contact details for export inquiries as a single document."
         }
       }
     ],
     "reasoning": "The Firestore data structure is designed to support the Avocado Export Hub's features while adhering to the principles of Authorization Independence, Structural Segregation, and Access Modeling. All collections are top-level, avoiding hierarchical authorization and enabling simple security rules. \n\nEach collection is designed to store a specific type of data, ensuring a homogeneous security posture (Strategy B). For instance, `avocadoExportData` stores key export statistics, `qualityCertifications` holds information about quality assurance certifications, and so on. This segregation simplifies security rules as each collection can have its own set of rules without interfering with others.\n\nThe structure also supports the required QAPs as all collections are designed for public `list` operations. There is no need for filtering based on user roles or permissions.\n"
   }
 }
-
-    

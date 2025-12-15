@@ -14,6 +14,7 @@ import {
   Leaf,
   PanelLeft,
   MessageSquare,
+  Phone,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -40,6 +41,7 @@ const adminNavItems = [
   { href: '/admin/team', icon: Users, label: 'Team' },
   { href: '/admin/reviews', icon: Star, label: 'Reviews' },
   { href: '/admin/partners', icon: Handshake, label: 'Partners' },
+  { href: '/admin/contact', icon: Phone, label: 'Contact Info'},
 ];
 
 function SidebarNav({ isCollapsed }: { isCollapsed: boolean }) {
