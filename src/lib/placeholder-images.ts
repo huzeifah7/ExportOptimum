@@ -1,5 +1,5 @@
 
-import data from './placeholder-images.json';
+import * as data from './placeholder-images.json';
 
 export type ImagePlaceholder = {
   id: string;
@@ -11,5 +11,3 @@ export type ImagePlaceholder = {
 };
 
 export const PlaceHolderImages: ImagePlaceholder[] = (data as any).placeholderImages;
-
-    
