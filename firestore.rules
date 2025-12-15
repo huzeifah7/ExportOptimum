@@ -60,8 +60,8 @@ service cloud.firestore {
     }
 
     match /contactInformation/{contactInformationId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
+      allow read: if true;
+      allow write: if request.auth != null;
     }
 
     match /messages/{messageId} {
