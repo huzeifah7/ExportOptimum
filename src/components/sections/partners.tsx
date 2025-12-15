@@ -8,14 +8,12 @@ import Marquee from '@/components/ui/marquee';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const partnerIds = [
-  'partner-1', 
-  'partner-2', 
-  'partner-3', 
-  'partner-4', 
-  'partner-5',
-  'cert-smeta',
-  'cert-grasp',
-  'cert-bio',
+  'cert-smeta', 
+  'cert-grasp', 
+  'cert-bio', 
+  'cert-spring', 
+  'cert-global-gap',
+  'cert-brc-food',
 ];
 
 const sectionVariants = {

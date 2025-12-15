@@ -3,13 +3,13 @@
     {
       "id": "hero-background",
       "description": "Lush avocado farm with sun shining through the leaves",
-      "imageUrl": "https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado farm"
     },
     {
       "id": "avocado-hass",
       "description": "A ripe Hass avocado, cut in half",
-      "imageUrl": "https://images.unsplash.com/photo-1630898042976-ede9b22a81b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhdm9jYWRvJTIwaGFzc3xlbnwwfHx8fDE3NjM3MjQ5MjJ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1630898042976-ede9b22a81b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhdm9jYWRvJTIwaGFzc3xlbnwwfHx8fDE3NjM3MjQ5MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado hass"
     },
     {
@@ -21,13 +21,13 @@
     {
       "id": "avocado-zutano",
       "description": "A shiny, yellow-green Zutano avocado",
-      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado zutano"
     },
     {
       "id": "berry-strawberry",
       "description": "A basket of fresh strawberries",
-      "imageUrl": "https://images.unsplash.com/photo-1588313398092-2b933182de95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJpZXN8ZW58MHx8fHwxNzY0MzA3MzA4fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1588313398092-2b933182de95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJpZXN8ZW58MHx8fHwxNzY0MzA3MzA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "strawberry"
     },
     {
@@ -141,25 +141,25 @@
     {
       "id": "cert-smeta",
       "description": "SMETA certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1761625424632-c6adc86211d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzbWV0YSUyMGxvZ298ZW58MHx8fHwxNzYzNzQxNzMzfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://vectorseek.com/wp-content/uploads/2023/05/SMETA-Logo-Vector.jpg",
       "imageHint": "smeta logo"
     },
     {
       "id": "cert-grasp",
       "description": "GRASP certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1545601445-9242104e5d79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxncmFzcCUyMGxvZ298ZW58MHx8fHwxNzYzNzQxNzMzfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHjDHl5JDFGsyDNAnaPOBcoBHqeEzE_uxRcQ&s",
       "imageHint": "grasp logo"
     },
     {
       "id": "cert-bio",
       "description": "Bio certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1639916909400-40d53a2edd72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiaW8lMjBsb2dvfGVufDB8fHx8MTc2Mzc0MTczM3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqZCrU1iR4hV7yb7JXNpFNxDhflQfOR-75eg&s",
       "imageHint": "bio logo"
     },
     {
       "id": "cert-spring",
       "description": "Spring certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1538983062322-cdd7fc2208a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzcHJpbmclMjBsb2dvfGVufDB8fHx8MTc2Mzc0MTczM3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4VOSg4mu44Ng1kE_3b3q7c7Bz1dbP6C7fEg&s",
       "imageHint": "spring logo"
     },
     {
@@ -189,7 +189,7 @@
     {
       "id": "about-us-hero",
       "description": "A beautiful and vast agricultural landscape in Morocco under a clear sky.",
-      "imageUrl": "https://images.unsplash.com/photo-1582293041079-7814c27a3b35?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "https://images.unsplash.com/photo-1542990253-a781e04c0572?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "morocco agriculture"
     },
     {
