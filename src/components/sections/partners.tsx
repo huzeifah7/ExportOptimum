@@ -68,19 +68,19 @@ export default function Partners() {
           <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-gray-50/50 to-transparent z-10 pointer-events-none" />
           <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-gray-50/50 to-transparent z-10 pointer-events-none" />
 
-          <Marquee pauseOnHover className="[--duration:60s]">
+          <Marquee pauseOnHover className="[--duration:40s]">
             {partners.map((partner) => (
               partner && (
                 <div
                   key={partner.id}
-                  className="mx-8 flex h-28 w-56 items-center justify-center transition-opacity"
+                  className="mx-12 flex h-32 w-64 items-center justify-center transition-opacity"
                 >
                   <Image
                     src={partner.imageUrl}
                     alt={partner.description}
                     width={180}
                     height={70}
-                    className="object-contain transition-all duration-300 hover:opacity-100"
+                    className="object-contain transition-all duration-300"
                     data-ai-hint={partner.imageHint}
                   />
                 </div>
