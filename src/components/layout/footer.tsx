@@ -1,13 +1,19 @@
+
+'use client';
+
 import Link from 'next/link';
 import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { navItems } from './nav-items';
 import Header from './header';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import { Skeleton } from '../ui/skeleton';
 
-const contactDetails = {
-	email: 'contact@exportoptimum.com',
-	phone: '+1 (234) 567-890',
-	address: '123 Produce Lane, Fruit Valley, 90210'
+type ContactInformation = {
+    address: string;
+    phoneNumber: string;
+    email: string;
 };
 
 const socialLinks = [
@@ -17,6 +23,15 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+    const firestore = useFirestore();
+
+    const contactInfoRef = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return doc(firestore, 'contactInformation', 'main');
+    }, [firestore]);
+
+    const { data: contactInfo, isLoading } = useDoc<ContactInformation>(contactInfoRef);
+
 	return (
 		<footer className="bg-foreground border-t border-border/20 text-background">
 			<Header />
@@ -30,24 +45,43 @@ export default function Footer() {
 							Fresh Moroccan produce delivered with traceability, cold-chain reliability, and a commitment to sustainable partnerships.
 						</p>
 						<div className="space-y-4 text-sm">
-							<a
-								href={`mailto:${contactDetails.email}`}
-								className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
-							>
-								<Mail className="h-5 w-5 text-accent" aria-hidden="true" />
-								<span>{contactDetails.email}</span>
-							</a>
-							<a
-								href={`tel:${contactDetails.phone.replace(/\s+/g, '')}`}
-								className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
-							>
-								<Phone className="h-5 w-5 text-accent" aria-hidden="true" />
-								<span>{contactDetails.phone}</span>
-							</a>
-							<div className="flex items-start gap-3 text-muted-foreground">
-								<MapPin className="mt-1 h-5 w-5 text-accent flex-shrink-0" aria-hidden="true" />
-								<span>{contactDetails.address}</span>
-							</div>
+                            {isLoading ? (
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3">
+                                        <Skeleton className="h-5 w-5 rounded-full" />
+                                        <Skeleton className="h-4 w-48" />
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <Skeleton className="h-5 w-5 rounded-full" />
+                                        <Skeleton className="h-4 w-32" />
+                                    </div>
+                                     <div className="flex items-start gap-3">
+                                        <Skeleton className="h-5 w-5 rounded-full mt-1" />
+                                        <Skeleton className="h-10 w-48" />
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <a
+                                        href={`mailto:${contactInfo?.email}`}
+                                        className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
+                                    >
+                                        <Mail className="h-5 w-5 text-accent" aria-hidden="true" />
+                                        <span>{contactInfo?.email || 'email@example.com'}</span>
+                                    </a>
+                                    <a
+                                        href={`tel:${contactInfo?.phoneNumber?.replace(/\s+/g, '')}`}
+                                        className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
+                                    >
+                                        <Phone className="h-5 w-5 text-accent" aria-hidden="true" />
+                                        <span>{contactInfo?.phoneNumber || '+1 (234) 567-890'}</span>
+                                    </a>
+                                    <div className="flex items-start gap-3 text-muted-foreground">
+                                        <MapPin className="mt-1 h-5 w-5 text-accent flex-shrink-0" aria-hidden="true" />
+                                        <span>{contactInfo?.address || '123 Produce Lane, Fruit Valley, 90210'}</span>
+                                    </div>
+                                </>
+                            )}
 						</div>
 					</div>
 

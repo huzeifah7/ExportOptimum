@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { useFirestore } from '@/firebase';
-import { collection, serverTimestamp } from 'firebase/firestore';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, serverTimestamp, doc } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { Loader2, CheckCircle, Mail, Phone, MapPin, Building, Globe, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { AnimatedGradientBackground } from '@/components/ui/animated-gradient-background';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -52,6 +53,13 @@ const faqItems = [
     }
 ]
 
+type ContactInformation = {
+    address: string;
+    phoneNumber: string;
+    email: string;
+};
+
+
 const ContactPage = () => {
   const firestore = useFirestore();
   const [formData, setFormData] = useState({
@@ -61,6 +69,13 @@ const ContactPage = () => {
     subject: '',
     message: '',
   });
+
+  const contactInfoRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, 'contactInformation', 'main');
+  }, [firestore]);
+
+  const { data: contactInfo, isLoading: isLoadingContact } = useDoc<ContactInformation>(contactInfoRef);
 
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -176,29 +191,55 @@ const ContactPage = () => {
                             {/* Info Side */}
                             <div className="p-8 md:p-12">
                                 <motion.h3 variants={itemVariants} className="text-2xl font-bold font-headline mb-8 text-foreground">Contact Information</motion.h3>
+                                 {isLoadingContact ? (
+                                    <motion.div variants={itemVariants} className="space-y-6">
+                                        <div className="flex items-start gap-4">
+                                            <Skeleton className="h-5 w-5 mt-1" />
+                                            <div>
+                                                <Skeleton className="h-5 w-20 mb-1" />
+                                                <Skeleton className="h-4 w-40" />
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <Skeleton className="h-5 w-5 mt-1" />
+                                            <div>
+                                                <Skeleton className="h-5 w-20 mb-1" />
+                                                <Skeleton className="h-4 w-32" />
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <Skeleton className="h-5 w-5 mt-1" />
+                                            <div>
+                                                <Skeleton className="h-5 w-20 mb-1" />
+                                                <Skeleton className="h-4 w-48" />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ) : (
                                 <motion.div variants={itemVariants} className="space-y-6 text-muted-foreground">
                                     <div className="flex items-start gap-4">
                                         <Mail className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                                         <div>
                                             <p className="font-semibold text-foreground">Email</p>
-                                            <a href="mailto:contact@exportoptimum.com" className="hover:text-primary transition-colors">contact@exportoptimum.com</a>
+                                            <a href={`mailto:${contactInfo?.email}`} className="hover:text-primary transition-colors">{contactInfo?.email}</a>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-4">
                                         <Phone className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                                         <div>
                                             <p className="font-semibold text-foreground">Phone</p>
-                                            <span>+212 5 39 39 39 39</span>
+                                            <span>{contactInfo?.phoneNumber}</span>
                                         </div>
                                     </div>
                                      <div className="flex items-start gap-4">
                                         <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                                         <div>
                                             <p className="font-semibold text-foreground">Office</p>
-                                            <span>Export Optimum SARL, Larache, Morocco</span>
+                                            <span>{contactInfo?.address}</span>
                                         </div>
                                     </div>
                                 </motion.div>
+                                )}
 
                                 <motion.h3 variants={itemVariants} className="text-2xl font-bold font-headline mt-12 mb-6 text-foreground">Why Partner With Us?</motion.h3>
                                 <motion.div variants={itemVariants} className="space-y-4">
