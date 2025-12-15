@@ -27,7 +27,7 @@
     {
       "id": "berry-strawberry",
       "description": "A basket of fresh strawberries",
-      "imageUrl": "https://images.unsplash.com/photo-1588313398092-2b933182de95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJpZXN8ZW58MHx8fHwxNzY0MzA3MzA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1588313398092-2b933182de95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHJhd2JlcnJpZXN8ZW58MHx8fHwxNzY0MzA3MzA4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "strawberry"
     },
     {
@@ -62,32 +62,38 @@
     },
     {
       "id": "partner-1",
-      "description": "Logo of a partner company",
-      "imageUrl": "https://images.unsplash.com/photo-1562783912-21ad31ee2a83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "description": "Lidl Logo",
+      "imageUrl": "https://e7.pngegg.com/pngimages/106/455/png-clipart-yellow-red-and-blue-lidl-logo-lidl-logo-retail-supermarket-toru%C5%84-lidl-food-text.png",
       "imageHint": "company logo"
     },
     {
       "id": "partner-2",
-      "description": "Logo of a partner company",
-      "imageUrl": "https://images.unsplash.com/photo-1562783912-21ad31ee2a83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "description": "Westfalia Fruit Logo",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWz7aQiGk4LUQRE5VSQ9QPQ2Gkaq_MNpGphA&s",
       "imageHint": "company logo"
     },
     {
       "id": "partner-3",
-      "description": "Logo of a partner company",
-      "imageUrl": "https://images.unsplash.com/photo-1562783912-21ad31ee2a83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "description": "Halls Fresh Produce Logo",
+      "imageUrl": "https://static.wixstatic.com/media/cd3fd2_4c189b4c481248f1aa534ed4335b9182~mv2.png/v1/fill/w_304,h_184,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/halls-fresh-produce-logo-pillar.png",
       "imageHint": "company logo"
     },
     {
       "id": "partner-4",
-      "description": "Logo of a partner company",
-      "imageUrl": "https://images.unsplash.com/photo-1529612700005-e35377bf1415?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "description": "Mission Produce Logo",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR68Qih3WjCOjYh48tA0F43eirSc3oZciTZ6g&s",
       "imageHint": "company logo"
     },
     {
       "id": "partner-5",
-      "description": "Logo of a partner company",
-      "imageUrl": "https://images.unsplash.com/photo-1622465911368-72162f8da3e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb21wYW55JTIwbG9nb3xlbnwwfHx8fDE3NjM2Nzc2NDR8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "description": "Organto Logo",
+      "imageUrl": "https://www.foodincanada.com/wp-content/uploads/2019/10/L_Organto_OpWit_ZW-e1570201360567.jpg",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "partner-6",
+      "description": "Nature's Pride Logo",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZS3FEjoskf8RRnBoqeHPCOH_zAAOP6TPQ1g&s",
       "imageHint": "company logo"
     },
     {
@@ -135,7 +141,7 @@
     {
       "id": "about-us-page",
       "description": "Avocado being sliced",
-      "imageUrl": "https://images.unsplash.com/photo-1632671044786-c7e1329510fb?q=80&w=470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageUrl": "https://images.unsplash.com/photo-1632671044786-c7e1329510fb?q=80&w=470&auto=format&fit=crop&ixlib-rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "avocado slice"
     },
     {
@@ -165,13 +171,13 @@
     {
       "id": "cert-brc-food",
       "description": "BRC Food certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1584209742773-f7b461564449?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxicmMlMjBmb29kfGVufDB8fHx8MTc2NDA2NDk2MHww&ixlibrb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1584209742773-f7b461564449?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxicmMlMjBmb29kfGVufDB8fHx8fDE3NjQwNjQ5NjB8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "brc food"
     },
     {
       "id": "cert-global-gap",
       "description": "Global G.A.P. certification logo",
-      "imageUrl": "https://images.unsplash.com/photo-1745476557118-58860113c8ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnbG9iYWwlMjBnYXB8ZW58MHx8fHwxNzYzNzQxNzMzfDA&ixlib.rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1745476557118-58860113c8ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnbG9iYWwlMjBnYXB8ZW58MHx8fHwxNzYzNzQxNzMzfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "global gap"
     },
     {

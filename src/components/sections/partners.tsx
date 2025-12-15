@@ -8,12 +8,12 @@ import Marquee from '@/components/ui/marquee';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const partnerIds = [
-  'cert-smeta', 
-  'cert-grasp', 
-  'cert-bio', 
-  'cert-spring', 
-  'cert-global-gap',
-  'cert-brc-food',
+  'partner-1', 
+  'partner-2', 
+  'partner-3', 
+  'partner-4',
+  'partner-5',
+  'partner-6',
 ];
 
 const sectionVariants = {
@@ -80,7 +80,7 @@ export default function Partners() {
                     alt={partner.description}
                     width={150}
                     height={60}
-                    className="object-contain opacity-30 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+                    className="object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
                     data-ai-hint={partner.imageHint}
                   />
                 </div>
