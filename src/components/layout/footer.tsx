@@ -66,18 +66,18 @@ export default function Footer() {
                                         href={`mailto:${contactInfo?.email}`}
                                         className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
                                     >
-                                        <Mail className="h-5 w-5 text-accent" aria-hidden="true" />
+                                        <Mail className="h-5 w-5 text-brand" aria-hidden="true" />
                                         <span>{contactInfo?.email || 'email@example.com'}</span>
                                     </a>
                                     <a
                                         href={`tel:${contactInfo?.phoneNumber?.replace(/\s+/g, '')}`}
                                         className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
                                     >
-                                        <Phone className="h-5 w-5 text-accent" aria-hidden="true" />
+                                        <Phone className="h-5 w-5 text-brand" aria-hidden="true" />
                                         <span>{contactInfo?.phoneNumber || '+1 (234) 567-890'}</span>
                                     </a>
                                     <div className="flex items-start gap-3 text-muted-foreground">
-                                        <MapPin className="mt-1 h-5 w-5 text-accent flex-shrink-0" aria-hidden="true" />
+                                        <MapPin className="mt-1 h-5 w-5 text-brand flex-shrink-0" aria-hidden="true" />
                                         <span>{contactInfo?.address || '123 Produce Lane, Fruit Valley, 90210'}</span>
                                     </div>
                                 </>
@@ -88,11 +88,11 @@ export default function Footer() {
 					<div className="lg:col-span-5 grid grid-cols-2 gap-8">
 						{navItems.map((group) => (
 							<div key={group.label}>
-								<p className="font-headline font-semibold text-accent">{group.label}</p>
+								<p className="font-headline font-semibold text-brand">{group.label}</p>
 								<ul className="mt-4 space-y-2">
 									{group.items?.map((link) => (
 										<li key={link.href}>
-                                            <Link href={link.href} className="text-sm text-muted-foreground hover:text-accent transition-colors">
+                                            <Link href={link.href} className="text-sm text-muted-foreground hover:text-brand transition-colors">
                                                 {link.label}
                                             </Link>
                                         </li>
@@ -104,7 +104,7 @@ export default function Footer() {
 
 					<div className="lg:col-span-3 space-y-6">
                         <div>
-                            <p className="font-headline font-semibold text-accent">Follow Us</p>
+                            <p className="font-headline font-semibold text-brand">Follow Us</p>
                             <div className="mt-4 flex gap-4">
                                 {socialLinks.map((item) => (
                                     <a
@@ -112,7 +112,7 @@ export default function Footer() {
                                         href={item.href}
                                         target="_blank"
                                         rel="noreferrer noopener"
-                                        className="flex h-10 w-10 items-center justify-center rounded-full border border-border/50 bg-foreground text-muted-foreground transition hover:border-accent hover:bg-accent hover:text-foreground"
+                                        className="flex h-10 w-10 items-center justify-center rounded-full border border-border/50 bg-foreground text-muted-foreground transition hover:border-brand hover:bg-brand hover:text-foreground"
                                         aria-label={`Follow Export Optimum on ${item.label}`}
                                     >
                                         <item.Icon className="h-5 w-5" aria-hidden="true" />
@@ -121,7 +121,7 @@ export default function Footer() {
                             </div>
                         </div>
                          <div>
-                            <p className="font-headline font-semibold text-accent">Visit Us</p>
+                            <p className="font-headline font-semibold text-brand">Visit Us</p>
                              <p className="mt-2 text-sm text-muted-foreground">
                                 Book a supply visit or virtual walkthrough with our export coordination team.
                             </p>
