@@ -73,14 +73,14 @@ export default function Partners() {
               partner && (
                 <div
                   key={partner.id}
-                  className="mx-8 flex h-24 w-48 items-center justify-center transition-opacity"
+                  className="mx-8 flex h-28 w-56 items-center justify-center transition-opacity"
                 >
                   <Image
                     src={partner.imageUrl}
                     alt={partner.description}
-                    width={150}
-                    height={60}
-                    className="object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+                    width={180}
+                    height={70}
+                    className="object-contain transition-all duration-300 hover:opacity-100"
                     data-ai-hint={partner.imageHint}
                   />
                 </div>
