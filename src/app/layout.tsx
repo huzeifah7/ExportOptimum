@@ -7,7 +7,7 @@ import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
   title: 'Export Optimum',
-  description: 'Premium Moroccan Exports',
+  description: 'The finest Produce',
 };
 
 export default function RootLayout({
