@@ -1,50 +1,21 @@
+
+'use client';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { produce } from '@/lib/produce-data';
 
-const varietiesData = [
-  {
-    id: 'avocado-hass',
-    slug: 'hass',
-    name: 'Hass',
-    description: 'The classic, with a creamy texture and nutty flavor. Perfect for guacamole or on its own.',
-    imageHint: 'avocado hass',
-    origin: 'California, USA',
-    season: 'Year-round',
-    characteristics: ['Creamy texture', 'Nutty flavor', 'Thick, pebbly skin', 'Skin darkens as it ripens'],
-  },
-  {
-    id: 'avocado-fuerte',
-    slug: 'fuerte',
-    name: 'Fuerte',
-    description: 'Smooth, green skin with a rich, oily texture. A popular choice for salads and sandwiches.',
-    imageHint: 'avocado fuerte',
-    origin: 'Puebla, Mexico',
-    season: 'Late Fall to Spring',
-    characteristics: ['Smooth, thin skin', 'Oily texture', 'Pear-shaped', 'Skin stays green when ripe'],
-  },
-  {
-    id: 'avocado-zutano',
-    slug: 'zutano',
-    name: 'Zutano',
-    description: 'A mild-flavored avocado with a shiny, yellow-green skin. Great for slicing.',
-    imageHint: 'avocado zutano',
-    origin: 'California, USA',
-    season: 'September to early Winter',
-    characteristics: ['Mild flavor', 'Shiny skin', 'Fibrous texture', 'Pollinator for Hass'],
-  },
-];
-
-export function generateStaticParams() {
-  return varietiesData.map((variety) => ({
-    slug: variety.slug,
-  }));
-}
+const varietiesData = produce.map(p => ({
+  ...p,
+  origin: 'California, USA', // Default values, can be expanded in produce-data.ts
+  season: 'Year-round',
+  characteristics: ['Creamy texture', 'Nutty flavor', 'Thick, pebbly skin', 'Skin darkens as it ripens'],
+}));
 
 export default function VarietyDetailsPage({ params }: { params: { slug: string } }) {
   const variety = varietiesData.find((v) => v.slug === params.slug);
