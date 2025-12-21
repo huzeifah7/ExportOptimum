@@ -3,25 +3,25 @@
     {
       "id": "hero-background",
       "description": "Lush avocado farm with sun shining through the leaves",
-      "imageUrl": "https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1762904495307-e5e6afe29cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXZvY2FkbyUyMGZhcm18ZW58MHx8fHwxNzYzNzI0OTIyfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado farm"
     },
     {
       "id": "avocado-hass",
       "description": "A ripe Hass avocado, cut in half",
-      "imageUrl": "https://images.unsplash.com/photo-1630898042976-ede9b22a81b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhdm9jYWRvJTIwaGFzc3xlbnwwfHx8fDE3NjM3MjQ5MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1630898042976-ede9b22a81b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhdm9jYWRvJTIwaGFzc3xlbnwwfHx8fDE3NjM3MjQ5MjJ8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado hass"
     },
     {
       "id": "avocado-fuerte",
       "description": "A whole Fuerte avocado with its smooth green skin",
-      "imageUrl": "https://picsum.photos/seed/fuerte/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1601035902409-c32375a7c044?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwZnVlcnRlfGVufDB8fHx8MTc2NTI0NDgwM3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado fuerte"
     },
     {
       "id": "avocado-zutano",
       "description": "A shiny, yellow-green Zutano avocado",
-      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1680452284386-d10214aeeed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhdm9jYWRvJTIwenV0YW5vfGVufDB8fHx8MTc2MzcyNDkyM3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "avocado zutano"
     },
     {
