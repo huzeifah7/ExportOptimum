@@ -110,7 +110,7 @@ export default function BlogPostPage() {
             )}
 
             <div className="prose prose-lg max-w-none mx-auto text-foreground/90 dark:prose-invert prose-headings:font-headline">
-              {post.content.split('\\n').map((paragraph, index) => {
+              {post.content.split('\n').map((paragraph, index) => {
                 const trimmed = paragraph.trim();
                 if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
                   return <h3 key={index} className="font-bold text-2xl mt-8 mb-4">{trimmed.substring(2, trimmed.length-2)}</h3>

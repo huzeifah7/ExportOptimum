@@ -108,7 +108,7 @@ export default function BlogPage() {
         </motion.section>
 
         {/* Blog Grid */}
-        <div className="py-4 bg-background">
+        <div className="py-16 lg:py-24 bg-background">
             <div className="container mx-auto px-4">
                 <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
