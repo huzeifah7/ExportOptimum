@@ -5,16 +5,17 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Marquee from '@/components/ui/marquee';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
+import { Skeleton } from '../ui/skeleton';
+import Link from 'next/link';
 
-const partnerIds = [
-  'partner-1', 
-  'partner-2', 
-  'partner-3', 
-  'partner-4',
-  'partner-5',
-  'partner-6',
-];
+type Partner = {
+  id: string;
+  name: string;
+  logoUrl: string;
+  websiteUrl?: string;
+};
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -41,8 +42,47 @@ const itemVariants = {
   },
 };
 
+const PartnerSkeleton = () => (
+    <div className="mx-8 flex h-24 w-48 items-center justify-center">
+        <Skeleton className="h-16 w-32" />
+    </div>
+);
+
 export default function Partners() {
-  const partners = partnerIds.map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean);
+  const firestore = useFirestore();
+
+  const partnersQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return collection(firestore, 'partners');
+  }, [firestore]);
+
+  const { data: partners, isLoading } = useCollection<Partner>(partnersQuery);
+
+  const PartnerLogo = ({ partner }: { partner: Partner }) => {
+    const content = (
+        <div
+          key={partner.id}
+          className="group mx-8 flex h-24 w-48 items-center justify-center transition-opacity"
+        >
+          <Image
+            src={partner.logoUrl}
+            alt={partner.name}
+            width={120}
+            height={50}
+            className="object-contain transition-all duration-300 opacity-60 group-hover:opacity-100"
+          />
+        </div>
+    );
+
+    if (partner.websiteUrl) {
+        return (
+            <Link href={partner.websiteUrl} target="_blank" rel="noopener noreferrer">
+                {content}
+            </Link>
+        )
+    }
+    return content;
+  }
 
   return (
     <motion.section
@@ -68,25 +108,27 @@ export default function Partners() {
           <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-gray-50/50 to-transparent z-10 pointer-events-none" />
           <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-gray-50/50 to-transparent z-10 pointer-events-none" />
 
-          <Marquee pauseOnHover className="[--duration:40s]">
-            {partners.map((partner) => (
-              partner && (
-                <div
-                  key={partner.id}
-                  className="group mx-8 flex h-24 w-48 items-center justify-center transition-opacity"
-                >
-                  <Image
-                    src={partner.imageUrl}
-                    alt={partner.description}
-                    width={120}
-                    height={50}
-                    className="object-contain transition-all duration-300 opacity-60 group-hover:opacity-100"
-                    data-ai-hint={partner.imageHint}
-                  />
-                </div>
-              )
-            ))}
-          </Marquee>
+          {isLoading && (
+              <div className="flex justify-center">
+                  <div className="flex flex-nowrap">
+                      {Array.from({ length: 6 }).map((_, i) => <PartnerSkeleton key={i} />)}
+                  </div>
+              </div>
+          )}
+
+          {!isLoading && partners && partners.length > 0 && (
+            <Marquee pauseOnHover className="[--duration:40s]">
+                {partners.map((partner) => (
+                    <PartnerLogo key={partner.id} partner={partner} />
+                ))}
+            </Marquee>
+          )}
+
+          {!isLoading && (!partners || partners.length === 0) && (
+            <div className="text-center text-muted-foreground py-8">
+                <p>Our partners will be showcased here soon.</p>
+            </div>
+          )}
         </div>
       </div>
     </motion.section>
