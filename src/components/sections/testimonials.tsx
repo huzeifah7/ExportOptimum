@@ -4,47 +4,60 @@
 import React from 'react';
 import { cn } from "@/lib/utils"
 import { TestimonialCard, TestimonialAuthor } from "@/components/ui/testimonial-card"
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where } from 'firebase/firestore';
+import { Skeleton } from '../ui/skeleton';
 
-const testimonialsData = [
-  {
-    author: {
-      name: "Emma Thompson",
-      handle: "@Global_Imports",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face"
-    },
-    text: "Export Optimum has consistently delivered exceptional quality. Their avocados are the best on the market, and their logistics are seamless.",
-    href: "#"
-  },
-  {
-    author: {
-      name: "David Park",
-      handle: "@FreshProduceBV",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-    },
-    text: "Working with Export Optimum has been a game-changer. Their commitment to quality and traceability is unmatched. Highly recommended.",
-    href: "#"
-  },
-  {
-    author: {
-      name: "Sofia Rodriguez",
-      handle: "@GrocerFreshUK",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face"
-    },
-    text: "The reliability of their cold chain is impressive. Our customers have noticed the difference in freshness and quality. A truly professional partner.",
-    href: "#"
-  },
-   {
-    author: {
-      name: "Michael Chen",
-      handle: "@MercadoFresco",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
-    },
-    text: "Our customers love the creamy texture and rich flavor of the Hass avocados from Export Optimum. They are our go-to supplier for premium produce.",
-    href: "#"
-  }
-]
+type ClientTestimonial = {
+    id: string;
+    author: string;
+    company: string;
+    reviewText: string;
+    status: 'active' | 'not active';
+};
+
+const TestimonialSkeleton = () => (
+    <div className={cn(
+        "flex flex-col rounded-lg border-t",
+        "bg-gradient-to-b from-muted/50 to-muted/10",
+        "p-4 text-start sm:p-6",
+        "max-w-[320px] sm:max-w-[320px]",
+    )}>
+        <div className="flex items-center gap-3">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="flex flex-col items-start gap-1">
+                <Skeleton className="h-5 w-24" />
+                <Skeleton className="h-4 w-16" />
+            </div>
+        </div>
+        <div className="space-y-2 mt-4">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+        </div>
+    </div>
+);
+
 
 export default function Testimonials() {
+  const firestore = useFirestore();
+
+  const testimonialsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'clientTestimonials'), where('status', '==', 'active'));
+  }, [firestore]);
+
+  const { data: testimonials, isLoading } = useCollection<ClientTestimonial>(testimonialsQuery);
+
+  const mappedTestimonials = testimonials?.map(t => ({
+      author: {
+          name: t.author,
+          handle: `@${t.company.replace(/\s+/g, '')}`,
+          avatar: `https://avatar.vercel.sh/${t.author.replace(/\s+/g, '')}.png`
+      },
+      text: t.reviewText,
+  })) || [];
+
   return (
     <section className={cn(
       "bg-background text-foreground",
@@ -62,16 +75,26 @@ export default function Testimonials() {
 
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
           <div className="group flex overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)] flex-row [--duration:60s]">
-            <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
-              {[...Array(4)].map((_, setIndex) => (
-                testimonialsData.map((testimonial, i) => (
-                  <TestimonialCard 
-                    key={`${setIndex}-${i}`}
-                    {...testimonial}
-                  />
-                ))
-              ))}
-            </div>
+            {isLoading ? (
+                <div className="flex shrink-0 justify-around [gap:var(--gap)] flex-row">
+                    {Array.from({ length: 4 }).map((_, i) => <TestimonialSkeleton key={i} />)}
+                </div>
+            ) : mappedTestimonials.length > 0 ? (
+                <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
+                    {[...Array(4)].map((_, setIndex) => (
+                        mappedTestimonials.map((testimonial, i) => (
+                        <TestimonialCard 
+                            key={`${setIndex}-${i}`}
+                            {...testimonial}
+                        />
+                        ))
+                    ))}
+                </div>
+            ) : (
+                <div className="text-center text-muted-foreground py-8">
+                    <p>Client testimonials will be featured here soon.</p>
+                </div>
+            )}
           </div>
 
           <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-background sm:block" />
