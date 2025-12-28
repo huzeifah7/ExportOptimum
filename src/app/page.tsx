@@ -1,6 +1,5 @@
 
 import Header from '@/components/layout/header';
-import Testimonials from '@/components/sections/testimonials';
 import Partners from '@/components/sections/partners';
 import Blog from '@/components/sections/blog';
 import Footer from '@/components/layout/footer';
@@ -24,8 +23,6 @@ export default function Home() {
         <Products />
         <FeaturedVarieties />
         <Ceo />
-        <Testimonials />
-        <Partners />
         <Blog />
       </main>
       <Footer />
