@@ -12,6 +12,7 @@ type ClientTestimonial = {
     id: string;
     author: string;
     company: string;
+    role: string;
     reviewText: string;
     status: 'active' | 'not active';
 };
