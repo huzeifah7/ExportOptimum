@@ -9,7 +9,6 @@ import Products from '@/components/sections/products';
 import Ceo from '@/components/sections/ceo';
 import KeyFigures from '@/components/sections/key-figures';
 import ModernHero from '@/components/sections/ModernHero';
-import FeaturedVarieties from '@/components/sections/featured-varieties';
 
 export default function Home() {
   return (
@@ -21,7 +20,6 @@ export default function Home() {
         <About />
         <Quality />
         <Products />
-        <FeaturedVarieties />
         <Ceo />
         <Testimonials />
         <Blog />
