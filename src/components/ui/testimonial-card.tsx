@@ -44,7 +44,7 @@ export function TestimonialCard({
            <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col items-start">
-          <h3 className="text-md font-semibold leading-none text-foreground">
+          <h3 className="text-lg font-bold leading-none text-foreground">
             {author.name}
           </h3>
           <p className="text-sm text-muted-foreground">
