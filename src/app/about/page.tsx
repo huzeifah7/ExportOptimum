@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Target, Eye, Lightbulb, TrendingUp, Handshake, Network } from 'lucide-react';
+import { Briefcase, Target, Eye, Network, Handshake } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
