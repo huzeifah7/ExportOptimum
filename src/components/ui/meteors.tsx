@@ -2,7 +2,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export const Meteors = ({
   number,
@@ -11,6 +11,16 @@ export const Meteors = ({
   number?: number;
   className?: string;
 }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   const meteors = new Array(number || 20).fill(true);
   return (
     <>
