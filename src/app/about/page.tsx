@@ -74,7 +74,7 @@ export default function AboutUsPage() {
             <div className="grid items-center gap-16 lg:grid-cols-2">
               <motion.div variants={itemVariants}>
                 <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl font-headline">
-                  Your Strategic Partner in Global Expansion
+                  Pioneering Your Path to Global Markets
                 </h1>
                 <p className="mt-6 text-lg text-muted-foreground">
                   Export Optimum is an international trade and export development firm. We exist to help ambitious companies navigate the complexities of global markets, unlock new revenue streams, and build sustainable international growth.
