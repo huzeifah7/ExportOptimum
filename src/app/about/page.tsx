@@ -7,6 +7,7 @@ import { Briefcase, Target, Eye, Network, Handshake } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
+import { Meteors } from '@/components/ui/meteors';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,15 +26,29 @@ const itemVariants = {
   },
 };
 
-const ValueCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) => (
-  <div className="rounded-2xl border border-border bg-background p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-    <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-      {icon}
+const ValueCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description:string; }) => {
+  return (
+    <div className="w-full h-full relative">
+      <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-primary/80 to-accent/80 transform scale-[0.80] rounded-full blur-3xl" />
+      <div className="relative shadow-xl bg-background/90 border border-border  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
+        <div className="h-14 w-14 rounded-full border flex items-center justify-center mb-4 border-gray-500 bg-primary/10 text-primary">
+          {icon}
+        </div>
+
+        <h1 className="font-bold text-xl text-foreground mb-4 relative z-50">
+          {title}
+        </h1>
+
+        <p className="font-normal text-base text-muted-foreground mb-4 relative z-50">
+          {description}
+        </p>
+
+        {/* Meaty part - Meteor effect */}
+        <Meteors number={20} />
+      </div>
     </div>
-    <h3 className="text-xl font-bold font-headline text-foreground">{title}</h3>
-    <p className="mt-3 text-muted-foreground">{description}</p>
-  </div>
-);
+  );
+};
 
 export default function AboutUsPage() {
   const values = [
