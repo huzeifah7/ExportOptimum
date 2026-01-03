@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, 'useEffect', 'useState' } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Target, Eye, Network, Handshake } from 'lucide-react';
 import Header from '@/components/layout/header';
@@ -30,7 +30,7 @@ const ValueCard = ({ icon, title, description }: { icon: React.ReactNode; title:
   return (
     <div className="w-full h-full relative">
       <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-primary/80 to-accent/80 transform scale-[0.80] rounded-full blur-3xl" />
-      <div className="relative shadow-xl bg-background/90 border border-border  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
+      <div className="relative shadow-xl bg-background/90 border border-border  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col items-start">
         <div className="h-14 w-14 rounded-full border flex items-center justify-center mb-4 border-gray-500 bg-primary/10 text-primary">
           {icon}
         </div>
