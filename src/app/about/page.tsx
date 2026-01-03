@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, 'useEffect', 'useState' } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Target, Eye, Network, Handshake } from 'lucide-react';
 import Header from '@/components/layout/header';
