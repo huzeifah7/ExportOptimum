@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Target, Eye, Network, Handshake } from 'lucide-react';
 import Header from '@/components/layout/header';
@@ -51,6 +51,12 @@ const ValueCard = ({ icon, title, description }: { icon: React.ReactNode; title:
 };
 
 export default function AboutUsPage() {
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
   const values = [
     {
       icon: <Briefcase className="h-7 w-7" />,
@@ -172,7 +178,7 @@ export default function AboutUsPage() {
             </div>
 
             <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {values.map((value) => (
+              {isClient && values.map((value) => (
                 <motion.div key={value.title} variants={itemVariants}>
                   <ValueCard {...value} />
                 </motion.div>
