@@ -43,22 +43,22 @@ export default function AdminLoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       // The useEffect will handle the redirect once the user state is updated.
     } catch (signInError: any) {
-      // If sign-in fails because the user does not exist, create the user.
-      if (signInError.code === 'auth/user-not-found' || signInError.code === 'auth/invalid-credential') {
+        // If sign-in fails, first try to create the user, assuming it might not exist.
+        // This is a common pattern for bootstrapping the first admin user.
         try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          // The onAuthStateChanged listener in the provider will automatically handle
-          // the user state update and the useEffect will trigger the redirect.
+            await createUserWithEmailAndPassword(auth, email, password);
+            // After successful creation, the onAuthStateChanged listener will handle the redirect.
         } catch (signUpError: any) {
-          console.error("Firebase sign-up failed:", signUpError);
-          setError('Failed to create an admin account. Please try again.');
-          setLoading(false);
+            setLoading(false);
+            // If sign-up fails because the email is in use, it means the password was wrong.
+            if (signUpError.code === 'auth/email-already-in-use') {
+                setError('Invalid password. Please check your credentials and try again.');
+            } else {
+                // Handle other sign-up errors
+                console.error("Firebase sign-up failed:", signUpError);
+                setError('Failed to create an admin account. Please try again.');
+            }
         }
-      } else {
-        console.error("Firebase sign-in failed:", signInError);
-        setError('Login failed. Please check your credentials and try again.');
-        setLoading(false);
-      }
     }
   };
   
