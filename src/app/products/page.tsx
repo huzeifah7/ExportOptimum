@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { LiquidChrome } from '@/components/ui/LiquidChrome';
+import React, { useState, useEffect } from 'react';
 
 type Product = {
   id: string;
@@ -58,6 +59,11 @@ const ProductCardSkeleton = () => (
 
 export default function ProductsPage() {
   const firestore = useFirestore();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+      setIsClient(true);
+  }, []);
 
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -150,12 +156,14 @@ export default function ProductsPage() {
         {/* Contact CTA Section */}
         <section className="relative py-20 lg:py-32 text-primary-foreground overflow-hidden">
           <div className="absolute inset-0 z-0">
-             <LiquidChrome
-                baseColor={[0.9, 0.9, 0.9]}
-                speed={0.4}
-                amplitude={0.3}
-                interactive={true}
-              />
+             {isClient && (
+                <LiquidChrome
+                    baseColor={[0.9, 0.9, 0.9]}
+                    speed={0.4}
+                    amplitude={0.3}
+                    interactive={true}
+                />
+             )}
           </div>
           <div className="relative z-10 container mx-auto px-4 text-center">
             <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
