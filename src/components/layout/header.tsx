@@ -1,8 +1,10 @@
+
 'use client';
 import { Logo } from '@/components/logo';
 import CardNav from './CardNav';
 import { navItems as originalNavItems } from './nav-items';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const cardColors = [
   { bgColor: "#4B6F21", textColor: "#ffffff" },
@@ -12,6 +14,12 @@ const cardColors = [
 ];
 
 const App = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const items = originalNavItems.map((item, index) => {
       // Map your original items to the structure CardNav expects
       return {
@@ -25,6 +33,10 @@ const App = () => {
           })) || []
       };
   });
+
+  if (!isClient) {
+    return null; // Or a placeholder/skeleton
+  }
 
   return (
     <CardNav
