@@ -9,6 +9,7 @@ import Header from './header';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
+import { useState, useEffect } from 'react';
 
 type ContactInformation = {
     address: string;
@@ -24,6 +25,11 @@ const socialLinks = [
 
 export default function Footer() {
     const firestore = useFirestore();
+    const [year, setYear] = useState(new Date().getFullYear());
+
+    useEffect(() => {
+        setYear(new Date().getFullYear());
+    }, []);
 
     const contactInfoRef = useMemoFirebase(() => {
         if (!firestore) return null;
@@ -130,7 +136,7 @@ export default function Footer() {
 					</div>
 				</div>
 				<div className="mt-12 border-t border-border/20 pt-8 text-center text-sm text-muted-foreground">
-					© {new Date().getFullYear()} Export Optimum. All rights reserved.
+					© {year} Export Optimum. All rights reserved.
 				</div>
 			</div>
 		</footer>
