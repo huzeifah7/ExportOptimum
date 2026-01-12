@@ -7,6 +7,7 @@ import { TestimonialCard } from "@/components/ui/testimonial-card"
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
+import Marquee from '../ui/marquee';
 
 type ClientTestimonial = {
     id: string;
@@ -83,28 +84,22 @@ export default function Testimonials() {
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
          {isClient && (
           <>
-            <div className="group flex overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)] flex-row [--duration:60s]">
+            <Marquee pauseOnHover className="[--duration:60s]">
               {isLoading ? (
-                  <div className="flex shrink-0 justify-around [gap:var(--gap)] flex-row">
-                      {Array.from({ length: 4 }).map((_, i) => <TestimonialSkeleton key={i} />)}
-                  </div>
+                  [...Array(4)].map((_, i) => <TestimonialSkeleton key={i} />)
               ) : mappedTestimonials.length > 0 ? (
-                  <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
-                      {[...Array(4)].map((_, setIndex) => (
-                          mappedTestimonials.map((testimonial, i) => (
-                          <TestimonialCard 
-                              key={`${setIndex}-${i}`}
-                              {...testimonial}
-                          />
-                          ))
-                      ))}
-                  </div>
+                  mappedTestimonials.map((testimonial, i) => (
+                    <TestimonialCard 
+                        key={i}
+                        {...testimonial}
+                    />
+                  ))
               ) : (
                   <div className="text-center text-muted-foreground py-8">
                       <p>Client testimonials will be featured here soon.</p>
                   </div>
               )}
-            </div>
+            </Marquee>
 
             <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-background sm:block" />
             <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/3 bg-gradient-to-l from-background sm:block" />

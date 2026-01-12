@@ -86,7 +86,7 @@ export default function AboutUsPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50/50">
-      <Header />
+      {isClient && <Header />}
       <main className="flex-grow">
         {/* Section 1: Who We Are */}
         <motion.section
@@ -191,7 +191,7 @@ export default function AboutUsPage() {
           </div>
         </motion.section>
       </main>
-      <Footer />
+      {isClient && <Footer />}
     </div>
   );
 }

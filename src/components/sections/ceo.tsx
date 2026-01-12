@@ -44,10 +44,13 @@ export default function Ceo() {
               />
           </div>
           <div>
-            <SplitText tag="h2" text="&nbsp;Abdellah&nbsp; El &nbsp;Yamlahi &nbsp;" className="text-5xl font-subtitle text-bold text-accent" textAlign="left" splitType="words" /><br/>
-            <SplitText tag="p" text="CEO of Export Optimum" className="mt-2 text-xl font-headline font-bold" textAlign="left" splitType="words" />
-            <SplitText tag="p" text="President of Moroccan Avocado exporters association (MAVA)" className="text-lg font-headline font-bold text-muted-foreground" textAlign="left" splitType="words" />
-
+            {isClient && (
+              <>
+                <SplitText tag="h2" text="&nbsp;Abdellah&nbsp; El &nbsp;Yamlahi &nbsp;" className="text-5xl font-subtitle text-bold text-accent" textAlign="left" splitType="words" /><br/>
+                <SplitText tag="p" text="CEO of Export Optimum" className="mt-2 text-xl font-headline font-bold" textAlign="left" splitType="words" />
+                <SplitText tag="p" text="President of Moroccan Avocado exporters association (MAVA)" className="text-lg font-headline font-bold text-muted-foreground" textAlign="left" splitType="words" />
+              </>
+            )}
             <blockquote className="mt-6 text-lg italic text-muted-foreground relative pl-6 before:content-['\201C'] before:absolute before:left-0 before:top-0 before:text-5xl before:text-accent before:font-serif after:content-['\201D'] after:absolute after:-bottom-4 after:right-0 after:text-5xl after:text-accent after:font-serif">
               At our company, we're proud to offer the highest-quality Moroccan avocados to our customers. We believe that taking good care of our customers is key to our success, which is why we go above and beyond to ensure that our products are fresh, delicious, and delivered on time. We're committed to providing exceptional customer service, and we're always here to answer any questions or concerns you may have. Thank you for choosing us as your trusted source for Moroccan avocados!
             </blockquote>
