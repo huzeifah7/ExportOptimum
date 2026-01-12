@@ -1,6 +1,7 @@
 
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Leaf, Recycle, Sun, Droplets, Wind, Globe, Loader2 } from 'lucide-react';
@@ -52,6 +53,11 @@ type SustainabilityImage = {
 
 export default function SustainabilityPage() {
   const firestore = useFirestore();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const galleryQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -140,17 +146,17 @@ export default function SustainabilityPage() {
                         Explore scenes from our groves, our facilities, and our community.
                     </p>
                 </div>
-                {isLoading && (
+                {(isLoading || !isClient) && (
                     <div className="flex justify-center items-center h-96">
                         <Loader2 className="h-12 w-12 animate-spin text-primary" />
                     </div>
                 )}
-                {!isLoading && images && images.length > 0 && (
+                {isClient && !isLoading && images && images.length > 0 && (
                     <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
                         <DomeGallery images={images} overlayBlurColor="transparent" grayscale={false} />
                     </div>
                 )}
-                {!isLoading && (!images || images.length === 0) && (
+                {isClient && !isLoading && (!images || images.length === 0) && (
                     <div className="text-center py-20 text-muted-foreground">
                         <h3 className="text-2xl font-headline">Gallery Coming Soon</h3>
                         <p>Check back to see glimpses of our sustainable practices in action.</p>
@@ -164,5 +170,3 @@ export default function SustainabilityPage() {
     </div>
   );
 }
-
-    
