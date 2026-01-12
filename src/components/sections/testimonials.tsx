@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { cn } from "@/lib/utils"
 import { TestimonialCard } from "@/components/ui/testimonial-card"
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
@@ -42,6 +42,12 @@ const TestimonialSkeleton = () => (
 
 export default function Testimonials() {
   const firestore = useFirestore();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
 
   const testimonialsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -75,31 +81,35 @@ export default function Testimonials() {
         </div>
 
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-          <div className="group flex overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)] flex-row [--duration:60s]">
-            {isLoading ? (
-                <div className="flex shrink-0 justify-around [gap:var(--gap)] flex-row">
-                    {Array.from({ length: 4 }).map((_, i) => <TestimonialSkeleton key={i} />)}
-                </div>
-            ) : mappedTestimonials.length > 0 ? (
-                <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
-                    {[...Array(4)].map((_, setIndex) => (
-                        mappedTestimonials.map((testimonial, i) => (
-                        <TestimonialCard 
-                            key={`${setIndex}-${i}`}
-                            {...testimonial}
-                        />
-                        ))
-                    ))}
-                </div>
-            ) : (
-                <div className="text-center text-muted-foreground py-8">
-                    <p>Client testimonials will be featured here soon.</p>
-                </div>
-            )}
-          </div>
+         {isClient && (
+          <>
+            <div className="group flex overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)] flex-row [--duration:60s]">
+              {isLoading ? (
+                  <div className="flex shrink-0 justify-around [gap:var(--gap)] flex-row">
+                      {Array.from({ length: 4 }).map((_, i) => <TestimonialSkeleton key={i} />)}
+                  </div>
+              ) : mappedTestimonials.length > 0 ? (
+                  <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
+                      {[...Array(4)].map((_, setIndex) => (
+                          mappedTestimonials.map((testimonial, i) => (
+                          <TestimonialCard 
+                              key={`${setIndex}-${i}`}
+                              {...testimonial}
+                          />
+                          ))
+                      ))}
+                  </div>
+              ) : (
+                  <div className="text-center text-muted-foreground py-8">
+                      <p>Client testimonials will be featured here soon.</p>
+                  </div>
+              )}
+            </div>
 
-          <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-background sm:block" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/3 bg-gradient-to-l from-background sm:block" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-background sm:block" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/3 bg-gradient-to-l from-background sm:block" />
+          </>
+         )}
         </div>
       </div>
     </section>
