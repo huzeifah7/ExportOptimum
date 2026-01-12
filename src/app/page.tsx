@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header />
+      {isClient ? <Header /> : <div className="h-[60px]"><Skeleton className="h-full w-full" /></div>}
       <main className="flex-grow">
         {isClient ? (
           <>
