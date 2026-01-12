@@ -136,7 +136,7 @@ export default function Footer() {
 					</div>
 				</div>
 				<div className="mt-12 border-t border-border/20 pt-8 text-center text-sm text-muted-foreground">
-					© {year || ''} Export Optimum. All rights reserved.
+					© {year ? year : <Skeleton className="h-4 w-10 inline-block" />} Export Optimum. All rights reserved.
 				</div>
 			</div>
 		</footer>

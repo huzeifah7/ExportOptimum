@@ -400,9 +400,9 @@ export default function DashboardPage() {
         {statCardsData.map((card, index) => (
           <StatCard key={index} {...card} />
         ))}
-        {isClient && dynamicStatCards.map((card, index) => (
-          <StatCard key={index} {...card} />
-        ))}
+        {isClient ? dynamicStatCards.map((card, index) => (
+          <StatCard key={index + statCardsData.length} {...card} />
+        )) : Array.from({length:3}).map((_, i) => <Skeleton key={i+statCardsData.length} className="h-28 w-full"/>) }
       </motion.div>
 
       {/* Charts */}
@@ -421,7 +421,7 @@ export default function DashboardPage() {
          initial="hidden"
          animate="visible"
        >
-        {isClient && <DonutChartCard socialData={socialData} />}
+        {isClient ? <DonutChartCard socialData={socialData} /> : <Skeleton className="h-full w-full min-h-[300px] lg:col-span-2" />}
         <RecentActivity products={recentProducts || []} isLoading={isLoadingRecentProducts} />
       </motion.div>
 
