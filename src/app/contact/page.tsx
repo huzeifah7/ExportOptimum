@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -70,6 +70,12 @@ const ContactPage = () => {
     message: '',
   });
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const contactInfoRef = useMemoFirebase(() => {
     if (!firestore) return null;
     return doc(firestore, 'contactInformation', 'main');
@@ -113,9 +119,8 @@ const ContactPage = () => {
     }
   };
 
-  return (
-    <AnimatedGradientBackground>
-        <div className="flex flex-col min-h-screen">
+  const PageContent = () => (
+     <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
             {/* Hero Section */}
@@ -211,7 +216,7 @@ const ContactPage = () => {
                                             <Skeleton className="h-5 w-5 mt-1" />
                                             <div>
                                                 <Skeleton className="h-5 w-20 mb-1" />
-                                                <Skeleton className="h-4 w-48" />
+                                                <Skeleton className="h-10 w-48" />
                                             </div>
                                         </div>
                                     </motion.div>
@@ -319,8 +324,20 @@ const ContactPage = () => {
         </main>
         <Footer />
         </div>
-    </AnimatedGradientBackground>
+  )
+
+  return (
+    <>
+      {isClient ? (
+        <AnimatedGradientBackground>
+          <PageContent />
+        </AnimatedGradientBackground>
+      ) : (
+        <PageContent />
+      )}
+    </>
   );
 };
 
 export default ContactPage;
+
