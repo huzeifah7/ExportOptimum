@@ -14,8 +14,8 @@ import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('admin@example.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('elbaalhoudaifa@gmail.com');
+  const [password, setPassword] = useState('adminx');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
