@@ -1,9 +1,11 @@
 
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Leaf, Package, Truck } from 'lucide-react';
 import SplitText from '@/components/ui/split-text';
 import { MagicButton } from '../ui/magic-button';
+import { useEffect, useState } from 'react';
 
 const features = [
   {
@@ -21,6 +23,12 @@ const features = [
 ];
 
 export default function Ceo() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <section id="ceo" className="py-16 lg:py-24 bg-foreground text-background">
       <div className="container mx-auto px-12">
@@ -54,7 +62,7 @@ export default function Ceo() {
             </div>
 
             <div className="mt-12">
-              <MagicButton />
+              {isClient && <MagicButton />}
             </div>
           </div>
         </div>
