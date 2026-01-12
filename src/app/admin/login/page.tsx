@@ -9,8 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
 import { useAuth, useUser } from '@/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('admin@example.com');
@@ -20,6 +21,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const auth = useAuth();
   const { user, isUserLoading } = useUser();
+  const { toast } = useToast();
   
   useEffect(() => {
     // If auth is no longer loading and a user exists, redirect to dashboard.
@@ -63,6 +65,32 @@ export default function AdminLoginPage() {
         }
     }
   };
+
+  const handlePasswordReset = async () => {
+    if (!auth) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
+        return;
+    }
+    if (!email) {
+        toast({ variant: 'destructive', title: 'Email Required', description: 'Please enter your email address to reset your password.' });
+        return;
+    }
+
+    try {
+        await sendPasswordResetEmail(auth, email);
+        toast({
+            title: 'Password Reset Email Sent',
+            description: `If an account exists for ${email}, a password reset link has been sent.`,
+        });
+    } catch (error: any) {
+        console.error("Password reset error:", error);
+        toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'Could not send password reset email. Please try again later.',
+        });
+    }
+  };
   
   // While Firebase is checking the user's auth state, show a full-screen loader.
   if (isUserLoading) {
@@ -89,7 +117,7 @@ export default function AdminLoginPage() {
           <CardDescription>Enter your credentials to access the admin panel.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -103,7 +131,17 @@ export default function AdminLoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <Button 
+                    type="button" 
+                    variant="link" 
+                    className="h-auto p-0 text-xs"
+                    onClick={handlePasswordReset}
+                >
+                    Forgot Password?
+                </Button>
+              </div>
               <Input
                 id="password"
                 type="password"
