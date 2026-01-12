@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram, MessageSquare } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { navItems } from './nav-items';
 import Header from './header';
@@ -121,10 +121,11 @@ export default function Footer() {
                             </div>
                         </div>
                          <div>
-                            <p className="font-headline font-semibold text-brand">Visit Us</p>
-                             <p className="mt-2 text-sm text-muted-foreground">
-                                Book a supply visit or virtual walkthrough with our export coordination team.
-                            </p>
+                            <p className="font-headline font-semibold text-brand">Leave a review</p>
+                            <a href="/leave-a-review" className="mt-2 text-sm text-muted-foreground flex items-center gap-2 hover:text-brand transition-colors">
+                                <MessageSquare className="h-5 w-5 text-brand" />
+                                Share your experience
+                            </a>
                         </div>
 					</div>
 				</div>
