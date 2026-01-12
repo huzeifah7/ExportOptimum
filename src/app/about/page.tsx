@@ -27,6 +27,11 @@ const itemVariants = {
 };
 
 const ValueCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description:string; }) => {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div className="w-full h-full relative">
       <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-primary/80 to-accent/80 transform scale-[0.80] rounded-full blur-3xl" />
@@ -43,8 +48,7 @@ const ValueCard = ({ icon, title, description }: { icon: React.ReactNode; title:
           {description}
         </p>
 
-        {/* Meaty part - Meteor effect */}
-        <Meteors number={20} />
+        {isClient && <Meteors number={20} />}
       </div>
     </div>
   );
