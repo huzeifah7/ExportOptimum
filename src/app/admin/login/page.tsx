@@ -53,6 +53,8 @@ export default function AdminLoginPage() {
             // If sign-up fails because the email is in use, it means the password was wrong.
             if (signUpError.code === 'auth/email-already-in-use') {
                 setError('Invalid password. Please check your credentials and try again.');
+            } else if (signUpError.code === 'auth/weak-password') {
+                setError('The password is too weak. It must be at least 6 characters long.');
             } else {
                 // Handle other sign-up errors
                 console.error("Firebase sign-up failed:", signUpError);
