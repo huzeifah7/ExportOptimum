@@ -92,9 +92,11 @@ export default function About() {
             <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
               Rooted in Excellence, Grown for the World.
             </h2>
-            <p className="mt-6 text-lg text-muted-foreground">
-              Export Optimum is a cornerstone of Morocco's fresh produce industry, specializing in the cultivation and global export of premium avocados. Our vertically integrated operation, from meticulous orchard management to our state-of-the-art packing facility, ensures unparalleled quality and traceability.
-            </p>
+            <div className="mt-6 text-lg text-muted-foreground">
+              <p>
+                Export Optimum is a cornerstone of Morocco's fresh produce industry, specializing in the cultivation and global export of premium avocados. Our vertically integrated operation, from meticulous orchard management to our state-of-the-art packing facility, ensures unparalleled quality and traceability.
+              </p>
+            </div>
             
             <div className="mt-8 space-y-4">
               {highlightPoints.map((point, index) => (
