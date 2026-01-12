@@ -285,6 +285,7 @@ const RecentActivity: React.FC<{products: any[], isLoading: boolean}> = ({produc
 
 export default function DashboardPage() {
   const firestore = useFirestore();
+  const [isClient, setIsClient] = useState(false);
 
   // State for simulated live data
   const [websiteViews, setWebsiteViews] = useState(12890);
@@ -309,6 +310,7 @@ export default function DashboardPage() {
 
   // --- Live Data Simulation Effect ---
   useEffect(() => {
+    setIsClient(true);
     const viewInterval = setInterval(() => {
         setWebsiteViews(v => v + Math.floor(Math.random() * 5) - 1);
     }, 3000);
@@ -353,7 +355,10 @@ export default function DashboardPage() {
         icon: MessageSquare,
         isLoading: isLoadingMessages,
     },
-    {
+  ];
+
+  const dynamicStatCards = [
+     {
         title: 'Website Views',
         value: websiteViews.toLocaleString(),
         trend: '-2.1%',
@@ -395,6 +400,9 @@ export default function DashboardPage() {
         {statCardsData.map((card, index) => (
           <StatCard key={index} {...card} />
         ))}
+        {isClient && dynamicStatCards.map((card, index) => (
+          <StatCard key={index} {...card} />
+        ))}
       </motion.div>
 
       {/* Charts */}
@@ -413,7 +421,7 @@ export default function DashboardPage() {
          initial="hidden"
          animate="visible"
        >
-        <DonutChartCard socialData={socialData} />
+        {isClient && <DonutChartCard socialData={socialData} />}
         <RecentActivity products={recentProducts || []} isLoading={isLoadingRecentProducts} />
       </motion.div>
 
