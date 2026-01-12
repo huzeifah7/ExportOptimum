@@ -11,6 +11,7 @@ import Products from '@/components/sections/products';
 import Ceo from '@/components/sections/ceo';
 import KeyFigures from '@/components/sections/key-figures';
 import ModernHero from '@/components/sections/ModernHero';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
@@ -21,18 +22,30 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      {isClient ? <Header /> : <div className="h-[60px]"></div> }
+      <Header />
       <main className="flex-grow">
-        <ModernHero />
-        <KeyFigures />
-        <About />
-        <Quality />
-        <Products />
-        <Ceo />
-        <Testimonials />
-        <Blog />
+        {isClient ? (
+          <>
+            <ModernHero />
+            <KeyFigures />
+            <About />
+            <Quality />
+            <Products />
+            <Ceo />
+            <Testimonials />
+            <Blog />
+          </>
+        ) : (
+          <div className="space-y-8">
+            <Skeleton className="h-screen w-full" />
+            <div className="container mx-auto px-4">
+              <Skeleton className="h-48 w-full" />
+              <Skeleton className="h-96 w-full mt-8" />
+            </div>
+          </div>
+        )}
       </main>
-      {isClient ? <Footer /> : null}
+      {isClient && <Footer />}
     </div>
   );
 }
