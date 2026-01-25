@@ -64,7 +64,7 @@ export default function LeaveReviewPage() {
     
     const newReview = {
       ...formData,
-      status: 'active', // Set status to active to make it visible immediately
+      status: 'not active',
     };
 
     try {
@@ -74,7 +74,7 @@ export default function LeaveReviewPage() {
       setIsSuccess(true);
       toast({
         title: 'Review Submitted!',
-        description: 'Thank you for your feedback. Your review is now live.',
+        description: 'Thank you for your feedback. Your review has been submitted for approval.',
       });
 
     } catch (error) {
