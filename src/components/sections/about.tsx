@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ArrowRight } from 'lucide-react';
@@ -41,11 +42,11 @@ export default function About() {
       variants={containerVariants}
     >
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-8 items-stretch">
-          <motion.div 
+        <motion.div 
             variants={itemVariants} 
-            className="bg-primary/90 text-primary-foreground p-8 md:p-12 lg:p-16 rounded-2xl flex flex-col justify-center"
-          >
+            className="rounded-2xl shadow-xl overflow-hidden grid lg:grid-cols-2 items-stretch"
+        >
+          <div className="bg-primary/90 text-primary-foreground p-8 md:p-12 lg:p-16 flex flex-col justify-center">
               <Badge variant="secondary" className="mb-4 bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 w-fit">Our Story</Badge>
               <h2 className="text-3xl md:text-4xl font-headline font-bold">
                   Discover our fruits journey from pit to plate
@@ -58,11 +59,8 @@ export default function About() {
                       Learn more <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/link:translate-x-1" />
                   </Link>
               </Button>
-          </motion.div>
-          <motion.div
-              className="relative w-full min-h-[300px] lg:min-h-full rounded-2xl shadow-xl overflow-hidden group"
-              variants={itemVariants}
-          >
+          </div>
+          <div className="relative w-full min-h-[300px] lg:min-h-full group">
             <Image
                 src="https://images.unsplash.com/photo-1543363136-7fbfcd3b240d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Fresh avocados on a wooden surface"
@@ -70,8 +68,8 @@ export default function About() {
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                 data-ai-hint="avocados wood"
             />
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </motion.section>
   );
