@@ -44,9 +44,9 @@ export default function About() {
       <div className="container mx-auto px-4">
         <motion.div 
             variants={itemVariants} 
-            className="rounded-2xl shadow-xl overflow-hidden grid lg:grid-cols-2 items-stretch"
+            className="rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row"
         >
-          <div className="bg-primary/90 text-primary-foreground p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+          <div className="bg-primary/90 text-primary-foreground p-8 md:p-12 lg:p-16 flex flex-col justify-center lg:w-1/2">
               <Badge variant="secondary" className="mb-4 bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 w-fit">Our Story</Badge>
               <h2 className="text-3xl md:text-4xl font-headline font-bold">
                   Discover our fruits journey from pit to plate
@@ -60,7 +60,7 @@ export default function About() {
                   </Link>
               </Button>
           </div>
-          <div className="relative w-full min-h-[300px] lg:min-h-full group">
+          <div className="relative lg:w-1/2 w-full min-h-[300px] lg:min-h-full group">
             <Image
                 src="https://images.unsplash.com/photo-1543363136-7fbfcd3b240d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Fresh avocados on a wooden surface"
