@@ -183,7 +183,12 @@ export default function AboutUsPage() {
 
             <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
               {isClient && values.map((value) => (
-                <motion.div key={value.title} variants={itemVariants}>
+                <motion.div
+                  key={value.title}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.03, y: -8 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
                   <ValueCard {...value} />
                 </motion.div>
               ))}
