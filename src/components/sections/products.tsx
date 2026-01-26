@@ -63,7 +63,7 @@ const Card: React.FC<CardProps> = ({
           scale,
           top: `calc(-5vh + ${i * 25}px)`,
         }}
-        className={`flex flex-col relative -top-[25%] h-[500px] w-[90%] md:w-[70%] rounded-2xl lg:p-10 sm:p-4 p-2 origin-top`}
+        className={`flex flex-col h-[500px] w-[90%] md:w-[70%] rounded-2xl lg:p-10 sm:p-4 p-2 origin-top`}
       >
         <h2 className='text-2xl lg:text-4xl text-center font-bold text-white font-headline'>{title}</h2>
         <div className={`flex flex-col lg:flex-row h-full mt-5 gap-10`}>
