@@ -38,25 +38,25 @@ const MOBILE_BREAKPOINT = 768;
 
 const cardData: BentoCardProps[] = [
   {
-    icon: <Image src="/Avo(4).png" alt="Freshness" width={40} height={40} className="w-10 h-10 object-contain text-primary" />,
+    icon: <Image src="/Avo(4).png" alt="Freshness" width={40} height={40} className="w-10 h-10 object-contain" />,
     title: 'Freshness',
     description: 'An unbroken cold chain and rapid logistics ensure produce arrives as fresh as the day it was picked.',
     label: 'Pillar 1'
   },
   {
-    icon: <Image src="/avo(6).png" alt="Hygiene & Safety" width={40} height={40} className="w-10 h-10 object-contain text-primary" />,
+    icon: <Image src="/avo(6).png" alt="Hygiene & Safety" width={40} height={40} className="w-10 h-10 object-contain" />,
     title: 'Hygiene & Safety',
     description: 'We adhere to strict international hygiene protocols at every stage, from handling to packing.',
     label: 'Pillar 2'
   },
   {
-    icon: <Image src="/avo(3).png" alt="Traceability" width={40} height={40} className="w-10 h-10 object-contain text-primary" />,
+    icon: <Image src="/avo(3).png" alt="Traceability" width={40} height={40} className="w-10 h-10 object-contain" />,
     title: 'Traceability',
     description: 'Every batch is fully traceable, providing complete transparency from our orchards to your facility.',
     label: 'Pillar 3'
   },
    {
-    icon: <Image src="/avo(3).png" alt="Sustainability" width={40} height={40} className="w-10 h-10 object-contain text-primary" />,
+    icon: <Image src="/avo(3).png" alt="Sustainability" width={40} height={40} className="w-10 h-10 object-contain" />,
     title: 'Sustainability',
     description: 'Responsible farming practices that respect the land, conserve water, and support our ecosystem.',
     label: 'Pillar 4'
@@ -571,7 +571,7 @@ const MagicBento: React.FC<BentoProps> = ({
                 enableMagnetism={enableMagnetism}
               >
                 <div className="magic-bento-card__icon">
-                  <div className="text-primary">{card.icon}</div>
+                  {card.icon}
                 </div>
                 <div className="magic-bento-card__content">
                   <h2 className="magic-bento-card__title font-headline text-foreground">{card.title}</h2>
@@ -694,7 +694,7 @@ const MagicBento: React.FC<BentoProps> = ({
               }}
             >
               <div className="magic-bento-card__icon">
-                  <div className="text-primary">{card.icon}</div>
+                  {card.icon}
               </div>
               <div className="magic-bento-card__content">
                 <h2 className="magic-bento-card__title font-headline text-foreground">{card.title}</h2>
