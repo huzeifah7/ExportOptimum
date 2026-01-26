@@ -1,14 +1,117 @@
 
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Briefcase, Target, Eye, Network, Handshake } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Briefcase, Target, Eye, Network, Handshake, ArrowUpRight } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import Image from 'next/image';
 import { Meteors } from '@/components/ui/meteors';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
+// ---- START of user-provided components, adapted ----
+
+const IMG_PADDING = 12;
+
+const TextParallaxContent = ({ imgUrl, subheading, heading, children }: {imgUrl: string, subheading: string, heading: string, children: React.ReactNode}) => {
+  return (
+    <div
+      style={{
+        paddingLeft: IMG_PADDING,
+        paddingRight: IMG_PADDING,
+      }}
+    >
+      <div className="relative h-[150vh]">
+        <StickyImage imgUrl={imgUrl} />
+        <OverlayCopy heading={heading} subheading={subheading} />
+      </div>
+      {children}
+    </div>
+  );
+};
+
+const StickyImage = ({ imgUrl }: {imgUrl: string}) => {
+  const targetRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["end end", "end start"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
+  return (
+    <motion.div
+      style={{
+        backgroundImage: `url(${imgUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: `calc(100vh - ${IMG_PADDING * 2}px)`,
+        top: IMG_PADDING,
+        scale,
+      }}
+      ref={targetRef}
+      className="sticky z-0 overflow-hidden rounded-3xl"
+    >
+      <motion.div
+        className="absolute inset-0 bg-neutral-950/70"
+        style={{
+          opacity,
+        }}
+      />
+    </motion.div>
+  );
+};
+
+const OverlayCopy = ({ subheading, heading }: {subheading: string, heading: string}) => {
+  const targetRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [250, -250]);
+  const opacity = useTransform(scrollYProgress, [0.25, 0.5, 0.75], [0, 1, 0]);
+
+  return (
+    <motion.div
+      style={{
+        y,
+        opacity,
+      }}
+      ref={targetRef}
+      className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
+    >
+      <p className="mb-2 text-center text-xl font-light md:mb-4 md:text-3xl text-white/80">
+        {subheading}
+      </p>
+      <p className="text-center text-4xl font-bold md:text-7xl font-headline">{heading}</p>
+    </motion.div>
+  );
+};
+
+const SectionContent = ({ title, children, ctaText, ctaLink }: {title: string, children: React.ReactNode, ctaText?: string, ctaLink?: string}) => (
+  <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
+    <h2 className="col-span-1 text-3xl font-bold font-headline text-foreground md:col-span-4">
+      {title}
+    </h2>
+    <div className="col-span-1 md:col-span-8">
+        {children}
+      {ctaText && ctaLink && (
+        <Button asChild className="w-full mt-8 rounded-lg md:w-fit" size="lg">
+            <Link href={ctaLink}>
+                {ctaText} <ArrowUpRight className="inline ml-2" />
+            </Link>
+        </Button>
+      )}
+    </div>
+  </div>
+);
+
+// ---- END of user-provided components ----
+
+// This is from the original page and should be kept for the "Why Choose Us" section.
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -85,85 +188,49 @@ export default function AboutUsPage() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50/50">
+    <div className="flex min-h-screen flex-col bg-background">
       {isClient && <Header />}
-      <main className="flex-grow">
-        {/* Section 1: Who We Are */}
-        <motion.section
-          className="py-24 lg:py-32"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
+      <main className="flex-grow bg-white">
+        <TextParallaxContent
+            imgUrl="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            subheading="Who We Are"
+            heading="Pioneering Global Paths"
         >
-          <div className="container mx-auto px-4">
-            <div className="grid items-center gap-16 lg:grid-cols-2">
-              <motion.div variants={itemVariants}>
-                <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl font-headline">
-                  Pioneering Your Path to Global Markets
-                </h1>
-                <p className="mt-6 text-lg text-muted-foreground">
-                  Export Optimum is an international trade and export development firm. We exist to help ambitious companies navigate the complexities of global markets, unlock new revenue streams, and build sustainable international growth.
+            <SectionContent title="Our Purpose">
+                <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                    Export Optimum is an international trade and export development firm. We exist to help ambitious companies navigate the complexities of global markets, unlock new revenue streams, and build sustainable international growth.
                 </p>
-                <p className="mt-4 text-lg text-muted-foreground">
-                  From market intelligence to practical execution, we provide the strategic support necessary to turn your export ambitions into tangible success.
+                <p className="text-xl text-muted-foreground md:text-2xl">
+                    From market intelligence to practical execution, we provide the strategic support necessary to turn your export ambitions into tangible success.
                 </p>
-              </motion.div>
-              <motion.div
-                variants={itemVariants}
-                className="relative h-80 lg:h-96 rounded-2xl"
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="A team of professionals collaborating around a world map"
-                  fill
-                  className="rounded-2xl object-cover shadow-xl"
-                  data-ai-hint="team collaboration"
-                />
-              </motion.div>
-            </div>
-          </div>
-        </motion.section>
+            </SectionContent>
+        </TextParallaxContent>
 
-        {/* Section 2 & 3: Mission & Vision */}
-        <div className="py-24 lg:py-32 bg-background">
-          <div className="container mx-auto px-4">
-            <motion.div
-              className="grid gap-16 lg:grid-cols-2"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={containerVariants}
-            >
-              {/* Our Mission */}
-              <motion.div variants={itemVariants}>
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <Target className="h-6 w-6 text-primary" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-foreground font-headline">Our Mission</h2>
-                </div>
-                <p className="mt-5 text-lg text-muted-foreground">
-                  To demystify international trade and empower businesses with the strategic tools, intelligence, and support needed to expand globally with confidence and clarity.
+         <TextParallaxContent
+            imgUrl="https://images.unsplash.com/photo-1508921340878-ba53e1f416ec?q=80&w=2070&auto=format&fit=crop"
+            subheading="Our Mission"
+            heading="Empowering Global Expansion"
+        >
+            <SectionContent title="What We Strive For">
+                 <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                   To demystify international trade and empower businesses with the strategic tools, intelligence, and support needed to expand globally with confidence and clarity.
                 </p>
-              </motion.div>
-              
-              {/* Our Vision */}
-              <motion.div variants={itemVariants}>
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <Eye className="h-6 w-6 text-primary" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-foreground font-headline">Our Vision</h2>
-                </div>
-                <p className="mt-5 text-lg text-muted-foreground">
-                  To be the most trusted strategic partner for companies building a sustainable and profitable international presence, fostering a world of interconnected and thriving global enterprises.
-                </p>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
+            </SectionContent>
+        </TextParallaxContent>
 
-        {/* Section 4: Why Choose Us */}
+        <TextParallaxContent
+            imgUrl="https://images.unsplash.com/photo-1531307983284-88e547343469?q=80&w=2070&auto=format&fit=crop"
+            subheading="Our Vision"
+            heading="Fostering Thriving Enterprises"
+        >
+            <SectionContent title="Our Future Outlook">
+                 <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                    To be the most trusted strategic partner for companies building a sustainable and profitable international presence, fostering a world of interconnected and thriving global enterprises.
+                </p>
+            </SectionContent>
+        </TextParallaxContent>
+
+        {/* Section 4: Why Choose Us - kept from original */}
         <motion.section
           className="py-24 lg:py-32"
           initial="hidden"
