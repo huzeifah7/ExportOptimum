@@ -1,14 +1,10 @@
 'use client';
 
-import { ReactLenis } from 'lenis/react';
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ReactLenis } from 'lenis/react';
 
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, limit } from 'firebase/firestore';
@@ -28,10 +24,10 @@ type Product = {
 };
 
 /* ---------------------------------------------
-   PRODUCT ROW
+   CARD
 --------------------------------------------- */
 
-function ProductRow({
+function ProductCard({
   product,
   index,
 }: {
@@ -42,27 +38,22 @@ function ProductRow({
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start 90%', 'end 40%'],
+    offset: ['start end', 'end start'],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [30, -30]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0.6, 1]);
-
-  const reverse = index % 2 !== 0;
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.96, 1, 0.96]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.5, 1, 1, 0.5]);
 
   return (
     <motion.div
       ref={ref}
-      style={{ opacity }}
-      className={`grid grid-cols-1 lg:grid-cols-12 gap-10 py-20 border-t border-border/30`}
+      style={{ scale, opacity }}
+      className="relative flex-shrink-0 w-[85vw] sm:w-[70vw] lg:w-[520px] h-[520px]
+                 snap-center rounded-3xl overflow-hidden bg-background
+                 border border-border/30 shadow-xl"
     >
       {/* IMAGE */}
-      <motion.div
-        style={{ y: imageY }}
-        className={`relative h-[340px] rounded-2xl overflow-hidden ${
-          reverse ? 'lg:col-span-6 lg:order-2' : 'lg:col-span-6'
-        }`}
-      >
+      <div className="relative h-[60%] w-full">
         {product.imageUrl && (
           <Image
             fill
@@ -71,48 +62,38 @@ function ProductRow({
             className="object-cover"
           />
         )}
-      </motion.div>
+      </div>
 
       {/* CONTENT */}
-      <div
-        className={`flex flex-col justify-center ${
-          reverse ? 'lg:col-span-5 lg:col-start-2' : 'lg:col-span-5'
-        }`}
-      >
-        <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+      <div className="p-6 flex flex-col h-[40%]">
+        <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
           {product.category}
         </span>
 
-        <h2 className="text-3xl xl:text-4xl font-headline font-bold mb-4">
+        <h3 className="text-2xl font-headline font-bold mb-3">
           {product.name}
-        </h2>
+        </h3>
 
-        <p className="text-muted-foreground leading-relaxed mb-6">
+        <p className="text-sm text-muted-foreground line-clamp-3 mb-auto">
           {product.description}
         </p>
 
-        <div className="flex items-center gap-6">
-          <Link
-            href="/products"
-            className="text-sm font-semibold underline underline-offset-4 hover:text-primary transition-colors"
-          >
-            View product
-          </Link>
-
-          <Link
-            href="/products"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Full catalog →
-          </Link>
-        </div>
+        <Link
+          href="/products"
+          className="mt-6 inline-flex items-center justify-center
+                     rounded-full bg-primary px-6 py-3 text-sm
+                     font-medium text-primary-foreground
+                     hover:scale-105 transition-transform"
+        >
+          View product
+        </Link>
       </div>
     </motion.div>
   );
 }
 
 /* ---------------------------------------------
-   MAIN PAGE
+   PAGE
 --------------------------------------------- */
 
 export default function Products() {
@@ -123,7 +104,7 @@ export default function Products() {
     return query(
       collection(firestore, 'products'),
       orderBy('name'),
-      limit(5)
+      limit(8)
     );
   }, [firestore]);
 
@@ -148,10 +129,10 @@ export default function Products() {
 
   return (
     <ReactLenis root>
-      <main className="bg-white">
+      <main className="bg-background overflow-hidden">
 
         {/* HEADER */}
-        <section className="pt-32 pb-24 text-center px-6">
+        <section className="pt-32 pb-20 text-center px-6">
           <span className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
             Moroccan origin · Export quality
           </span>
@@ -161,29 +142,36 @@ export default function Products() {
           </h1>
 
           <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Carefully cultivated, professionally packed, and trusted
-            by international partners.
+            A curated selection of our finest fruits, grown with care
+            and trusted by international markets.
           </p>
         </section>
 
-        {/* PRODUCT LIST */}
-        <section className="max-w-4xl mx-auto px-2 p-4">
-          {products.map((product, index) => (
-            <ProductRow
-              key={product.id}
-              product={product}
-              index={index}
-            />
-          ))}
+        {/* SLIDER */}
+        <section className="relative">
+          <div
+            className="flex gap-8 px-6 pb-24 overflow-x-auto snap-x snap-mandatory
+                       scrollbar-none"
+          >
+            {products.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                index={index}
+              />
+            ))}
+          </div>
         </section>
 
-        {/* FOOTER CTA */}
-        <section className="py-24 text-center">
+        {/* CTA */}
+        <section className="pb-32 text-center">
           <Link
             href="/products"
-            className="inline-flex items-center px-10 py-4 rounded-full bg-primary text-primary-foreground font-medium hover:scale-105 transition-transform"
+            className="inline-flex items-center px-10 py-4 rounded-full
+                       bg-primary text-primary-foreground font-medium
+                       hover:scale-105 transition-transform"
           >
-            View complete product range
+            View full product catalog
           </Link>
         </section>
       </main>

@@ -29,21 +29,6 @@ export default function Home() {
             <ModernHero />
             <KeyFigures />
             <About />
-            <section className="py-12 bg-white">
-              <div className="container mx-auto px-4">
-                <div className="flex justify-end">
-                  <div className="w-1/2">
-                    <Image
-                      src="/avo (4).png"
-                      alt="Fresh avocado"
-                      width={500}
-                      height={500}
-                      className="object-cover rounded-lg"
-                    />
-                  </div>
-                </div>
-              </div>
-            </section>
             <Quality />
             <Products />
             <Ceo />
