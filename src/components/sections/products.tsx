@@ -119,7 +119,7 @@ export default function Products() {
   const firestore = useFirestore();
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    return query(collection(firestore, 'products'), orderBy('createdAt', 'desc'), limit(5));
+    return query(collection(firestore, 'products'), orderBy('name'), limit(5));
   }, [firestore]);
 
   const { data: products, isLoading } = useCollection<Product>(productsQuery);
@@ -164,6 +164,7 @@ export default function Products() {
         <section className='text-white w-full bg-foreground'>
           {mappedProducts.map((project, i) => {
             const targetScale = 1 - (mappedProducts.length - i) * 0.05;
+            const range: [number, number] = [i / mappedProducts.length, 1];
             return (
               <Card
                 key={`p_${i}`}
@@ -174,7 +175,7 @@ export default function Products() {
                 color={project.color}
                 slug={project.slug}
                 progress={scrollYProgress}
-                range={[i * 0.25, 1]}
+                range={range}
                 targetScale={targetScale}
               />
             );
