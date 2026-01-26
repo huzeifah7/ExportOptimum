@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ReactLenis } from 'lenis/react';
@@ -58,7 +59,7 @@ function ProductCard({
       transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
       className="group relative"
     >
-      <Link href={`/products/${product.slug}`} className="block">
+      <Link href={`/products/${product.id}`} className="block">
         {/* Image Container */}
         <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 mb-3">
           <motion.div

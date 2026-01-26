@@ -8,8 +8,8 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, where, limit } from 'firebase/firestore';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useEffect } from 'react';
 
@@ -48,16 +48,18 @@ const ProductDetailSkeleton = () => (
 
 export default function ProductDetailsPage() {
   const params = useParams();
-  const slug = params?.slug as string;
+  // The route is still /products/[slug], but we'll pass the ID in the URL.
+  // So `slug` from params is actually the product ID.
+  const productId = params?.slug as string;
   const firestore = useFirestore();
 
-  const productQuery = useMemoFirebase(() => {
-    if (!firestore || !slug) return null;
-    return query(collection(firestore, 'products'), where('slug', '==', slug), limit(1));
-  }, [firestore, slug]);
+  // Use useDoc to fetch a single document by its ID.
+  const productRef = useMemoFirebase(() => {
+    if (!firestore || !productId) return null;
+    return doc(firestore, 'products', productId);
+  }, [firestore, productId]);
 
-  const { data: products, isLoading } = useCollection<Product>(productQuery);
-  const product = products?.[0];
+  const { data: product, isLoading } = useDoc<Product>(productRef);
 
   useEffect(() => {
       if (!isLoading && !product) {
