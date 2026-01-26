@@ -9,6 +9,7 @@ import Footer from '@/components/layout/footer';
 import { Meteors } from '@/components/ui/meteors';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import SplitText from '@/components/ui/split-text';
 
 // ---- START of user-provided components, adapted ----
 
@@ -66,28 +67,26 @@ const StickyImage = ({ imgUrl }: {imgUrl: string}) => {
 
 const OverlayCopy = ({ subheading, heading }: {subheading: string, heading: string}) => {
   const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [250, -250]);
-  const opacity = useTransform(scrollYProgress, [0.25, 0.5, 0.75], [0, 1, 0]);
-
+  
   return (
-    <motion.div
-      style={{
-        y,
-        opacity,
-      }}
+    <div
       ref={targetRef}
       className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
     >
-      <p className="mb-2 text-center text-xl font-light md:mb-4 md:text-3xl text-white/80">
-        {subheading}
-      </p>
-      <p className="text-center text-4xl font-bold md:text-7xl font-headline">{heading}</p>
-    </motion.div>
+        <SplitText
+            tag="p"
+            text={subheading}
+            className="mb-2 text-center text-xl font-light md:mb-4 md:text-3xl text-white/80"
+            splitType="words"
+        />
+        <SplitText
+            tag="p"
+            text={heading}
+            className="text-center text-4xl font-bold md:text-7xl font-headline"
+            splitType="chars"
+            delay={30}
+        />
+    </div>
   );
 };
 
