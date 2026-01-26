@@ -198,10 +198,10 @@ export default function AboutUsPage() {
         >
             <SectionContent title="Our Purpose">
                 <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-                    Export Optimum is an international trade and export development firm. We exist to help ambitious companies navigate the complexities of global markets, unlock new revenue streams, and build sustainable international growth.
+                    Export Optimum is a leading international trade and export development firm based in Morocco, specializing in connecting the world with the finest Moroccan agricultural products. Our primary focus is on premium avocados and berries.
                 </p>
                 <p className="text-xl text-muted-foreground md:text-2xl">
-                    From market intelligence to practical execution, we provide the strategic support necessary to turn your export ambitions into tangible success.
+                    Our purpose is to bridge the gap between dedicated Moroccan growers and discerning global markets, providing the crucial strategic support and operational assistance required to turn local harvests into international success stories.
                 </p>
             </SectionContent>
         </TextParallaxContent>
@@ -213,7 +213,7 @@ export default function AboutUsPage() {
         >
             <SectionContent title="What We Strive For">
                  <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-                   To demystify international trade and empower businesses with the strategic tools, intelligence, and support needed to expand globally with confidence and clarity.
+                   Our mission is to empower Moroccan agricultural producers by providing them with reliable, efficient, and profitable access to global markets. We strive to be a catalyst for growth, ensuring that the quality of Moroccan produce is recognized and valued worldwide, while demystifying the complexities of international trade for our partners.
                 </p>
             </SectionContent>
         </TextParallaxContent>
@@ -225,7 +225,7 @@ export default function AboutUsPage() {
         >
             <SectionContent title="Our Future Outlook">
                  <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-                    To be the most trusted strategic partner for companies building a sustainable and profitable international presence, fostering a world of interconnected and thriving global enterprises.
+                    Our vision is to be the world's most trusted partner for premium Moroccan avocados and produce. We aim to build a future where our commitment to sustainability, quality, and innovation not only leads the market but also fosters a thriving, interconnected global community of growers, partners, and consumers.
                 </p>
             </SectionContent>
         </TextParallaxContent>
