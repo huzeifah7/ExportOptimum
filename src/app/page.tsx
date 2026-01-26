@@ -35,7 +35,7 @@ export default function Home() {
                 <div className="flex justify-end">
                   <div className="w-1/2">
                     <Image
-                      src="/Avo(4).png"
+                      src="/avo4.png"
                       alt="Fresh avocado"
                       width={500}
                       height={500}
