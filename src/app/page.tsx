@@ -1,4 +1,3 @@
-
 'use client';
 import { useState, useEffect } from 'react';
 import Header from '@/components/layout/header';
@@ -35,7 +34,7 @@ export default function Home() {
                 <div className="flex justify-end">
                   <div className="w-1/2">
                     <Image
-                      src="/avo4.png"
+                      src="/avo (4).png"
                       alt="Fresh avocado"
                       width={500}
                       height={500}
