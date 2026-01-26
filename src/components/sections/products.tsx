@@ -74,7 +74,7 @@ export const Card: React.FC<CardProps> = ({
           scale,
           top: `calc(-5vh + ${i * 25}px)`,
         }}
-        className={`bg-foreground text-primary-foreground flex flex-col relative -top-[20%] h-[400px] w-[60%] rounded-lg lg:p-8 sm:p-4 p-2 origin-top`}
+        className={`bg-foreground text-primary-foreground flex flex-col relative h-[400px] w-[60%] rounded-lg lg:p-8 sm:p-4 p-2`}
       >
         <h2 className='text-2xl text-center font-semibold'>{title}</h2>
         <div className={`flex h-full mt-5 gap-8`}>
@@ -136,7 +136,7 @@ export default function Products() {
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
-      orderBy('createdAt'),
+      orderBy('name'),
     );
   }, [firestore]);
 
