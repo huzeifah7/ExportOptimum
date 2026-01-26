@@ -12,6 +12,7 @@ import Ceo from '@/components/sections/ceo';
 import KeyFigures from '@/components/sections/key-figures';
 import ModernHero from '@/components/sections/ModernHero';
 import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
@@ -29,6 +30,21 @@ export default function Home() {
             <ModernHero />
             <KeyFigures />
             <About />
+            <section className="py-12 bg-white">
+              <div className="container mx-auto px-4">
+                <div className="flex justify-end">
+                  <div className="w-1/2">
+                    <Image
+                      src="/Avo(4).png"
+                      alt="Fresh avocado"
+                      width={500}
+                      height={500}
+                      className="object-cover rounded-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
             <Quality />
             <Products />
             <Ceo />
