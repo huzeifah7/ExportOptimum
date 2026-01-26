@@ -48,12 +48,9 @@ const ProductDetailSkeleton = () => (
 
 export default function ProductDetailsPage() {
   const params = useParams();
-  // The route is still /products/[slug], but we'll pass the ID in the URL.
-  // So `slug` from params is actually the product ID.
   const productId = params?.slug as string;
   const firestore = useFirestore();
 
-  // Use useDoc to fetch a single document by its ID.
   const productRef = useMemoFirebase(() => {
     if (!firestore || !productId) return null;
     return doc(firestore, 'products', productId);
@@ -62,12 +59,21 @@ export default function ProductDetailsPage() {
   const { data: product, isLoading } = useDoc<Product>(productRef);
 
   useEffect(() => {
-      if (!isLoading && !product) {
+      // Only trigger "not found" if we have a productId, loading is complete, and no product was found.
+      // This prevents a premature 404 on the initial render when params are not yet available.
+      if (productId && !isLoading && !product) {
         notFound();
       }
-  }, [isLoading, product]);
+  }, [productId, isLoading, product]);
 
-  if (isLoading || !product) {
+  // Show skeleton if params are not ready, or if data is loading.
+  if (isLoading || !productId) {
+    return <ProductDetailSkeleton />;
+  }
+
+  // If, after loading, the product is still null, the useEffect above will have triggered `notFound`.
+  // We can return the skeleton here as a fallback to avoid a flash of a blank page.
+  if (!product) {
     return <ProductDetailSkeleton />;
   }
 
