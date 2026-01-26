@@ -1,4 +1,3 @@
-
 'use client';
 
 import { ReactLenis } from 'lenis/react';
@@ -6,7 +5,7 @@ import {
   motion,
   useScroll,
   useTransform,
-  type MotionValue,
+  useInView,
 } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
@@ -29,78 +28,121 @@ type Product = {
   slug: string;
 };
 
-interface CardProps {
-    i: number;
-    title: string;
-    description: string;
-    src: string;
-    url: string;
-    progress: MotionValue<number>,
-    range: [number, number];
-    targetScale: number;
-}
-
-
 /* ---------------------------------------------
    PRODUCT CARD
 --------------------------------------------- */
 
-export const Card: React.FC<CardProps> = ({
-  i,
-  title,
-  description,
-  src,
-  url,
-  progress,
-  range,
-  targetScale,
-}) => {
-  const container = useRef(null);
+function ProductCard({
+  product,
+  index,
+}: {
+  product: Product;
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+
   const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ['start end', 'start start'],
+    target: ref,
+    offset: ['start end', 'end start'],
   });
 
-  const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
-  const scale = useTransform(progress, range, [1, targetScale]);
+  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1]);
+  const contentY = useTransform(scrollYProgress, [0, 0.5, 1], [40, 0, -40]);
 
   return (
-    <div
-      ref={container}
-      className='h-screen flex items-center justify-center sticky top-0'
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative"
     >
-      <motion.div
-        style={{
-          scale,
-          top: `calc(-5vh + ${i * 25}px)`,
-        }}
-        className={`bg-foreground text-primary-foreground flex flex-col relative h-[400px] w-[60%] rounded-lg lg:p-8 sm:p-4 p-2`}
-      >
-        <h2 className='text-2xl text-center font-semibold'>{title}</h2>
-        <div className={`flex h-full mt-5 gap-8`}>
-          <div className={`w-[40%] relative top-[5%]`}>
-            <p className='text-sm'>{description}</p>
-            <Link href={`/products/${url}`} passHref>
-                <button className="text-primary-foreground mt-4 underline">See more</button>
-            </Link>
-          </div>
-
-          <div
-            className={`relative w-[60%] h-full rounded-lg overflow-hidden `}
+      <Link href={`/products/${product.slug}`} className="block">
+        {/* Image Container */}
+        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 mb-3">
+          <motion.div
+            style={{ scale: imageScale }}
+            className="absolute inset-0"
           >
-            <motion.div
-              className={`w-full h-full`}
-              style={{ scale: imageScale }}
-            >
-              <Image fill src={src} alt='image' className='object-cover' />
-            </motion.div>
+            {product.imageUrl ? (
+              <Image
+                fill
+                src={product.imageUrl}
+                alt={product.name}
+                className="object-cover transition-all duration-700 group-hover:brightness-105"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-neutral-200 to-neutral-300" />
+            )}
+          </motion.div>
+
+          {/* Overlay on hover */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-500" />
+
+          {/* Category Badge */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            transition={{ duration: 0.6, delay: index * 0.15 + 0.3 }}
+            className="absolute top-3 left-3 px-3 py-1 bg-white/95 backdrop-blur-sm rounded-full shadow-sm"
+          >
+            <span className="text-[10px] font-medium tracking-widest uppercase text-neutral-700">
+              {product.category}
+            </span>
+          </motion.div>
+
+          {/* Quick View Button */}
+          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+            <div className="w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center">
+              <svg
+                className="w-4 h-4 text-neutral-900"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </div>
           </div>
         </div>
-      </motion.div>
-    </div>
-  );
-};
 
+        {/* Content */}
+        <motion.div style={{ y: contentY }} className="px-1">
+          <h3 className="text-lg font-semibold mb-1.5 text-neutral-900 group-hover:text-neutral-600 transition-colors duration-300">
+            {product.name}
+          </h3>
+
+          <p className="text-xs text-neutral-600 leading-relaxed line-clamp-2 mb-2">
+            {product.description}
+          </p>
+
+          <div className="flex items-center text-xs font-medium text-neutral-900 group-hover:gap-1.5 transition-all duration-300">
+            <span>Explore</span>
+            <svg
+              className="w-3.5 h-3.5 opacity-0 -ml-3.5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </div>
+        </motion.div>
+      </Link>
+    </motion.div>
+  );
+}
 
 /* ---------------------------------------------
    LOADING STATE
@@ -110,12 +152,12 @@ function ProductsLoading() {
   return (
     <section className="py-32">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="space-y-4">
-              <Skeleton className="w-full aspect-[4/5] rounded-3xl" />
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-4 w-full" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="space-y-3">
+              <Skeleton className="w-full aspect-[4/3] rounded-xl" />
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-3 w-full" />
             </div>
           ))}
         </div>
@@ -131,23 +173,19 @@ function ProductsLoading() {
 export default function Products() {
   const firestore = useFirestore();
   const headerRef = useRef<HTMLElement>(null);
+  const isHeaderInView = useInView(headerRef, { once: true });
 
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
       orderBy('name'),
+      limit(8)
     );
   }, [firestore]);
 
   const { data: products, isLoading } =
     useCollection<Product>(productsQuery);
-
-  const container = useRef(null);
-    const { scrollYProgress } = useScroll({
-      target: container,
-      offset: ['start start', 'end end'],
-    });
 
   if (isLoading) {
     return <ProductsLoading />;
@@ -181,37 +219,69 @@ export default function Products() {
 
   return (
     <ReactLenis root>
-      <main className="bg-white" ref={container}>
-        <>
-          <section className='text-black  h-[70vh]  w-full bg-slate-100  grid place-content-center '>
-            <div className='absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-size-[54px_54px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]'></div>
+      <main className="bg-neutral-50 min-h-screen">
 
-            <h1 className='2xl:text-7xl text-5xl px-8 font-semibold text-center tracking-tight leading-[120%]'>
-              Our Premium Produce
-            </h1>
-          </section>
-        </>
+        {/* PRODUCTS GRID */}
+        <section className="pb-20 pt-20">
+          <div className="max-w-8xl mx-auto px-6">
+            {/* Section Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.6 }}
+              className="mb-12 text-center"
+            >
+              <h2 className="text-8xl md:text-4xl font-bold text-neutral-900 pt-5">
+                Featured Products
+              </h2>
+              <p className="text-base text-neutral-600 max-w-2xl mx-auto pt-5">
+                Discover our selection of premium produce, sourced from the finest farms and delivered with excellence.
+              </p>
+            </motion.div>
 
-        <section className='w-full bg-white'>
-          {products.map((product, i) => {
-            const targetScale = 1 - (products.length - i) * 0.05;
-            const range:[number, number] = [i / products.length, 1];
-            return (
-              <Card
-                key={`p_${i}`}
-                i={i}
-                url={product?.slug}
-                src={product?.imageUrl || ''}
-                title={product?.name}
-                description={product?.description}
-                progress={scrollYProgress}
-                range={range}
-                targetScale={targetScale}
-              />
-            );
-          })}
+            {/* Products Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+              {products.map((product, index) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  index={index}
+                />
+              ))}
+            </div>
+          </div>
         </section>
 
+        {/* FOOTER CTA */}
+        <section className="pb-32 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Link
+              href="/products"
+              className="group inline-flex items-center gap-3 px-10 py-5 bg-neutral-900 text-white rounded-full font-medium hover:bg-neutral-800 transition-all duration-300 hover:gap-4 hover:shadow-xl shadow-lg"
+            >
+              <span>View Complete Product Range</span>
+              <svg
+                className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </Link>
+          </motion.div>
+        </section>
       </main>
     </ReactLenis>
   );
