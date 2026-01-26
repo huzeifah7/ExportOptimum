@@ -33,12 +33,12 @@ export default function Ceo() {
     <section id="ceo" className="py-16 lg:py-24 bg-foreground text-background">
       <div className="container mx-auto px-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="rounded-lg overflow-hidden shadow-lg">
+          <div className="rounded-xl overflow-hidden shadow-lg">
               <Image
                 src="/Abdo-hd-600x601.png"
                 alt="Portrait of Abdellah El Yamlahi, CEO of Export Optimum"
-                width={600}
-                height={601}
+                width={560}
+                height={501}
                 className="object-cover w-full h-full"
                 data-ai-hint="man portrait"
               />

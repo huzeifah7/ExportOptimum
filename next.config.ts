@@ -76,6 +76,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.foodincanada.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'californiaavocado.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

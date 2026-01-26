@@ -1,4 +1,3 @@
-
 'use client';
 
 import { ArrowRight } from 'lucide-react';
@@ -8,69 +7,66 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  },
-};
-
-export default function About() {
+export default function AboutRedesign() {
   return (
-    <motion.section
-      id="about"
-      className="py-20 lg:py-32 bg-gray-50/50"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={containerVariants}
-    >
+    <section id="about" className="relative py-24 lg:py-36 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
-        <motion.div 
-            variants={itemVariants} 
-            className="rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row"
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
         >
-          <div className="bg-primary/90 text-primary-foreground p-8 md:p-12 lg:p-16 flex flex-col justify-center lg:w-1/2">
-              <Badge variant="secondary" className="mb-4 bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30 w-fit">Our Story</Badge>
-              <h2 className="text-3xl md:text-4xl font-headline font-bold">
-                  Discover our fruits journey from pit to plate
-              </h2>
-              <p className="mt-4 text-base text-primary-foreground/80 max-w-lg">
-                  Explore our commitment to sustainability and discover how we are making a positive impact on the environment and communities.
-              </p>
-              <Button asChild variant="link" className="mt-6 p-0 text-primary-foreground font-semibold text-lg hover:text-primary-foreground/80 transition-colors group/link w-fit">
-                  <Link href="/about">
-                      Learn more <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/link:translate-x-1" />
-                  </Link>
-              </Button>
-          </div>
-          <div className="relative lg:w-1/2 w-full min-h-[300px] lg:min-h-full group">
+          {/* IMAGE SIDE */}
+          <div className="relative lg:col-span-7 h-[420px] rounded-3xl overflow-hidden group shadow-2xl">
             <Image
-                src="https://images.unsplash.com/photo-1543363136-7fbfcd3b240d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Fresh avocados on a wooden surface"
-                fill
-                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                data-ai-hint="avocados wood"
+              src="https://images.unsplash.com/photo-1543363136-7fbfcd3b240d?q=80&w=1200&auto=format&fit=crop"
+              alt="Fresh avocados growing in nature"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
+
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-black/10 to-transparent" />
+
+            {/* Caption */}
+            <div className="absolute bottom-6 left-6 text-white text-sm tracking-wide">
+              Naturally grown • Responsibly sourced
+            </div>
+          </div>
+
+          {/* CONTENT SIDE */}
+          <div className="lg:col-span-5">
+            <Badge className="mb-4 uppercase tracking-widest text-xs bg-primary/10 text-primary border-primary/20">
+              Our Story
+            </Badge>
+
+            <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold leading-tight">
+              From pit to plate,
+              <br />
+              <span className="text-primary">with purpose</span>
+            </h2>
+
+            <p className="mt-6 text-gray-600 text-lg leading-relaxed max-w-xl">
+              We partner with growers who respect the land, nurture communities,
+              and believe great taste starts with responsible farming.
+            </p>
+
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="mt-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white transition-all group"
+            >
+              <Link href="/about">
+                Discover our journey
+                <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
           </div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }
