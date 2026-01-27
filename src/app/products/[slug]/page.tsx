@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useEffect } from 'react';
 
 type Product = {
   id: string;
@@ -52,18 +51,23 @@ export default function ProductDetailsPage() {
   const firestore = useFirestore();
 
   const productRef = useMemoFirebase(() => {
+    // We can only build the ref if we have the firestore instance AND the productId from the URL
     if (!firestore || !productId) return null;
     return doc(firestore, 'products', productId);
   }, [firestore, productId]);
 
+  // The useDoc hook will handle the null ref and start loading once the ref is available.
   const { data: product, isLoading } = useDoc<Product>(productRef);
 
-  // Use a loading state to show a skeleton while waiting for params or data.
-  if (isLoading || !productId) {
+  // Show a loading skeleton if we are waiting for the URL param, the firestore instance, or the data itself.
+  // `!productRef` is a good indicator that we're still waiting for `productId` or `firestore`.
+  // `isLoading` is the indicator that `useDoc` is actively fetching.
+  if (isLoading || !productRef) {
     return <ProductDetailSkeleton />;
   }
 
-  // After loading, if there's still no product, then it's a 404.
+  // If loading is finished and we still don't have a product, it means the document doesn't exist.
+  // This is the correct time to show a 404 page.
   if (!product) {
     notFound();
   }
