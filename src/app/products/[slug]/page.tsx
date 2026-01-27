@@ -58,23 +58,14 @@ export default function ProductDetailsPage() {
 
   const { data: product, isLoading } = useDoc<Product>(productRef);
 
-  useEffect(() => {
-      // Only trigger "not found" if we have a productId, loading is complete, and no product was found.
-      // This prevents a premature 404 on the initial render when params are not yet available.
-      if (productId && !isLoading && !product) {
-        notFound();
-      }
-  }, [productId, isLoading, product]);
-
-  // Show skeleton if params are not ready, or if data is loading.
+  // Use a loading state to show a skeleton while waiting for params or data.
   if (isLoading || !productId) {
     return <ProductDetailSkeleton />;
   }
 
-  // If, after loading, the product is still null, the useEffect above will have triggered `notFound`.
-  // We can return the skeleton here as a fallback to avoid a flash of a blank page.
+  // After loading, if there's still no product, then it's a 404.
   if (!product) {
-    return <ProductDetailSkeleton />;
+    notFound();
   }
 
   return (
