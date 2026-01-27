@@ -120,26 +120,28 @@ export default function ProductsPage() {
 
               {!isLoading && products?.map((product) => (
                 <motion.div key={product.id} variants={itemVariants}>
-                  <Card className="h-full overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 group border-border/50">
-                    <div className="relative h-60 w-full overflow-hidden">
-                      {product.imageUrl ? (
-                        <Image
-                          src={product.imageUrl}
-                          alt={product.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                          data-ai-hint={product.imageHint}
-                        />
-                      ) : (
-                        <div className="bg-secondary h-full flex items-center justify-center text-muted-foreground">No Image</div>
-                      )}
-                    </div>
-                    <CardContent className="p-6">
-                      <p className="text-sm font-semibold text-primary capitalize">{product.category}</p>
-                      <h3 className="mt-1 text-xl font-bold font-headline text-foreground">{product.name}</h3>
-                      <p className="mt-2 text-sm text-muted-foreground">{product.description}</p>
-                    </CardContent>
-                  </Card>
+                  <Link href={`/products/${product.id}`} passHref>
+                    <Card className="h-full overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 group border-border/50">
+                      <div className="relative h-60 w-full overflow-hidden">
+                        {product.imageUrl ? (
+                          <Image
+                            src={product.imageUrl}
+                            alt={product.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-ai-hint={product.imageHint}
+                          />
+                        ) : (
+                          <div className="bg-secondary h-full flex items-center justify-center text-muted-foreground">No Image</div>
+                        )}
+                      </div>
+                      <CardContent className="p-6">
+                        <p className="text-sm font-semibold text-primary capitalize">{product.category}</p>
+                        <h3 className="mt-1 text-xl font-bold font-headline text-foreground">{product.name}</h3>
+                        <p className="mt-2 text-sm text-muted-foreground">{product.description}</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>
