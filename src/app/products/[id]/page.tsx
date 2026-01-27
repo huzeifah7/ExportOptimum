@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useParams, notFound } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useEffect } from 'react';
+import React from 'react';
 
 type Product = {
   id: string;
@@ -46,6 +46,27 @@ const ProductDetailSkeleton = () => (
     </div>
 );
 
+// A dedicated component to show when the product is not found.
+const ProductNotFound = () => {
+    const router = useRouter();
+    return (
+        <div className="flex flex-col min-h-screen bg-background">
+            <Header />
+            <main className="flex-grow flex items-center justify-center text-center py-20">
+                <div>
+                    <h1 className="text-4xl font-bold font-headline text-destructive">404 - Product Not Found</h1>
+                    <p className="mt-4 text-lg text-muted-foreground">We couldn't find the product you're looking for.</p>
+                    <Button onClick={() => router.push('/products')} className="mt-8">
+                        Back to All Products
+                    </Button>
+                </div>
+            </main>
+            <Footer />
+        </div>
+    );
+};
+
+
 export default function ProductDetailsPage() {
   const params = useParams();
   const productId = params?.id as string;
@@ -56,29 +77,34 @@ export default function ProductDetailsPage() {
     return doc(firestore, 'products', productId);
   }, [firestore, productId]);
 
-  const { data: product, isLoading: isDocLoading } = useDoc<Product>(productRef);
+  const { data: product, isLoading, error } = useDoc<Product>(productRef);
 
-  // The page is loading if we don't have a product ID yet, or if the document is being fetched.
-  const isLoading = !productId || isDocLoading;
+  if (error) {
+      return (
+         <div className="flex flex-col min-h-screen bg-background">
+            <Header />
+            <main className="flex-grow flex items-center justify-center text-center py-20">
+                <div>
+                    <h1 className="text-4xl font-bold font-headline text-destructive">Error Loading Product</h1>
+                    <p className="mt-4 text-lg text-muted-foreground">There was a problem fetching the product data. Please try again later.</p>
+                </div>
+            </main>
+            <Footer />
+        </div>
+      )
+  }
 
-  useEffect(() => {
-    // Only trigger "not found" if we have a productId, we are done loading, and no product was found.
-    if (productId && !isDocLoading && !product) {
-      notFound();
-    }
-  }, [productId, isDocLoading, product]);
-  
-  // Show a skeleton while the page is in any loading state.
-  if (isLoading) {
+  // Show a skeleton while the ID is loading from the URL or the data is being fetched.
+  if (isLoading || !productId) {
     return <ProductDetailSkeleton />;
   }
 
-  // If loading is finished and there's still no product, the useEffect will have triggered notFound.
-  // This is a safeguard.
+  // After loading, if there's no product, show the not found component.
   if (!product) {
-     return <ProductDetailSkeleton />;
+    return <ProductNotFound />;
   }
 
+  // If we have a product, render the details.
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
