@@ -48,7 +48,7 @@ const ProductDetailSkeleton = () => (
 
 export default function ProductDetailsPage() {
   const params = useParams();
-  const productId = params?.id as string; // Correctly use `id` from the route
+  const productId = params?.id as string;
   const firestore = useFirestore();
 
   const productRef = useMemoFirebase(() => {
@@ -56,24 +56,29 @@ export default function ProductDetailsPage() {
     return doc(firestore, 'products', productId);
   }, [firestore, productId]);
 
-  const { data: product, isLoading } = useDoc<Product>(productRef);
+  const { data: product, isLoading: isDocLoading } = useDoc<Product>(productRef);
 
-  // This effect handles the "not found" case after loading is complete.
+  // The page is loading if we don't have a product ID yet, or if the document is being fetched.
+  const isLoading = !productId || isDocLoading;
+
   useEffect(() => {
-    // We only want to check for notFound after the initial loading is done.
-    if (!isLoading && !product) {
-      // If loading is finished and there's no product, trigger the 404 page.
+    // Only trigger "not found" if we have a productId, we are done loading, and no product was found.
+    if (productId && !isDocLoading && !product) {
       notFound();
     }
-  }, [isLoading, product]);
+  }, [productId, isDocLoading, product]);
   
-  // Show a loading skeleton while waiting for data or if the reference is not yet ready.
-  // This covers the initial render before `productId` is available.
-  if (isLoading || !product) {
+  // Show a skeleton while the page is in any loading state.
+  if (isLoading) {
     return <ProductDetailSkeleton />;
   }
 
-  // At this point, `product` is guaranteed to exist.
+  // If loading is finished and there's still no product, the useEffect will have triggered notFound.
+  // This is a safeguard.
+  if (!product) {
+     return <ProductDetailSkeleton />;
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
