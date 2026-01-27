@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useEffect } from 'react';
 
 type Product = {
   id: string;
@@ -47,31 +48,32 @@ const ProductDetailSkeleton = () => (
 
 export default function ProductDetailsPage() {
   const params = useParams();
-  const productId = params?.slug as string;
+  const productId = params?.id as string; // Correctly use `id` from the route
   const firestore = useFirestore();
 
   const productRef = useMemoFirebase(() => {
-    // We can only build the ref if we have the firestore instance AND the productId from the URL
     if (!firestore || !productId) return null;
     return doc(firestore, 'products', productId);
   }, [firestore, productId]);
 
-  // The useDoc hook will handle the null ref and start loading once the ref is available.
   const { data: product, isLoading } = useDoc<Product>(productRef);
 
-  // Show a loading skeleton if we are waiting for the URL param, the firestore instance, or the data itself.
-  // `!productRef` is a good indicator that we're still waiting for `productId` or `firestore`.
-  // `isLoading` is the indicator that `useDoc` is actively fetching.
-  if (isLoading || !productRef) {
+  // This effect handles the "not found" case after loading is complete.
+  useEffect(() => {
+    // We only want to check for notFound after the initial loading is done.
+    if (!isLoading && !product) {
+      // If loading is finished and there's no product, trigger the 404 page.
+      notFound();
+    }
+  }, [isLoading, product]);
+  
+  // Show a loading skeleton while waiting for data or if the reference is not yet ready.
+  // This covers the initial render before `productId` is available.
+  if (isLoading || !product) {
     return <ProductDetailSkeleton />;
   }
 
-  // If loading is finished and we still don't have a product, it means the document doesn't exist.
-  // This is the correct time to show a 404 page.
-  if (!product) {
-    notFound();
-  }
-
+  // At this point, `product` is guaranteed to exist.
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
