@@ -28,7 +28,7 @@
 }
 
 .modern-hero__headline--accent {
-  color: #acd629;
+  color: hsl(var(--primary));
 }
 
 .modern-hero__tagline {

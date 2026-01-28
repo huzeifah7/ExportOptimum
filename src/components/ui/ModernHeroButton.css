@@ -1,6 +1,6 @@
 .modern-hero-button {
-  @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#acd629] text-gray-900 font-bold rounded-full transition-all duration-300 ease-in-out;
-  @apply hover:shadow-lg hover:shadow-[#acd629]/30 hover:scale-105;
+  @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-full transition-all duration-300 ease-in-out;
+  @apply hover:shadow-lg hover:shadow-primary/30 hover:scale-105;
   @apply active:scale-95;
 }
 

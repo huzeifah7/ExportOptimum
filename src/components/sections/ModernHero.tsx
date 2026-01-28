@@ -96,7 +96,7 @@ const ModernHero = () => {
               <p className="modern-hero__tagline">
                 {slides[current].tagline}
                 {(slides[current] as any).taglineHighlight && (
-                  <span className="block mt-2 font-bold text-[#acd629]">
+                  <span className="block mt-2 font-bold text-primary">
                     {(slides[current] as any).taglineHighlight}
                   </span>
                 )}
