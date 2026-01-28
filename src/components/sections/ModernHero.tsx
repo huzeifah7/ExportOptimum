@@ -13,7 +13,8 @@ const slides = [
     src: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhdm9jYWRvJTIwdG9hc3R8ZW58MHx8fHwxNzYzNjMzMDgyfDA&ixlib=rb-4.1.0&q=80&w=1080',
     alt: 'Freshly prepared avocado toast on a rustic plate',
     headline: ['Your trusted', 'partner', 'in fresh produce.'],
-    tagline: 'From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.',
+    tagline: 'Backed by more than a decade of expertise, we deliver the worlds finest fresh produce. carefully sourced, expertly handled, and globally supplied.',
+    taglineHighlight: 'Avocados · Berries · Melons',
     ctaLabel: 'Request a Quote',
   },
   {
@@ -87,7 +88,14 @@ const ModernHero = () => {
               <h1 className="modern-hero__headline">
                 {slides[current].headline[0]} <span className="modern-hero__headline--accent">{slides[current].headline[1]}</span> {slides[current].headline[2]}
               </h1>
-              <p className="modern-hero__tagline">{slides[current].tagline}</p>
+              <p className="modern-hero__tagline">
+                {slides[current].tagline}
+                {(slides[current] as any).taglineHighlight && (
+                  <span className="block mt-2 font-bold text-[#acd629]">
+                    {(slides[current] as any).taglineHighlight}
+                  </span>
+                )}
+              </p>
               <ModernHeroButton href="/contact" label={slides[current].ctaLabel} />
             </motion.div>
           </AnimatePresence>
