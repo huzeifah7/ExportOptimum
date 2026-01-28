@@ -1,3 +1,4 @@
+
 'use client';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -86,7 +87,11 @@ const ModernHero = () => {
               className="modern-hero__text-content"
             >
               <h1 className="modern-hero__headline">
-                {slides[current].headline[0]} <span className="modern-hero__headline--accent">{slides[current].headline[1]}</span> {slides[current].headline[2]}
+                {slides[current].headline[0]}{' '}
+                <span className={current === 0 ? "text-primary" : "modern-hero__headline--accent"}>
+                  {slides[current].headline[1]}
+                </span>{' '}
+                {slides[current].headline[2]}
               </h1>
               <p className="modern-hero__tagline">
                 {slides[current].tagline}
