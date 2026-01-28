@@ -193,14 +193,23 @@ export default function AboutUsPage() {
         <TextParallaxContent
             imgUrl="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             subheading="Who We Are"
-            heading="Pioneering Global Paths"
+            heading="Built by the ElYamlahi Family"
         >
-            <SectionContent title="Our Purpose">
+            <SectionContent title="Our Story">
                 <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-                    Export Optimum is a leading international trade and export development firm based in Morocco, specializing in connecting the world with the finest Moroccan agricultural products. Our primary focus is on premium avocados and berries.
+                    Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers.
                 </p>
-                <p className="text-xl text-muted-foreground md:text-2xl">
-                    Our purpose is to bridge the gap between dedicated Moroccan growers and discerning global markets, providing the crucial strategic support and operational assistance required to turn local harvests into international success stories.
+                <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                    Founded in 2019 as a family-owned company, Export Optimum is the natural evolution of over 10 years of hands-on experience in farm management and international fresh produce supply.
+                </p>
+                <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                    Powered by a loyal global customer base, we operate with precision planning, strict quality standards, and responsible sourcing at the core of everything we do.
+                </p>
+                <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                    Today, Export Optimum stands as a leading exporter of Moroccan avocados, serving consumers worldwide and supplying fresh berries and premium melons to international markets.
+                </p>
+                <p className="text-xl font-semibold text-foreground md:text-2xl">
+                    Export Optimum: fresh produce from our family to yours.
                 </p>
             </SectionContent>
         </TextParallaxContent>
