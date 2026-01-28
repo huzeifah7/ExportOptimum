@@ -193,12 +193,9 @@ export default function AboutUsPage() {
         <TextParallaxContent
             imgUrl="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             subheading="Who We Are"
-            heading="Built by the ElYamlahi Family"
+            heading="Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers."
         >
             <SectionContent title="Our Story">
-                <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-                    Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers.
-                </p>
                 <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
                     Founded in 2019 as a family-owned company, Export Optimum is the natural evolution of over 10 years of hands-on experience in farm management and international fresh produce supply.
                 </p>
