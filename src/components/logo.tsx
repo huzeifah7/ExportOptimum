@@ -4,7 +4,7 @@ export function Logo() {
   return (
     <div className="flex items-center gap-2" aria-label="Export Optimum">
       <Image src="/EOLogo.png" alt="EXPORT OPTIMUM" width={60} height={60} />
-      <span className="font-subtitle text-3xl text-foreground">Export Optimum</span>
+      <span className="font-subtitle text-4xl text-primary ">Export Optimum</span>
     </div>
   );
 }
