@@ -1,4 +1,3 @@
-
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -46,7 +45,7 @@ export default function Ceo() {
           <div>
             {isClient && (
               <>
-                <SplitText tag="h2" text="&nbsp;Abdellah&nbsp; El &nbsp;Yamlahi &nbsp;" className="text-5xl font-subtitle text-bold text-accent" textAlign="left" splitType="words" /><br/>
+                <SplitText tag="h2" text="&nbsp;Abdellah&nbsp; El &nbsp;Yamlahi &nbsp;" className="text-5xl font-subtitle text-bold text-primary" textAlign="left" splitType="words" /><br/>
                 <SplitText tag="p" text="CEO of Export Optimum" className="mt-2 text-xl font-headline font-bold" textAlign="left" splitType="words" />
                 <SplitText tag="p" text="President of Moroccan Avocado exporters association (MAVA)" className="text-lg font-headline font-bold text-muted-foreground" textAlign="left" splitType="words" />
               </>
