@@ -31,8 +31,8 @@ const slides = [
     type: 'image',
     src: 'https://images.unsplash.com/photo-1611262529845-8c7f21207137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJnbyUyMHNoaXB8ZW58MHx8fHwxNzY0MDk0ODU4fDA&ixlib=rb-4.1.0&q=80&w=1080',
     alt: 'A large container ship on the ocean, representing global export',
-    headline: ['Reliable', 'Logistics,', 'Guaranteed Freshness'],
-    tagline: 'Our state-of-the-art cold chain and logistics network ensures your produce arrives in perfect condition.',
+    headline: ['Smart Logistics,', 'Total', 'Control'],
+    tagline: 'From origin to destination. From harvesting to final delivery, our supply chain is designed to protect quality; and combined with advanced logistics, we ensure compliance, and deliver fresh produce on time, every time!',
     ctaLabel: 'Become a Partner',
   },
 ];
