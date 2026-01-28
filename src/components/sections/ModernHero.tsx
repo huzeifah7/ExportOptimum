@@ -23,8 +23,8 @@ const slides = [
     src: 'https://cdn.pixabay.com/video/2023/06/04/165313-833630654_large.mp4',
     poster: 'https://images.unsplash.com/photo-1520923642038-b42e5f14b772?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     alt: 'Drone footage flying over vast avocado orchards',
-    headline: ['Sustainable', 'Farming,', 'Global Reach'],
-    tagline: 'We combine traditional farming wisdom with modern technology to deliver the finest produce worldwide.',
+    headline: ['Rooted in', 'Sustainability,', 'Grown for Excellence.'],
+    tagline: 'With exclusive access to major Moroccan farms, including two company-owned avocado farms, we oversee more than 500 hectares of avocado cultivation, delivering consistent quality at scale and ensuring full control over quality, sustainability, and season-round supply.',
     ctaLabel: 'Learn About Our Process',
   },
   {
