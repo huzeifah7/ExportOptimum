@@ -214,11 +214,17 @@ export default function AboutUsPage() {
          <TextParallaxContent
             imgUrl="https://images.unsplash.com/photo-1508921340878-ba53e1f416ec?q=80&w=2070&auto=format&fit=crop"
             subheading="Our Mission"
-            heading="Empowering Global Expansion"
+            heading="We grow with purpose and we bring our partners with us."
         >
             <SectionContent title="What We Strive For">
                  <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-                   Our mission is to empower Moroccan agricultural producers by providing them with reliable, efficient, and profitable access to global markets. We strive to be a catalyst for growth, ensuring that the quality of Moroccan produce is recognized and valued worldwide, while demystifying the complexities of international trade for our partners.
+                   As Export Optimum continues to expand, our mission is clear: to create lasting value across the agribusiness chain while strengthening Morocco’s position as a global benchmark for quality fresh produce.
+                </p>
+                <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                   We believe responsibility isn’t a limitation; it’s a competitive advantage ergo we feel and we are responsible for supporting Moroccan growers, social standards, and long-term farming sustainability so that their growth is ethical, resilient, and future-proof.
+                </p>
+                <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
+                   We also align with missions beyond trade by always giving back to society and by investing in agribusiness development, we help build a global impact that benefits partners, communities, and markets alike.
                 </p>
             </SectionContent>
         </TextParallaxContent>
