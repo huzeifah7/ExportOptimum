@@ -12,7 +12,7 @@ const slides = [
     type: 'image',
     src: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhdm9jYWRvJTIwdG9hc3R8ZW58MHx8fHwxNzYzNjMzMDgyfDA&ixlib=rb-4.1.0&q=80&w=1080',
     alt: 'Freshly prepared avocado toast on a rustic plate',
-    headline: ['Pure', 'Avocado', 'Experience'],
+    headline: ['Your trusted', 'partner', 'in fresh produce.'],
     tagline: 'From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados.',
     ctaLabel: 'Request a Quote',
   },
