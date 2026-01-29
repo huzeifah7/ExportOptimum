@@ -137,12 +137,13 @@ const HeroSection = () => {
         transition={{ duration: 0.6, delay: 0.5 }}
         className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl mt-20"
       >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
           {[
             { value: '15+', label: 'Countries' },
             { value: '10+', label: 'Years Experience' },
             { value: '100%', label: 'Family Owned' },
-            { value: '4', label: 'Continents' }
+            { value: '4', label: 'Continents' },
+            { value: '50+', label: 'Global Partners'}
           ].map((stat, index) => (
             <div
               key={index}
