@@ -73,7 +73,7 @@ const HeroSection = () => {
         data-ai-hint="agriculture landscape"
         priority
       />
-      <div className="absolute inset-0 bg-white/60 -z-10" />
+      <div className="absolute inset-0 bg-white/20 -z-10"/>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         <div className="text-center">
@@ -139,10 +139,10 @@ const HeroSection = () => {
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { value: '2019', label: 'Founded' },
+            { value: '15+', label: 'Countries' },
             { value: '10+', label: 'Years Experience' },
             { value: '100%', label: 'Family Owned' },
-            { value: 'Global', label: 'Reach' }
+            { value: '4', label: 'Continents' }
           ].map((stat, index) => (
             <div
               key={index}
@@ -213,16 +213,19 @@ const WhoWeAreSection = () => {
                 Founded in <strong className="text-foreground">2019</strong> as a family-owned company, Export Optimum is the natural evolution of over <strong className="text-foreground">10 years</strong> of hands-on experience in farm management and international fresh produce supply.
               </p>
               <p>
+                  We own two dedicated avocado farms and manage more than <strong className="text-foreground">500 hectares</strong> of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning.
+              </p>
+              <p>
                 Powered by a loyal global customer base, we operate with <strong className="text-foreground">precision planning</strong>, <strong className="text-foreground">strict quality standards</strong>, and <strong className="text-foreground">responsible sourcing</strong> at the core of everything we do.
               </p>
               <p>
-                Today, Export Optimum stands as a <strong className="text-foreground">leading exporter of Moroccan avocados</strong>, serving consumers worldwide and supplying fresh berries and premium melons to international markets.
+                Today, Export Optimum stands as a <strong className="text-foreground">leading exporter of Moroccan avocados</strong>, serving consumers worldwide, while also supplying fresh berries and premium melons to international markets.
               </p>
             </div>
 
             <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20">
               <p className="text-xl font-semibold text-foreground">
-                Export Optimum: fresh produce from our family to yours.
+                Export Optimum; fresh produce from our family to yours.
               </p>
             </div>
           </motion.div>
