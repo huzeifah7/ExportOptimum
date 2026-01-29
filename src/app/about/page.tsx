@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -63,7 +64,7 @@ const HeroSection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden text-white">
+    <section ref={ref} className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden text-foreground">
       <Image
         src="/BGAbout.png"
         alt="Lush avocado groves"
@@ -72,7 +73,7 @@ const HeroSection = () => {
         data-ai-hint="agriculture landscape"
         priority
       />
-      <div className="absolute inset-0 bg-black/60 -z-10" />
+      <div className="absolute inset-0 bg-white/60 -z-10" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         <div className="text-center">
@@ -82,7 +83,7 @@ const HeroSection = () => {
             transition={{ duration: 0.6 }}
             className="inline-block mb-6"
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20">
+            <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
               <Sparkles className="w-4 h-4 mr-2" />
               About Export Optimum
             </span>
@@ -96,7 +97,7 @@ const HeroSection = () => {
           >
             Built by Family.
             <br />
-            <span className="bg-gradient-to-r from-green-300 via-primary to-green-400 bg-clip-text text-transparent">
+            <span className="text-primary">
               Trusted Globally.
             </span>
           </motion.h1>
@@ -105,7 +106,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed"
+            className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto mb-10 leading-relaxed"
           >
             Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers.
           </motion.p>
@@ -116,13 +117,13 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-lg hover:shadow-xl transition-all duration-300 bg-white text-gray-800 hover:bg-gray-200">
+            <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-lg hover:shadow-xl transition-all duration-300">
               <Link href="/contact" className="flex items-center gap-2">
                 Get in Touch
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base border-2 border-white text-white hover:bg-white/10">
+            <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base">
               <Link href="/quality">Our Quality Standards</Link>
             </Button>
           </motion.div>
@@ -145,10 +146,10 @@ const HeroSection = () => {
           ].map((stat, index) => (
             <div
               key={index}
-              className="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20"
+              className="text-center p-6 rounded-2xl bg-background/60 backdrop-blur-xl border border-foreground/10"
             >
               <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{stat.value}</div>
-              <div className="text-sm text-white/70">{stat.label}</div>
+              <div className="text-sm text-foreground/70">{stat.label}</div>
             </div>
           ))}
         </div>
