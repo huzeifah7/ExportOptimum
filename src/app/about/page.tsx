@@ -3,7 +3,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Briefcase, Target, Network, Handshake, ArrowRight, Sparkles, TrendingUp, Users, Leaf, Heart } from 'lucide-react';
+import { Award, Home, Layers, BadgeCheck, ArrowRight, Sparkles, TrendingUp, Users, Leaf, Heart } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
@@ -414,24 +414,24 @@ const ValuesSection = () => {
 
   const values = [
     {
-      icon: <Briefcase className="h-7 w-7" />,
-      title: 'Decades of Export Expertise',
-      description: "Our team's deep, hands-on experience in international trade provides you with an unparalleled strategic advantage.",
+      icon: <Award className="h-7 w-7" />,
+      title: 'Our Own brand : Mavocado',
+      description: "Our exclusive brand, Mavocado, represents the pinnacle of quality, delivering a premium avocado experience to consumers worldwide.",
     },
     {
-      icon: <Target className="h-7 w-7" />,
-      title: 'Actionable Market Intelligence',
-      description: 'We go beyond data, offering tailored market insights that identify real-world opportunities for your business.',
+      icon: <Home className="h-7 w-7" />,
+      title: 'Ownership of two avocado farms',
+      description: 'Direct control over our farms ensures meticulous care, sustainable practices, and consistent quality from the moment the seed is planted.',
     },
     {
-      icon: <Network className="h-7 w-7" />,
-      title: 'Global Partner Network',
-      description: 'Leverage our extensive network of trusted international partners to accelerate your entry and growth in new markets.',
+      icon: <Layers className="h-7 w-7" />,
+      title: 'Exclusive Access and management of over 500 hectares',
+      description: 'We manage a vast expanse of avocado groves, guaranteeing a reliable and scalable supply to meet the demands of our global partners.',
     },
     {
-      icon: <Handshake className="h-7 w-7" />,
-      title: 'Practical Execution Support',
-      description: 'We are your operational partners, assisting with everything from logistics and compliance to in-market representation.',
+      icon: <BadgeCheck className="h-7 w-7" />,
+      title: 'Premium produce with international norms',
+      description: 'Adhering to the highest global standards, our produce is certified for safety, quality, and traceability, giving you complete peace of mind.',
     },
   ];
 
