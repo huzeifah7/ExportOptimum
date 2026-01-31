@@ -111,11 +111,11 @@ export default function QualityPage() {
   return (
     <>
       {isClient ? (
-        <div className="flex flex-col min-h-screen bg-background relative">
+        <div className="flex flex-col min-h-screen bg-background">
             
             <Header />
             
-            <main className="flex-grow relative z-10">
+            <main className="flex-grow">
               {/* Hero Section */}
               <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 flex items-center justify-center text-white overflow-hidden">
                 <Image
@@ -126,7 +126,7 @@ export default function QualityPage() {
                     data-ai-hint="agriculture landscape"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/40 -z-10" />
+                <div className="absolute inset-0 bg-black/20 -z-10" />
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -144,12 +144,9 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto"
+                    className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto p-5"
                   >
-                    At Export Optimum, Quality is not a feature. It’s a{' '}
-                    <span className="bg-gradient-to-r from-primary via-green-600 to-primary bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
-                      non-negotiable.
-                    </span>
+                    At Export Optimum, Quality is not a feature. It’s a non-negotiable.
                   </motion.h1>
 
                   <motion.p
@@ -182,7 +179,7 @@ export default function QualityPage() {
 
               {/* Quality Pillars Section */}
               <section className="py-20 lg:py-32 bg-primary/5">
-                <div className="w-full max-w-7xl mx-auto">
+                <div className="w-full">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -205,7 +202,7 @@ export default function QualityPage() {
                     </h2>
                     
                     <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
-                    Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
+                    Our operations are centered around six uncompromising quality pillars, Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
                     </p>
                   </motion.div>
                   
@@ -400,35 +397,32 @@ export default function QualityPage() {
               </section>
               
               {/* Trust Message Section */}
-              <section className="py-20 lg:py-32 relative bg-primary/5">
+              <section className="py-20 lg:py-32 bg-primary">
                 <div className="container mx-auto px-4">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6 }}
-                    className="relative overflow-hidden rounded-3xl bg-background/70 backdrop-blur-md border border-primary/10 p-12 md:p-16 text-center shadow-2xl shadow-primary/10"
+                    className="text-center"
                   >
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
-                    
-                    <div className="relative z-10">
-                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 backdrop-blur-sm mb-6">
-                        <CheckCircle className="w-10 h-10 text-primary" />
+                    <div className="relative z-10 text-primary-foreground">
+                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-6">
+                        <CheckCircle className="w-10 h-10 text-white" />
                       </div>
                       
                       <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
                         Excellence,{' '}
-                        <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+                        <span className="text-white">
                           Delivered
                         </span>
                       </h2>
                       
-                      <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-8">
+                      <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed max-w-2xl mx-auto mb-8">
                         Our process is designed for one purpose: to deliver the finest Moroccan produce to our partners with absolute confidence. From our soil to your shelves, we stand by our promise of quality, reliability, and trust.
                       </p>
 
-                      <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-lg">
+                      <Button asChild size="lg" variant="secondary" className="rounded-full px-8 text-base group shadow-lg">
                         <Link href="/contact" className="flex items-center gap-2">
                           Partner With Us
                           <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
