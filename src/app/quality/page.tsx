@@ -126,7 +126,7 @@ export default function QualityPage() {
                     data-ai-hint="agriculture landscape"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/40 -z-10" />
+                <div className="absolute inset-0 bg-black/10 -z-10" />
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -150,8 +150,7 @@ export default function QualityPage() {
                     <span className="bg-gradient-to-r from-primary via-green-600 to-primary bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
                       Quality
                     </span>{' '}
-                    is not a feature.
-                    <br className="hidden md:block"/> It’s a non-negotiable.
+                    <br className="hidden md:block"/> is a non-negotiable.
                   </motion.h1>
 
                   <motion.p
@@ -160,7 +159,7 @@ export default function QualityPage() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed"
                   >
-                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
+                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward.
                   </motion.p>
 
                   <motion.div
@@ -207,7 +206,7 @@ export default function QualityPage() {
                     </h2>
                     
                     <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
-                      These are the non-negotiable principles that guide our operations and guarantee the superiority of our produce.
+                    Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
                     </p>
                   </motion.div>
                   

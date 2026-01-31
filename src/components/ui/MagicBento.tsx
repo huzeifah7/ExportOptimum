@@ -3,8 +3,7 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import './MagicBento.css';
-import { HandHelping, PackageCheck } from 'lucide-react';
-import Image from 'next/image';
+import { MapPin, Calendar, Snowflake, BadgeCheck, Globe, Leaf } from 'lucide-react';
 
 
 export interface BentoCardProps {
@@ -38,39 +37,39 @@ const MOBILE_BREAKPOINT = 768;
 
 const cardData: BentoCardProps[] = [
   {
-    icon: <Image src="/Avo(4).png" alt="Freshness" width={40} height={40} className="w-10 h-10 object-contain" />,
-    title: 'Freshness',
-    description: 'An unbroken cold chain and rapid logistics ensure produce arrives as fresh as the day it was picked.',
+    icon: <MapPin className="w-10 h-10 text-primary" />,
+    title: 'Controlled Origin',
+    description: 'With two company-owned avocado farms, over 500+ hectares under management, and exclusive access to trusted growers, we maintain full control over production standards and traceability.',
     label: 'Pillar 1'
   },
   {
-    icon: <Image src="/avo(6).png" alt="Hygiene & Safety" width={40} height={40} className="w-10 h-10 object-contain" />,
-    title: 'Hygiene & Safety',
-    description: 'We adhere to strict international hygiene protocols at every stage, from handling to packing.',
+    icon: <Calendar className="w-10 h-10 text-primary" />,
+    title: 'Precision Harvesting',
+    description: 'Harvested at the right moment; not rushed to meet volume. Our teams follow strict maturity and sizing protocols to ensure optimal taste, shelf life, and consistency across shipments.',
     label: 'Pillar 2'
   },
   {
-    icon: <Image src="/avo(3).png" alt="Traceability" width={40} height={40} className="w-10 h-10 object-contain" />,
-    title: 'Traceability',
-    description: 'Every batch is fully traceable, providing complete transparency from our orchards to your facility.',
+    icon: <Snowflake className="w-10 h-10 text-primary" />,
+    title: 'Cold Chain Integrity',
+    description: 'Freshness preserved from field to destination. Temperature-controlled handling, rapid cooling, and monitored logistics to protect fruit quality throughout transit.',
     label: 'Pillar 3'
   },
    {
-    icon: <Image src="/avo(3).png" alt="Sustainability" width={40} height={40} className="w-10 h-10 object-contain" />,
-    title: 'Sustainability',
-    description: 'Responsible farming practices that respect the land, conserve water, and support our ecosystem.',
+    icon: <BadgeCheck className="w-10 h-10 text-primary" />,
+    title: 'Strict Quality Control',
+    description: 'Through multi-stage inspections and regular laboratory analysis, we ensure consistent size, appearance, and overall quality, so that our partners receive produce that performs reliably in their markets.',
     label: 'Pillar 4'
   },
   {
-    icon: <HandHelping className="w-10 h-10 text-primary" />,
-    title: 'Professional Handling',
-    description: 'Our trained teams handle produce with the utmost care to prevent bruising and maintain perfect condition.',
+    icon: <Globe className="w-10 h-10 text-primary" />,
+    title: 'Built to meet international market requirements',
+    description: 'Our operations are backed by all required certifications to operate on a national and international level and we fully align with international food safety and export standards.',
     label: 'Pillar 5'
   },
   {
-    icon: <PackageCheck className="w-10 h-10 text-primary" />,
-    title: 'Advanced Packing',
-    description: 'Our modern facilities use precision technology to sort, grade, and pack for optimal protection.',
+    icon: <Leaf className="w-10 h-10 text-primary" />,
+    title: 'Quality that lasts beyond one season',
+    description: 'We support growers, uphold social standards, and invest in long-term sustainability, so your supply remains ethical, resilient, and future-proof.',
     label: 'Pillar 6'
   },
 ];
