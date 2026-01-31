@@ -118,16 +118,24 @@ export default function QualityPage() {
             
             <main className="flex-grow relative z-10">
               {/* Hero Section */}
-              <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 flex items-center justify-center overflow-hidden bg-gray-50/50">
-
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-20 text-center">
+              <section className="relative pt-2 pb-24 lg:pt-40 lg:pb-32 flex items-center justify-center overflow-hidden">
+                <Image
+                    src="/bgqUAQLITY.PNG"
+                    alt="Quality avocados in a box"
+                    fill
+                    className="object-cover -z-10"
+                    data-ai-hint="avocado box"
+                    priority
+                />
+                <div className="absolute inset-0 bg-black/50 -z-10" />
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     className="inline-block mb-6"
                   >
-                    <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
+                    <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20">
                       <Award className="w-4 h-4 mr-2" />
                       Quality Commitment
                     </span>
@@ -137,10 +145,10 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold tracking-tight mb-6 leading-tight text-foreground"
+                    className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold tracking-tight mb-6 leading-tight text-white"
                   >
                     Committed to{' '}
-                    <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+                    <span className="text-primary-foreground drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
                       Quality
                     </span>
                   </motion.h1>
@@ -149,7 +157,7 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto mb-8 leading-relaxed"
+                    className="text-xl md:text-2xl text-white/80 max-w-4xl mx-auto mb-8 leading-relaxed"
                   >
                     From Farm to World
                   </motion.p>
@@ -158,7 +166,7 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto mb-10 leading-relaxed"
+                    className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-10 leading-relaxed"
                   >
                     Our philosophy is simple: true quality is born from care, precision, and an unwavering commitment to excellence at every step.
                   </motion.p>
@@ -175,7 +183,7 @@ export default function QualityPage() {
                         <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base">
+                    <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base border-white text-white hover:bg-white hover:text-foreground">
                       <Link href="/contact">Contact Us</Link>
                     </Button>
                   </motion.div>
