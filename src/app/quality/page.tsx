@@ -112,7 +112,6 @@ export default function QualityPage() {
     <>
       {isClient ? (
         <div className="flex flex-col min-h-screen bg-background relative">
-            <AvocadoAnimatedBackground />
             
             <Header />
             
@@ -127,7 +126,7 @@ export default function QualityPage() {
                     data-ai-hint="agriculture landscape"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/50 -z-10" />
+                <div className="absolute inset-0 bg-black/40 -z-10" />
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -148,7 +147,7 @@ export default function QualityPage() {
                     className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold tracking-tight mb-6 leading-tight text-white"
                   >
                     Committed to{' '}
-                    <span className="text-primary-foreground drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
+                    <span className="bg-gradient-to-r from-primary via-green-400 to-primary bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
                       Quality
                     </span>
                   </motion.h1>
@@ -183,7 +182,7 @@ export default function QualityPage() {
                         <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base border-white text-white hover:bg-white hover:text-foreground">
+                    <Button asChild size="lg" className="rounded-full px-8 text-base border border-white/50 text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-foreground transition-all duration-300 shadow-lg">
                       <Link href="/contact">Contact Us</Link>
                     </Button>
                   </motion.div>
@@ -265,7 +264,13 @@ export default function QualityPage() {
                   {/* Modern Elegant Timeline */}
                   <div className="relative max-w-5xl mx-auto">
                     {/* The timeline itself */}
-                    <div className="absolute left-1/2 top-12 bottom-12 w-0.5 bg-gray-200/70 rounded-full hidden md:block" />
+                    <motion.div 
+                      initial={{ scaleY: 0 }}
+                      whileInView={{ scaleY: 1 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      className="absolute left-1/2 top-12 bottom-12 w-0.5 bg-gray-200/70 rounded-full hidden md:block origin-top" 
+                    />
                     
                     {/* Timeline Steps */}
                     <div className="space-y-24 md:space-y-32">
@@ -274,8 +279,8 @@ export default function QualityPage() {
                           key={index}
                           initial={{ opacity: 0, y: 40 }}
                           whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, amount: 0.2 }}
-                          transition={{ duration: 0.6, delay: 0.2 + index * 0.2 }}
+                          viewport={{ once: true, amount: 0.4 }}
+                          transition={{ duration: 0.6, delay: 0.1 }}
                           className={`relative flex flex-col md:flex-row items-center gap-8 ${
                             index % 2 === 1 ? 'md:flex-row-reverse' : ''
                           }`}
@@ -312,7 +317,7 @@ export default function QualityPage() {
                               initial={{ scale: 0 }}
                               whileInView={{ scale: 1 }}
                               viewport={{ once: true, amount: 0.5 }}
-                              transition={{ duration: 0.5, delay: 0.3 + index * 0.2, type: "spring" }}
+                              transition={{ duration: 0.5, delay: 0.2, type: "spring" }}
                               className="relative"
                             >
                               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-2xl shadow-primary/40 border-4 border-white ring-4 ring-gray-100">
