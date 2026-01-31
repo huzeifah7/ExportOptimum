@@ -4,7 +4,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, Award, Sparkles, ArrowRight } from 'lucide-react';
+import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, Award, Sparkles, ArrowRight, Globe, BadgeCheck } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -126,7 +126,7 @@ export default function QualityPage() {
                     data-ai-hint="agriculture landscape"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/10 -z-10" />
+                <div className="absolute inset-0 bg-black/40 -z-10" />
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -146,11 +146,10 @@ export default function QualityPage() {
                     transition={{ duration: 0.6, delay: 0.1 }}
                     className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto"
                   >
-                    At Export Optimum,{' '}
+                    At Export Optimum, Quality{' '}
                     <span className="bg-gradient-to-r from-primary via-green-600 to-primary bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
-                      Quality
+                      is a non-negotiable.
                     </span>{' '}
-                    <br className="hidden md:block"/> is a non-negotiable.
                   </motion.h1>
 
                   <motion.p
@@ -182,14 +181,14 @@ export default function QualityPage() {
               </section>
 
               {/* Quality Pillars Section - KEEPING EXACT SAME STYLE */}
-              <section className="py-20 lg:py-32 bg-gray-50 flex items-center justify-center">
-                <div className="w-full max-w-7xl mx-auto px-4">
+              <section className="py-20 lg:py-32 bg-primary/5">
+                <div className="w-full max-w-7xl mx-auto">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-16 px-4"
                   >
                     <div className="inline-block mb-6">
                       <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
@@ -413,17 +412,17 @@ export default function QualityPage() {
               </section>
               
               {/* Trust Message Section */}
-              <section className="py-20 lg:py-32 relative">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+              <section className="py-20 lg:py-32 relative bg-primary/5">
+                <div className="container mx-auto">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6 }}
-                    className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/5 via-gray-50 to-white border-2 border-gray-200 p-12 md:p-16 text-center shadow-xl"
+                    className="relative overflow-hidden rounded-3xl bg-background/70 backdrop-blur-md border border-primary/10 p-12 md:p-16 text-center shadow-2xl shadow-primary/10"
                   >
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
                     
                     <div className="relative z-10">
                       <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 backdrop-blur-sm mb-6">
