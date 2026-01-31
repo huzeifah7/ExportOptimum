@@ -118,7 +118,7 @@ export default function QualityPage() {
             
             <main className="flex-grow relative z-10">
               {/* Hero Section */}
-              <section className="relative pt-2 pb-24 lg:pt-40 lg:pb-32 flex items-center justify-center overflow-hidden">
+              <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 flex items-center justify-center text-white overflow-hidden">
                 <Image
                     src="/bgqUAQLITY.PNG"
                     alt="Quality avocados in a box"
