@@ -111,7 +111,7 @@ export default function QualityPage() {
   return (
     <>
       {isClient ? (
-        <div className="flex flex-col min-h-screen bg-background">
+        <div className="flex flex-col min-h-screen">
             
             <Header />
             
@@ -222,7 +222,7 @@ export default function QualityPage() {
               </section>
               
               {/* Process Timeline Section */}
-              <section className="py-20 lg:py-32 relative overflow-hidden">
+              <section className="py-20 lg:py-32 relative overflow-hidden bg-background">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -397,9 +397,8 @@ export default function QualityPage() {
               </section>
               
               {/* Trust Message Section */}
-              <section className="py-20 lg:py-32">
-                <div className="container mx-auto px-4">
-                  <div className="relative bg-primary rounded-3xl p-12 lg:p-20 overflow-hidden shadow-2xl">
+              <section className="p-8 bg-background">
+                <div className="relative bg-primary rounded-3xl p-12 lg:p-20 overflow-hidden shadow-2xl max-w-7xl mx-auto">
                     <div aria-hidden="true" className="absolute -top-20 -right-20 w-52 h-52 bg-white/10 rounded-full opacity-50" />
                     <div aria-hidden="true" className="absolute -bottom-24 -left-16 w-64 h-64 bg-white/10 rounded-full opacity-50" />
                     <motion.div
@@ -434,7 +433,6 @@ export default function QualityPage() {
                       </div>
                     </motion.div>
                   </div>
-                </div>
               </section>
             </main>
             
