@@ -95,7 +95,6 @@ type Certification = {
 
 export default function QualityPage() {
   const [isClient, setIsClient] = useState(false);
-  const heroImage = PlaceHolderImages.find(p => p.id === 'quality-hero');
   const firestore = useFirestore();
 
   useEffect(() => {
@@ -119,20 +118,7 @@ export default function QualityPage() {
             
             <main className="flex-grow relative z-10">
               {/* Hero Section */}
-              <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-                {heroImage && (
-                  <div className="absolute inset-0">
-                    <Image
-                      src={heroImage.imageUrl}
-                      alt={heroImage.description}
-                      fill
-                      className="object-cover"
-                      data-ai-hint={heroImage.imageHint}
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
-                  </div>
-                )}
+              <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 flex items-center justify-center overflow-hidden bg-gray-50/50">
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-20 text-center">
                   <motion.div
@@ -151,7 +137,7 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold tracking-tight mb-6 leading-tight text-white"
+                    className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold tracking-tight mb-6 leading-tight text-foreground"
                   >
                     Committed to{' '}
                     <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
@@ -163,7 +149,7 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8 leading-relaxed"
+                    className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto mb-8 leading-relaxed"
                   >
                     From Farm to World
                   </motion.p>
@@ -172,7 +158,7 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed"
+                    className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto mb-10 leading-relaxed"
                   >
                     Our philosophy is simple: true quality is born from care, precision, and an unwavering commitment to excellence at every step.
                   </motion.p>
@@ -183,13 +169,13 @@ export default function QualityPage() {
                     transition={{ duration: 0.6, delay: 0.4 }}
                     className="flex flex-col sm:flex-row gap-4 justify-center"
                   >
-                    <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-xl">
+                    <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-lg">
                       <Link href="#certifications" className="flex items-center gap-2">
                         View Certifications
                         <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base border-2 bg-background/10 backdrop-blur-sm text-white border-white/30 hover:bg-white/20">
+                    <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base">
                       <Link href="/contact">Contact Us</Link>
                     </Button>
                   </motion.div>
