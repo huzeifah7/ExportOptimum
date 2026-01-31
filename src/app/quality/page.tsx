@@ -136,7 +136,7 @@ export default function QualityPage() {
                   >
                     <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20">
                       <Award className="w-4 h-4 mr-2" />
-                      Quality Commitment
+                      Our Commitment
                     </span>
                   </motion.div>
 
@@ -146,10 +146,10 @@ export default function QualityPage() {
                     transition={{ duration: 0.6, delay: 0.1 }}
                     className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto"
                   >
-                    At Export Optimum, Quality{' '}
+                    At Export Optimum, Quality is not a feature. It’s a{' '}
                     <span className="bg-gradient-to-r from-primary via-green-600 to-primary bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
-                      is a non-negotiable.
-                    </span>{' '}
+                      non-negotiable.
+                    </span>
                   </motion.h1>
 
                   <motion.p
@@ -158,7 +158,7 @@ export default function QualityPage() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed"
                   >
-                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward.
+                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars, Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
                   </motion.p>
 
                   <motion.div
@@ -180,7 +180,7 @@ export default function QualityPage() {
                 </div>
               </section>
 
-              {/* Quality Pillars Section - KEEPING EXACT SAME STYLE */}
+              {/* Quality Pillars Section */}
               <section className="py-20 lg:py-32 bg-primary/5">
                 <div className="w-full max-w-7xl mx-auto">
                   <motion.div
@@ -210,7 +210,7 @@ export default function QualityPage() {
                   </motion.div>
                   
                   <MagicBento 
-                    textAutoHide={true}
+                    textAutoHide={false}
                     enableStars={true}
                     enableSpotlight={true}
                     enableBorderGlow={true}
@@ -224,7 +224,7 @@ export default function QualityPage() {
                 </div>
               </section>
               
-              {/* Process Timeline Section - ELEGANT & MODERN REDESIGN */}
+              {/* Process Timeline Section */}
               <section className="py-20 lg:py-32 relative overflow-hidden">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                   <motion.div
@@ -252,9 +252,7 @@ export default function QualityPage() {
                     </p>
                   </motion.div>
 
-                  {/* Modern Elegant Timeline */}
                   <div className="relative max-w-5xl mx-auto">
-                    {/* The timeline itself */}
                     <motion.div 
                       initial={{ scaleY: 0 }}
                       whileInView={{ scaleY: 1 }}
@@ -263,7 +261,6 @@ export default function QualityPage() {
                       className="absolute left-1/2 top-12 bottom-12 w-0.5 bg-gray-200/70 rounded-full hidden md:block origin-top" 
                     />
                     
-                    {/* Timeline Steps */}
                     <div className="space-y-24 md:space-y-32">
                       {processSteps.map((step, index) => (
                         <motion.div
@@ -276,33 +273,26 @@ export default function QualityPage() {
                             index % 2 === 1 ? 'md:flex-row-reverse' : ''
                           }`}
                         >
-                          {/* Content Card */}
                           <div className="flex-1 w-full">
                             <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-white backdrop-blur-xl border-2 border-gray-200 transition-all duration-500 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 p-8 lg:p-10">
-                              {/* Step Number Badge */}
                               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary font-bold text-lg mb-6 transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:scale-110">
                                 {String(index + 1).padStart(2, '0')}
                               </div>
 
-                              {/* Title */}
                               <h3 className="font-headline text-2xl lg:text-3xl font-bold tracking-tight mb-4 leading-tight text-gray-900">
                                 {step.title}
                               </h3>
 
-                              {/* Description */}
                               <p className="text-gray-600 leading-relaxed text-base">
                                 {step.description}
                               </p>
 
-                              {/* Decorative Corner */}
                               <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-bl-full" />
                               
-                              {/* Bottom Accent Line */}
                               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             </div>
                           </div>
 
-                          {/* Icon Circle */}
                           <div className="relative z-10 flex-shrink-0">
                             <motion.div
                               initial={{ scale: 0 }}
@@ -315,12 +305,10 @@ export default function QualityPage() {
                                 <step.icon className="w-10 h-10 md:w-12 md:h-12 text-white" />
                               </div>
                               
-                              {/* Pulsing Ring */}
                               <div className="absolute inset-0 rounded-full bg-primary/30 animate-ping" />
                             </motion.div>
                           </div>
 
-                          {/* Spacer for alternating layout */}
                           <div className="hidden md:block flex-1" />
                         </motion.div>
                       ))}
@@ -413,7 +401,7 @@ export default function QualityPage() {
               
               {/* Trust Message Section */}
               <section className="py-20 lg:py-32 relative bg-primary/5">
-                <div className="container mx-auto">
+                <div className="container mx-auto px-4">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
