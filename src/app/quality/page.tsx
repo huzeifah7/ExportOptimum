@@ -111,7 +111,7 @@ export default function QualityPage() {
   return (
     <>
       {isClient ? (
-        <div className="flex flex-col min-h-screen bg-white relative">
+        <div className="flex flex-col min-h-screen bg-background relative">
             <AvocadoAnimatedBackground />
             
             <Header />
