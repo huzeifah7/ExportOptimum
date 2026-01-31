@@ -4,7 +4,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, Award, Sparkles, ArrowRight, Globe, BadgeCheck } from 'lucide-react';
+import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, Award, Sparkles, ArrowRight, Globe, BadgeCheck, MapPin, Calendar, Snowflake } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -397,39 +397,43 @@ export default function QualityPage() {
               </section>
               
               {/* Trust Message Section */}
-              <section className="py-20 lg:py-32 bg-primary">
+              <section className="py-20 lg:py-32">
                 <div className="container mx-auto px-4">
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center"
-                  >
-                    <div className="relative z-10 text-primary-foreground">
-                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-6">
-                        <CheckCircle className="w-10 h-10 text-white" />
-                      </div>
-                      
-                      <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
-                        Excellence,{' '}
-                        <span className="text-white">
-                          Delivered
-                        </span>
-                      </h2>
-                      
-                      <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed max-w-2xl mx-auto mb-8">
-                        Our process is designed for one purpose: to deliver the finest Moroccan produce to our partners with absolute confidence. From our soil to your shelves, we stand by our promise of quality, reliability, and trust.
-                      </p>
+                  <div className="relative bg-primary rounded-3xl p-12 lg:p-20 overflow-hidden shadow-2xl">
+                    <div aria-hidden="true" className="absolute -top-20 -right-20 w-52 h-52 bg-white/10 rounded-full opacity-50" />
+                    <div aria-hidden="true" className="absolute -bottom-24 -left-16 w-64 h-64 bg-white/10 rounded-full opacity-50" />
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.6 }}
+                      className="text-center"
+                    >
+                      <div className="relative z-10 text-primary-foreground">
+                        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-6 border-2 border-white/30">
+                          <CheckCircle className="w-10 h-10 text-white" />
+                        </div>
+                        
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
+                          Excellence,{' '}
+                          <span className="text-white">
+                            Delivered
+                          </span>
+                        </h2>
+                        
+                        <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed max-w-2xl mx-auto mb-8">
+                          Our process is designed for one purpose: to deliver the finest Moroccan produce to our partners with absolute confidence. From our soil to your shelves, we stand by our promise of quality, reliability, and trust.
+                        </p>
 
-                      <Button asChild size="lg" variant="secondary" className="rounded-full px-8 text-base group shadow-lg">
-                        <Link href="/contact" className="flex items-center gap-2">
-                          Partner With Us
-                          <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </motion.div>
+                        <Button asChild size="lg" variant="secondary" className="rounded-full px-8 text-base group shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                          <Link href="/contact" className="flex items-center gap-2">
+                            Partner With Us
+                            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </motion.div>
+                  </div>
                 </div>
               </section>
             </main>
