@@ -165,76 +165,77 @@ const WhoWeAreSection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="py-20 lg:py-32 relative">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Image Side */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <div className="relative h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl">
-              <Image
-                src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop"
-                alt="Export Optimum Family"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-              
-              {/* Floating Card */}
-              <div className="absolute bottom-8 left-8 right-8 p-6 rounded-2xl bg-background/95 backdrop-blur-xl border border-foreground/10 shadow-xl">
-                <p className="text-lg font-semibold text-primary mb-2">Our Promise</p>
-                <p className="text-foreground/80">Fresh produce from our family to yours</p>
-              </div>
-            </div>
-          </motion.div>
+    <section ref={ref} className="py-20 lg:py-32 relative bg-gray-50/50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6 }}
+          className="text-center"
+        >
+          <div className="inline-block mb-6">
+            <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
+              <Users className="w-4 h-4 mr-2" />
+              Who We Are
+            </span>
+          </div>
 
-          {/* Content Side */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-block mb-6">
-              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
-                <Users className="w-4 h-4 mr-2" />
-                Who We Are
-              </span>
-            </div>
+          <h2 className="text-4xl md:text-5xl font-headline font-bold mb-16 leading-tight max-w-4xl mx-auto">
+            Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers.
+          </h2>
+        </motion.div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-lg text-foreground/80 leading-relaxed">
+            <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="space-y-6 p-8 bg-background/60 rounded-2xl border border-foreground/10"
+            >
+                <p>
+                    Founded in <strong className="text-foreground">2019</strong> as a family-owned company, Export Optimum is the natural evolution of over <strong className="text-foreground">10 years</strong> of hands-on experience in farm management and international fresh produce supply.
+                </p>
+                <p>
+                    Powered by a loyal global customer base, we operate with <strong className="text-foreground">precision planning</strong>, <strong className="text-foreground">strict quality standards</strong>, and <strong className="text-foreground">responsible sourcing</strong> at the core of everything we do.
+                </p>
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="space-y-6 p-8 bg-background/60 rounded-2xl border border-foreground/10"
+            >
+                <p>
+                    We own two dedicated avocado farms and manage more than <strong className="text-foreground">500 hectares</strong> of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning.
+                </p>
+                <p>
+                    Today, Export Optimum stands as a <strong className="text-foreground">leading exporter of Moroccan avocados</strong>, serving consumers worldwide, while also supplying fresh berries and premium melons to international markets.
+                </p>
+            </motion.div>
+        </div>
 
-            <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 leading-tight">
-              Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers.
-            </h2>
-
-            <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
-              <p>
-                Founded in <strong className="text-foreground">2019</strong> as a family-owned company, Export Optimum is the natural evolution of over <strong className="text-foreground">10 years</strong> of hands-on experience in farm management and international fresh produce supply.
-              </p>
-              <p>
-                  We own two dedicated avocado farms and manage more than <strong className="text-foreground">500 hectares</strong> of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning.
-              </p>
-              <p>
-                Powered by a loyal global customer base, we operate with <strong className="text-foreground">precision planning</strong>, <strong className="text-foreground">strict quality standards</strong>, and <strong className="text-foreground">responsible sourcing</strong> at the core of everything we do.
-              </p>
-              <p>
-                Today, Export Optimum stands as a <strong className="text-foreground">leading exporter of Moroccan avocados</strong>, serving consumers worldwide, while also supplying fresh berries and premium melons to international markets.
-              </p>
-            </div>
-
-            <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20">
-              <p className="text-xl font-semibold text-foreground">
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-16 max-w-3xl mx-auto"
+        >
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 text-center">
+              <p className="text-2xl font-semibold text-foreground">
                 Export Optimum; fresh produce from our family to yours.
               </p>
             </div>
-          </motion.div>
-        </div>
+        </motion.div>
+
       </div>
     </section>
   );
 };
+
 
 // Mission Section
 const MissionSection = () => {
