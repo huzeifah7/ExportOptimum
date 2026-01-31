@@ -144,36 +144,29 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-headline font-bold tracking-tight mb-6 leading-tight text-white"
+                    className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto"
                   >
-                    Committed to{' '}
-                    <span className="bg-gradient-to-r from-primary via-green-400 to-primary bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
+                    At Export Optimum,{' '}
+                    <span className="bg-gradient-to-r from-primary via-green-600 to-primary bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
                       Quality
-                    </span>
+                    </span>{' '}
+                    is not a feature.
+                    <br className="hidden md:block"/> It’s a non-negotiable.
                   </motion.h1>
 
                   <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-xl md:text-2xl text-white/80 max-w-4xl mx-auto mb-8 leading-relaxed"
+                    className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed"
                   >
-                    From Farm to World
-                  </motion.p>
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-10 leading-relaxed"
-                  >
-                    Our philosophy is simple: true quality is born from care, precision, and an unwavering commitment to excellence at every step.
+                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
                   </motion.p>
 
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
                     className="flex flex-col sm:flex-row gap-4 justify-center"
                   >
                     <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-lg">
