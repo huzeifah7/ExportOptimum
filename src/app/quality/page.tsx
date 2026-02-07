@@ -4,7 +4,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, Award, Sparkles, ArrowRight, Globe, BadgeCheck, MapPin, Calendar, Snowflake } from 'lucide-react';
+import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, Award, Sparkles, ArrowRight, Globe, BadgeCheck, MapPin, Calendar, Snowflake, CalendarCheck, MessagesSquare } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -67,23 +67,33 @@ const processSteps = [
   {
     icon: Leaf,
     title: 'Cultivation & Growing',
-    description: 'In the fertile Gharb-Loukkos region, our 200+ hectares of orchards are cultivated using modern, water-efficient irrigation and sustainable farming practices.',
+    description: 'Situated at the heart of all operations amid vast stretches of fertile farms ; Export optimum manages farms operated under water-efficient irrigation systems and sustainable agricultural practices. This disciplined approach ensures stable production volumes and consistent quality, season after season.',
+  },
+  {
+    icon: CalendarCheck,
+    title: 'Precision Harvesting for Export-Grade Freshness',
+    description: 'At Export Optimum, we believe harvesting is not a moment ; it is a calibrated operation. Our harvesting teams are trained to work with speed, care, and selectivity, ensuring each avocado, melon, and berry is picked within a precisely defined maturity window based on varietal standards, dry matter levels, and export-market requirements.',
   },
   {
     icon: Microscope,
     title: 'Sorting & Selection',
-    description: 'Upon arrival at our packing station, every piece of fruit undergoes rigorous manual and mechanical inspection for quality, size, and firmness.',
+    description: 'Only export-grade produce moves forward . At Export Optimum, every unit undergoes a rigorous combination of visual and mechanical inspections to assess size uniformity, firmness, and cosmetic integrity. Our teams are trained to identify even minor defects that could compromise shelf life or presentation ; allowing us to deliver excellence at every stage of the supply chain.',
   },
   {
     icon: PackageCheck,
     title: 'Packing',
-    description: 'Our state-of-the-art packing line handles fruit with precision and care, ensuring it is hygienically packed and labeled for full traceability.',
+    description: 'Engineered for Protection and Compliance : At Export Optimum, we ensure hygienic handling, precise labeling, and full traceability in strict compliance with both international and national regulations. Each unit is packed according to destination-market specifications and client-defined packaging requirements, preserving freshness, protecting structural integrity, and enabling seamless customs clearance.',
   },
   {
     icon: Truck,
     title: 'Export Logistics',
-    description: 'With a capacity of up to 16 trucks per day, we guarantee efficient and reliable dispatch to our partners across Europe and beyond.',
+    description: 'Masterful Export Logistics ; At Export Optimum we don’t just merely move freight; we orchestrate a symphony of precision ,from the initial load to the final destination, our seamless coordination with premier global carriers ensures safe delivery on time every time. Thanks to our expert team we handle logistics with the sophistication and precision our clients deserve.',
   },
+  {
+    icon: MessagesSquare,
+    title: 'Communication Beyond the Sale',
+    description: 'Export Optimum, our commitment doesn’t end once the shipment is booked or delivered. We maintain clear, proactive communication throughout the entire process, addressing concerns and offering support whenever it’s needed. Our team remains readily available to provide guidance, timely updates, and solution ensuring our clients feel informed, supported, and confident from start to finish.',
+  }
 ];
 
 type Certification = {
@@ -238,11 +248,12 @@ export default function QualityPage() {
                     </div>
                     
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold mb-6">
-                      Premium Avocados, Melons & Fresh Berries : From Export optimum to the globe
+                      Premium Avocados, Melons & Fresh Berries: From Export Optimum to the Globe
                     </h2>
                     
                     <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
-                      Our vertically integrated process ensures complete control over quality, safety, and traceability at every stage.
+                      From Export Optimum to the Globe : Sourced at peak maturity. Controlled at every stage. Delivered with precision.
+                    
                     </p>
                   </motion.div>
 
