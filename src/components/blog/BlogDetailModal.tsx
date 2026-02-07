@@ -39,7 +39,7 @@ export function BlogDetailModal({ post, isOpen, onClose }: BlogDetailModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent valign="top" className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <article className="max-w-4xl mx-auto p-4 md:p-6">
           <div className="text-center mb-8">
               <Badge variant="secondary" className="mb-4">{post.category}</Badge>
