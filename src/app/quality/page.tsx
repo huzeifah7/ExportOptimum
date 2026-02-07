@@ -238,10 +238,7 @@ export default function QualityPage() {
                     </div>
                     
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold mb-6">
-                      From Grove to{' '}
-                      <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-                        Globe
-                      </span>
+                      Premium Avocados, Melons & Fresh Berries : From Export optimum to the globe
                     </h2>
                     
                     <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
