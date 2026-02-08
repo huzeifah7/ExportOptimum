@@ -154,9 +154,9 @@ export default function QualityPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto p-5"
+                    className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto p-5 " 
                   >
-                    At Export Optimum, Quality is not a feature. It’s a non-negotiable.
+                    At Export Optimum, Quality is a non-negotiable.
                   </motion.h1>
 
                   <motion.p
@@ -165,7 +165,7 @@ export default function QualityPage() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-10 leading-relaxed"
                   >
-                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars, Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
+                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars. 
                   </motion.p>
 
                   <motion.div
