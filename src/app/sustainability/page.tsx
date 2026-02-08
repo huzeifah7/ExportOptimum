@@ -1,12 +1,13 @@
+
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Leaf, Recycle, Sun, Droplets, Wind, Globe, Loader2, Heart, Users, Handshake, GraduationCap, Home, Sprout, Award, TrendingUp, Shield } from 'lucide-react';
+import { Leaf, Recycle, Sun, Droplets, Wind, Globe, Loader2, Heart, Users, Handshake, GraduationCap, Home, Sprout } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, orderBy, query } from 'firebase/firestore';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -87,10 +88,6 @@ type SustainabilityImage = {
 export default function SustainabilityPage() {
   const firestore = useFirestore();
   const [isClient, setIsClient] = useState(false);
-  const heroRef = useRef(null);
-  const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
-  const impactRef = useRef(null);
-  const isImpactInView = useInView(impactRef, { once: true, amount: 0.2 });
 
   useEffect(() => {
     setIsClient(true);
@@ -121,11 +118,12 @@ export default function SustainabilityPage() {
       
       <main className="flex-grow">
         {/* Hero Section - Clean, No Background Images */}
-        <section ref={heroRef} className="pt-24 pb-20 lg:pt-32 lg:pb-28 bg-muted/20">
+        <section className="pt-24 pb-20 lg:pt-32 lg:pb-28 bg-muted">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.8 }}
               className="text-center max-w-5xl mx-auto"
             >
@@ -174,7 +172,8 @@ export default function SustainabilityPage() {
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
-                    animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
                     className="bg-background rounded-2xl p-6 shadow-lg border-2 border-primary/10"
                   >
@@ -213,12 +212,13 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Social Impact Section */}
-        <section id="impact" ref={impactRef} className="py-20 lg:py-28 bg-muted/30">
+        <section id="impact" className="py-20 lg:py-28 bg-muted">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {/* Section Header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={isImpactInView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
@@ -242,7 +242,8 @@ export default function SustainabilityPage() {
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
-                  animate={isImpactInView ? { opacity: 1, y: 0 } : {}}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group bg-background rounded-2xl p-8 shadow-lg border-2 border-border hover:border-primary hover:shadow-2xl transition-all duration-300"
                 >
@@ -307,7 +308,7 @@ export default function SustainabilityPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-muted/30 to-background rounded-2xl p-8 text-center shadow-lg border-2 border-border hover:shadow-2xl transition-all duration-300"
+                  className="bg-gradient-to-br from-muted/50 to-background rounded-2xl p-8 text-center shadow-lg border-2 border-border hover:shadow-2xl transition-all duration-300"
                 >
                   {/* Icon */}
                   <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
@@ -335,7 +336,7 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Gallery Section */}
-        <section className="py-20 lg:py-28 bg-muted/30">
+        <section className="py-20 lg:py-28 bg-muted">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {/* Section Header */}
             <div className="text-center mb-16">
