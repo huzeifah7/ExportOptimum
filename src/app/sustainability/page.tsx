@@ -186,7 +186,7 @@ export default function SustainabilityPage() {
             </section>
 
             {/* Redesigned Commitment Section */}
-            <section className="py-20 lg:py-32 bg-white">
+            <section className="py-20 lg:py-32">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
                   <motion.div
@@ -281,7 +281,7 @@ export default function SustainabilityPage() {
             </section>
 
             {/* Environmental Commitments */}
-            <section className="py-20 lg:py-32 bg-white">
+            <section className="py-20 lg:py-32">
               <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -312,7 +312,7 @@ export default function SustainabilityPage() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, amount: 0.3 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
-                      className="bg-gray-50/50 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow"
+                      className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow"
                     >
                       <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <commitment.icon className="w-8 h-8 text-green-600" />
