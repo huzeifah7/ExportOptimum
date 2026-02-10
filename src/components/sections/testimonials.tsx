@@ -18,7 +18,7 @@ type ClientTestimonial = {
 };
 
 const TestimonialCardSkeleton = () => (
-  <div className="bg-background/50 border border-border/20 rounded-2xl p-8 space-y-4">
+  <div className="bg-card border border-border/20 rounded-2xl p-8 space-y-4">
     <Skeleton className="h-6 w-12" />
     <div className="space-y-2">
       <Skeleton className="h-4 w-full" />
@@ -35,19 +35,19 @@ const TestimonialCardSkeleton = () => (
 const TestimonialCard = ({ review }: { review: ClientTestimonial }) => {
   return (
     <motion.div
-      className="bg-background/50 border border-border/20 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:shadow-lg transition-shadow duration-300"
+      className="bg-card border border-border/20 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:shadow-lg transition-shadow duration-300"
       variants={{
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
       }}
     >
       <Quote className="w-8 h-8 text-primary/50 mb-4" />
-      <blockquote className="text-foreground/80 italic flex-grow">
+      <blockquote className="text-card-foreground/80 italic flex-grow">
         “{review.reviewText}”
       </blockquote>
       <figcaption className="mt-6 border-t border-border/20 pt-6">
-        <div className="text-base font-bold text-foreground">{review.author}</div>
-        <div className="text-sm text-muted-foreground">{review.role}, {review.company}</div>
+        <div className="text-base font-bold text-card-foreground">{review.author}</div>
+        <div className="text-sm text-card-foreground/70">{review.role}, {review.company}</div>
       </figcaption>
     </motion.div>
   );
@@ -67,7 +67,7 @@ export default function Testimonials() {
   const { data: testimonials, isLoading } = useCollection<ClientTestimonial>(testimonialsQuery);
 
   return (
-    <section id="testimonials" className="py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+    <section id="testimonials" className="py-24 lg:py-32 bg-secondary">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
