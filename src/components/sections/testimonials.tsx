@@ -88,7 +88,9 @@ export default function Testimonials() {
         </motion.div>
 
         {isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <TestimonialCardSkeleton />
+            <TestimonialCardSkeleton />
             <TestimonialCardSkeleton />
             <TestimonialCardSkeleton />
           </div>
@@ -97,7 +99,7 @@ export default function Testimonials() {
         {!isLoading && testimonials && testimonials.length > 0 && (
            <Carousel
             plugins={[plugin.current]}
-            className="w-full max-w-6xl mx-auto"
+            className="w-full max-w-7xl mx-auto"
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
             opts={{
@@ -107,7 +109,7 @@ export default function Testimonials() {
           >
             <CarouselContent className="-ml-4">
               {testimonials.map((testimonial) => (
-                <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/2 pl-4">
+                <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 pl-4">
                     <div className="p-1 h-full">
                         <TestimonialCard review={testimonial} />
                     </div>
