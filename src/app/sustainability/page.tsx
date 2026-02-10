@@ -1,458 +1,295 @@
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Leaf, Recycle, Sun, Droplets, Wind, Globe, Loader2, Heart, Users, Handshake, GraduationCap, Home, Sprout } from 'lucide-react';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, orderBy, query } from 'firebase/firestore';
-import { motion } from 'framer-motion';
+import { Users, Globe, Shield, Handshake, Heart, Droplets, Leaf, Sun, BookOpen, Home, Award, CheckCircle, Target } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { Skeleton } from '@/components/ui/skeleton';
 
-// Social Impact Data
-const socialImpactInitiatives = [
+const pillars = [
   {
+    number: '01',
     icon: Users,
-    title: 'Community Development',
-    description: 'Investing in local communities through education, healthcare, and infrastructure projects that create lasting positive change.',
-    impact: '500+ families supported'
+    title: 'People',
+    subtitle: 'Empowering Individuals, Strengthening Communities',
+    description: 'Our responsibility begins with our people. All our policies are fully aligned with human rights principles and Moroccan labor laws, ensuring fair wages, safe working conditions, and comprehensive health and safety measures. We maintain a zero-tolerance policy toward child labor, harassment, and all forms of modern slavery.',
+    secondParagraph: 'Beyond our teams, we actively support local communities by creating sustainable employment opportunities and investing in social initiatives. We have proudly founded and we regularly donate to a national NGO and association: Al Wed wa Rahma dedicated to education, providing academic support, parallel classes, and essential learning resources—particularly for orphaned children and teenagers.',
+    image: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=1200&auto=format&fit=crop',
+    imageAlt: 'Community members working together',
+    ngoHighlight: true
   },
   {
-    icon: GraduationCap,
-    title: 'Education Programs',
-    description: 'Providing scholarships, vocational training, and agricultural education to empower the next generation of farmers.',
-    impact: '200+ students annually'
+    number: '02',
+    icon: Globe,
+    title: 'Planet',
+    subtitle: 'Farming in Sync with Nature',
+    description: 'At Export Optimum, environmental stewardship is central to how we operate. The raw materials we source are cultivated in alignment with natural cycles, with a strong focus on soil health, biodiversity, renewable energy and sustainable agricultural practices.',
+    secondParagraph: 'Water conservation is also one of our critical priorities. We are fully aware of the growing pressures of climate change, we ensure that our suppliers apply rigorous standards of water stewardship, using clean water resources responsibly and we use water sustainably throughout the production process.',
+    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1200&auto=format&fit=crop',
+    imageAlt: 'Sustainable farming landscape'
   },
   {
+    number: '03',
+    icon: Shield,
+    title: 'Ethics',
+    subtitle: 'Transparency, Integrity, Respect and Accountability',
+    description: 'The sustainability policy Export Optimum adopts reflects a clear commitment to ethical conduct across our entire value chain. We strive to align fully with the United Nations Sustainable Development Goals (SDGs), promoting a production model that is both sustainable and ethically grounded.',
+    secondParagraph: 'To reinforce this commitment, we have established a robust Ethical Charter and Code of Business Conduct, a framework that defines the ethical standards that guide our teams, govern our supplier relationships, and shape every business interaction, strengthening further our values of transparency, accountability, respect and integrity.',
+    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&auto=format&fit=crop',
+    imageAlt: 'Business ethics and transparency'
+  },
+  {
+    number: '04',
     icon: Handshake,
-    title: 'Fair Employment',
-    description: 'Ensuring fair wages, safe working conditions, and social benefits for all our workers and their families.',
-    impact: '100% fair wages'
-  },
-  {
-    icon: Home,
-    title: 'Housing Support',
-    description: 'Building affordable housing and improving living conditions for farming families in our communities.',
-    impact: '50+ homes improved'
-  },
-  {
-    icon: Heart,
-    title: 'Healthcare Access',
-    description: 'Providing medical services, health insurance, and wellness programs for our workers and local communities.',
-    impact: 'Full coverage'
-  },
-  {
-    icon: Sprout,
-    title: 'Women Empowerment',
-    description: 'Creating opportunities for women in agriculture through leadership training and entrepreneurship programs.',
-    impact: '60% women workforce'
+    title: 'Suppliers',
+    subtitle: 'Responsible Partnerships Built to Last',
+    description: 'At Export Optimum we establish partnerships with our suppliers based not only on quality and price, but also on their environmental, social, and ethical performance. Clear criteria guide our partnerships, particularly regarding labor practices, environmental stewardship, and compliance.',
+    secondParagraph: 'For every supplier, we maintain detailed documentation covering product origin, cultivation methods, laboratory analyses, audits, and certifications. Beyond compliance, we believe in empowering our partners through collaboration, knowledge sharing, and open communication ensuring that we grow together within a responsible and sustainable ecosystem.',
+    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&auto=format&fit=crop',
+    imageAlt: 'Partnership and collaboration'
   },
 ];
 
-// Environmental Data
-const environmentalCommitments = [
-  {
-    icon: Droplets,
-    stat: '50%',
-    label: 'Water Conservation',
-    description: 'Reduced water usage through efficient irrigation'
-  },
-  {
-    icon: Sun,
-    stat: '100%',
-    label: 'Solar Powered',
-    description: 'Operations powered by renewable energy'
-  },
-  {
-    icon: Recycle,
-    stat: 'Zero',
-    label: 'Waste Goal',
-    description: 'Comprehensive recycling and composting'
-  },
-  {
-    icon: Wind,
-    stat: '200+',
-    label: 'Hectares Protected',
-    description: 'Land dedicated to carbon sequestration'
-  },
+const impactStats = [
+  { icon: Users, value: '100%', label: 'Fair Wages' },
+  { icon: Home, value: 'Zero', label: 'Child Labor' },
+  { icon: Droplets, value: '100%', label: 'Water Stewardship' },
+  { icon: Sun, value: 'Renewable', label: 'Energy Focus' },
+  { icon: BookOpen, value: 'Al Wed wa Rahma', label: 'NGO Partner' },
+  { icon: Award, value: 'UN SDGs', label: 'Aligned' },
 ];
-
-type SustainabilityImage = {
-  id: string;
-  src: string;
-  alt: string;
-};
 
 export default function SustainabilityPage() {
-  const firestore = useFirestore();
   const [isClient, setIsClient] = useState(false);
+  const heroRef = useRef(null);
+  const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const galleryQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'sustainabilityGallery'), orderBy('createdAt', 'desc'));
-  }, [firestore]);
-
-  const { data: images, isLoading } = useCollection<SustainabilityImage>(galleryQuery);
-
   if (!isClient) {
     return (
-      <div className="flex flex-col min-h-screen bg-background">
+      <div className="flex flex-col min-h-screen bg-white">
         <Header />
-        <main className="flex-grow flex items-center justify-center">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        </main>
+        <main className="flex-grow" />
         <Footer />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       
       <main className="flex-grow">
-        {/* Hero Section - Clean, No Background Images */}
-        <section className="pt-24 pb-20 lg:pt-32 lg:pb-28 bg-muted/50">
+        {/* Hero Section */}
+        <section ref={heroRef} className="relative bg-gradient-to-b from-green-50 to-white pt-24 pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8 }}
-              className="text-center max-w-5xl mx-auto"
-            >
+            <div className="text-center max-w-5xl mx-auto">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-background border-2 border-primary/20 text-primary rounded-full text-sm font-bold mb-8 shadow-sm">
-                <Heart className="w-5 h-5" />
-                People & Planet First
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-[hsl(88,92%,30%)]/30 text-[hsl(88,92%,30%)] rounded-full text-sm font-bold mb-8 shadow-sm">
+                <Leaf className="w-5 h-5" />
+                Our Sustainability Commitment
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold mb-8 text-foreground leading-tight">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold mb-8 text-gray-900 leading-tight">
                 Growing Together,
                 <br />
-                <span className="text-primary">Thriving Together</span>
+                <span className="text-[hsl(88,92%,30%)]">Thriving Together</span>
               </h1>
 
-              {/* Subtitle */}
-              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto">
-                Our sustainability is built on a simple truth: healthy communities and a healthy planet go hand in hand. We invest in people to create lasting positive change.
+              <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-4xl mx-auto">
+                At Export Optimum, sustainability is not a statement; it is a <strong className="text-gray-900">framework</strong> that guides how we produce, partner, and operate every day.
               </p>
 
-              {/* CTA Buttons */}
+              {/* CTA */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
                 <a 
-                  href="#impact" 
-                  className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all duration-300 text-lg shadow-lg hover:shadow-xl"
+                  href="#pillars" 
+                  className="inline-flex items-center justify-center px-8 py-4 bg-[hsl(88,92%,30%)] text-white font-bold rounded-xl hover:bg-[hsl(88,92%,25%)] transition-all duration-300 text-lg shadow-lg hover:shadow-xl"
                 >
-                  See Our Impact
+                  Explore Our Approach
                 </a>
                 <a 
                   href="/contact" 
-                  className="inline-flex items-center justify-center px-8 py-4 bg-background border-2 border-foreground/20 text-foreground font-bold rounded-xl hover:bg-foreground hover:text-background transition-all duration-300 text-lg shadow-lg"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-white border-3 border-gray-900 text-gray-900 font-bold rounded-xl hover:bg-gray-900 hover:text-white transition-all duration-300 text-lg shadow-lg"
                 >
                   Partner With Us
                 </a>
               </div>
 
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-                {[
-                  { value: '500+', label: 'Families Supported' },
-                  { value: '200+', label: 'Students Educated' },
-                  { value: '100%', label: 'Fair Wages' },
-                  { value: '60%', label: 'Women Workforce' }
-                ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                    className="bg-background rounded-2xl p-6 shadow-lg border-2 border-primary/10"
-                  >
-                    <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
-                    <div className="text-sm font-semibold text-muted-foreground">{stat.label}</div>
-                  </motion.div>
-                ))}
+              {/* Stats Grid - Modern Design */}
+              <div className="w-full max-w-[1400px] mx-auto mt-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
+                  {impactStats.map((stat, index) => (
+                    <div
+                      key={index}
+                      className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-200 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+                    >
+                      {/* Background Accent */}
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-[hsl(88,92%,30%)]/10 rounded-bl-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      {/* Icon */}
+                      <div className="relative w-14 h-14 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500 group-hover:scale-110">
+                        <stat.icon className="w-7 h-7 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
+                      </div>
+                      
+                      {/* Value */}
+                      <div className="text-3xl font-bold text-[hsl(88,92%,30%)] mb-2 relative">
+                        {stat.value}
+                      </div>
+                      
+                      {/* Label */}
+                      <div className="text-sm font-semibold text-gray-700 leading-tight">
+                        {stat.label}
+                      </div>
+
+                      {/* Bottom Accent Line */}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* Mission Statement - Clean Background */}
-        <section className="py-20 lg:py-28 bg-background border-y border-border/5">
+        {/* Four Pillars Section */}
+        <section id="pillars" className="py-20 lg:py-28 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            {/* Section Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-20"
+            >
+              <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-gray-900">
+                Our Four Pillars of{' '}
+                <span className="text-[hsl(88,92%,30%)]">Sustainability</span>
+              </h2>
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                A comprehensive framework that guides every decision we make
+              </p>
+            </motion.div>
+
+            {/* Pillars */}
+            <div className="space-y-32">
+              {pillars.map((pillar, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.8 }}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
+                    index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                  }`}
+                >
+                  {/* Image Side */}
+                  <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                      <Image
+                        src={pillar.image}
+                        alt={pillar.imageAlt}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={pillar.imageAlt}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                      
+                      {/* Floating Number Badge */}
+                      <div className="absolute top-6 left-6 w-16 h-16 bg-[hsl(88,92%,30%)] rounded-2xl flex items-center justify-center shadow-xl">
+                        <span className="text-2xl font-bold text-white">{pillar.number}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Content Side */}
+                  <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
+                    {/* Icon & Title */}
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-[hsl(88,92%,30%)]/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <pillar.icon className="w-8 h-8 text-[hsl(88,92%,30%)]" />
+                      </div>
+                      <div>
+                        <h3 className="text-3xl md:text-4xl font-headline font-bold text-gray-900">
+                          {pillar.title}
+                        </h3>
+                        <p className="text-lg text-[hsl(88,92%,30%)] font-semibold">
+                          {pillar.subtitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* First Paragraph */}
+                    <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                      {pillar.description}
+                    </p>
+
+                    {/* Second Paragraph */}
+                    {pillar.secondParagraph && (
+                      <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                        {pillar.secondParagraph}
+                      </p>
+                    )}
+
+                    {/* NGO Highlight Card (Only for People pillar) */}
+                    
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Commitment Banner */}
+        <section className="py-20 lg:py-28 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8 }}
-              className="text-center"
-            >
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-primary/10 rounded-full mb-8">
-                <Globe className="w-10 h-10 text-primary" />
-              </div>
-              
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-8 text-foreground max-w-3xl mx-auto leading-tight">
-                Building Communities, Protecting Nature
-              </h2>
-              
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto">
-                We're not just growing avocados—we're cultivating opportunities, nurturing communities, and building a sustainable future where both people and the planet thrive. Every decision we make considers the wellbeing of our workers, their families, and the environment we all share.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Social Impact Section */}
-        <section id="impact" className="py-20 lg:py-28 bg-muted/50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            {/* Section Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+              className="relative bg-gradient-to-br from-[hsl(88,92%,30%)] to-[hsl(88,92%,25%)] rounded-3xl p-12 lg:p-16 text-center overflow-hidden shadow-2xl"
             >
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-background border-2 border-primary/20 text-primary rounded-full text-sm font-bold mb-6 shadow-sm">
-                <Heart className="w-5 h-5" />
-                Social Impact Programs
-              </div>
+              {/* Decorative Elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
               
-              <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground">
-                Empowering Communities
-              </h2>
-              
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Creating lasting positive change through programs that support education, healthcare, fair employment, and community development.
-              </p>
-            </motion.div>
-
-            {/* Impact Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {socialImpactInitiatives.map((initiative, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group bg-background rounded-2xl p-8 shadow-lg border-2 border-border/10 hover:border-primary/50 hover:shadow-2xl transition-all duration-300"
-                >
-                  {/* Icon */}
-                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
-                    <initiative.icon className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-2xl font-bold mb-4 text-foreground">
-                    {initiative.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    {initiative.description}
-                  </p>
-
-                  {/* Impact Metric */}
-                  <div className="pt-4 border-t-2 border-border/10">
-                    <div className="text-lg font-bold text-primary">
-                      {initiative.impact}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Environmental Section */}
-        <section className="py-20 lg:py-28 bg-background">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            {/* Section Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary/5 border-2 border-primary/20 text-primary rounded-full text-sm font-bold mb-6 shadow-sm">
-                <Leaf className="w-5 h-5" />
-                Environmental Commitment
-              </div>
-              
-              <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground">
-                Protecting Our Planet
-              </h2>
-              
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Sustainable practices that minimize environmental impact and preserve resources for future generations.
-              </p>
-            </motion.div>
-
-            {/* Environmental Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {environmentalCommitments.map((commitment, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-muted/50 to-background rounded-2xl p-8 text-center shadow-lg border-2 border-border/10 hover:shadow-2xl transition-all duration-300"
-                >
-                  {/* Icon */}
-                  <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
-                    <commitment.icon className="w-10 h-10 text-primary" />
-                  </div>
-
-                  {/* Stat */}
-                  <div className="text-5xl font-bold text-primary mb-3">
-                    {commitment.stat}
-                  </div>
-
-                  {/* Label */}
-                  <div className="text-xl font-bold text-foreground mb-3">
-                    {commitment.label}
-                  </div>
-
-                  {/* Description */}
-                  <div className="text-sm text-muted-foreground leading-relaxed">
-                    {commitment.description}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Gallery Section */}
-        <section className="py-20 lg:py-28 bg-muted/50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-background border-2 border-primary/20 text-primary rounded-full text-sm font-bold mb-6 shadow-sm">
-                <Users className="w-5 h-5" />
-                Our Community
-              </div>
-              
-              <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-foreground">
-                Stories from the Field
-              </h2>
-              
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Real people, real impact. See how our programs transform lives and communities.
-              </p>
-            </div>
-            
-            {/* Loading State */}
-            {isLoading && (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {Array.from({length: 8}).map((_, i) => (
-                  <Skeleton key={i} className="aspect-square w-full rounded-2xl" />
-                ))}
-              </div>
-            )}
-            
-            {/* Gallery Grid */}
-            {images && images.length > 0 && (
-              <motion.div 
-                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.1 }}
-                variants={{
-                  visible: { transition: { staggerChildren: 0.05 } }
-                }}
-              >
-                {images.map(image => (
-                  <motion.div 
-                    key={image.id} 
-                    className="group aspect-square relative overflow-hidden rounded-2xl shadow-lg border-2 border-border/10 hover:border-primary/50 transition-all duration-300"
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.9 },
-                      visible: { opacity: 1, scale: 1 }
-                    }}
-                  >
-                    <Image 
-                      src={image.src} 
-                      alt={image.alt} 
-                      fill 
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                      <p className="text-primary-foreground font-semibold text-sm">{image.alt}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-            
-            {/* Empty State */}
-            {!isLoading && (!images || images.length === 0) && (
-              <div className="text-center py-20">
-                <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Leaf className="w-12 h-12 text-primary" />
+              <div className="relative z-10">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-8">
+                  <Award className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-headline font-bold mb-4 text-foreground">Gallery Coming Soon</h3>
-                <p className="text-muted-foreground">Check back to see stories and images from our communities.</p>
-              </div>
-            )}
-          </div>
-        </section>
 
-        {/* CTA Section */}
-        <section className="py-20 lg:py-28 bg-background">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-            <div className="bg-foreground text-background rounded-3xl p-12 lg:p-20 shadow-2xl">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6 }}
-                className="text-center"
-              >
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-primary rounded-full mb-8">
-                  <Handshake className="w-10 h-10 text-primary-foreground" />
-                </div>
-                
-                {/* Heading */}
-                <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-background">
-                  Partner With Us for Change
+                <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-white">
+                  A Framework for the Future
                 </h2>
-                
-                {/* Description */}
-                <p className="text-xl text-background/80 max-w-3xl mx-auto mb-12 leading-relaxed">
-                  Join us in creating sustainable livelihoods and protecting the environment. Together, we can make a real difference in the lives of farming communities and the health of our planet.
+
+                <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto mb-10">
+                  Our sustainability framework is more than policy—it's our promise to ensure that people, communities, and the planet thrive together for generations to come.
                 </p>
 
-                {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a 
-                    href="/contact" 
-                    className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all duration-300 text-lg shadow-xl"
+                    href="/quality" 
+                    className="inline-flex items-center justify-center px-8 py-4 bg-white text-[hsl(88,92%,30%)] font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 text-lg shadow-xl"
                   >
-                    Get Involved
+                    Our Quality Standards
                   </a>
                   <a 
-                    href="/about" 
-                    className="inline-flex items-center justify-center px-8 py-4 bg-background text-foreground font-bold rounded-xl hover:bg-muted transition-all duration-300 text-lg shadow-xl"
+                    href="/contact" 
+                    className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 hover:border-white/80 transition-all duration-300 text-lg"
                   >
-                    Learn More
+                    Partner With Us
                   </a>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </section>
       </main>

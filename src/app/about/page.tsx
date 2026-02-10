@@ -65,14 +65,7 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden text-foreground">
-      <Image
-        src="/BGAbout.png"
-        alt="Lush avocado groves"
-        fill
-        className="object-cover -z-10"
-        data-ai-hint="agriculture landscape"
-        priority
-      />
+      
       <div className="absolute inset-0 bg-white/20 -z-10"/>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
