@@ -6,8 +6,6 @@ import { motion } from 'framer-motion';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Quote } from 'lucide-react';
 
 type ClientTestimonial = {
@@ -19,8 +17,6 @@ type ClientTestimonial = {
   status: 'active' | 'not active';
 };
 
-const placeholderAvatars = PlaceHolderImages.filter(p => p.id.startsWith('client-')).map(p => p.imageUrl);
-
 const TestimonialCardSkeleton = () => (
   <div className="bg-background/50 border border-border/20 rounded-2xl p-8 space-y-4">
     <Skeleton className="h-6 w-12" />
@@ -29,17 +25,14 @@ const TestimonialCardSkeleton = () => (
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-4/5" />
     </div>
-    <div className="flex items-center gap-4 pt-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <div className="space-y-2">
+    <div className="border-t border-border/20 pt-4 space-y-2">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-3 w-32" />
-      </div>
     </div>
   </div>
 );
 
-const TestimonialCard = ({ review, avatarUrl }: { review: ClientTestimonial; avatarUrl: string }) => {
+const TestimonialCard = ({ review }: { review: ClientTestimonial }) => {
   return (
     <motion.div
       className="bg-background/50 border border-border/20 rounded-2xl p-8 flex flex-col h-full shadow-sm hover:shadow-lg transition-shadow duration-300"
@@ -52,15 +45,9 @@ const TestimonialCard = ({ review, avatarUrl }: { review: ClientTestimonial; ava
       <blockquote className="text-foreground/80 italic flex-grow">
         “{review.reviewText}”
       </blockquote>
-      <figcaption className="mt-6 flex items-center gap-4">
-        <Avatar className="h-14 w-14 border-2 border-primary/20">
-          <AvatarImage src={avatarUrl} alt={review.author} />
-          <AvatarFallback>{review.author.charAt(0)}</AvatarFallback>
-        </Avatar>
-        <div>
-          <div className="text-base font-bold text-foreground">{review.author}</div>
-          <div className="text-sm text-muted-foreground">{review.role}, {review.company}</div>
-        </div>
+      <figcaption className="mt-6 border-t border-border/20 pt-6">
+        <div className="text-base font-bold text-foreground">{review.author}</div>
+        <div className="text-sm text-muted-foreground">{review.role}, {review.company}</div>
       </figcaption>
     </motion.div>
   );
@@ -113,11 +100,10 @@ export default function Testimonials() {
             </>
           )}
           {!isLoading && testimonials?.length ? (
-            testimonials.map((testimonial, i) => (
+            testimonials.map((testimonial) => (
               <TestimonialCard
                 key={testimonial.id}
                 review={testimonial}
-                avatarUrl={placeholderAvatars[i % placeholderAvatars.length]}
               />
             ))
           ) : null}
