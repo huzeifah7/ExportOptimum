@@ -175,17 +175,11 @@
 
   .card-nav-top {
     padding: 0.5rem 1rem;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   .hamburger-menu {
     order: 2;
-  }
-
-  .logo-container {
-    position: static;
-    transform: none;
-    order: 1;
   }
 
   .card-nav-cta-button {
