@@ -118,7 +118,7 @@ export default function SustainabilityPage() {
       
       <main className="flex-grow">
         {/* Hero Section - Clean, No Background Images */}
-        <section className="pt-24 pb-20 lg:pt-32 lg:pb-28 bg-muted">
+        <section className="pt-24 pb-20 lg:pt-32 lg:pb-28 bg-muted/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -155,7 +155,7 @@ export default function SustainabilityPage() {
                 </a>
                 <a 
                   href="/contact" 
-                  className="inline-flex items-center justify-center px-8 py-4 bg-background border-2 border-foreground text-foreground font-bold rounded-xl hover:bg-foreground hover:text-background transition-all duration-300 text-lg shadow-lg"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-background border-2 border-foreground/20 text-foreground font-bold rounded-xl hover:bg-foreground hover:text-background transition-all duration-300 text-lg shadow-lg"
                 >
                   Partner With Us
                 </a>
@@ -187,7 +187,7 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Mission Statement - Clean Background */}
-        <section className="py-20 lg:py-28 bg-background border-y border-border">
+        <section className="py-20 lg:py-28 bg-background border-y border-border/5">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -212,7 +212,7 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Social Impact Section */}
-        <section id="impact" className="py-20 lg:py-28 bg-muted">
+        <section id="impact" className="py-20 lg:py-28 bg-muted/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {/* Section Header */}
             <motion.div
@@ -245,7 +245,7 @@ export default function SustainabilityPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group bg-background rounded-2xl p-8 shadow-lg border-2 border-border hover:border-primary hover:shadow-2xl transition-all duration-300"
+                  className="group bg-background rounded-2xl p-8 shadow-lg border-2 border-border/10 hover:border-primary/50 hover:shadow-2xl transition-all duration-300"
                 >
                   {/* Icon */}
                   <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
@@ -263,7 +263,7 @@ export default function SustainabilityPage() {
                   </p>
 
                   {/* Impact Metric */}
-                  <div className="pt-4 border-t-2 border-border">
+                  <div className="pt-4 border-t-2 border-border/10">
                     <div className="text-lg font-bold text-primary">
                       {initiative.impact}
                     </div>
@@ -308,7 +308,7 @@ export default function SustainabilityPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-muted/50 to-background rounded-2xl p-8 text-center shadow-lg border-2 border-border hover:shadow-2xl transition-all duration-300"
+                  className="bg-gradient-to-br from-muted/50 to-background rounded-2xl p-8 text-center shadow-lg border-2 border-border/10 hover:shadow-2xl transition-all duration-300"
                 >
                   {/* Icon */}
                   <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
@@ -336,7 +336,7 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Gallery Section */}
-        <section className="py-20 lg:py-28 bg-muted">
+        <section className="py-20 lg:py-28 bg-muted/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {/* Section Header */}
             <div className="text-center mb-16">
@@ -377,7 +377,7 @@ export default function SustainabilityPage() {
                 {images.map(image => (
                   <motion.div 
                     key={image.id} 
-                    className="group aspect-square relative overflow-hidden rounded-2xl shadow-lg border-2 border-border hover:border-primary transition-all duration-300"
+                    className="group aspect-square relative overflow-hidden rounded-2xl shadow-lg border-2 border-border/10 hover:border-primary/50 transition-all duration-300"
                     variants={{
                       hidden: { opacity: 0, scale: 0.9 },
                       visible: { opacity: 1, scale: 1 }
@@ -411,46 +411,48 @@ export default function SustainabilityPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 lg:py-28 bg-foreground">
+        <section className="py-20 lg:py-28 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              {/* Icon */}
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-primary rounded-full mb-8">
-                <Handshake className="w-10 h-10 text-primary-foreground" />
-              </div>
-              
-              {/* Heading */}
-              <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-background">
-                Partner With Us for Change
-              </h2>
-              
-              {/* Description */}
-              <p className="text-xl text-background/80 max-w-3xl mx-auto mb-12 leading-relaxed">
-                Join us in creating sustainable livelihoods and protecting the environment. Together, we can make a real difference in the lives of farming communities and the health of our planet.
-              </p>
+            <div className="bg-foreground text-background rounded-3xl p-12 lg:p-20 shadow-2xl">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6 }}
+                className="text-center"
+              >
+                {/* Icon */}
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-primary rounded-full mb-8">
+                  <Handshake className="w-10 h-10 text-primary-foreground" />
+                </div>
+                
+                {/* Heading */}
+                <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-background">
+                  Partner With Us for Change
+                </h2>
+                
+                {/* Description */}
+                <p className="text-xl text-background/80 max-w-3xl mx-auto mb-12 leading-relaxed">
+                  Join us in creating sustainable livelihoods and protecting the environment. Together, we can make a real difference in the lives of farming communities and the health of our planet.
+                </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a 
-                  href="/contact" 
-                  className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all duration-300 text-lg shadow-xl"
-                >
-                  Get Involved
-                </a>
-                <a 
-                  href="/about" 
-                  className="inline-flex items-center justify-center px-8 py-4 bg-background text-foreground font-bold rounded-xl hover:bg-muted transition-all duration-300 text-lg shadow-xl"
-                >
-                  Learn More
-                </a>
-              </div>
-            </motion.div>
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a 
+                    href="/contact" 
+                    className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all duration-300 text-lg shadow-xl"
+                  >
+                    Get Involved
+                  </a>
+                  <a 
+                    href="/about" 
+                    className="inline-flex items-center justify-center px-8 py-4 bg-background text-foreground font-bold rounded-xl hover:bg-muted transition-all duration-300 text-lg shadow-xl"
+                  >
+                    Learn More
+                  </a>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
       </main>
