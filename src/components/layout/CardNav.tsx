@@ -179,7 +179,7 @@ const CardNav: React.FC<CardNavProps> = ({
           </div>
 
           {ctaLink && (
-            <Button asChild>
+            <Button asChild className="card-nav-cta-button">
                 <Link href={ctaLink}>Contact Us</Link>
             </Button>
           )}

@@ -177,6 +177,12 @@
     top: 50%;
     transform: translateY(-50%);
   }
+  .card-nav-cta-button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 @media (max-width: 768px) {
