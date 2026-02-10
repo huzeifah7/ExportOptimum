@@ -200,10 +200,6 @@
     left: 1rem;
   }
 
-  .card-nav-cta-button {
-    display: none;
-  }
-
   .card-nav-content {
     flex-direction: column;
     align-items: stretch;
