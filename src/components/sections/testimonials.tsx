@@ -70,7 +70,7 @@ export default function Testimonials() {
   const { data: testimonials, isLoading } = useCollection<ClientTestimonial>(testimonialsQuery);
 
   return (
-    <section id="testimonials" className="py-24 lg:py-32 bg-secondary">
+    <section id="testimonials" className="py-24 lg:py-32 bg-background">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
