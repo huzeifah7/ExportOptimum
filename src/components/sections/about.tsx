@@ -43,14 +43,13 @@ export default function AboutRedesign() {
             </Badge>
 
             <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold leading-tight">
-              From pit to plate,
+              From Our Family,
               <br />
-              <span className="text-primary">with purpose</span>
+              <span className="text-primary">to Yours</span>
             </h2>
 
             <p className="mt-6 text-gray-600 text-lg leading-relaxed max-w-xl">
-              We partner with growers who respect the land, nurture communities,
-              and believe great taste starts with responsible farming.
+              We are a family-owned business, working hand in hand with growers who honor the land and invest in their communities. Because we believe exceptional produce begins with responsible farming, we have adopted a long-term vision rooted in sustainability, trust, and shared growth to ensure quality that can be felt from the field to the table.
             </p>
 
             <Button
