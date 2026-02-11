@@ -1,6 +1,6 @@
 'use client';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, Fragment } from 'react';
 import { cn } from '@/lib/utils';
 
 type TextAnimationProps = {
@@ -72,13 +72,15 @@ const TextAnimation = ({
         className="inline-block" // So Tag can control layout
       >
         {elements.map((el, i) => (
-          <motion.span
-            key={i}
-            variants={combinedVariants}
-            className="inline-block"
-          >
-            {el}{i < elements.length - 1 ? separator : ''}
-          </motion.span>
+          <Fragment key={i}>
+            <motion.span
+              variants={combinedVariants}
+              className="inline-block"
+            >
+              {el}
+            </motion.span>
+            {i < elements.length - 1 ? separator : ''}
+          </Fragment>
         ))}
       </motion.span>
     </Tag>
