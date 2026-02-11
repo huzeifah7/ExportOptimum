@@ -70,7 +70,7 @@ export default function Testimonials() {
   const { data: testimonials, isLoading } = useCollection<ClientTestimonial>(testimonialsQuery);
 
   return (
-    <section id="testimonials" className="py-24 lg:py-32 bg-background">
+    <section id="testimonials" className="py-24 lg:py-32 bg-background ">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -88,7 +88,7 @@ export default function Testimonials() {
         </motion.div>
 
         {isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <TestimonialCardSkeleton />
             <TestimonialCardSkeleton />
             <TestimonialCardSkeleton />

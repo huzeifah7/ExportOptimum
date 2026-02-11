@@ -14,9 +14,8 @@ import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { useFirestore, useUser } from '@/firebase';
-import { collection } from 'firebase/firestore';
-import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { serverTimestamp } from 'firebase/firestore';
+import { collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export default function AddBlogPage() {
     const router = useRouter();
@@ -29,16 +28,20 @@ export default function AddBlogPage() {
     const [category, setCategory] = useState('');
     const [content, setContent] = useState('');
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
+            setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
             };
             reader.readAsDataURL(file);
         } else {
+            setImageFile(null);
             setImagePreview(null);
         }
     };
@@ -60,30 +63,55 @@ export default function AddBlogPage() {
             return;
         }
 
-        const newPost = {
-            title,
-            excerpt,
-            category,
-            content,
-            imageUrl: imagePreview,
-            slug: slugify(title),
-            imageHint: `${category.toLowerCase()} ${title.toLowerCase().split(' ')[0]}`,
-            author: 'Admin',
-            publishDate: serverTimestamp(),
-        };
+        if (!imageFile) {
+            toast({ variant: "destructive", title: "Image Required", description: "Please select a featured image." });
+            return;
+        }
+
+        setIsSubmitting(true);
         
-        const blogCollection = collection(firestore, 'blogPosts');
-        addDocumentNonBlocking(blogCollection, newPost);
+        try {
+            const blogCollection = collection(firestore, 'blogPosts');
+            const newPostRef = doc(blogCollection);
+            const newPostId = newPostRef.id;
 
-        toast({
-          title: "Blog Post Added",
-          description: `${title} has been successfully added.`,
-        });
+            const storage = getStorage();
+            const imagePath = `blogs/${newPostId}/${imageFile.name}`;
+            const imageStorageRef = storageRef(storage, imagePath);
 
-        router.push('/admin/blogs');
+            await uploadBytes(imageStorageRef, imageFile);
+            const imageUrl = await getDownloadURL(imageStorageRef);
+
+            const newPost = {
+                title,
+                excerpt,
+                category,
+                content,
+                imageUrl: imageUrl,
+                slug: slugify(title),
+                imageHint: `${category.toLowerCase()} ${title.toLowerCase().split(' ')[0]}`,
+                author: user.displayName || 'Admin',
+                publishDate: serverTimestamp(),
+                id: newPostId,
+            };
+
+            await setDoc(newPostRef, newPost);
+            
+            toast({
+              title: "Blog Post Added",
+              description: `${title} has been successfully added.`,
+            });
+
+            router.push('/admin/blogs');
+        } catch (error: any) {
+            console.error("Error adding blog post:", error);
+            toast({ variant: "destructive", title: "Error", description: `There was a problem adding the blog post: ${error.message}` });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
-    const isFormSubmittable = !isUserLoading && user && firestore;
+    const isFormSubmittable = !isSubmitting && !isUserLoading && user && firestore;
 
     return (
         <div>
@@ -113,6 +141,7 @@ export default function AddBlogPage() {
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
                                         required
+                                        disabled={isSubmitting}
                                     />
                                 </div>
                                  <div className="space-y-2">
@@ -123,6 +152,7 @@ export default function AddBlogPage() {
                                         value={excerpt}
                                         onChange={(e) => setExcerpt(e.target.value)}
                                         required
+                                        disabled={isSubmitting}
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -134,6 +164,7 @@ export default function AddBlogPage() {
                                         onChange={(e) => setContent(e.target.value)}
                                         required
                                         className="min-h-[300px]"
+                                        disabled={isSubmitting}
                                     />
                                 </div>
                             </CardContent>
@@ -147,7 +178,7 @@ export default function AddBlogPage() {
                            <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="blog-category">Category</Label>
-                                    <Select onValueChange={setCategory} value={category} required>
+                                    <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
                                         <SelectTrigger id="blog-category">
                                             <SelectValue placeholder="Select a category" />
                                         </SelectTrigger>
@@ -163,7 +194,7 @@ export default function AddBlogPage() {
                                 </div>
                                 <div className="space-y-4">
                                     <Label htmlFor="blog-image">Featured Image</Label>
-                                    <Input id="blog-image" type="file" accept="image/*" onChange={handleImageChange} />
+                                    <Input id="blog-image" type="file" accept="image/*" onChange={handleImageChange} required disabled={isSubmitting} />
                                     {imagePreview && (
                                         <div className="mt-4 rounded-lg overflow-hidden border aspect-video w-full relative">
                                             <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
@@ -175,10 +206,10 @@ export default function AddBlogPage() {
                     </div>
                 </div>
                 <div className="mt-8 flex justify-end gap-2">
-                    <Button variant="outline" type="button" onClick={() => router.push('/admin/blogs')}>Cancel</Button>
+                    <Button variant="outline" type="button" onClick={() => router.push('/admin/blogs')} disabled={isSubmitting}>Cancel</Button>
                     <Button type="submit" disabled={!isFormSubmittable}>
-                         {!isFormSubmittable && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Save Post
+                         {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {isSubmitting ? "Saving..." : "Save Post"}
                     </Button>
                 </div>
             </form>

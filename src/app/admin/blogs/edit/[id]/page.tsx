@@ -12,11 +12,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useDoc, useFirestore, useMemoFirebase, useUser } from '@/firebase';
-import { doc, Timestamp } from 'firebase/firestore';
-import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { doc, Timestamp, setDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 type BlogPost = {
   id: string;
@@ -49,6 +49,7 @@ export default function EditBlogPage() {
     const [category, setCategory] = useState('');
     const [content, setContent] = useState('');
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
@@ -66,6 +67,7 @@ export default function EditBlogPage() {
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
+            setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
@@ -86,31 +88,49 @@ export default function EditBlogPage() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         
-        if (!blogRef) return;
+        if (!blogRef || !firestore) return;
         setIsSubmitting(true);
-
-        const slug = slugify(title);
-
-        const updatedBlog = {
-            ...blog,
-            title,
-            excerpt,
-            category,
-            content,
-            slug,
-            imageUrl: imagePreview,
-            imageHint: `${category.toLowerCase()} ${title.toLowerCase().split(' ')[0]}`,
-        };
         
-        setDocumentNonBlocking(blogRef, updatedBlog, { merge: true });
+        try {
+            let finalImageUrl = blog?.imageUrl;
 
-        toast({
-          title: "Blog Post Updated",
-          description: `${title} has been successfully updated.`,
-        });
+            if (imageFile) {
+                const storage = getStorage();
+                const imagePath = `blogs/${blogId}/${imageFile.name}`;
+                const imageStorageRef = storageRef(storage, imagePath);
+                
+                await uploadBytes(imageStorageRef, imageFile);
+                finalImageUrl = await getDownloadURL(imageStorageRef);
+            }
 
-        setIsSubmitting(false);
-        router.push('/admin/blogs');
+            const slug = slugify(title);
+
+            const updatedBlog = {
+                ...blog,
+                title,
+                excerpt,
+                category,
+                content,
+                slug,
+                imageUrl: finalImageUrl,
+                imageHint: `${category.toLowerCase()} ${title.toLowerCase().split(' ')[0]}`,
+            };
+            
+            await setDoc(blogRef, updatedBlog, { merge: true });
+
+            toast({
+              title: "Blog Post Updated",
+              description: `${title} has been successfully updated.`,
+            });
+    
+            router.push('/admin/blogs');
+
+        } catch (error: any) {
+            console.error("Error updating blog post:", error);
+            toast({ variant: "destructive", title: "Error", description: `There was a problem updating the blog post: ${error.message}` });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (isLoadingBlog) {
@@ -184,6 +204,7 @@ export default function EditBlogPage() {
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
                                         required
+                                        disabled={isSubmitting}
                                     />
                                 </div>
                                  <div className="space-y-2">
@@ -194,6 +215,7 @@ export default function EditBlogPage() {
                                         value={excerpt}
                                         onChange={(e) => setExcerpt(e.target.value)}
                                         required
+                                        disabled={isSubmitting}
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -205,6 +227,7 @@ export default function EditBlogPage() {
                                         onChange={(e) => setContent(e.target.value)}
                                         required
                                         className="min-h-[300px]"
+                                        disabled={isSubmitting}
                                     />
                                 </div>
                             </CardContent>
@@ -218,7 +241,7 @@ export default function EditBlogPage() {
                            <CardContent className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="blog-category">Category</Label>
-                                    <Select onValueChange={setCategory} value={category} required>
+                                    <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
                                         <SelectTrigger id="blog-category">
                                             <SelectValue placeholder="Select a category" />
                                         </SelectTrigger>
@@ -234,7 +257,7 @@ export default function EditBlogPage() {
                                 </div>
                                 <div className="space-y-4">
                                     <Label htmlFor="blog-image">Featured Image</Label>
-                                    <Input id="blog-image" type="file" accept="image/*" onChange={handleImageChange} />
+                                    <Input id="blog-image" type="file" accept="image/*" onChange={handleImageChange} disabled={isSubmitting} />
                                     {imagePreview && (
                                         <div className="mt-4 rounded-lg overflow-hidden border aspect-video w-full relative">
                                             <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
@@ -246,10 +269,10 @@ export default function EditBlogPage() {
                     </div>
                 </div>
                 <div className="mt-8 flex justify-end gap-2">
-                    <Button variant="outline" type="button" onClick={() => router.push('/admin/blogs')}>Cancel</Button>
+                    <Button variant="outline" type="button" onClick={() => router.push('/admin/blogs')} disabled={isSubmitting}>Cancel</Button>
                     <Button type="submit" disabled={!isFormSubmittable}>
                          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Save Changes
+                        {isSubmitting ? "Saving..." : "Save Changes"}
                     </Button>
                 </div>
             </form>
