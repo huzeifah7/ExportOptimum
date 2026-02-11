@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
+import TextAnimation from '@/components/ui/scroll-text';
 
 export default function AboutRedesign() {
   return (
@@ -19,7 +20,7 @@ export default function AboutRedesign() {
           className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
         >
           {/* IMAGE SIDE */}
-          <div className="relative lg:col-span-7 h-[420px] rounded-3xl overflow-hidden group shadow-2xl">
+          <div className="relative lg:col-span-6 h-[420px] rounded-3xl overflow-hidden group shadow-2xl">
             <Image
               src="https://images.unsplash.com/photo-1543363136-7fbfcd3b240d?q=80&w=1200&auto=format&fit=crop"
               alt="Fresh avocados growing in nature"
@@ -37,17 +38,17 @@ export default function AboutRedesign() {
           </div>
 
           {/* CONTENT SIDE */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-6">
             <Badge className="mb-4 uppercase tracking-widest text-xs bg-primary/10 text-primary border-primary/20">
               Our Story
             </Badge>
 
-            <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold leading-tight">
-              From Our Family,
-              <br />
-              <span className="text-primary">to Yours</span>
-            </h2>
-
+            <TextAnimation
+              as="h2"
+              text="From Our Family, to Yours"
+              classname="text-3xl md:text-4xl xl:text-5xl font-bold leading-tight !justify-start"
+            />
+            
             <p className="mt-6 text-gray-600 text-lg leading-relaxed max-w-xl">
               We are a family-owned business, working hand in hand with growers who honor the land and invest in their communities. Because we believe exceptional produce begins with responsible farming, we have adopted a long-term vision rooted in sustainability, trust, and shared growth to ensure quality that can be felt from the field to the table.
             </p>

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 import React from 'react';
-import SplitText from '@/components/ui/split-text';
+import TextAnimation from '@/components/ui/scroll-text';
 import { NewHeroButton } from '@/components/ui/NewHeroButton';
 
 // Define a type for our hero media. This makes it flexible.
@@ -99,29 +99,27 @@ export default function Hero() {
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
         <div className="flex flex-col items-center justify-center flex-grow">
             <h1 className="text-4xl md:text-6xl lg:text-[86px] font-headline font-bold leading-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-4">
-              <SplitText
-                tag="span"
+              <TextAnimation
+                as="span"
                 text="Pure"
-                splitType="chars"
+                letterAnime={true}
               />
-              <SplitText
-                tag="span"
+              <TextAnimation
+                as="span"
                 text="Avocado"
-                className="text-brand"
-                splitType="chars"
+                letterAnime={true}
+                classname="text-brand"
               />
-              <SplitText
-                tag="span"
+              <TextAnimation
+                as="span"
                 text="Experience"
-                splitType="chars"
+                letterAnime={true}
               />
             </h1>
-            <SplitText
-              tag="p"
+            <TextAnimation
+              as="p"
               text="From our sun-kissed groves to your table, experience the rich taste and superior quality of our hand-picked avocados."
-              className="mt-4 max-w-4xl font-prose text-lg md:text-xl lg:text-2xl tracking-wide"
-               splitType="words"
-               delay={20}
+              classname="mt-4 max-w-4xl font-prose text-lg md:text-xl lg:text-2xl tracking-wide"
             />
             <div className="mt-8">
                 <NewHeroButton href="/contact" label="Request a Quote" />

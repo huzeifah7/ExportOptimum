@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import SplitText from '@/components/ui/split-text';
+import TextAnimation from '@/components/ui/scroll-text';
 import { Badge } from '../ui/badge';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, limit, Timestamp } from 'firebase/firestore';
@@ -54,7 +54,7 @@ export default function Blog() {
     <section id="blog" className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <SplitText tag="h2" text="From Our Blog" className="text-4xl md:text-5xl font-headline font-bold" />
+          <TextAnimation as="h2" text="From Our Blog" classname="text-4xl md:text-5xl font-headline font-bold" />
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
             Insights, news, and stories from the world of avocados.
           </p>

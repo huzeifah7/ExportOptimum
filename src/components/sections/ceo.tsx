@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Leaf, Package, Truck } from 'lucide-react';
-import SplitText from '@/components/ui/split-text';
+import TextAnimation from '@/components/ui/scroll-text';
 import { MagicButton } from '../ui/magic-button';
 import { useEffect, useState } from 'react';
 
@@ -45,9 +45,9 @@ export default function Ceo() {
           <div>
             {isClient && (
               <>
-                <SplitText tag="h2" text="&nbsp;Abdellah&nbsp; El &nbsp;Yamlahi &nbsp;" className="text-5xl font-subtitle text-bold text-primary" textAlign="left" splitType="words" /><br/>
-                <SplitText tag="p" text="CEO of Export Optimum" className="mt-2 text-xl font-headline font-bold" textAlign="left" splitType="words" />
-                <SplitText tag="p" text="President of Moroccan Avocado exporters association (MAVA)" className="text-lg font-headline font-bold text-muted-foreground" textAlign="left" splitType="words" />
+                <TextAnimation as="h2" text="Abdellah El Yamlahi" classname="text-5xl font-subtitle text-bold text-primary !justify-start" />
+                <TextAnimation as="p" text="CEO of Export Optimum" classname="mt-2 text-xl font-headline font-bold !justify-start" />
+                <TextAnimation as="p" text="President of Moroccan Avocado exporters association (MAVA)" classname="text-lg font-headline font-bold text-muted-foreground !justify-start" />
               </>
             )}
             <blockquote className="mt-6 text-lg italic text-muted-foreground relative pl-6 before:content-['\201C'] before:absolute before:left-0 before:top-0 before:text-5xl before:text-accent before:font-serif after:content-['\201D'] after:absolute after:-bottom-4 after:right-0 after:text-5xl after:text-accent after:font-serif">

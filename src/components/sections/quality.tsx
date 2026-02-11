@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import SplitText from '@/components/ui/split-text';
+import TextAnimation from '@/components/ui/scroll-text';
 
 export default function QualityRedesign() {
 
@@ -19,25 +19,21 @@ export default function QualityRedesign() {
         <div className="grid lg:grid-cols-12 gap-12 items-center">
 
           {/* CONTENT */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-6">
             <Badge className="mb-4 uppercase tracking-widest text-xs bg-primary/10 text-primary border-primary/20">
               Quality & Standards
             </Badge>
 
-            <SplitText
-              tag="h2"
+            <TextAnimation
+              as="h2"
               text="Uncompromising quality, at every step"
-              className="text-3xl md:text-4xl xl:text-5xl font-bold leading-tight"
-              textAlign="left"
+              classname="text-3xl md:text-4xl xl:text-5xl font-bold leading-tight !justify-start"
             />
 
-            <SplitText
-              tag="p"
+            <TextAnimation
+              as="p"
               text="From our sun-kissed groves in Morocco to international export, every avocado is cultivated with precision, patience, and respect for the land."
-              className="mt-6 text-lg text-muted-foreground leading-relaxed"
-              splitType="words"
-              delay={8}
-              textAlign="left"
+              classname="mt-6 text-lg text-muted-foreground leading-relaxed !justify-start"
             />
 
             <p className="mt-4 text-muted-foreground leading-relaxed max-w-xl">
@@ -60,14 +56,14 @@ export default function QualityRedesign() {
           </div>
 
           {/* IMAGE */}
-          <div className="relative lg:col-span-7 rounded-3xl overflow-hidden shadow-2xl group">
+          <div className="relative lg:col-span-6 rounded-3xl overflow-hidden shadow-2xl group">
               <>
                 <Image
                   src="https://californiaavocado.com/wp-content/uploads/2024/03/24-CAC-3536_April_Blog_Imagery_030824_V2__header.jpg"
                   alt="High quality avocados"
                   width={1200}
                   height={900}
-                  className="object-cover w-full h-[420px] lg:h-[520px] transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover w-full h-[420px] lg:h-[420px] transition-transform duration-700 group-hover:scale-105"
                   data-ai-hint="avocado quality"
                 />
 
