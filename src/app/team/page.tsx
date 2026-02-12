@@ -1,16 +1,18 @@
-
 'use client';
+
+import { useEffect, useState, memo } from 'react';
+import { collection } from 'firebase/firestore';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
-import { Linkedin, Twitter } from 'lucide-react';
-import Link from 'next/link';
 import { AnimatedGradientBackground } from '@/components/ui/animated-gradient-background';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection } from 'firebase/firestore';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState, useEffect } from 'react';
+
+import { Linkedin, Twitter, Sparkles, ChevronRight } from 'lucide-react';
 
 type TeamMember = {
   id: string;
@@ -22,116 +24,374 @@ type TeamMember = {
   twitter?: string;
 };
 
-const TeamMemberSkeleton = () => (
-    <Card className="flex flex-col text-center overflow-hidden shadow-lg bg-background/50 backdrop-blur-sm">
-      <Skeleton className="h-64 w-full" />
-      <CardContent className="p-6 flex-grow flex flex-col">
-        <Skeleton className="h-7 w-3/4 mx-auto mb-2" />
-        <Skeleton className="h-5 w-1/2 mx-auto mb-3" />
-        <Skeleton className="h-12 w-full" />
-        <div className="mt-4 flex justify-center gap-4">
-          <Skeleton className="h-5 w-5" />
-          <Skeleton className="h-5 w-5" />
-        </div>
-      </CardContent>
-    </Card>
-);
+// ============================================================================
+// MEMOIZED SKELETON COMPONENT
+// ============================================================================
+const TeamMemberSkeleton = memo(() => (
+  <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 animate-pulse">
+    <div className="aspect-[4/5] w-full bg-gradient-to-br from-gray-200/20 to-gray-300/20" />
+    <div className="p-6 space-y-3">
+      <div className="h-7 w-3/4 rounded-full bg-gray-200/20 mx-auto" />
+      <div className="h-5 w-1/2 rounded-full bg-gray-200/20 mx-auto" />
+      <div className="space-y-2 pt-2">
+        <div className="h-4 w-full rounded-full bg-gray-200/20" />
+        <div className="h-4 w-2/3 rounded-full bg-gray-200/20 mx-auto" />
+      </div>
+      <div className="flex justify-center gap-4 pt-2">
+        <div className="h-5 w-5 rounded-full bg-gray-200/20" />
+        <div className="h-5 w-5 rounded-full bg-gray-200/20" />
+      </div>
+    </div>
+  </div>
+));
 
-export default function TeamPage() {
-  const firestore = useFirestore();
-  const [isClient, setIsClient] = useState(false);
+TeamMemberSkeleton.displayName = 'TeamMemberSkeleton';
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-  
-  const teamMembersQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return collection(firestore, 'teamMembers');
-  }, [firestore]);
-  
-  const { data: teamMembers, isLoading } = useCollection<TeamMember>(teamMembersQuery);
+// ============================================================================
+// TEAM CARD COMPONENT - OPTIMIZED WITH NEXT/IMAGE PRIORITY
+// ============================================================================
+const TeamCard = memo(({ member, index }: { member: TeamMember; index: number }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <>
-      {isClient ? (
-        <AnimatedGradientBackground>
-          <div className="flex flex-col min-h-screen bg-transparent">
-            <Header />
-            <main className="flex-grow py-16 lg:py-24">
-              <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                  <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Leadership</h1>
-                  <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
-                    The passionate individuals dedicated to bringing you the best avocados from Morocco.
-                  </p>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      whileHover={{ y: -4 }}
+      className="group relative h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Glass Card Container */}
+      <div className="relative h-full overflow-hidden rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl transition-all duration-500 hover:shadow-2xl hover:bg-white/15 dark:bg-black/10 dark:border-white/5">
+        
+        {/* Image Container with Aspect Ratio */}
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-green-100/30 to-emerald-100/30 dark:from-green-900/20 dark:to-emerald-900/20">
+          {!isImageLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white/60 animate-spin" />
+            </div>
+          )}
+          
+          {member.photoUrl ? (
+            <Image
+              src={member.photoUrl}
+              alt={`${member.name} - ${member.role}`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className={`
+                object-cover transition-all duration-700 
+                ${isImageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-110'}
+                group-hover:scale-105
+              `}
+              onLoad={() => setIsImageLoaded(true)}
+              priority={index < 3} // Prioritize first 3 images
+              loading={index < 3 ? 'eager' : 'lazy'}
+              quality={85}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <Sparkles className="w-8 h-8 text-white/60" />
+              </div>
+            </div>
+          )}
+
+          {/* Animated Gradient Overlay */}
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+
+          {/* Floating Role Badge */}
+          <div className="absolute top-4 left-4">
+            <span className="px-4 py-2 text-xs font-semibold tracking-wider text-white uppercase bg-black/40 backdrop-blur-md rounded-full border border-white/20">
+              {member.role}
+            </span>
+          </div>
+
+          {/* Social Links - Animated */}
+          <motion.div 
+            className="absolute bottom-4 left-4 right-4 flex justify-center gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
+            transition={{ duration: 0.2 }}
+          >
+            {member.linkedin && (
+              <Link
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#0077b5] transition-all duration-300 hover:scale-110"
+                aria-label={`${member.name}'s LinkedIn profile`}
+              >
+                <Linkedin className="w-5 h-5" />
+              </Link>
+            )}
+            {member.twitter && (
+              <Link
+                href={member.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#1DA1F2] transition-all duration-300 hover:scale-110"
+                aria-label={`${member.name}'s Twitter profile`}
+              >
+                <Twitter className="w-5 h-5" />
+              </Link>
+            )}
+          </motion.div>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 text-center">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+            {member.name}
+          </h3>
+          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-3">
+            {member.role}
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">
+            {member.bio}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+});
+
+TeamCard.displayName = 'TeamCard';
+
+// ============================================================================
+// MAIN PAGE COMPONENT
+// ============================================================================
+export default function TeamPage() {
+  const [mounted, setMounted] = useState(false);
+  const firestore = useFirestore();
+
+  // Memoize collection reference
+  const teamMembersCollection = useMemoFirebase(
+    () => (firestore ? collection(firestore, 'teamMembers') : null),
+    [firestore]
+  );
+
+  const { data: teamMembers, loading, error } = useCollection<TeamMember>(teamMembersCollection);
+
+  // Handle hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-slate-950 dark:via-black dark:to-emerald-950">
+        <Header />
+        <main className="flex-grow py-24">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <TeamMemberSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <AnimatedGradientBackground>
+      <div className="flex flex-col min-h-screen bg-transparent">
+        <Header />
+        
+        <main className="flex-grow">
+          {/* Modern Hero Section */}
+          <section className="relative py-20 lg:py-32 overflow-hidden">
+            {/* Background decorative elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl" />
+              <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
+            </div>
+
+            <div className="container mx-auto px-4 max-w-7xl relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-center max-w-3xl mx-auto"
+              >
+                {/* Pill badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6">
+                  <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                    The Team
+                  </span>
                 </div>
-                
-                {isLoading && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {Array.from({length: 6}).map((_, i) => <TeamMemberSkeleton key={i} />)}
+
+                {/* Headline */}
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-emerald-800 dark:from-white dark:via-gray-200 dark:to-emerald-200 bg-clip-text text-transparent mb-6">
+                  Meet the minds
+                  <br />
+                  <span className="text-emerald-600 dark:text-emerald-400">shaping the future</span>
+                </h1>
+
+                {/* Description */}
+                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                  Passionate experts dedicated to bringing you the finest avocados from Morocco, 
+                  combining tradition with innovation.
+                </p>
+
+                {/* Stats - Optional decorative element */}
+                <div className="flex justify-center gap-8 mt-12">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">50+</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Years Combined</div>
                   </div>
-                )}
-                
-                {!isLoading && teamMembers && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {teamMembers.map((member) => (
-                      <Card key={member.id} className="flex flex-col text-center overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group bg-background/50 backdrop-blur-sm">
-                        <div className="relative h-64 w-full overflow-hidden">
-                            <Image
-                              src={member.photoUrl}
-                              alt={member.name}
-                              fill
-                              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                            />
-                        </div>
-                        <CardContent className="p-6 flex-grow flex flex-col">
-                          <h3 className="font-headline text-2xl font-bold">{member.name}</h3>
-                          <p className="text-primary font-semibold mt-1">{member.role}</p>
-                          <p className="text-muted-foreground mt-3 text-sm flex-grow">{member.bio}</p>
-                          <div className="mt-4 flex justify-center gap-4">
-                              {member.linkedin && <Link href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
-                                  <Linkedin className="h-5 w-5" />
-                              </Link>}
-                              {member.twitter && <Link href={member.twitter} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
-                                  <Twitter className="h-5 w-5" />
-                              </Link>}
-                          </div>
-                        </CardContent>
-                      </Card>
+                  <div className="w-px h-10 bg-gray-300 dark:bg-gray-700" />
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">3</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Continents</div>
+                  </div>
+                  <div className="w-px h-10 bg-gray-300 dark:bg-gray-700" />
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">100%</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Commitment</div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Team Grid Section */}
+          <section className="py-16 lg:py-24 relative">
+            <div className="container mx-auto px-4 max-w-7xl">
+              {/* Loading State */}
+              {loading && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <TeamMemberSkeleton key={i} />
+                  ))}
+                </div>
+              )}
+
+              {/* Error State */}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center py-20"
+                >
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 mb-6">
+                    <span className="text-3xl">⚠️</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                    Unable to load team
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-8">
+                    Please refresh the page or try again later.
+                  </p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full transition-colors"
+                  >
+                    Refresh Page
+                  </button>
+                </motion.div>
+              )}
+
+              {/* Success State */}
+              {!loading && !error && teamMembers && teamMembers.length > 0 && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    {teamMembers.map((member, index) => (
+                      <TeamCard key={member.id} member={member} index={index} />
                     ))}
                   </div>
-                )}
-                {!isLoading && !teamMembers?.length && (
-                     <div className="text-center py-20 text-foreground/80">
-                        <h3 className="text-2xl font-headline">Our Team is Growing!</h3>
-                        <p>Information about our dedicated team members will be available here soon.</p>
-                    </div>
-                )}
-              </div>
-            </main>
-            <Footer />
-          </div>
-        </AnimatedGradientBackground>
-      ) : (
-        <div className="flex flex-col min-h-screen bg-transparent">
-            <Header />
-            <main className="flex-grow py-16 lg:py-24">
-              <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                  <h1 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Leadership</h1>
-                  <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
-                    The passionate individuals dedicated to bringing you the best avocados from Morocco.
-                  </p>
-                </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {Array.from({length: 6}).map((_, i) => <TeamMemberSkeleton key={i} />)}
+
+                  {/* Decorative connection lines (optional) */}
+                  <div className="hidden lg:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent -z-10" />
+                </>
+              )}
+
+              {/* Empty State */}
+              {!loading && !error && (!teamMembers || teamMembers.length === 0) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-center py-20 max-w-md mx-auto"
+                >
+                  <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                    <Sparkles className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
                   </div>
-              </div>
-            </main>
-            <Footer />
-          </div>
-      )}
-    </>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                    Our Team is Growing!
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-8">
+                    We're currently introducing new members to our family. Check back soon to meet the full team.
+                  </p>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full transition-colors"
+                  >
+                    Get notified
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </motion.div>
+              )}
+            </div>
+          </section>
+
+          {/* Modern CTA Section */}
+          <section className="relative py-20 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/90 via-emerald-500/90 to-teal-600/90 dark:from-emerald-900/90 dark:via-emerald-800/90 dark:to-teal-900/90" />
+            
+            {/* Animated background pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 1px)`,
+                backgroundSize: '40px 40px'
+              }} />
+            </div>
+
+            <div className="container mx-auto px-4 max-w-5xl relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-center text-white"
+              >
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+                  Ready to make an impact?
+                </h2>
+                <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+                  Join our team of innovators and help us revolutionize the avocado industry.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link
+                    href="/careers"
+                    className="px-8 py-4 bg-white text-emerald-700 font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                  >
+                    View Open Positions
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+                  >
+                    Contact Us
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        </main>
+
+        <Footer />
+      </div>
+    </AnimatedGradientBackground>
   );
 }
