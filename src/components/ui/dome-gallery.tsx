@@ -469,9 +469,11 @@ export default function DomeGallery({
     overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
 
     const rawSrc = parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
-    const img = document.createElement('img');
-    img.src = rawSrc;
-    overlay.appendChild(img);
+    if (rawSrc) {
+      const img = document.createElement('img');
+      img.src = rawSrc;
+      overlay.appendChild(img);
+    }
     viewerRef.current!.appendChild(overlay);
 
     const tx0 = tileR.left - frameR.left;
@@ -616,7 +618,7 @@ export default function DomeGallery({
       `;
 
       const originalImg = overlay.querySelector('img');
-      if (originalImg) {
+      if (originalImg && originalImg.src) {
         const img = originalImg.cloneNode() as HTMLImageElement;
         img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
         animatingOverlay.appendChild(img);
@@ -739,7 +741,7 @@ export default function DomeGallery({
                   onClick={onTileClick}
                   onPointerUp={onTilePointerUp}
                 >
-                  <img src={it.src} draggable={false} alt={it.alt} />
+                  {it.src && <img src={it.src} draggable={false} alt={it.alt} />}
                 </div>
               </div>
             ))}
