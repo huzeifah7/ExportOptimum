@@ -96,21 +96,25 @@ function buildItems(pool: ImageItem[], seg: number): ItemDef[] {
   });
 
   const totalSlots = coords.length;
-  if (pool.length === 0) {
-    return coords.map(c => ({ ...c, src: '', alt: '' }));
+  
+  const normalizedImages = pool
+    .map(image => {
+      if (typeof image === 'string') {
+        return { src: image, alt: '' };
+      }
+      return { src: image.src || '', alt: image.alt || '' };
+    })
+    .filter(img => img.src);
+
+  if (normalizedImages.length === 0) {
+    return [];
   }
+  
   if (pool.length > totalSlots) {
     console.warn(
       `[DomeGallery] Provided image count (${pool.length}) exceeds available tiles (${totalSlots}). Some images will not be shown.`
     );
   }
-
-  const normalizedImages = pool.map(image => {
-    if (typeof image === 'string') {
-      return { src: image, alt: '' };
-    }
-    return { src: image.src || '', alt: image.alt || '' };
-  });
 
   const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
 
@@ -741,7 +745,7 @@ export default function DomeGallery({
                   onClick={onTileClick}
                   onPointerUp={onTilePointerUp}
                 >
-                  {it.src && <img src={it.src} draggable={false} alt={it.alt} />}
+                  <img src={it.src} draggable={false} alt={it.alt} />
                 </div>
               </div>
             ))}
