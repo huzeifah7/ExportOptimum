@@ -31,7 +31,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { addDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { setDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 
 type SustainabilityImage = {
   id: string;
@@ -113,7 +113,7 @@ export default function ManageSustainabilityPage() {
         createdAt: serverTimestamp(),
       };
       
-      addDocumentNonBlocking(galleryCollection, newImageData);
+      setDocumentNonBlocking(newImageRef, newImageData, {});
       
       toast({ title: 'Image added to gallery.' });
       closeModal();
@@ -225,7 +225,7 @@ export default function ManageSustainabilityPage() {
               />
             </div>
             <div>
-              <Label htmlFor="image-file">Image File</Label>
+              <Label htmlFor="image-file-upload">Image File</Label>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-input px-6 py-10">
                 <div className="text-center">
                    {imagePreview ? (
@@ -240,11 +240,11 @@ export default function ManageSustainabilityPage() {
                         <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
                         <div className="mt-4 flex text-sm leading-6 text-gray-600">
                             <label
-                            htmlFor="image-file"
+                            htmlFor="image-file-upload"
                             className="relative cursor-pointer rounded-md bg-background font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:text-primary/80"
                             >
                             <span>Upload a file</span>
-                            <Input id="image-file" type="file" className="sr-only" onChange={handleImageChange} required ref={fileInputRef} />
+                            <Input id="image-file-upload" type="file" className="sr-only" onChange={handleImageChange} required ref={fileInputRef} accept="image/*" />
                             </label>
                             <p className="pl-1">or drag and drop</p>
                         </div>
@@ -271,5 +271,3 @@ export default function ManageSustainabilityPage() {
     </div>
   );
 }
-
-    
