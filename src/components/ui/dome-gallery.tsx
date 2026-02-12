@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useMemo, useRef, useCallback } from 'react';
@@ -614,7 +615,6 @@ export default function DomeGallery({
         z-index: 9999;
         border-radius: var(--enlarge-radius, 32px);
         overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0,0,0,.35);
         transition: all ${enlargeTransitionMs}ms ease-out;
         pointer-events: none;
         margin: 0;
@@ -745,7 +745,7 @@ export default function DomeGallery({
                   onClick={onTileClick}
                   onPointerUp={onTilePointerUp}
                 >
-                  <img src={it.src} draggable={false} alt={it.alt} />
+                  {it.src && <img src={it.src} draggable={false} alt={it.alt} />}
                 </div>
               </div>
             ))}

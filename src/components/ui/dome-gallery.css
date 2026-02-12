@@ -164,7 +164,6 @@ main.sphere-main {
     transform 500ms ease,
     opacity 500ms ease;
   transform-origin: top left;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .viewer .enlarge img {

@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -288,7 +289,7 @@ export default function SustainabilityPage() {
                             <Skeleton className="w-3/4 h-3/4 rounded-full" />
                         </div>
                     ) : (
-                        <DomeGallery images={galleryImages || []} />
+                        <DomeGallery images={galleryImages || []} grayscale={false} />
                     )}
                 </div>
             </div>
