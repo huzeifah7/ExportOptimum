@@ -6,6 +6,10 @@ import Footer from '@/components/layout/footer';
 import { Users, Globe, Shield, Handshake, Heart, Droplets, Leaf, Sun, BookOpen, Home, Award, CheckCircle, Target } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
+import DomeGallery from '@/components/ui/dome-gallery';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const pillars = [
   {
@@ -60,10 +64,23 @@ const impactStats = [
   { icon: Award, value: 'UN SDGs', label: 'Aligned' },
 ];
 
+type SustainabilityImage = {
+  src: string;
+  alt: string;
+};
+
 export default function SustainabilityPage() {
   const [isClient, setIsClient] = useState(false);
   const heroRef = useRef(null);
   const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
+  
+  const firestore = useFirestore();
+  const galleryQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return collection(firestore, 'sustainabilityGallery');
+  }, [firestore]);
+
+  const { data: galleryImages, isLoading: isLoadingGallery } = useCollection<SustainabilityImage>(galleryQuery);
 
   useEffect(() => {
     setIsClient(true);
@@ -247,50 +264,34 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Commitment Banner */}
-        <section className="py-20 lg:py-28 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6 }}
-              className="relative bg-gradient-to-br from-[hsl(88,92%,30%)] to-[hsl(88,92%,25%)] rounded-3xl p-12 lg:p-16 text-center overflow-hidden shadow-2xl"
-            >
-              {/* Decorative Elements */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
-              
-              <div className="relative z-10">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-8">
-                  <Award className="w-10 h-10 text-white" />
+        {/* New Dome Gallery Section */}
+        <section className="py-20 lg:py-28 bg-gray-50">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-gray-900">
+                        Our Journey in Pictures
+                    </h2>
+                    <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                        A visual tour of our commitment to people, the planet, and ethical partnerships.
+                    </p>
+                </motion.div>
+
+                <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
+                    {isLoadingGallery ? (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <Skeleton className="w-3/4 h-3/4 rounded-full" />
+                        </div>
+                    ) : (
+                        <DomeGallery images={galleryImages || []} />
+                    )}
                 </div>
-
-                <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-white">
-                  A Framework for the Future
-                </h2>
-
-                <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto mb-10">
-                  Our sustainability framework is more than policy—it's our promise to ensure that people, communities, and the planet thrive together for generations to come.
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a 
-                    href="/quality" 
-                    className="inline-flex items-center justify-center px-8 py-4 bg-white text-[hsl(88,92%,30%)] font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 text-lg shadow-xl"
-                  >
-                    Our Quality Standards
-                  </a>
-                  <a 
-                    href="/contact" 
-                    className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 hover:border-white/80 transition-all duration-300 text-lg"
-                  >
-                    Partner With Us
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+            </div>
         </section>
       </main>
       
