@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, memo } from 'react';
@@ -51,7 +52,6 @@ TeamMemberSkeleton.displayName = 'TeamMemberSkeleton';
 // TEAM CARD COMPONENT - OPTIMIZED WITH NEXT/IMAGE PRIORITY
 // ============================================================================
 const TeamCard = memo(({ member, index }: { member: TeamMember; index: number }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
@@ -60,103 +60,73 @@ const TeamCard = memo(({ member, index }: { member: TeamMember; index: number })
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       whileHover={{ y: -4 }}
-      className="group relative h-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="group relative"
     >
-      {/* Glass Card Container */}
-      <div className="relative h-full overflow-hidden rounded-3xl bg-background/50 backdrop-blur-md border border-border/20 shadow-xl transition-all duration-500 hover:shadow-2xl hover:bg-background/60">
-        
-        {/* Image Container with Aspect Ratio */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-background/50 backdrop-blur-md border border-border/20 shadow-xl transition-all duration-500 hover:shadow-2xl">
+        {/* Image & Loader */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10">
           {!isImageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary/60 animate-spin" />
             </div>
           )}
-          
           {member.photoUrl ? (
             <Image
               src={member.photoUrl}
               alt={`${member.name} - ${member.role}`}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className={`
-                object-cover transition-all duration-700 
-                ${isImageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-110'}
-                group-hover:scale-105
-              `}
+              className={`object-cover transition-all duration-700 ${isImageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-110'} group-hover:scale-105`}
               onLoad={() => setIsImageLoaded(true)}
-              priority={index < 3} // Prioritize first 3 images
+              priority={index < 3}
               loading={index < 3 ? 'eager' : 'lazy'}
               quality={85}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center">
-                <Sparkles className="w-8 h-8 text-foreground/60" />
-              </div>
+              <Sparkles className="w-12 h-12 text-foreground/30" />
             </div>
           )}
-
-          {/* Animated Gradient Overlay */}
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
-
-          {/* Floating Role Badge */}
-          <div className="absolute top-4 left-4">
-            <span className="px-4 py-2 text-xs font-semibold tracking-wider text-foreground uppercase bg-background/40 backdrop-blur-md rounded-full border border-border/20">
-              {member.role}
-            </span>
-          </div>
-
-          {/* Social Links - Animated */}
-          <motion.div 
-            className="absolute bottom-4 left-4 right-4 flex justify-center gap-3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
-            transition={{ duration: 0.2 }}
-          >
-            {member.linkedin && (
-              <Link
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#0077b5] transition-all duration-300 hover:scale-110"
-                aria-label={`${member.name}'s LinkedIn profile`}
-              >
-                <Linkedin className="w-5 h-5" />
-              </Link>
-            )}
-            {member.twitter && (
-              <Link
-                href={member.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#1DA1F2] transition-all duration-300 hover:scale-110"
-                aria-label={`${member.name}'s Twitter profile`}
-              >
-                <Twitter className="w-5 h-5" />
-              </Link>
-            )}
-          </motion.div>
         </div>
 
-        {/* Content */}
-        <div className="p-6 text-center">
-          <h3 className="text-xl font-headline font-bold text-foreground mb-1">
+        {/* Content Overlay */}
+        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 text-white">
+          <h3 className="text-2xl font-headline font-bold text-white">
             {member.name}
           </h3>
-          <p className="text-sm font-medium text-primary mb-3">
-            {member.role}
-          </p>
-          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-            {member.bio}
-          </p>
+          <p className="text-sm font-semibold text-primary mb-4">{member.role}</p>
+
+          <div className="max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100 transition-all duration-500 ease-in-out">
+            <p className="text-sm text-white/80 line-clamp-3 leading-relaxed">
+              {member.bio}
+            </p>
+          </div>
+        </div>
+        
+        {/* Social Links */}
+        <div className="absolute top-4 right-4 flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {member.linkedin && (
+            <Link
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#0077b5] transition-all duration-300 hover:scale-110"
+              aria-label={`${member.name}'s LinkedIn profile`}
+            >
+              <Linkedin className="w-5 h-5" />
+            </Link>
+          )}
+          {member.twitter && (
+            <Link
+              href={member.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#1DA1F2] transition-all duration-300 hover:scale-110"
+              aria-label={`${member.name}'s Twitter profile`}
+            >
+              <Twitter className="w-5 h-5" />
+            </Link>
+          )}
         </div>
       </div>
     </motion.div>
@@ -348,46 +318,36 @@ export default function TeamPage() {
           {/* Modern CTA Section */}
           <section className="py-16 lg:py-24">
             <div className="container mx-auto px-4">
-                <div className="relative rounded-2xl overflow-hidden p-12 text-center text-primary-foreground">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-accent/90" />
-                    
-                    {/* Animated background pattern */}
-                    <div className="absolute inset-0 opacity-10">
-                    <div className="absolute inset-0" style={{
-                        backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary-foreground)) 1px, transparent 1px)`,
-                        backgroundSize: '40px 40px'
-                    }} />
-                    </div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="relative z-10"
+              <div className="relative rounded-2xl overflow-hidden p-12 text-center text-primary-foreground bg-gradient-to-r from-primary via-primary/90 to-accent/90">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="relative z-10"
+                >
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
+                    Ready to make an impact?
+                  </h2>
+                  <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
+                    Join our team of innovators and help us revolutionize the avocado industry.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link
+                      href="/careers"
+                      className="px-8 py-4 bg-background text-primary font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
                     >
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
-                        Ready to make an impact?
-                        </h2>
-                        <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
-                        Join our team of innovators and help us revolutionize the avocado industry.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link
-                            href="/careers"
-                            className="px-8 py-4 bg-background text-primary font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
-                        >
-                            View Open Positions
-                        </Link>
-                        <Link
-                            href="/contact"
-                            className="px-8 py-4 bg-transparent border-2 border-primary-foreground/30 text-primary-foreground font-semibold rounded-full hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all duration-300"
-                        >
-                            Contact Us
-                        </Link>
-                        </div>
-                    </motion.div>
-                </div>
+                      View Open Positions
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="px-8 py-4 bg-transparent border-2 border-primary-foreground/30 text-primary-foreground font-semibold rounded-full hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all duration-300"
+                    >
+                      Contact Us
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </section>
         </main>
