@@ -149,7 +149,7 @@ const TeamCard = memo(({ member, index }: { member: TeamMember; index: number })
 
         {/* Content */}
         <div className="p-6 text-center">
-          <h3 className="text-xl font-bold text-foreground mb-1">
+          <h3 className="text-xl font-headline font-bold text-foreground mb-1">
             {member.name}
           </h3>
           <p className="text-sm font-medium text-primary mb-3">
@@ -234,7 +234,7 @@ export default function TeamPage() {
                 </div>
 
                 {/* Headline */}
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-foreground via-foreground/80 to-primary bg-clip-text text-transparent mb-6">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold bg-gradient-to-r from-foreground via-foreground/80 to-primary bg-clip-text text-transparent mb-6">
                   Meet the minds
                   <br />
                   <span className="text-primary">shaping the future</span>
@@ -289,7 +289,7 @@ export default function TeamPage() {
                   <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-destructive/10 mb-6">
                     <span className="text-3xl">⚠️</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-3">
+                  <h3 className="text-2xl font-headline font-bold text-foreground mb-3">
                     Unable to load team
                   </h3>
                   <p className="text-muted-foreground mb-8">
@@ -328,7 +328,7 @@ export default function TeamPage() {
                   <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
                     <Sparkles className="w-12 h-12 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-3">
+                  <h3 className="text-2xl font-headline font-bold text-foreground mb-3">
                     Our Team is Growing!
                   </h3>
                   <p className="text-muted-foreground mb-8">
@@ -366,7 +366,7 @@ export default function TeamPage() {
                 transition={{ duration: 0.6 }}
                 className="text-center text-primary-foreground"
               >
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
                   Ready to make an impact?
                 </h2>
                 <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
