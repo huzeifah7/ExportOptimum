@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, memo } from 'react';
@@ -28,18 +29,18 @@ type TeamMember = {
 // MEMOIZED SKELETON COMPONENT
 // ============================================================================
 const TeamMemberSkeleton = memo(() => (
-  <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 animate-pulse">
-    <div className="aspect-[4/5] w-full bg-gradient-to-br from-gray-200/20 to-gray-300/20" />
+  <div className="relative overflow-hidden rounded-3xl bg-muted/50 backdrop-blur-sm border border-border/10 animate-pulse">
+    <div className="aspect-[4/5] w-full bg-gradient-to-br from-muted/60 to-muted/70" />
     <div className="p-6 space-y-3">
-      <div className="h-7 w-3/4 rounded-full bg-gray-200/20 mx-auto" />
-      <div className="h-5 w-1/2 rounded-full bg-gray-200/20 mx-auto" />
+      <div className="h-7 w-3/4 rounded-full bg-muted/80 mx-auto" />
+      <div className="h-5 w-1/2 rounded-full bg-muted/80 mx-auto" />
       <div className="space-y-2 pt-2">
-        <div className="h-4 w-full rounded-full bg-gray-200/20" />
-        <div className="h-4 w-2/3 rounded-full bg-gray-200/20 mx-auto" />
+        <div className="h-4 w-full rounded-full bg-muted/80" />
+        <div className="h-4 w-2/3 rounded-full bg-muted/80 mx-auto" />
       </div>
       <div className="flex justify-center gap-4 pt-2">
-        <div className="h-5 w-5 rounded-full bg-gray-200/20" />
-        <div className="h-5 w-5 rounded-full bg-gray-200/20" />
+        <div className="h-5 w-5 rounded-full bg-muted/80" />
+        <div className="h-5 w-5 rounded-full bg-muted/80" />
       </div>
     </div>
   </div>
@@ -65,13 +66,13 @@ const TeamCard = memo(({ member, index }: { member: TeamMember; index: number })
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Glass Card Container */}
-      <div className="relative h-full overflow-hidden rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl transition-all duration-500 hover:shadow-2xl hover:bg-white/15 dark:bg-black/10 dark:border-white/5">
+      <div className="relative h-full overflow-hidden rounded-3xl bg-background/50 backdrop-blur-md border border-border/20 shadow-xl transition-all duration-500 hover:shadow-2xl hover:bg-background/60">
         
         {/* Image Container with Aspect Ratio */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-green-100/30 to-emerald-100/30 dark:from-green-900/20 dark:to-emerald-900/20">
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
           {!isImageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white/60 animate-spin" />
+              <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary/60 animate-spin" />
             </div>
           )}
           
@@ -93,8 +94,8 @@ const TeamCard = memo(({ member, index }: { member: TeamMember; index: number })
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                <Sparkles className="w-8 h-8 text-white/60" />
+              <div className="w-20 h-20 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center">
+                <Sparkles className="w-8 h-8 text-foreground/60" />
               </div>
             </div>
           )}
@@ -109,7 +110,7 @@ const TeamCard = memo(({ member, index }: { member: TeamMember; index: number })
 
           {/* Floating Role Badge */}
           <div className="absolute top-4 left-4">
-            <span className="px-4 py-2 text-xs font-semibold tracking-wider text-white uppercase bg-black/40 backdrop-blur-md rounded-full border border-white/20">
+            <span className="px-4 py-2 text-xs font-semibold tracking-wider text-foreground uppercase bg-background/40 backdrop-blur-md rounded-full border border-border/20">
               {member.role}
             </span>
           </div>
@@ -148,13 +149,13 @@ const TeamCard = memo(({ member, index }: { member: TeamMember; index: number })
 
         {/* Content */}
         <div className="p-6 text-center">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+          <h3 className="text-xl font-bold text-foreground mb-1">
             {member.name}
           </h3>
-          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-3">
+          <p className="text-sm font-medium text-primary mb-3">
             {member.role}
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">
+          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
             {member.bio}
           </p>
         </div>
@@ -178,7 +179,7 @@ export default function TeamPage() {
     [firestore]
   );
 
-  const { data: teamMembers, loading, error } = useCollection<TeamMember>(teamMembersCollection);
+  const { data: teamMembers, isLoading: loading, error } = useCollection<TeamMember>(teamMembersCollection);
 
   // Handle hydration mismatch
   useEffect(() => {
@@ -187,7 +188,7 @@ export default function TeamPage() {
 
   if (!mounted) {
     return (
-      <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-slate-950 dark:via-black dark:to-emerald-950">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow py-24">
           <div className="container mx-auto px-4 max-w-7xl">
@@ -213,8 +214,8 @@ export default function TeamPage() {
           <section className="relative py-20 lg:py-32 overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
+              <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
+              <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
             </div>
 
             <div className="container mx-auto px-4 max-w-7xl relative z-10">
@@ -225,22 +226,22 @@ export default function TeamPage() {
                 className="text-center max-w-3xl mx-auto"
               >
                 {/* Pill badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6">
-                  <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold text-primary">
                     The Team
                   </span>
                 </div>
 
                 {/* Headline */}
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-emerald-800 dark:from-white dark:via-gray-200 dark:to-emerald-200 bg-clip-text text-transparent mb-6">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-foreground via-foreground/80 to-primary bg-clip-text text-transparent mb-6">
                   Meet the minds
                   <br />
-                  <span className="text-emerald-600 dark:text-emerald-400">shaping the future</span>
+                  <span className="text-primary">shaping the future</span>
                 </h1>
 
                 {/* Description */}
-                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                   Passionate experts dedicated to bringing you the finest avocados from Morocco, 
                   combining tradition with innovation.
                 </p>
@@ -248,18 +249,18 @@ export default function TeamPage() {
                 {/* Stats - Optional decorative element */}
                 <div className="flex justify-center gap-8 mt-12">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">50+</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Years Combined</div>
+                    <div className="text-2xl font-bold text-foreground">50+</div>
+                    <div className="text-sm text-muted-foreground">Years Combined</div>
                   </div>
-                  <div className="w-px h-10 bg-gray-300 dark:bg-gray-700" />
+                  <div className="w-px h-10 bg-border" />
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">3</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Continents</div>
+                    <div className="text-2xl font-bold text-foreground">3</div>
+                    <div className="text-sm text-muted-foreground">Continents</div>
                   </div>
-                  <div className="w-px h-10 bg-gray-300 dark:bg-gray-700" />
+                  <div className="w-px h-10 bg-border" />
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">100%</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Commitment</div>
+                    <div className="text-2xl font-bold text-foreground">100%</div>
+                    <div className="text-sm text-muted-foreground">Commitment</div>
                   </div>
                 </div>
               </motion.div>
@@ -285,18 +286,18 @@ export default function TeamPage() {
                   animate={{ opacity: 1 }}
                   className="text-center py-20"
                 >
-                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 mb-6">
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-destructive/10 mb-6">
                     <span className="text-3xl">⚠️</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                  <h3 className="text-2xl font-bold text-foreground mb-3">
                     Unable to load team
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-8">
+                  <p className="text-muted-foreground mb-8">
                     Please refresh the page or try again later.
                   </p>
                   <button
                     onClick={() => window.location.reload()}
-                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full transition-colors"
+                    className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full transition-colors"
                   >
                     Refresh Page
                   </button>
@@ -313,7 +314,7 @@ export default function TeamPage() {
                   </div>
 
                   {/* Decorative connection lines (optional) */}
-                  <div className="hidden lg:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent -z-10" />
+                  <div className="hidden lg:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-10" />
                 </>
               )}
 
@@ -324,18 +325,18 @@ export default function TeamPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center py-20 max-w-md mx-auto"
                 >
-                  <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                    <Sparkles className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
+                  <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Sparkles className="w-12 h-12 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                  <h3 className="text-2xl font-bold text-foreground mb-3">
                     Our Team is Growing!
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-8">
+                  <p className="text-muted-foreground mb-8">
                     We're currently introducing new members to our family. Check back soon to meet the full team.
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full transition-colors"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full transition-colors"
                   >
                     Get notified
                     <ChevronRight className="w-4 h-4" />
@@ -347,12 +348,12 @@ export default function TeamPage() {
 
           {/* Modern CTA Section */}
           <section className="relative py-20 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/90 via-emerald-500/90 to-teal-600/90 dark:from-emerald-900/90 dark:via-emerald-800/90 dark:to-teal-900/90" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-accent/90" />
             
             {/* Animated background pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0" style={{
-                backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 1px)`,
+                backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary-foreground)) 1px, transparent 1px)`,
                 backgroundSize: '40px 40px'
               }} />
             </div>
@@ -363,24 +364,24 @@ export default function TeamPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="text-center text-white"
+                className="text-center text-primary-foreground"
               >
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
                   Ready to make an impact?
                 </h2>
-                <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
                   Join our team of innovators and help us revolutionize the avocado industry.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/careers"
-                    className="px-8 py-4 bg-white text-emerald-700 font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                    className="px-8 py-4 bg-background text-primary font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
                   >
                     View Open Positions
                   </Link>
                   <Link
                     href="/contact"
-                    className="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+                    className="px-8 py-4 bg-transparent border-2 border-primary-foreground/30 text-primary-foreground font-semibold rounded-full hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all duration-300"
                   >
                     Contact Us
                   </Link>
