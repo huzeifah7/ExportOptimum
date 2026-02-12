@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, memo } from 'react';
@@ -347,46 +346,48 @@ export default function TeamPage() {
           </section>
 
           {/* Modern CTA Section */}
-          <section className="relative py-20 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-accent/90" />
-            
-            {/* Animated background pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0" style={{
-                backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary-foreground)) 1px, transparent 1px)`,
-                backgroundSize: '40px 40px'
-              }} />
-            </div>
+          <section className="py-16 lg:py-24">
+            <div className="container mx-auto px-4">
+                <div className="relative rounded-2xl overflow-hidden p-12 text-center text-primary-foreground">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-accent/90" />
+                    
+                    {/* Animated background pattern */}
+                    <div className="absolute inset-0 opacity-10">
+                    <div className="absolute inset-0" style={{
+                        backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--primary-foreground)) 1px, transparent 1px)`,
+                        backgroundSize: '40px 40px'
+                    }} />
+                    </div>
 
-            <div className="container mx-auto px-4 max-w-5xl relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="text-center text-primary-foreground"
-              >
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
-                  Ready to make an impact?
-                </h2>
-                <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
-                  Join our team of innovators and help us revolutionize the avocado industry.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link
-                    href="/careers"
-                    className="px-8 py-4 bg-background text-primary font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
-                  >
-                    View Open Positions
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="px-8 py-4 bg-transparent border-2 border-primary-foreground/30 text-primary-foreground font-semibold rounded-full hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all duration-300"
-                  >
-                    Contact Us
-                  </Link>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="relative z-10"
+                    >
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold mb-6">
+                        Ready to make an impact?
+                        </h2>
+                        <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
+                        Join our team of innovators and help us revolutionize the avocado industry.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link
+                            href="/careers"
+                            className="px-8 py-4 bg-background text-primary font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                        >
+                            View Open Positions
+                        </Link>
+                        <Link
+                            href="/contact"
+                            className="px-8 py-4 bg-transparent border-2 border-primary-foreground/30 text-primary-foreground font-semibold rounded-full hover:bg-primary-foreground/10 hover:border-primary-foreground/50 transition-all duration-300"
+                        >
+                            Contact Us
+                        </Link>
+                        </div>
+                    </motion.div>
                 </div>
-              </motion.div>
             </div>
           </section>
         </main>
