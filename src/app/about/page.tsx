@@ -325,15 +325,6 @@ const ValuesSection = () => {
               Advantage
             </span>
           </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.7, delay: 0.25 }}
-            className="text-muted-foreground text-lg max-w-xs lg:text-right leading-relaxed"
-          >
-            We provide more than advice. We deliver a clear, actionable framework for international success.
-          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -401,3 +392,4 @@ export default function AboutUsPage() {
     </>
   );
 }
+

@@ -491,7 +491,7 @@ export default function TeamPage() {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mt-8"
                 >
-                  A dedicated team of visionaries cultivating excellence in every avocado, building a sustainable future for agriculture.
+                  A dedicated team of visionaries cultivating excellence in every order.  
                 </motion.p>
               </motion.div>
             </div>

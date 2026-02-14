@@ -286,7 +286,7 @@ export default function SustainabilityPage() {
                 <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
                     {isLoadingGallery ? (
                         <div className="w-full h-full flex items-center justify-center">
-                            <Skeleton className="w-3/4 h-3/4 rounded-full" />
+                            <Skeleton className="w-4/4 h-3/4 rounded-full" />
                         </div>
                     ) : (
                         <DomeGallery images={galleryImages || []} grayscale={false} />

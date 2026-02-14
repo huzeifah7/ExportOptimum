@@ -71,7 +71,7 @@ const processSteps = [
   },
   {
     icon: CalendarCheck,
-    title: 'Precision Harvesting for Export-Grade Freshness',
+    title: 'Precision in Harvesting for Export-Grade Freshness',
     description: 'At Export Optimum, we believe harvesting is not a moment ; it is a calibrated operation. Our harvesting teams are trained to work with speed, care, and selectivity, ensuring each avocado, melon, and berry is picked within a precisely defined maturity window based on varietal standards, dry matter levels, and export-market requirements.',
   },
   {
@@ -91,7 +91,7 @@ const processSteps = [
   },
   {
     icon: MessagesSquare,
-    title: 'Communication Beyond the Sale',
+    title: 'Communication Beyond the Sales  ',
     description: 'Export Optimum, our commitment doesn’t end once the shipment is booked or delivered. We maintain clear, proactive communication throughout the entire process, addressing concerns and offering support whenever it’s needed. Our team remains readily available to provide guidance, timely updates, and solution ensuring our clients feel informed, supported, and confident from start to finish.',
   }
 ];
@@ -128,14 +128,7 @@ export default function QualityPage() {
             <main className="flex-grow">
               {/* Hero Section */}
               <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32  flex items-center justify-center text-white overflow-hidden ">
-                <Image
-                    src="/BGAbout.png"
-                    alt="Lush avocado groves"
-                    fill
-                    className="object-cover -z-10"
-                    data-ai-hint="agriculture landscape"
-                    priority
-                />
+              
                 <div className="absolute inset-0 bg-black/15 -z-10" />
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
                   <motion.div

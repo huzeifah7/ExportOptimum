@@ -18,9 +18,8 @@ type ContactInformation = {
 };
 
 const socialLinks = [
-	{ label: 'LinkedIn', href: 'https://www.linkedin.com', Icon: Linkedin },
-	{ label: 'Facebook', href: 'https://www.facebook.com', Icon: Facebook },
-	{ label: 'Instagram', href: 'https://www.instagram.com', Icon: Instagram }
+	{ label: 'LinkedIn', href: 'https://www.linkedin.com/company/export-optimum-sarl/?viewAsMember=true', Icon: Linkedin },
+
 ];
 
 export default function Footer() {
