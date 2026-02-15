@@ -80,59 +80,99 @@ export default function QualityPage() {
             
             <main className="flex-grow">
               {/* Hero Section */}
-              <section className="relative bg-background overflow-hidden pt-32 pb-24 lg:pt-40 lg:pb-32">
-                <div className="absolute -top-24 -left-24 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-accent/5 rounded-full blur-3xl animate-pulse animation-delay-2000" />
-                
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="inline-block mb-6"
-                  >
-                    <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
-                      <Award className="w-4 h-4 mr-2" />
-                      Our Commitment
-                    </span>
-                  </motion.div>
+              {/* Hero Section – With Premium Background Effect */}
+<section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">
+  {/* Background Image + Overlay */}
+  <div className="absolute inset-0 z-0">
+    <Image
+      src="https://thumbs.dreamstime.com/b/avocado-s-covered-dewdrops-growing-tree-misty-morning-close-up-south-africa-347658668.jpg" // ← Replace with your own high-res Moroccan avocado orchard image (golden hour / dewy / cinematic preferred)
+      alt="Premium Moroccan avocados on tree at morning mist"
+      fill
+      className="object-cover brightness-[0.65] contrast-[1.05] scale-105 transition-transform duration-1000"
+      priority
+      quality={90}
+    />
+    
+    {/* Strong overlay gradient for text legibility + premium mood */}
+    <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/55 to-black/70" />
+    
+    {/* Subtle ambient glows (enhanced version of your original) */}
+    <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-slow opacity-70" />
+    <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-primary/8 rounded-full blur-3xl animate-pulse-slow delay-1500 opacity-60" />
+  </div>
 
-                  <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-foreground max-w-5xl mx-auto p-5 font-open-sans" 
-                  >
-                    At Export Optimum, <span className='text-primary'>Quality</span> is a non-negotiable.
-                  </motion.h1>
+  {/* Content */}
+  <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl text-center">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+      className="inline-block mb-8"
+    >
+      <span className="inline-flex items-center px-5 py-2.5 rounded-full text-base font-medium bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
+        <Award className="w-5 h-5 mr-2.5 text-primary" />
+        Our Commitment to Excellence
+      </span>
+    </motion.div>
 
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed"
-                  >
-                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars. 
-                  </motion.p>
+    <motion.h1
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.15 }}
+      className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-headline font-extrabold tracking-tight leading-[1.05] mb-8 text-white max-w-5xl mx-auto"
+    >
+      At Export Optimum, <span className="text-primary">Quality</span> is non-negotiable.
+    </motion.h1>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
-                  >
-                    <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-lg">
-                      <Link href="#certifications" className="flex items-center gap-2">
-                        View Certifications
-                        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                      </Link>
-                    </Button>
-                    <Button asChild size="lg" variant="outline" className="rounded-full px-8 text-base shadow-lg">
-                      <Link href="/contact">Contact Us</Link>
-                    </Button>
-                  </motion.div>
-                </div>
-              </section>
+    <motion.p
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+      className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-12 leading-relaxed font-light"
+    >
+      From Moroccan orchard to global arrival — uniform, fresh, fully compliant volumes you can confidently forward-sell. Built on six uncompromising quality pillars.
+    </motion.p>
+
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.45 }}
+      className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+    >
+      <Button 
+        asChild 
+        size="xl" 
+        className="rounded-full px-10 py-7 text-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl shadow-primary/25 transition-all group min-w-[220px]"
+      >
+        <Link href="#certifications" className="flex items-center justify-center gap-3">
+          View Certifications
+          <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-2" />
+        </Link>
+      </Button>
+
+      <Button 
+        asChild 
+        size="xl" 
+        variant="outline" 
+        className="rounded-full px-10 py-7 text-lg font-medium border-2 border-white/40 text-white hover:bg-white/10 hover:border-white/60 backdrop-blur-sm transition-all min-w-[220px]"
+      >
+        <Link href="/contact">Contact Us</Link>
+      </Button>
+    </motion.div>
+  </div>
+
+  {/* Optional subtle scroll indicator */}
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: [0, 1, 0] }}
+    transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
+    className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hidden md:block"
+  >
+    <div className="w-8 h-12 border-2 border-white/40 rounded-full p-1.5">
+      <div className="w-full h-3 bg-white rounded-full animate-bounce" />
+    </div>
+  </motion.div>
+</section>
 
               {/* Quality Pillars Section */}
               <section className="py-20 lg:py-32 bg-primary/5">
