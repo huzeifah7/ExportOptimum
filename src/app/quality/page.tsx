@@ -71,6 +71,12 @@ export default function QualityPage() {
 
   const { data: certifications, isLoading } = useCollection<Certification>(certsQuery);
 
+  const fadeInUp = {
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }
+  };
+
   return (
     <>
       {isClient ? (
@@ -80,138 +86,100 @@ export default function QualityPage() {
             
             <main className="flex-grow">
               {/* Hero Section */}
-              {/* Hero Section — Redesigned */}
-<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
+              <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0a0a0a] py-20">
+                <div className="absolute inset-0 z-0">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.08)_0%,transparent_50%)]" />
+                  <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+                  <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-900/10 rounded-full blur-[120px]" />
+                </div>
 
-  {/* ── Ambient light system — light theme ── */}
-  <div className="absolute inset-0 pointer-events-none" aria-hidden>
-    {/* Primary orb — top center, very soft */}
-    <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full opacity-20"
-      style={{ background: 'radial-gradient(ellipse, hsl(88,92%,38%) 0%, transparent 65%)', filter: 'blur(90px)', animation: 'orb-breathe 10s ease-in-out infinite' }} />
-    {/* Left accent */}
-    <div className="absolute top-1/2 -left-48 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-12"
-      style={{ background: 'radial-gradient(circle, hsl(88,92%,45%) 0%, transparent 65%)', filter: 'blur(70px)', animation: 'orb-breathe 15s ease-in-out infinite 3s' }} />
-    {/* Fine grid — barely visible on white */}
-    <div className="absolute inset-0 opacity-[0.035]"
-      style={{ backgroundImage: 'linear-gradient(hsl(88,92%,25%) 1px, transparent 1px), linear-gradient(90deg, hsl(88,92%,25%) 1px, transparent 1px)', backgroundSize: '56px 56px' }} />
-    {/* Top edge line */}
-    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[hsl(88,92%,35%)]/40 to-transparent" />
-    {/* Bottom fade to white */}
-    <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white to-transparent" />
-  </div>
+                <div className="container relative z-10 mx-auto px-6 lg:px-8">
+                  <div className="flex flex-col items-center text-center">
+                    
+                    <motion.div {...fadeInUp}>
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-white/5 to-white/10 border border-white/10 backdrop-blur-md mb-8 shadow-2xl">
+                        <div className="flex -space-x-2">
+                          <div className="w-6 h-6 rounded-full border-2 border-[#0a0a0a] bg-primary flex items-center justify-center">
+                            <Award className="w-3 h-3 text-black" />
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold tracking-widest uppercase text-white/80 pr-2">
+                          The Gold Standard in Export
+                        </span>
+                      </div>
+                    </motion.div>
 
-  {/* ── Content ── */}
-  <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
+                    <motion.h1 
+                      {...fadeInUp}
+                      transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                      className="text-5xl md:text-7xl lg:text-8xl font-open-sans font-bold tracking-tight text-white mb-8 leading-[1.1]"
+                    >
+                      Quality is our <br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-b from-primary via-emerald-400 to-emerald-600">
+                        Non-Negotiable.
+                      </span>
+                    </motion.h1>
 
-    {/* Eyebrow pill */}
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="flex justify-center mb-8"
-    >
-      <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border border-[hsl(88,92%,30%)]/30 bg-[hsl(88,92%,30%)]/8 text-[hsl(88,92%,25%)]">
-        <span className="w-1.5 h-1.5 rounded-full bg-[hsl(88,92%,30%)] animate-pulse" />
-        <Award className="w-4 h-4" />
-        Our Commitment
-      </span>
-    </motion.div>
+                    <motion.p 
+                      {...fadeInUp}
+                      transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                      className="max-w-2xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12"
+                    >
+                      From orchard to arrival, we’ve engineered a <span className="text-white">six-pillar quality system</span> that guarantees freshness, uniformity, and total compliance. No surprises—just reliable volume.
+                    </motion.p>
 
-    {/* Setup line */}
-    <div className="overflow-hidden mb-3">
-      <motion.p
-        initial={{ y: '100%' }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-        className="text-2xl md:text-3xl font-semibold text-gray-400 tracking-wide uppercase"
-      >
-        At Export Optimum,
-      </motion.p>
-    </div>
+                    <motion.div 
+                      {...fadeInUp}
+                      transition={{ ...fadeInUp.transition, delay: 0.3 }}
+                      className="flex flex-col sm:flex-row items-center gap-6"
+                    >
+                      <Button 
+                        asChild 
+                        size="lg" 
+                        className="h-14 px-10 rounded-2xl bg-primary text-black hover:bg-white hover:scale-105 transition-all duration-300 font-bold shadow-[0_0_20px_rgba(34,197,94,0.3)]"
+                      >
+                        <Link href="#certifications" className="flex items-center gap-2">
+                          View Certifications
+                          <ArrowRight className="w-5 h-5" />
+                        </Link>
+                      </Button>
 
-    {/* Impact word */}
-    <div className="overflow-hidden mb-4">
-      <motion.h1
-        initial={{ y: '100%' }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
-        className="text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.88] tracking-[-0.04em] text-gray-900 font-open-sans"
-      >
-        Quality
-      </motion.h1>
-    </div>
+                      <Link 
+                        href="/contact" 
+                        className="group text-white font-semibold flex items-center gap-2 hover:text-primary transition-colors"
+                      >
+                        Speak to our Specialists
+                        <span className="w-8 h-[1px] bg-white/30 group-hover:bg-primary transition-all group-hover:w-12" />
+                      </Link>
+                    </motion.div>
 
-    {/* Gradient payoff */}
-    <div className="overflow-hidden mb-10">
-      <motion.h1
-        initial={{ y: '100%' }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.24 }}
-        className="font-open-sans text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.88] tracking-[-0.04em]"
-        style={{
-          color: 'transparent',
-          backgroundImage: 'linear-gradient(135deg, hsl(88,92%,32%) 0%, hsl(88,92%,22%) 60%, hsl(88,92%,18%) 100%)',
-          WebkitBackgroundClip: 'text',
-          backgroundClip: 'text'
-        }}
-      >
-        is non-negotiable.
-      </motion.h1>
-    </div>
-
-    {/* Body text */}
-    <motion.p
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed font-light"
-    >
-      From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance—so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars.
-    </motion.p>
-
-    {/* CTAs */}
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.58 }}
-      className="flex flex-col sm:flex-row gap-4 justify-center"
-    >
-      <Link
-        href="#certifications"
-        className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[hsl(88,92%,28%)] hover:bg-[hsl(88,92%,23%)] text-white font-bold text-base transition-all duration-300 hover:shadow-[0_8px_40px_hsl(88,92%,30%,0.35)] group shadow-lg"
-      >
-        View Certifications
-        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-      </Link>
-      <Link
-        href="/contact"
-        className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-gray-200 text-gray-600 hover:border-[hsl(88,92%,30%)]/40 hover:text-[hsl(88,92%,25%)] font-semibold text-base transition-all duration-300"
-      >
-        Contact Us
-      </Link>
-    </motion.div>
-
-    {/* Scroll indicator */}
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, delay: 1.2 }}
-      className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-    >
-      <span className="text-[10px] uppercase tracking-[0.3em] text-gray-300 font-bold">Scroll</span>
-      <div className="w-px h-10 bg-gradient-to-b from-gray-300 to-transparent animate-pulse" />
-    </motion.div>
-
-  </div>
-</section>
-
-<style jsx global>{`
-  @keyframes orb-breathe {
-    0%, 100% { transform: scale(1) translate(0, 0); }
-    50% { transform: scale(1.15) translate(0, -20px); }
-  }
-`}</style>
-
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1, duration: 1 }}
+                      className="mt-20 pt-8 border-t border-white/5 w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-8 opacity-50 grayscale hover:grayscale-0 transition-all"
+                    >
+                      <div className="flex flex-col items-center">
+                          <span className="text-2xl font-bold text-white">100%</span>
+                          <span className="text-[10px] uppercase tracking-widest">Compliance</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                          <span className="text-2xl font-bold text-white">24/7</span>
+                          <span className="text-[10px] uppercase tracking-widest">Monitoring</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                          <span className="text-2xl font-bold text-white">Global</span>
+                          <span className="text-[10px] uppercase tracking-widest">Logistics</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                          <span className="text-2xl font-bold text-white">6 Pillars</span>
+                          <span className="text-[10px] uppercase tracking-widest">Of Quality</span>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+              </section>
+              
               {/* Quality Pillars Section */}
               <section className="py-20 lg:py-32 bg-primary/5">
                 <div className="w-full">
