@@ -16,53 +16,6 @@ import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-// Animated Avocado Background
-const AvocadoAnimatedBackground = () => {
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden opacity-30 z-0">
-      <div className="absolute top-[15%] left-[10%] w-40 h-50 animate-float-slow">
-        <svg viewBox="0 0 100 120" className="w-full h-full opacity-15">
-          <ellipse cx="50" cy="60" rx="35" ry="45" fill="currentColor" className="text-primary" />
-          <ellipse cx="50" cy="55" rx="15" ry="20" fill="currentColor" className="text-primary/40" />
-        </svg>
-      </div>
-      
-      <div className="absolute bottom-[20%] right-[15%] w-32 h-40 animate-float-medium">
-        <svg viewBox="0 0 100 120" className="w-full h-full opacity-10">
-          <ellipse cx="50" cy="60" rx="35" ry="45" fill="currentColor" className="text-primary" />
-          <ellipse cx="50" cy="55" rx="15" ry="20" fill="currentColor" className="text-primary/40" />
-        </svg>
-      </div>
-
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="currentColor" className="text-primary" stopOpacity="0" />
-            <stop offset="50%" stopColor="currentColor" className="text-primary" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="currentColor" className="text-primary" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        
-        <path 
-          d="M 0 200 Q 400 100 800 300 T 1600 200" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="2"
-          className="animate-draw-line"
-        />
-        
-        <path 
-          d="M 0 500 Q 400 600 800 400 T 1600 500" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="1.5"
-          className="animate-draw-line-delayed"
-        />
-      </svg>
-    </div>
-  );
-};
-
 const processSteps = [
   {
     icon: Leaf,
@@ -124,61 +77,170 @@ export default function QualityPage() {
         <div className="flex flex-col min-h-screen">
             
             <Header />
-            
-            <main className="flex-grow">
               {/* Hero Section */}
-              <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32  flex items-center justify-center text-white overflow-hidden ">
-              
-                <div className="absolute inset-0 bg-black/15 -z-10" />
-                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="inline-block mb-6"
-                  >
-                    <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20">
-                      <Award className="w-4 h-4 mr-2" />
-                      Our Commitment
-                    </span>
-                  </motion.div>
+              <main className="flex-grow">
+  {/* Hero Section - Modern Redesign */}
+  <section className="relative min-h-screen pt-32 lg:pt-40 flex items-center justify-center overflow-hidden">
+    {/* Premium Background with Gradient and Pattern */}
+    <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Animated gradient orbs */}
+      <div className="absolute top-0 -left-4 w-72 h-72 bg-primary/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
+      <div className="absolute top-0 -right-4 w-72 h-72 bg-secondary/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
+      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-blue-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
+      
+      {/* Subtle grid pattern overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=]60' height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20" />
+    </div>
 
-                  <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight mb-6 leading-tight text-white max-w-5xl mx-auto p-5 " 
-                  >
-                    At Export Optimum,<span className='text-primary'> Quality</span> is a non-negotiable.
-                  </motion.h1>
+    {/* Floating elements for depth */}
+    <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute -top-40 -right-40 w-80 h-80 border border-white/10 rounded-full" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 border border-white/10 rounded-full" />
+    </div>
 
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-lg md:text-xl text-white/100 max-w-4xl mx-auto mb-10 leading-relaxed"
-                  >
-                    From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars. 
-                  </motion.p>
+    {/* Main content container */}
+    <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        
+        {/* Left column - Content */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-left"
+        >
+          {/* Premium badge */}
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-8">
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-sm font-medium tracking-wide text-white/80">
+              PREMIUM QUALITY STANDARDS
+            </span>
+          </div>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
-                  >
-                    <Button asChild size="lg" className="rounded-full px-8 text-base group shadow-lg">
-                      <Link href="#certifications" className="flex items-center gap-2">
-                        View Certifications
-                        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                      </Link>
-                    </Button>
-                    <Button asChild size="lg" className="rounded-full px-8 text-base border border-white/50 text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-foreground transition-all duration-300 shadow-lg">
-                      <Link href="/contact">Contact Us</Link>
-                    </Button>
-                  </motion.div>
-                </div>
-              </section>
+          {/* Main headline with gradient */}
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold tracking-tight mb-6">
+            <span className="text-white">At Export Optimum,</span>
+            <br />
+            <span className="bg-gradient-to-r from-primary via-primary/90 to-blue-400 bg-clip-text text-transparent">
+              Quality
+            </span>
+            <span className="text-white"> is non-negotiable.</span>
+          </h1>
+
+          {/* Description with elegant styling */}
+          <p className="text-lg md:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed">
+            From orchard to arrival, our quality systems ensure uniformity, freshness, 
+            and full compliance, so you receive reliable volumes you can confidently sell forward. 
+            Our operations are centered around six uncompromising quality pillars.
+          </p>
+
+          {/* CTA buttons with modern styling */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button 
+              asChild 
+              size="lg" 
+              className="group relative overflow-hidden rounded-full px-8 py-6 text-base font-semibold bg-primary hover:bg-primary/90 text-white border-0 shadow-[0_10px_40px_-15px_rgba(255,107,0,0.5)] transition-all duration-300 hover:shadow-[0_20px_60px_-15px_rgba(255,107,0,0.7)] hover:-translate-y-1"
+            >
+              <Link href="#certifications" className="flex items-center gap-2">
+                <span className="relative z-10">View Certifications</span>
+                <ArrowRight className="w-5 h-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </Button>
+            
+            <Button 
+              asChild 
+              size="lg" 
+              variant="outline" 
+              className="rounded-full px-8 py-6 text-base font-semibold border-2 border-white/20 bg-transparent text-white hover:bg-white/10 hover:border-white/30 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
+            >
+              <Link href="/contact">Contact Us</Link>
+            </Button>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <p className="text-sm text-white/50 mb-4 tracking-wider">TRUSTED BY INDUSTRY LEADERS</p>
+            <div className="flex flex-wrap gap-8 items-center">
+              {/* Replace with actual client logos */}
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-16 h-8 bg-white/10 rounded-lg animate-pulse" />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Right column - Visual element */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="relative hidden lg:block"
+        >
+          {/* Quality pillars visualization */}
+          <div className="relative aspect-square">
+            {/* Central element */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-xl border border-white/10 flex items-center justify-center">
+                <Award className="w-12 h-12 text-primary" />
+              </div>
+            </div>
+
+            {/* Orbiting quality pillars */}
+            {[
+              { icon: '🌱', label: 'Traceability', delay: 0, angle: 0 },
+              { icon: '✓', label: 'Compliance', delay: 0.1, angle: 51.4 },
+              { icon: '🔬', label: 'Testing', delay: 0.2, angle: 102.8 },
+              { icon: '📦', label: 'Packaging', delay: 0.3, angle: 154.2 },
+              { icon: '🚚', label: 'Logistics', delay: 0.4, angle: 205.6 },
+              { icon: '🌍', label: 'Sustainability', delay: 0.5, angle: 257 }
+            ].map((item, index) => {
+              const angle = (index * 60) * (Math.PI / 180);
+              const radius = 160;
+              const x = Math.cos(angle) * radius;
+              const y = Math.sin(angle) * radius;
+
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 + item.delay, duration: 0.5 }}
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  style={{ 
+                    transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`
+                  }}
+                >
+                  <div className="group relative">
+                    <div className="w-16 h-16 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center text-2xl hover:bg-primary/20 hover:scale-110 transition-all duration-300 cursor-pointer">
+                      {item.icon}
+                    </div>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                      <span className="text-xs font-medium text-white/80 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full">
+                        {item.label}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+
+    {/* Scroll indicator */}
+    <motion.div 
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
+    >
+      <div className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center">
+        <div className="w-1 h-2 bg-white/60 rounded-full mt-2 animate-scroll" />
+      </div>
+    </motion.div>
+  </section>
 
               {/* Quality Pillars Section */}
               <section className="py-20 lg:py-32 bg-primary/5">
@@ -450,47 +512,6 @@ export default function QualityPage() {
           <Footer />
         </div>
       )}
-      
-      <style jsx global>{`
-        @keyframes float-slow {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(10px, -20px) rotate(5deg); }
-          50% { transform: translate(-5px, -10px) rotate(-3deg); }
-          75% { transform: translate(-10px, 15px) rotate(3deg); }
-        }
-        
-        @keyframes float-medium {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(-15px, 10px) rotate(-5deg); }
-          66% { transform: translate(15px, -15px) rotate(5deg); }
-        }
-        
-        @keyframes draw-line {
-          0% { stroke-dasharray: 1000; stroke-dashoffset: 1000; }
-          100% { stroke-dasharray: 1000; stroke-dashoffset: 0; }
-        }
-        
-        @keyframes draw-line-delayed {
-          0% { stroke-dasharray: 1000; stroke-dashoffset: 1000; }
-          100% { stroke-dasharray: 1000; stroke-dashoffset: 0; }
-        }
-        
-        .animate-float-slow {
-          animation: float-slow 20s ease-in-out infinite;
-        }
-        
-        .animate-float-medium {
-          animation: float-medium 15s ease-in-out infinite;
-        }
-        
-        .animate-draw-line {
-          animation: draw-line 8s ease-in-out infinite;
-        }
-        
-        .animate-draw-line-delayed {
-          animation: draw-line-delayed 8s ease-in-out 2s infinite;
-        }
-      `}</style>
     </>
   );
 }
