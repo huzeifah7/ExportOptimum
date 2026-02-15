@@ -17,6 +17,7 @@ const slides = [
     tagline: 'Backed by more than a decade of expertise, we deliver the worlds finest fresh produce. carefully sourced, expertly handled, and globally supplied.',
     taglineHighlight: 'Avocados · Berries · Melons',
     ctaLabel: 'Request a Quote',
+    ctaHref: '/contact',
   },
   {
     type: 'video',
@@ -26,6 +27,7 @@ const slides = [
     headline: ['Rooted in', 'Sustainability,', 'Grown for Excellence.'],
     tagline: 'With exclusive access to major Moroccan farms, including two company-owned avocado farms, we oversee more than 500 hectares of avocado cultivation, delivering consistent quality at scale and ensuring full control over quality, sustainability, and season-round supply.',
     ctaLabel: 'Learn About Our Process',
+    ctaHref: '/quality',
   },
   {
     type: 'image',
@@ -34,6 +36,7 @@ const slides = [
     headline: ['Smart Logistics,', 'Total', 'Control'],
     tagline: 'From origin to destination. From harvesting to final delivery, our supply chain is designed to protect quality; and combined with advanced logistics, we ensure compliance, and deliver fresh produce on time, every time!',
     ctaLabel: 'Become a Partner',
+    ctaHref: '/contact',
   },
 ];
 
@@ -101,7 +104,7 @@ const ModernHero = () => {
                   </span>
                 )}
               </p>
-              <ModernHeroButton href="/contact" label={slides[current].ctaLabel} />
+              <ModernHeroButton href={slides[current].ctaHref} label={slides[current].ctaLabel} />
             </motion.div>
           </AnimatePresence>
         </div>
