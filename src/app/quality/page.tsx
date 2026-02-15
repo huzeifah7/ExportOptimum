@@ -16,53 +16,6 @@ import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-// Animated Avocado Background
-const AvocadoAnimatedBackground = () => {
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden opacity-30 z-0">
-      <div className="absolute top-[15%] left-[10%] w-40 h-50 animate-float-slow">
-        <svg viewBox="0 0 100 120" className="w-full h-full opacity-15">
-          <ellipse cx="50" cy="60" rx="35" ry="45" fill="currentColor" className="text-primary" />
-          <ellipse cx="50" cy="55" rx="15" ry="20" fill="currentColor" className="text-primary/40" />
-        </svg>
-      </div>
-      
-      <div className="absolute bottom-[20%] right-[15%] w-32 h-40 animate-float-medium">
-        <svg viewBox="0 0 100 120" className="w-full h-full opacity-10">
-          <ellipse cx="50" cy="60" rx="35" ry="45" fill="currentColor" className="text-primary" />
-          <ellipse cx="50" cy="55" rx="15" ry="20" fill="currentColor" className="text-primary/40" />
-        </svg>
-      </div>
-
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="currentColor" className="text-primary" stopOpacity="0" />
-            <stop offset="50%" stopColor="currentColor" className="text-primary" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="currentColor" className="text-primary" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        
-        <path 
-          d="M 0 200 Q 400 100 800 300 T 1600 200" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="2"
-          className="animate-draw-line"
-        />
-        
-        <path 
-          d="M 0 500 Q 400 600 800 400 T 1600 500" 
-          fill="none" 
-          stroke="url(#lineGradient)" 
-          strokeWidth="1.5"
-          className="animate-draw-line-delayed"
-        />
-      </svg>
-    </div>
-  );
-};
-
 const processSteps = [
   {
     icon: Leaf,
@@ -182,7 +135,7 @@ export default function QualityPage() {
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
-        className="text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.88] tracking-[-0.04em] text-gray-900"
+        className="text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.88] tracking-[-0.04em] text-gray-900 font-open-sans"
       >
         Quality
       </motion.h1>
@@ -194,7 +147,7 @@ export default function QualityPage() {
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.24 }}
-        className="text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.88] tracking-[-0.04em]"
+        className="font-open-sans text-[clamp(3.5rem,11vw,9rem)] font-black leading-[0.88] tracking-[-0.04em]"
         style={{
           color: 'transparent',
           backgroundImage: 'linear-gradient(135deg, hsl(88,92%,32%) 0%, hsl(88,92%,22%) 60%, hsl(88,92%,18%) 100%)',

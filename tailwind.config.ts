@@ -20,6 +20,7 @@ export default {
       fontFamily: {
         body: ['PT Sans', 'sans-serif'],
         headline: ['Nunito', 'sans-serif'],
+        'open-sans': ['Open Sans', 'sans-serif'],
         code: ['monospace'],
         subtitle: ['Hurricane', 'cursive'],
         prose: ['Montserrat', 'sans-serif'],
