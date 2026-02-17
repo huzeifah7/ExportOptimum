@@ -153,10 +153,10 @@ function HeroGeometric({
                         variants={fadeUpVariants}
                         initial="hidden"
                         animate="visible"
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/[0.02] border border-black/[0.05] mb-8 md:mb-12"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary border border-border mb-8 md:mb-12"
                     >
-                        <Circle className="h-2 w-2 fill-primary/80" />
-                        <span className="text-sm text-foreground/60 tracking-wide">
+                        <Circle className="h-2 w-2 fill-primary" />
+                        <span className="text-sm text-secondary-foreground tracking-wide">
                             {badge}
                         </span>
                     </motion.div>
@@ -168,15 +168,11 @@ function HeroGeometric({
                         animate="visible"
                     >
                         <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/80">
+                            <span className="text-foreground">
                                 {title1}
                             </span>
                             <br />
-                            <span
-                                className={cn(
-                                    "bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-accent"
-                                )}
-                            >
+                            <span className="text-primary">
                                 {title2}
                             </span>
                         </h1>
@@ -188,7 +184,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground/80 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
+                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
                            {subtitle}
                         </p>
                     </motion.div>
