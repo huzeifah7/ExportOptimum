@@ -9,6 +9,7 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
 import {
@@ -27,6 +28,8 @@ import {
 } from '@lexical/markdown';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { ListNode, ListItemNode, INSERT_UNORDERED_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND } from '@lexical/list';
+import { CodeNode } from '@lexical/code';
+import { LinkNode } from '@lexical/link';
 import { Button } from './button';
 import { Bold, Italic, List, ListOrdered, Type, Redo, Undo } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -56,6 +59,7 @@ const theme = {
     h3: 'text-xl font-bold mb-2',
   },
   paragraph: 'mb-4',
+  code: 'bg-muted rounded px-1.5 py-0.5 font-mono text-sm',
 };
 
 function ToolbarPlugin() {
@@ -193,6 +197,8 @@ export function LexicalEditor({ value, onChange, placeholder = "Start typing..."
       ListNode,
       ListItemNode,
       QuoteNode,
+      CodeNode,
+      LinkNode,
     ],
     onError: (error: Error) => {
       console.error(error);
@@ -224,6 +230,7 @@ export function LexicalEditor({ value, onChange, placeholder = "Start typing..."
           />
           <HistoryPlugin />
           <ListPlugin />
+          <LinkPlugin />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
           <OnChangePlugin onChange={handleOnChange} />
           <LoadInitialValuePlugin initialValue={value} />
