@@ -5,7 +5,7 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/OnChangePlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
@@ -26,7 +26,6 @@ import {
   $createParagraphNode,
   $getRoot,
   $createTextNode,
-  ParagraphNode,
   TextNode,
 } from 'lexical';
 import { 
@@ -88,7 +87,6 @@ const theme = {
   link: 'text-primary underline cursor-pointer',
 };
 
-// Plugin to load initial content without relying on potentially missing generateNodesFromHtml export
 function LoadInitialValuePlugin({ initialValue }: { initialValue: string }) {
   const [editor] = useLexicalComposerContext();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -99,9 +97,6 @@ function LoadInitialValuePlugin({ initialValue }: { initialValue: string }) {
         const root = $getRoot();
         if (root.isEmpty() || root.getTextContent() === '') {
           root.clear();
-          
-          // Simple fallback conversion for basic rich text
-          // This avoids the build error with @lexical/html in certain environments
           const parser = new DOMParser();
           const dom = parser.parseFromString(initialValue, 'text/html');
           
