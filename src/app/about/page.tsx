@@ -123,54 +123,63 @@ const WhoWeAreSection = () => {
   return (
     <section ref={ref} className="py-28 lg:py-36 relative bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Content Side */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }} 
+            animate={isInView ? { opacity: 1, x: 0 } : {}} 
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Section label */}
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-8 h-px bg-primary" />
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                <Users className="w-3.5 h-3.5" /> Who We Are
+              </span>
+            </div>
 
-        {/* Section label */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }}
-          className="flex items-center gap-3 mb-16">
-          <span className="w-8 h-px bg-primary" />
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            <Users className="w-3.5 h-3.5" /> Who We Are
-          </span>
-        </motion.div>
+            {/* Large pull quote */}
+            <h2 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight text-foreground mb-8">
+              Built by the ElYamlahi Family. <span className="text-primary">Empowered by growers. Trusted by global buyers.</span>
+            </h2>
 
-        {/* Large pull quote */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight text-foreground mb-12 max-w-5xl"
-        >
-          Built by the ElYamlahi Family.{' '}
-          <span className="text-primary">Empowered by growers.</span>{' '}
-          <span className="text-primary">Trusted by global buyers.</span>
-        </motion.h2>
+            {/* Text content */}
+            <div className="text-lg leading-relaxed text-muted-foreground space-y-6 mb-10">
+              <p>
+                Founded in <span className="font-semibold text-foreground">2019</span> as a family-owned company, Export Optimum is the natural evolution of over <span className="font-semibold text-foreground">10 years</span> of hands-on experience in farm management and international fresh produce supply. Powered by a loyal global customer base, we operate with <span className="font-semibold text-foreground">precision planning</span>, <span className="font-semibold text-foreground">strict quality standards</span>, and <span className="font-semibold text-foreground">responsible sourcing</span> at the core of everything we do.
+              </p>
+              <p>
+                We own two dedicated avocado farms and manage more than <span className="font-semibold text-foreground">500 hectares</span> of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning. Today, Export Optimum stands as a <span className="font-semibold text-foreground">leading exporter of Moroccan avocados</span>, serving consumers worldwide, while also supplying fresh berries and premium melons to international markets.
+              </p>
+            </div>
 
-        {/* Single column text */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="max-w-4xl text-lg leading-relaxed text-muted-foreground space-y-6 mb-12"
-        >
-          <p>
-            Founded in <strong className="text-foreground">2019</strong> as a family-owned company, Export Optimum is the natural evolution of over <strong className="text-foreground">10 years</strong> of hands-on experience in farm management and international fresh produce supply. Powered by a loyal global customer base, we operate with <strong className="text-foreground">precision planning</strong>, <strong className="text-foreground">strict quality standards</strong>, and <strong className="text-foreground">responsible sourcing</strong> at the core of everything we do.
-          </p>
-          <p>
-            We own two dedicated avocado farms and manage more than <strong className="text-foreground">500 hectares</strong> of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning. Today, Export Optimum stands as a <strong className="text-foreground">leading exporter of Moroccan avocados</strong>, serving consumers worldwide, while also supplying fresh berries and premium melons to international markets.
-          </p>
-        </motion.div>
+            {/* Signature quote */}
+            <div className="relative border-l-2 border-primary pl-8 py-2">
+              <p className="text-xl font-semibold text-foreground leading-snug">
+                Export Optimum; fresh produce from our family to yours.
+              </p>
+            </div>
+          </motion.div>
 
-        {/* Signature quote */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="relative border-l-2 border-primary pl-8 py-2 max-w-2xl"
-        >
-          <p className="text-2xl font-semibold text-foreground leading-snug">
-            Export Optimum; fresh produce from our family to yours.
-          </p>
-        </motion.div>
+          {/* Image Side */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }} 
+            animate={isInView ? { opacity: 1, scale: 1 } : {}} 
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="relative aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl"
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1576021182210-6a551167b1b8?q=80&w=1887&auto=format&fit=crop"
+              alt="Hands holding fresh avocados"
+              fill
+              className="object-cover"
+              data-ai-hint="avocado hands"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
