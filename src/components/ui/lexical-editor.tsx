@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { LexkitEditor } from '@lexkit/editor';
-import '@lexkit/editor/dist/index.css';
 import { cn } from '@/lib/utils';
 
 interface LexicalEditorProps {
@@ -18,7 +17,7 @@ interface LexicalEditorProps {
  */
 export function LexicalEditor({ value, onChange, placeholder, className }: LexicalEditorProps) {
   return (
-    <div className={cn("relative min-h-[300px] border rounded-md overflow-hidden bg-white", className)}>
+    <div className={cn("relative min-h-[300px] border rounded-md overflow-hidden bg-white text-black", className)}>
       <LexkitEditor
         value={value}
         onChange={onChange}
