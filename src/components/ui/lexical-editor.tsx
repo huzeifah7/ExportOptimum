@@ -17,6 +17,7 @@ import { ListItemNode, ListNode } from '@lexical/list';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { TRANSFORMERS } from '@lexical/markdown';
+import { $generateHtmlFromNodes, $generateNodesFromHtml } from '@lexical/html';
 import { 
   $getSelection, 
   $isRangeSelection, 
@@ -25,7 +26,6 @@ import {
   $createParagraphNode,
   $getRoot,
   $createTextNode,
-  CLEAR_EDITOR_COMMAND
 } from 'lexical';
 import { 
   $setBlocksType,
@@ -96,15 +96,31 @@ function LoadInitialValuePlugin({ initialValue }: { initialValue: string }) {
         const root = $getRoot();
         if (root.isEmpty() || root.getTextContent() === '') {
           root.clear();
-          const paragraphs = initialValue.split('\n\n');
-          paragraphs.forEach(p => {
-            if (p.trim()) {
+          
+          // Try to parse as HTML, fallback to text if it doesn't look like HTML
+          if (initialValue.includes('<') && initialValue.includes('>')) {
+            try {
+              const parser = new DOMParser();
+              const dom = parser.parseFromString(initialValue, 'text/html');
+              const nodes = $generateNodesFromHtml(editor, dom);
+              root.append(...nodes);
+            } catch (e) {
+              console.error("Failed to parse HTML, falling back to text", e);
               const paragraphNode = $createParagraphNode();
-              const textNode = $createTextNode(p.trim());
-              paragraphNode.append(textNode);
+              paragraphNode.append($createTextNode(initialValue));
               root.append(paragraphNode);
             }
-          });
+          } else {
+            const paragraphs = initialValue.split('\n\n');
+            paragraphs.forEach(p => {
+              if (p.trim()) {
+                const paragraphNode = $createParagraphNode();
+                const textNode = $createTextNode(p.trim());
+                paragraphNode.append(textNode);
+                root.append(paragraphNode);
+              }
+            });
+          }
         }
       });
       setIsLoaded(true);
@@ -286,14 +302,6 @@ export function LexicalEditor({ value, onChange, placeholder, className }: Lexic
     ],
   };
 
-  const handleOnChange = (editorState: any) => {
-    editorState.read(() => {
-      const root = $getRoot();
-      const text = root.getTextContent();
-      onChange(text);
-    });
-  };
-
   return (
     <div className={cn("relative border rounded-md overflow-hidden bg-white text-black min-h-[400px] flex flex-col", className)}>
       <LexicalComposer initialConfig={initialConfig}>
@@ -308,10 +316,24 @@ export function LexicalEditor({ value, onChange, placeholder, className }: Lexic
           <ListPlugin />
           <LinkPlugin />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-          <OnChangePlugin onChange={handleOnChange} />
+          <CustomOnChangePlugin onChange={onChange} />
           <LoadInitialValuePlugin initialValue={value} />
         </div>
       </LexicalComposer>
     </div>
+  );
+}
+
+function CustomOnChangePlugin({ onChange }: { onChange: (html: string) => void }) {
+  const [editor] = useLexicalComposerContext();
+  return (
+    <OnChangePlugin
+      onChange={(editorState) => {
+        editorState.read(() => {
+          const html = $generateHtmlFromNodes(editor, null);
+          onChange(html);
+        });
+      }}
+    />
   );
 }

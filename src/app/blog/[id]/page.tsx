@@ -106,7 +106,7 @@ export default function BlogDetailPage() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-black text-primary leading-tight">
                 {post.title}
               </h1>
-              <p className="mt-6 text-xl md:text-2xl text-primary/80 font-medium leading-relaxed italic">
+              <p className="mt-6 text-xl md:text-2xl text-primary font-medium leading-relaxed italic">
                 {post.excerpt}
               </p>
               
@@ -135,18 +135,10 @@ export default function BlogDetailPage() {
               </div>
             )}
 
-            <div className="prose prose-lg max-w-none prose-headings:font-headline prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-relaxed">
-              {(post.content || '').split('\n').map((paragraph, index) => {
-                const trimmed = paragraph.trim();
-                if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
-                  return <h3 key={index} className="text-2xl font-bold mt-8 mb-4 text-foreground">{trimmed.substring(2, trimmed.length-2)}</h3>
-                }
-                if (trimmed.length > 0) {
-                  return <p key={index} className="mb-6">{trimmed}</p>
-                }
-                return null;
-              })}
-            </div>
+            <div 
+              className="prose prose-lg max-w-none prose-headings:font-headline prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: post.content || '' }}
+            />
           </article>
         </div>
       </main>
