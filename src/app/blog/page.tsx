@@ -1,6 +1,4 @@
-
 'use client';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -10,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, Timestamp } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BlogDetailModal } from '@/components/blog/BlogDetailModal';
+import Link from 'next/link';
 
 type BlogPost = {
   id: string;
@@ -61,7 +59,6 @@ const PostCardSkeleton = () => (
 
 export default function BlogPage() {
   const firestore = useFirestore();
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   const blogPostsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -124,7 +121,7 @@ export default function BlogPage() {
                     
                     {!isLoading && posts?.map((post) => (
                         <motion.div key={post.id} variants={itemVariants}>
-                          <div onClick={() => setSelectedPost(post)} className="group block h-full cursor-pointer">
+                          <Link href={`/blog/${post.id}`} className="group block h-full">
                               <Card className="overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col h-full border-border/50">
                               {post.imageUrl && (
                                   <div className="overflow-hidden relative h-56">
@@ -139,14 +136,14 @@ export default function BlogPage() {
                               )}
                               <CardContent className="p-6 flex flex-col flex-grow">
                                   <Badge variant="secondary" className="mb-3 w-fit capitalize">{post.category}</Badge>
-                                  <h3 className="font-headline text-xl font-bold leading-snug">{post.title}</h3>
+                                  <h3 className="font-headline text-xl font-bold leading-snug group-hover:text-primary transition-colors">{post.title}</h3>
                                   <p className="mt-3 text-sm text-muted-foreground flex-grow line-clamp-3">{post.excerpt}</p>
                                   <div className="mt-4 pt-4 border-t border-border/50 text-xs text-muted-foreground">
                                     <span>{formatDate(post.publishDate)}</span>
                                   </div>
                               </CardContent>
                               </Card>
-                          </div>
+                          </Link>
                         </motion.div>
                     ))}
                     </motion.div>
@@ -162,7 +159,6 @@ export default function BlogPage() {
           </main>
           <Footer />
         </div>
-        <BlogDetailModal post={selectedPost} isOpen={!!selectedPost} onClose={() => setSelectedPost(null)} />
     </>
   );
 }
