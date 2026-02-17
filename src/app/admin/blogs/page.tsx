@@ -52,7 +52,10 @@ export default function ManageBlogsPage() {
         });
         return;
     }
-    if (confirm(`Are you sure you want to delete "${postTitle}"?`)) {
+    
+    const isConfirmed = window.confirm(`Are you sure you want to delete "${postTitle}"?`);
+    
+    if (isConfirmed) {
       const docRef = doc(firestore, "blogPosts", postId);
       deleteDocumentNonBlocking(docRef);
       toast({
