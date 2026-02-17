@@ -141,8 +141,8 @@ const WhoWeAreSection = () => {
           className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight text-foreground mb-12 max-w-5xl"
         >
           Built by the ElYamlahi Family.{' '}
-          <span className="text-muted-foreground">Empowered by growers.</span>{' '}
-          <span className="text-muted-foreground">Trusted by global buyers.</span>
+          <span className="text-primary">Empowered by growers.</span>{' '}
+          <span className="text-primary">Trusted by global buyers.</span>
         </motion.h2>
 
         {/* Single column text */}
@@ -392,4 +392,3 @@ export default function AboutUsPage() {
     </>
   );
 }
-
