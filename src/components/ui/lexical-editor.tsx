@@ -24,7 +24,7 @@ import {
   SELECTION_CHANGE_COMMAND,
   $createParagraphNode,
   $getRoot,
-  TextNode,
+  $createTextNode,
   CLEAR_EDITOR_COMMAND
 } from 'lexical';
 import { 
@@ -100,7 +100,8 @@ function LoadInitialValuePlugin({ initialValue }: { initialValue: string }) {
           paragraphs.forEach(p => {
             if (p.trim()) {
               const paragraphNode = $createParagraphNode();
-              paragraphNode.append(new TextNode(p));
+              const textNode = $createTextNode(p.trim());
+              paragraphNode.append(textNode);
               root.append(paragraphNode);
             }
           });
