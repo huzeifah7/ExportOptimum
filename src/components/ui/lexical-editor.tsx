@@ -24,7 +24,8 @@ import {
   SELECTION_CHANGE_COMMAND,
   $createParagraphNode,
   $getRoot,
-  TextNode
+  TextNode,
+  CLEAR_EDITOR_COMMAND
 } from 'lexical';
 import { 
   $setBlocksType,
@@ -41,7 +42,6 @@ import {
   Strikethrough, 
   List, 
   ListOrdered, 
-  Type, 
   Quote,
   Code
 } from 'lucide-react';
@@ -86,28 +86,27 @@ const theme = {
   link: 'text-primary underline cursor-pointer',
 };
 
-// Plugin to load initial value
 function LoadInitialValuePlugin({ initialValue }: { initialValue: string }) {
   const [editor] = useLexicalComposerContext();
-  const [isLoaded, setIsMounted] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (!isLoaded && initialValue) {
       editor.update(() => {
         const root = $getRoot();
-        if (root.isEmpty()) {
-          // Simplistic Markdown-to-Lexical conversion for basic text
-          // In a real app, you'd use a more robust transformer
-          const paragraphs = initialValue.split('\n\n');
+        if (root.isEmpty() || root.getTextContent() === '') {
           root.clear();
+          const paragraphs = initialValue.split('\n\n');
           paragraphs.forEach(p => {
-            const paragraphNode = $createParagraphNode();
-            paragraphNode.append(new TextNode(p));
-            root.append(paragraphNode);
+            if (p.trim()) {
+              const paragraphNode = $createParagraphNode();
+              paragraphNode.append(new TextNode(p));
+              root.append(paragraphNode);
+            }
           });
         }
       });
-      setIsMounted(true);
+      setIsLoaded(true);
     }
   }, [editor, initialValue, isLoaded]);
 
@@ -288,8 +287,6 @@ export function LexicalEditor({ value, onChange, placeholder, className }: Lexic
 
   const handleOnChange = (editorState: any) => {
     editorState.read(() => {
-      // For simplicity, we just export the plain text.
-      // In a production app, you might use Markdown or JSON.
       const root = $getRoot();
       const text = root.getTextContent();
       onChange(text);
