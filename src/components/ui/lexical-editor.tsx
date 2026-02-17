@@ -5,7 +5,7 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { OnChangePlugin } from '@lexical/react/OnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
@@ -17,7 +17,7 @@ import { ListItemNode, ListNode } from '@lexical/list';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { TRANSFORMERS } from '@lexical/markdown';
-import { $generateHtmlFromNodes, $generateNodesFromHtml } from '@lexical/html';
+import { $generateHtmlFromNodes } from '@lexical/html';
 import { 
   $getSelection, 
   $isRangeSelection, 
@@ -26,6 +26,8 @@ import {
   $createParagraphNode,
   $getRoot,
   $createTextNode,
+  ParagraphNode,
+  TextNode,
 } from 'lexical';
 import { 
   $setBlocksType,
@@ -86,6 +88,7 @@ const theme = {
   link: 'text-primary underline cursor-pointer',
 };
 
+// Plugin to load initial content without relying on potentially missing generateNodesFromHtml export
 function LoadInitialValuePlugin({ initialValue }: { initialValue: string }) {
   const [editor] = useLexicalComposerContext();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -97,30 +100,48 @@ function LoadInitialValuePlugin({ initialValue }: { initialValue: string }) {
         if (root.isEmpty() || root.getTextContent() === '') {
           root.clear();
           
-          // Try to parse as HTML, fallback to text if it doesn't look like HTML
-          if (initialValue.includes('<') && initialValue.includes('>')) {
-            try {
-              const parser = new DOMParser();
-              const dom = parser.parseFromString(initialValue, 'text/html');
-              const nodes = $generateNodesFromHtml(editor, dom);
-              root.append(...nodes);
-            } catch (e) {
-              console.error("Failed to parse HTML, falling back to text", e);
-              const paragraphNode = $createParagraphNode();
-              paragraphNode.append($createTextNode(initialValue));
-              root.append(paragraphNode);
+          // Simple fallback conversion for basic rich text
+          // This avoids the build error with @lexical/html in certain environments
+          const parser = new DOMParser();
+          const dom = parser.parseFromString(initialValue, 'text/html');
+          
+          const convert = (node: Node) => {
+            if (node.nodeType === Node.TEXT_NODE) {
+              return [$createTextNode(node.textContent || '')];
             }
-          } else {
-            const paragraphs = initialValue.split('\n\n');
-            paragraphs.forEach(p => {
-              if (p.trim()) {
-                const paragraphNode = $createParagraphNode();
-                const textNode = $createTextNode(p.trim());
-                paragraphNode.append(textNode);
-                root.append(paragraphNode);
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              const el = node as HTMLElement;
+              const tag = el.tagName.toLowerCase();
+              let children: any[] = [];
+              el.childNodes.forEach(child => {
+                children = [...children, ...convert(child)];
+              });
+
+              if (tag === 'p' || tag === 'body') {
+                const p = $createParagraphNode();
+                p.append(...children);
+                return [p];
               }
-            });
-          }
+              if (tag === 'h1' || tag === 'h2' || tag === 'h3') {
+                const h = $createHeadingNode(tag as any);
+                h.append(...children);
+                return [h];
+              }
+              if (tag === 'strong' || tag === 'b') {
+                children.forEach(c => { if (c instanceof TextNode) c.setFormat(c.getFormat() | 1); });
+                return children;
+              }
+              if (tag === 'em' || tag === 'i') {
+                children.forEach(c => { if (c instanceof TextNode) c.setFormat(c.getFormat() | 2); });
+                return children;
+              }
+              return children;
+            }
+            return [];
+          };
+
+          const nodes = convert(dom.body);
+          root.append(...nodes);
         }
       });
       setIsLoaded(true);
