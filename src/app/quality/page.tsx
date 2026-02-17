@@ -1,4 +1,3 @@
-
 'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -15,6 +14,7 @@ import { AnimatedGradientBackground } from '@/components/ui/animated-gradient-ba
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { HeroGeometric } from '@/components/ui/shape-landing-hero';
 
 const processSteps = [
   {
@@ -40,12 +40,12 @@ const processSteps = [
   {
     icon: Truck,
     title: 'Export Logistics',
-    description: 'Masterful Export Logistics ; At Export Optimum we don’t just merely move freight; we orchestrate a symphony of precision ,from the initial load to the final destination, our seamless coordination with premier global carriers ensures safe delivery on time every time. Thanks to our expert team we handle logistics with the sophistication and precision our clients deserve.',
+    description: "Masterful Export Logistics ; At Export Optimum we don't just merely move freight; we orchestrate a symphony of precision ,from the initial load to the final destination, our seamless coordination with premier global carriers ensures safe delivery on time every time. Thanks to our expert team we handle logistics with the sophistication and precision our clients deserve.",
   },
   {
     icon: MessagesSquare,
     title: 'Communication Beyond the Sales  ',
-    description: 'Export Optimum, our commitment doesn’t end once the shipment is booked or delivered. We maintain clear, proactive communication throughout the entire process, addressing concerns and offering support whenever it’s needed. Our team remains readily available to provide guidance, timely updates, and solution ensuring our clients feel informed, supported, and confident from start to finish.',
+    description: "Export Optimum, our commitment doesn't end once the shipment is booked or delivered. We maintain clear, proactive communication throughout the entire process, addressing concerns and offering support whenever it's needed. Our team remains readily available to provide guidance, timely updates, and solution ensuring our clients feel informed, supported, and confident from start to finish.",
   }
 ];
 
@@ -79,100 +79,14 @@ export default function QualityPage() {
             <Header />
             
             <main className="flex-grow">
-              {/* Hero Section */}
-              {/* Hero Section – With Premium Background Effect */}
-<section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">
-  {/* Background Image + Overlay */}
-  <div className="absolute inset-0 z-0">
-    <Image
-      src="https://thumbs.dreamstime.com/b/avocado-s-covered-dewdrops-growing-tree-misty-morning-close-up-south-africa-347658668.jpg" // ← Replace with your own high-res Moroccan avocado orchard image (golden hour / dewy / cinematic preferred)
-      alt="Premium Moroccan avocados on tree at morning mist"
-      fill
-      className="object-cover brightness-[0.65] contrast-[1.05] scale-105 transition-transform duration-1000"
-      priority
-      quality={90}
-    />
-    
-    {/* Strong overlay gradient for text legibility + premium mood */}
-    <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/55 to-black/70" />
-    
-    {/* Subtle ambient glows (enhanced version of your original) */}
-    <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-slow opacity-70" />
-    <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-primary/8 rounded-full blur-3xl animate-pulse-slow delay-1500 opacity-60" />
-  </div>
 
-  {/* Content */}
-  <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-12 max-w-6xl text-center">
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-      className="inline-block mb-8"
-    >
-      <span className="inline-flex items-center px-5 py-2.5 rounded-full text-base font-medium bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
-        <Award className="w-5 h-5 mr-2.5 text-primary" />
-        Our Commitment to Excellence
-      </span>
-    </motion.div>
+              <HeroGeometric 
+                badge="Our Commitment"
+                title1="At Export Optimum,"
+                title2="Quality is non-negotiable."
+                subtitle="From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars."
+              />
 
-    <motion.h1
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.15 }}
-      className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-headline font-extrabold tracking-tight leading-[1.05] mb-8 text-white max-w-5xl mx-auto"
-    >
-      At Export Optimum, <span className="text-primary">Quality</span> is non-negotiable.
-    </motion.h1>
-
-    <motion.p
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-12 leading-relaxed font-light"
-    >
-      From Moroccan orchard to global arrival — uniform, fresh, fully compliant volumes you can confidently forward-sell. Built on six uncompromising quality pillars.
-    </motion.p>
-
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.45 }}
-      className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-    >
-      <Button 
-        asChild 
-        size="xl" 
-        className="rounded-full px-10 py-7 text-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl shadow-primary/25 transition-all group min-w-[220px]"
-      >
-        <Link href="#certifications" className="flex items-center justify-center gap-3">
-          View Certifications
-          <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-2" />
-        </Link>
-      </Button>
-
-      <Button 
-        asChild 
-        size="xl" 
-        variant="outline" 
-        className="rounded-full px-10 py-7 text-lg font-medium border-2 border-white/40 text-white hover:bg-white/10 hover:border-white/60 backdrop-blur-sm transition-all min-w-[220px]"
-      >
-        <Link href="/contact">Contact Us</Link>
-      </Button>
-    </motion.div>
-  </div>
-
-  {/* Optional subtle scroll indicator */}
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: [0, 1, 0] }}
-    transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
-    className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hidden md:block"
-  >
-    <div className="w-8 h-12 border-2 border-white/40 rounded-full p-1.5">
-      <div className="w-full h-3 bg-white rounded-full animate-bounce" />
-    </div>
-  </motion.div>
-</section>
 
               {/* Quality Pillars Section */}
               <section className="py-20 lg:py-32 bg-primary/5">
