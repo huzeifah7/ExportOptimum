@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { LexkitEditor } from '@lexkit/editor';
+import LexkitEditor from '@lexkit/editor';
 import { cn } from '@/lib/utils';
 
 interface LexicalEditorProps {
