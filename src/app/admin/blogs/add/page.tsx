@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { useFirestore, useUser } from '@/firebase';
 import { collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { LexicalEditor } from '@/components/ui/lexical-editor';
 
 export default function AddBlogPage() {
     const router = useRouter();
@@ -157,14 +158,10 @@ export default function AddBlogPage() {
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="blog-content">Content</Label>
-                                    <Textarea 
-                                        id="blog-content" 
-                                        placeholder="Write your blog post here. We can add rich text editing later." 
-                                        value={content}
-                                        onChange={(e) => setContent(e.target.value)}
-                                        required
-                                        className="min-h-[300px]"
-                                        disabled={isSubmitting}
+                                    <LexicalEditor 
+                                        value={content} 
+                                        onChange={setContent} 
+                                        placeholder="Write your blog post here..."
                                     />
                                 </div>
                             </CardContent>

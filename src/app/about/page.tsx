@@ -122,7 +122,7 @@ const WhoWeAreSection = () => {
 
   return (
     <section ref={ref} className="py-28 lg:py-36 relative bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-8xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           {/* Content Side */}
@@ -147,10 +147,10 @@ const WhoWeAreSection = () => {
             {/* Text content */}
             <div className="text-lg leading-relaxed text-muted-foreground space-y-6 mb-10">
               <p>
-                Founded in <span className="font-semibold text-foreground">2019</span> as a family-owned company, Export Optimum is the natural evolution of over <span className="font-semibold text-foreground">10 years</span> of hands-on experience in farm management and international fresh produce supply. Powered by a loyal global customer base, we operate with <span className="font-semibold text-foreground">precision planning</span>, <span className="font-semibold text-foreground">strict quality standards</span>, and <span className="font-semibold text-foreground">responsible sourcing</span> at the core of everything we do.
+                Founded in 2019 as a family-owned company, Export Optimum is the natural evolution of over 10 years of hands-on experience in farm management and international fresh produce supply. Powered by a loyal global customer base, we operate with precision planning, strict quality standards, and responsible sourcing at the core of everything we do.
               </p>
               <p>
-                We own two dedicated avocado farms and manage more than <span className="font-semibold text-foreground">500 hectares</span> of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning. Today, Export Optimum stands as a <span className="font-semibold text-foreground">leading exporter of Moroccan avocados</span>, serving consumers worldwide, while also supplying fresh berries and premium melons to international markets.
+                We own two dedicated avocado farms and manage more than 500 hectares of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning. Today, Export Optimum stands as a leading exporter of Moroccan avocados, serving consumers worldwide, while also supplying fresh berries and premium melons to international markets.
               </p>
             </div>
 
@@ -170,7 +170,7 @@ const WhoWeAreSection = () => {
             className="relative aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl"
           >
             <Image
-              src="https://images.unsplash.com/photo-1576021182210-6a551167b1b8?q=80&w=1887&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1687531419936-c53671275e35?q=80&w=476&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dp"
               alt="Hands holding fresh avocados"
               fill
               className="object-cover"
@@ -248,15 +248,14 @@ const VisionSection = () => {
           >
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden ring-1 ring-border">
               <Image
-                src="https://images.unsplash.com/photo-1531307983284-88e547343469?q=80&w=2070&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1651844101377-13fcd9082f1c?q=80&w=487&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Our Vision"
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
             </div>
             {/* Floating accent */}
-            <div className="absolute -bottom-6 -right-6 w-48 h-48 rounded-full"
+            <div className="absolute -bottom-6 -right-6 w-64 h-64 rounded-full"
               style={{ background: 'radial-gradient(circle, hsl(88,92%,30%,0.3), transparent 70%)' }} />
           </motion.div>
 
@@ -285,7 +284,7 @@ const VisionSection = () => {
             </p>
 
             <div className="space-y-5 text-muted-foreground text-lg leading-relaxed">
-              <p>We aim to lead the future of fresh produce exports by combining <span className="text-foreground">family-driven values</span>, <span className="text-foreground">sustainable growth</span>, and <span className="text-foreground">operational excellence</span>.</p>
+              <p>We aim to lead the future of fresh produce exports by combining family-driven values sustainable growth, and operational excellence.</p>
               <p>Creating opportunities for growers, confidence for partners, and trust for consumers worldwide.</p>
             </div>
           </motion.div>
@@ -336,7 +335,7 @@ const ValuesSection = () => {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {values.map((value, index) => (
             <motion.div
               key={index}
@@ -349,14 +348,12 @@ const ValuesSection = () => {
                 style={{ background: 'radial-gradient(ellipse at 0% 50%, hsl(88,92%,30%,0.08), transparent 60%)' }} />
 
               {/* Number */}
-              <div className="flex-shrink-0 text-5xl font-black leading-none text-foreground/5 group-hover:text-foreground/10 transition-colors duration-500 select-none">
-                {value.number}
-              </div>
-
+             
               <div className="relative z-10">
                 <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-400">
                   <value.icon className="w-5 h-5" />
                 </div>
+                
                 <h3 className="text-lg font-bold text-foreground mb-2 leading-tight">{value.title}</h3>
                 <p className="text-muted-foreground leading-relaxed text-sm">{value.description}</p>
               </div>

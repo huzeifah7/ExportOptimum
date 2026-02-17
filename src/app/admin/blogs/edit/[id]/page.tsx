@@ -17,6 +17,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { LexicalEditor } from '@/components/ui/lexical-editor';
 
 type BlogPost = {
   id: string;
@@ -220,14 +221,10 @@ export default function EditBlogPage() {
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="blog-content">Content</Label>
-                                    <Textarea 
-                                        id="blog-content" 
-                                        placeholder="Write your blog post here." 
-                                        value={content}
-                                        onChange={(e) => setContent(e.target.value)}
-                                        required
-                                        className="min-h-[300px]"
-                                        disabled={isSubmitting}
+                                    <LexicalEditor 
+                                        value={content} 
+                                        onChange={setContent} 
+                                        placeholder="Update your blog post content here..."
                                     />
                                 </div>
                             </CardContent>

@@ -1,3 +1,4 @@
+
 {
   "name": "nextn",
   "version": "0.1.0",
@@ -51,6 +52,13 @@
     "framer-motion": "^11.5.7",
     "gsap": "^3.12.5",
     "lenis": "^1.1.6",
+    "lexical": "^0.23.1",
+    "@lexical/react": "^0.23.1",
+    "@lexical/rich-text": "^0.23.1",
+    "@lexical/utils": "^0.23.1",
+    "@lexical/list": "^0.23.1",
+    "@lexical/link": "^0.23.1",
+    "@lexical/markdown": "^0.23.1",
     "lucide-react": "^0.475.0",
     "next": "15.3.8",
     "ogl": "^1.0.0-alpha.31",
@@ -62,6 +70,7 @@
     "react-intersection-observer": "^9.13.0",
     "recharts": "^2.15.1",
     "tailwind-merge": "^3.0.1",
+    "tailwind-styled-components": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.2"
   },
