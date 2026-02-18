@@ -159,6 +159,45 @@ export default function ProductDetailsPage() {
               <div className="prose prose-lg text-muted-foreground mb-10 max-w-none font-light leading-relaxed">
                 <p>{product.description}</p>
               </div>
+
+              {/* Integrated "Our Features" Section */}
+              {hasFeatures && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10 py-8 border-y border-border/50">
+                    {product.period && (
+                        <div className="flex flex-col items-center sm:items-start gap-3">
+                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                <CalendarDays className="w-6 h-6 text-primary" />
+                            </div>
+                            <div className="text-center sm:text-left">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Periode</p>
+                                <p className="text-sm font-bold text-foreground leading-tight">{product.period}</p>
+                            </div>
+                        </div>
+                    )}
+                    {product.storage && (
+                        <div className="flex flex-col items-center sm:items-start gap-3">
+                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                <Thermometer className="w-6 h-6 text-primary" />
+                            </div>
+                            <div className="text-center sm:text-left">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Storage</p>
+                                <p className="text-sm font-bold text-foreground leading-tight">{product.storage}</p>
+                            </div>
+                        </div>
+                    )}
+                    {product.sizes && (
+                        <div className="flex flex-col items-center sm:items-start gap-3">
+                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                <Shrink className="w-6 h-6 text-primary" />
+                            </div>
+                            <div className="text-center sm:text-left">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Sizes</p>
+                                <p className="text-sm font-bold text-foreground leading-tight">{product.sizes}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+              )}
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button asChild size="lg" className="h-14 px-8 rounded-full font-bold text-lg shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
@@ -170,50 +209,6 @@ export default function ProductDetailsPage() {
               </div>
             </motion.div>
           </div>
-
-          {/* "Our Features" Section */}
-          {hasFeatures && (
-            <motion.section 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="pt-16 border-t"
-            >
-                <h2 className="text-3xl font-bold font-headline mb-12 text-center lg:text-left">Our Features</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    {product.period && (
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
-                                <CalendarDays className="w-8 h-8 text-primary" />
-                            </div>
-                            <div>
-                                <p className="text-lg font-bold text-foreground">Periode: {product.period}</p>
-                            </div>
-                        </div>
-                    )}
-                    {product.storage && (
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
-                                <Thermometer className="w-8 h-8 text-primary" />
-                            </div>
-                            <div>
-                                <p className="text-lg font-bold text-foreground">Storage: {product.storage}</p>
-                            </div>
-                        </div>
-                    )}
-                    {product.sizes && (
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
-                                <Shrink className="w-8 h-8 text-primary" />
-                            </div>
-                            <div>
-                                <p className="text-lg font-bold text-foreground">Sizes: {product.sizes}</p>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </motion.section>
-          )}
         </div>
       </main>
       <Footer />

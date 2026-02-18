@@ -27,14 +27,14 @@ const ValuesSection = () => {
           </span>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-20">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-20 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-6xl font-black leading-[0.95] tracking-tight text-foreground max-w-xl text-center"
           >
-            Qhy work with {' '}
+            Why work with {' '}
             <span style={{ color: 'transparent', backgroundImage: 'linear-gradient(135deg, hsl(88,92%,55%), hsl(88,92%,30%))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>
               Export Optimum
             </span>
