@@ -555,7 +555,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[95vh] flex flex-col">
         <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 shrink-0">
           <DialogHeader className="p-0">
             <div className="flex items-center gap-2 mb-1 text-primary">
@@ -569,164 +569,165 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         </div>
 
         <ScrollArea className="flex-grow">
-          <form onSubmit={handleSubmit} id="product-form" className="p-4 md:p-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* LEFT COLUMN: BASIC INFO */}
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
-                    <Info className="h-4 w-4 text-primary" />
-                    General Information
+          <div className="p-4 md:p-6">
+            <form onSubmit={handleSubmit} id="product-form">
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* LEFT COLUMN: BASIC INFO */}
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
+                      <Info className="h-4 w-4 text-primary" />
+                      General Information
+                    </div>
+                    
+                    <div className="grid gap-4">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
+                        <Input id="name" name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Premium Hass Avocado" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" required />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
+                        <Input id="subtitle" name="subtitle" value={formData.subtitle || ''} onChange={handleInputChange} placeholder="e.g., The Finest Quality" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
+                        <Select onValueChange={handleSelectChange} value={formData.category || ''}>
+                            <SelectTrigger id="category" className="h-10 rounded-xl bg-muted/5 border-muted-foreground/20">
+                                <SelectValue placeholder="Choose Category" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl">
+                                <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
+                                <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
+                                <SelectItem value="citrus" className="rounded-lg">Citrus Fruits</SelectItem>
+                                <SelectItem value="other" className="rounded-lg">Other Produce</SelectItem>
+                            </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="description" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
+                        <Textarea id="description" name="description" value={formData.description || ''} onChange={handleInputChange} placeholder="Write a compelling description..." className="min-h-[100px] rounded-xl bg-muted/5 border-muted-foreground/20 resize-none focus:border-primary/50 p-3 leading-relaxed text-sm" />
+                      </div>
+                    </div>
                   </div>
-                  
-                  <div className="grid gap-4">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
-                      <Input id="name" name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Premium Hass Avocado" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" required />
+                </div>
+                
+                {/* RIGHT COLUMN: VISUALS & FEATURES */}
+                <div className="space-y-6">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
+                      <ImageIcon className="h-4 w-4 text-primary" />
+                      Product Imagery
                     </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
-                      <Input id="subtitle" name="subtitle" value={formData.subtitle || ''} onChange={handleInputChange} placeholder="e.g., The Finest Quality" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
-                      <Select onValueChange={handleSelectChange} value={formData.category || ''}>
-                          <SelectTrigger id="category" className="h-10 rounded-xl bg-muted/5 border-muted-foreground/20">
-                              <SelectValue placeholder="Choose Category" />
-                          </SelectTrigger>
-                          <SelectContent className="rounded-xl">
-                              <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
-                              <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
-                              <SelectItem value="citrus" className="rounded-lg">Citrus Fruits</SelectItem>
-                              <SelectItem value="other" className="rounded-lg">Other Produce</SelectItem>
-                          </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="description" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
-                      <Textarea id="description" name="description" value={formData.description || ''} onChange={handleInputChange} placeholder="Write a compelling description..." className="min-h-[100px] rounded-xl bg-muted/5 border-muted-foreground/20 resize-none focus:border-primary/50 p-3 leading-relaxed text-sm" />
+                    
+                    <div className="w-full aspect-video border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group transition-all hover:bg-primary/[0.04] hover:border-primary/40 overflow-hidden">
+                        {imagePreview ? (
+                            <>
+                                <Image src={imagePreview} alt="Product preview" fill className="object-cover p-1" />
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                   <p className="text-white font-bold text-xs bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm">Click to Replace</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="absolute top-2 right-2 h-7 w-7 rounded-lg shadow-lg z-10 bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setImageFile(null);
+                                        setImagePreview(null);
+                                        if (fileInputRef.current) fileInputRef.current.value = '';
+                                    }}
+                                >
+                                    <X className="h-3.5 w-3.5" />
+                                </button>
+                                <div 
+                                  className="absolute inset-0 cursor-pointer" 
+                                  onClick={() => fileInputRef.current?.click()} 
+                                />
+                            </>
+                        ) : (
+                            <div
+                                className="text-center cursor-pointer p-4 w-full h-full flex flex-col items-center justify-center"
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-2 transition-transform group-hover:scale-110">
+                                    <ImageIcon className="h-5 w-5 text-primary" />
+                                </div>
+                                <p className="text-sm font-bold text-foreground">Select Image</p>
+                                <p className="text-[10px] text-muted-foreground mt-0.5">High-resolution JPG or PNG</p>
+                            </div>
+                        )}
+                        <Input
+                            ref={fileInputRef}
+                            type="file"
+                            className="sr-only"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                        />
                     </div>
                   </div>
+
+                  {/* FEATURES SECTION */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
+                      <Layers className="h-4 w-4 text-primary" />
+                      Export Features
+                    </div>
+                    
+                    <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border border-muted-foreground/10 shadow-inner">
+                        {/* Period Feature */}
+                        <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                                <Checkbox 
+                                    id="enable-period" 
+                                    checked={enabledPeriod} 
+                                    onCheckedChange={(checked) => {
+                                        setEnabledPeriod(!!checked);
+                                        if(!checked) setFormData(prev => ({...prev, period: ''}));
+                                    }} 
+                                />
+                                <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
+                            </div>
+                            <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
+                        </div>
+
+                        {/* Storage Feature */}
+                        <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                                <Checkbox 
+                                    id="enable-storage" 
+                                    checked={enabledStorage} 
+                                    onCheckedChange={(checked) => {
+                                        setEnabledStorage(!!checked);
+                                        if(!checked) setFormData(prev => ({...prev, storage: ''}));
+                                    }} 
+                                />
+                                <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
+                            </div>
+                            <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
+                        </div>
+
+                        {/* Sizes Feature */}
+                        <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                                <Checkbox 
+                                    id="enable-sizes" 
+                                    checked={enabledSizes} 
+                                    onCheckedChange={(checked) => {
+                                        setEnabledSizes(!!checked);
+                                        if(!checked) setFormData(prev => ({...prev, sizes: ''}));
+                                    }} 
+                                />
+                                <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Available Sizes</Label>
+                            </div>
+                            <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
+                        </div>
+                    </div>
                 </div>
               </div>
-              
-              {/* RIGHT COLUMN: VISUALS & FEATURES */}
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
-                    <ImageIcon className="h-4 w-4 text-primary" />
-                    Product Imagery
-                  </div>
-                  
-                  <div className="w-full aspect-video border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group transition-all hover:bg-primary/[0.04] hover:border-primary/40 overflow-hidden">
-                      {imagePreview ? (
-                          <>
-                              <Image src={imagePreview} alt="Product preview" fill className="object-cover p-1" />
-                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                 <p className="text-white font-bold text-xs bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm">Click to Replace</p>
-                              </div>
-                              <button
-                                  type="button"
-                                  className="absolute top-2 right-2 h-7 w-7 rounded-lg shadow-lg z-10 bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
-                                  onClick={(e) => {
-                                      e.stopPropagation();
-                                      setImageFile(null);
-                                      setImagePreview(null);
-                                      if (fileInputRef.current) fileInputRef.current.value = '';
-                                  }}
-                              >
-                                  <X className="h-3.5 w-3.5" />
-                              </button>
-                              <div 
-                                className="absolute inset-0 cursor-pointer" 
-                                onClick={() => fileInputRef.current?.click()} 
-                              />
-                          </>
-                      ) : (
-                          <div
-                              className="text-center cursor-pointer p-4 w-full h-full flex flex-col items-center justify-center"
-                              onClick={() => fileInputRef.current?.click()}
-                          >
-                              <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-2 transition-transform group-hover:scale-110">
-                                  <ImageIcon className="h-5 w-5 text-primary" />
-                              </div>
-                              <p className="text-sm font-bold text-foreground">Select Image</p>
-                              <p className="text-[10px] text-muted-foreground mt-0.5">High-resolution JPG or PNG</p>
-                          </div>
-                      )}
-                      <Input
-                          ref={fileInputRef}
-                          type="file"
-                          className="sr-only"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                      />
-                  </div>
-                </div>
-
-                {/* FEATURES SECTION */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
-                    <Layers className="h-4 w-4 text-primary" />
-                    Export Features
-                  </div>
-                  
-                  <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border border-muted-foreground/10 shadow-inner">
-                      {/* Period Feature */}
-                      <div className="space-y-1.5">
-                          <div className="flex items-center gap-2">
-                              <Checkbox 
-                                  id="enable-period" 
-                                  checked={enabledPeriod} 
-                                  onCheckedChange={(checked) => {
-                                      setEnabledPeriod(!!checked);
-                                      if(!checked) setFormData(prev => ({...prev, period: ''}));
-                                  }} 
-                              />
-                              <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
-                          </div>
-                          <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
-                      </div>
-
-                      {/* Storage Feature */}
-                      <div className="space-y-1.5">
-                          <div className="flex items-center gap-2">
-                              <Checkbox 
-                                  id="enable-storage" 
-                                  checked={enabledStorage} 
-                                  onCheckedChange={(checked) => {
-                                      setEnabledStorage(!!checked);
-                                      if(!checked) setFormData(prev => ({...prev, storage: ''}));
-                                  }} 
-                              />
-                              <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
-                          </div>
-                          <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
-                      </div>
-
-                      {/* Sizes Feature */}
-                      <div className="space-y-1.5">
-                          <div className="flex items-center gap-2">
-                              <Checkbox 
-                                  id="enable-sizes" 
-                                  checked={enabledSizes} 
-                                  onCheckedChange={(checked) => {
-                                      setEnabledSizes(!!checked);
-                                      if(!checked) setFormData(prev => ({...prev, sizes: ''}));
-                                  }} 
-                              />
-                              <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Available Sizes</Label>
-                          </div>
-                          <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
-                      </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </ScrollArea>
 
         <Separator className="bg-primary/10" />
