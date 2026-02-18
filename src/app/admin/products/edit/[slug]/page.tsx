@@ -23,6 +23,7 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'fire
 type Product = {
     id: string;
     name: string;
+    subtitle?: string;
     description: string;
     category: string;
     imageUrl?: string;
@@ -47,6 +48,7 @@ export default function EditProductPage() {
     const { data: product, isLoading } = useDoc<Product>(productRef);
 
     const [productName, setProductName] = useState('');
+    const [subtitle, setSubtitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -64,6 +66,7 @@ export default function EditProductPage() {
     useEffect(() => {
         if (product) {
             setProductName(product.name);
+            setSubtitle(product.subtitle || '');
             setDescription(product.description);
             setCategory(product.category);
             if(product.imageUrl) {
@@ -158,6 +161,7 @@ export default function EditProductPage() {
 
             const updatedProduct = {
                 name: productName,
+                subtitle: subtitle,
                 description,
                 category,
                 imageUrl: finalImageUrl,
@@ -214,6 +218,16 @@ export default function EditProductPage() {
                                         value={productName}
                                         onChange={(e) => setProductName(e.target.value)}
                                         required
+                                        disabled={isSubmitting}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="product-subtitle">Subtitle / Catchphrase</Label>
+                                    <Input 
+                                        id="product-subtitle" 
+                                        placeholder="e.g., Premium Selection" 
+                                        value={subtitle}
+                                        onChange={(e) => setSubtitle(e.target.value)}
                                         disabled={isSubmitting}
                                     />
                                 </div>

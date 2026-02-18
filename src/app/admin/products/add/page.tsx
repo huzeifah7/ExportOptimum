@@ -24,6 +24,7 @@ export default function AddProductPage() {
     const { toast } = useToast();
 
     const [productName, setProductName] = useState('');
+    const [subtitle, setSubtitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -94,6 +95,7 @@ export default function AddProductPage() {
             const newProduct = {
                 id: newProductId,
                 name: productName,
+                subtitle,
                 description,
                 category,
                 imageUrl,
@@ -153,6 +155,16 @@ export default function AddProductPage() {
                                         value={productName}
                                         onChange={(e) => setProductName(e.target.value)}
                                         required
+                                        disabled={isSubmitting}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="product-subtitle">Subtitle / Catchphrase</Label>
+                                    <Input 
+                                        id="product-subtitle" 
+                                        placeholder="e.g., Premium Selection" 
+                                        value={subtitle}
+                                        onChange={(e) => setSubtitle(e.target.value)}
                                         disabled={isSubmitting}
                                     />
                                 </div>

@@ -18,6 +18,7 @@ import { CalendarDays, Thermometer, Shrink } from 'lucide-react';
 type Product = {
   id: string;
   name: string;
+  subtitle?: string;
   description: string;
   category: string;
   imageUrl?: string;
@@ -145,9 +146,15 @@ export default function ProductDetailsPage() {
                 {product.category}
               </Badge>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-extrabold text-foreground leading-[1.1] mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-extrabold text-foreground leading-[1.1] mb-2">
                 {product.name}
               </h1>
+
+              {product.subtitle && (
+                <p className="text-xl md:text-2xl text-primary font-medium mb-6 italic">
+                  {product.subtitle}
+                </p>
+              )}
               
               <div className="prose prose-lg text-muted-foreground mb-10 max-w-none font-light leading-relaxed">
                 <p>{product.description}</p>

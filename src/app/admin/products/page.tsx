@@ -440,7 +440,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         setEnabledStorage(!!product.storage);
         setEnabledSizes(!!product.sizes);
       } else {
-        setFormData({ name: '', description: '', category: 'avocado', period: '', storage: '', sizes: '' });
+        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', period: '', storage: '', sizes: '' });
         setImagePreview(null);
         setEnabledPeriod(false);
         setEnabledStorage(false);
@@ -511,6 +511,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
       const productData = {
         name: formData.name,
+        subtitle: formData.subtitle || '',
         description: formData.description || '',
         category: formData.category || 'avocado',
         period: enabledPeriod ? formData.period || '' : '',
@@ -582,6 +583,11 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                     <div className="space-y-1.5">
                       <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
                       <Input id="name" name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Premium Hass Avocado" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" required />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
+                      <Input id="subtitle" name="subtitle" value={formData.subtitle || ''} onChange={handleInputChange} placeholder="e.g., The Finest Quality" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" />
                     </div>
 
                     <div className="space-y-1.5">
