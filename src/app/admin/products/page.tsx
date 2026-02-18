@@ -45,6 +45,7 @@ import {
   DialogTitle,
   DialogFooter,
   DialogClose,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import {
   AlertDialog,
@@ -69,8 +70,14 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Package,
+  Info,
+  Layers,
+  Sparkles,
 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 // Flexible type for Firestore documents
 type FirestoreProduct = DocumentData & { id: string };
@@ -227,23 +234,29 @@ export default function ManageProductsPage() {
       transition={{ duration: 0.5 }}
       className="space-y-8"
     >
-      <div>
-        <h1 className="text-3xl font-bold font-headline">Manage Products</h1>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold font-headline">Manage Products</h1>
+          <p className="text-muted-foreground text-sm">Create, edit, and organize your catalog items.</p>
+        </div>
+        <Button onClick={handleAddProduct} className="shadow-md">
+          <PlusCircle className="mr-2 h-4 w-4" /> Add Product
+        </Button>
       </div>
 
       {/* Toolbar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-4 rounded-xl border shadow-sm">
         <div className="relative md:col-span-2">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             <Input
                 placeholder="Search by name..."
-                className="pl-10"
+                className="pl-10 h-11"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
         </div>
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger>
+          <SelectTrigger className="h-11">
             <SelectValue placeholder="Filter by category" />
           </SelectTrigger>
           <SelectContent>
@@ -253,66 +266,65 @@ export default function ManageProductsPage() {
           </SelectContent>
         </Select>
         <Select value={sortOption} onValueChange={setSortOption}>
-          <SelectTrigger>
+          <SelectTrigger className="h-11">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="newest">Newest</SelectItem>
-            <SelectItem value="oldest">Oldest</SelectItem>
+            <SelectItem value="newest">Newest First</SelectItem>
+            <SelectItem value="oldest">Oldest First</SelectItem>
             <SelectItem value="name-asc">Name: A-Z</SelectItem>
             <SelectItem value="name-desc">Name: Z-A</SelectItem>
           </SelectContent>
         </Select>
-        <div className="md:col-start-4 flex justify-end">
-            <Button onClick={handleAddProduct}>
-              <PlusCircle className="mr-2 h-4 w-4" /> Add Product
-            </Button>
-        </div>
       </div>
 
       {/* Products Table */}
-      <div className="bg-white border rounded-lg shadow-sm">
+      <div className="bg-white border rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
             <Table>
-            <TableHeader>
+            <TableHeader className="bg-muted/30">
                 <TableRow>
-                <TableHead className="w-[80px]">Image</TableHead>
+                <TableHead className="w-[100px] py-4">Image</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead className="hidden lg:table-cell">Category</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead className="text-right pr-8">Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {isLoading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                     <TableRow key={i}>
-                    <TableCell><Skeleton className="h-12 w-12 rounded-md" /></TableCell>
+                    <TableCell><Skeleton className="h-12 w-12 rounded-lg" /></TableCell>
                     <TableCell><Skeleton className="h-5 w-40" /></TableCell>
                     <TableCell className="hidden lg:table-cell"><Skeleton className="h-5 w-20" /></TableCell>
-                    <TableCell><Skeleton className="h-8 w-20" /></TableCell>
+                    <TableCell className="text-right pr-8"><Skeleton className="h-8 w-24 ml-auto" /></TableCell>
                     </TableRow>
                 ))
                 ) : paginatedProducts.length > 0 ? (
                 paginatedProducts.map(product => (
-                    <TableRow key={product.id} className="hover:bg-muted/50">
+                    <TableRow key={product.id} className="hover:bg-muted/30 transition-colors">
                     <TableCell>
-                        <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <div className="h-14 w-14 rounded-lg bg-muted flex items-center justify-center overflow-hidden border shadow-sm">
                         {product.imageUrl ? (
-                            <Image src={product.imageUrl} alt={product.name || 'Product'} width={48} height={48} className="object-cover h-full w-full" />
+                            <Image src={product.imageUrl} alt={product.name || 'Product'} width={56} height={56} className="object-cover h-full w-full" />
                         ) : (
                             <ImageIcon className="h-6 w-6 text-gray-400" />
                         )}
                         </div>
                     </TableCell>
-                    <TableCell className="font-medium">{product.name || product.id}</TableCell>
-                    <TableCell className="hidden lg:table-cell capitalize text-muted-foreground">{product.category || 'Uncategorized'}</TableCell>
-                    <TableCell>
-                        <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)}>
+                    <TableCell className="font-semibold text-base">{product.name || product.id}</TableCell>
+                    <TableCell className="hidden lg:table-cell">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary capitalize border border-primary/20">
+                            {product.category || 'Uncategorized'}
+                        </span>
+                    </TableCell>
+                    <TableCell className="text-right pr-8">
+                        <div className="flex items-center justify-end gap-2">
+                        <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)} className="h-9 w-9 p-0 rounded-lg">
                             <Edit className="h-4 w-4" />
                             <span className="sr-only">Edit</span>
                         </Button>
-                        <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(product)}>
+                        <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(product)} className="h-9 w-9 p-0 rounded-lg">
                             <Trash2 className="h-4 w-4" />
                             <span className="sr-only">Delete</span>
                         </Button>
@@ -322,8 +334,8 @@ export default function ManageProductsPage() {
                 ))
                 ) : (
                 <TableRow>
-                    <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
-                    No products found.
+                    <TableCell colSpan={4} className="h-40 text-center text-muted-foreground italic">
+                    No products found in your catalog.
                     </TableCell>
                 </TableRow>
                 )}
@@ -331,8 +343,8 @@ export default function ManageProductsPage() {
             </Table>
         </div>
         {totalPages > 1 && (
-             <div className="flex items-center justify-between p-4 border-t">
-                <div className="text-sm text-muted-foreground">
+             <div className="flex items-center justify-between p-4 border-t bg-muted/10">
+                <div className="text-sm text-muted-foreground font-medium">
                     Page {currentPage} of {totalPages}
                 </div>
                 <div className="flex items-center gap-2">
@@ -341,6 +353,7 @@ export default function ManageProductsPage() {
                         size="sm"
                         onClick={handlePrevPage}
                         disabled={currentPage === 1}
+                        className="rounded-lg"
                     >
                         <ChevronLeft className="h-4 w-4" />
                         Previous
@@ -350,6 +363,7 @@ export default function ManageProductsPage() {
                         size="sm"
                         onClick={handleNextPage}
                         disabled={currentPage === totalPages}
+                        className="rounded-lg"
                     >
                         Next
                         <ChevronRight className="h-4 w-4" />
@@ -371,18 +385,18 @@ export default function ManageProductsPage() {
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the product
-              "{selectedProduct?.name || selectedProduct?.id}" and its associated data.
+            <AlertDialogTitle className="text-2xl font-bold">Delete Product</AlertDialogTitle>
+            <AlertDialogDescription className="text-base">
+              This action <span className="font-bold text-destructive">cannot be undone</span>. 
+              Are you sure you want to permanently delete <span className="font-bold text-foreground italic">"{selectedProduct?.name || selectedProduct?.id}"</span> and all its media?
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteProduct}>
-              Delete
+          <AlertDialogFooter className="mt-4 gap-2">
+            <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteProduct} className="bg-destructive hover:bg-destructive/90 rounded-xl">
+              Delete Product
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -416,7 +430,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         setFormData(product);
         setImagePreview(product.imageUrl || null);
       } else {
-        setFormData({ name: '', description: '', category: ''});
+        setFormData({ name: '', description: '', category: 'avocado', period: '', storage: '', sizes: '' });
         setImagePreview(null);
       }
       setImageFile(null);
@@ -459,11 +473,11 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
     if (!firestore || !storage) return;
 
     if (!formData.name) {
-        toast({ variant: 'destructive', title: 'Name is required' });
+        toast({ variant: 'destructive', title: 'Missing Info', description: 'Please provide a name for the product.' });
         return;
     }
     if (!isEditing && !imageFile) {
-        toast({ variant: 'destructive', title: 'Image is required for new products' });
+        toast({ variant: 'destructive', title: 'Image Required', description: 'Every product needs a high-quality image.' });
         return;
     }
 
@@ -485,7 +499,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
       const productData = {
         name: formData.name,
         description: formData.description || '',
-        category: formData.category || '',
+        category: formData.category || 'avocado',
         period: formData.period || '',
         storage: formData.storage || '',
         sizes: formData.sizes || '',
@@ -508,8 +522,8 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
       }
 
       toast({
-        title: `Product ${isEditing ? 'Updated' : 'Added'}`,
-        description: `"${productData.name}" has been saved.`,
+        title: `Success`,
+        description: `"${productData.name}" has been ${isEditing ? 'updated' : 'added'}.`,
       });
       onClose();
 
@@ -517,8 +531,8 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
       console.error('Failed to save product:', error);
       toast({
         variant: 'destructive',
-        title: 'Error Saving Product',
-        description: error.message || 'An unexpected error occurred.',
+        title: 'Save Failed',
+        description: error.message || 'An unexpected error occurred while saving.',
       });
     } finally {
       setIsSubmitting(false);
@@ -527,49 +541,83 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
-         <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit Product' : 'Add New Product'}</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} id="product-form" className="grid md:grid-cols-2 gap-6 py-4 px-1">
-            {/* Left Column */}
-            <div className="space-y-4">
-                <div>
-                    <label htmlFor="name" className="text-sm font-medium">Product Name</label>
-                    <Input id="name" name="name" value={formData.name || ''} onChange={handleInputChange} required />
+      <DialogContent className="sm:max-w-[850px] p-0 overflow-hidden rounded-3xl border-none shadow-2xl">
+        <div className="bg-primary/5 p-6 md:p-8 border-b border-primary/10">
+          <DialogHeader className="p-0">
+            <div className="flex items-center gap-3 mb-2 text-primary">
+              <Package className="h-6 w-6" />
+              <span className="text-xs font-bold uppercase tracking-widest">{isEditing ? 'Catalog Revision' : 'New Catalog Item'}</span>
+            </div>
+            <DialogTitle className="text-3xl font-headline font-black text-foreground">
+              {isEditing ? 'Edit Product Details' : 'Add New Product'}
+            </DialogTitle>
+            <DialogDescription className="text-base text-muted-foreground font-medium">
+              Fill in the information below to {isEditing ? 'update your' : 'list a new'} premium produce item.
+            </DialogDescription>
+          </DialogHeader>
+        </div>
+
+        <form onSubmit={handleSubmit} id="product-form" className="p-6 md:p-10">
+          <div className="grid md:grid-cols-2 gap-10">
+            {/* LEFT COLUMN: BASIC INFO */}
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <div className="flex items-center gap-2 text-foreground font-bold text-lg border-b pb-2">
+                  <Info className="h-5 w-5 text-primary" />
+                  General Information
                 </div>
-                <div>
-                    <label htmlFor="description" className="text-sm font-medium">Description</label>
-                    <Textarea id="description" name="description" value={formData.description || ''} onChange={handleInputChange} />
-                </div>
-                 <div>
-                    <label htmlFor="category" className="text-sm font-medium">Category</label>
+                
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-sm font-bold uppercase tracking-tighter">Product Title</Label>
+                    <Input id="name" name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Premium Hass Avocado" className="h-12 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-lg" required />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="category" className="text-sm font-bold uppercase tracking-tighter">Classification</Label>
                     <Select onValueChange={handleSelectChange} value={formData.category || ''}>
-                        <SelectTrigger id="category">
-                            <SelectValue placeholder="Select a category" />
+                        <SelectTrigger id="category" className="h-12 rounded-xl bg-muted/5 border-muted-foreground/20">
+                            <SelectValue placeholder="Choose Category" />
                         </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="avocado">Avocado</SelectItem>
-                            <SelectItem value="berries">Berries</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                        <SelectContent className="rounded-xl">
+                            <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
+                            <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
+                            <SelectItem value="citrus" className="rounded-lg">Citrus Fruits</SelectItem>
+                            <SelectItem value="other" className="rounded-lg">Other Produce</SelectItem>
                         </SelectContent>
                     </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="description" className="text-sm font-bold uppercase tracking-tighter">Description</Label>
+                    <Textarea id="description" name="description" value={formData.description || ''} onChange={handleInputChange} placeholder="Write a compelling description for this product..." className="min-h-[140px] rounded-xl bg-muted/5 border-muted-foreground/20 resize-none focus:border-primary/50 p-4 leading-relaxed" />
+                  </div>
                 </div>
+              </div>
             </div>
             
-            {/* Right Column */}
-            <div className="space-y-4">
-                <label className="text-sm font-medium">Product Image</label>
-                <div className="w-full aspect-square border-2 border-dashed rounded-lg flex items-center justify-center relative bg-muted/20">
+            {/* RIGHT COLUMN: VISUALS & FEATURES */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-foreground font-bold text-lg border-b pb-2">
+                  <ImageIcon className="h-5 w-5 text-primary" />
+                  Product Imagery
+                </div>
+                
+                <div className="w-full aspect-[4/3] border-2 border-dashed border-primary/20 rounded-2xl flex items-center justify-center relative bg-primary/[0.02] group transition-all hover:bg-primary/[0.04] hover:border-primary/40">
                     {imagePreview ? (
                         <>
-                            <Image src={imagePreview} alt="Product preview" fill className="object-cover rounded-md" />
+                            <Image src={imagePreview} alt="Product preview" fill className="object-cover rounded-2xl p-1" />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center pointer-events-none">
+                               <p className="text-white font-bold text-sm bg-black/20 px-4 py-2 rounded-full backdrop-blur-sm">Click to Replace</p>
+                            </div>
                             <Button
                                 type="button"
                                 variant="destructive"
                                 size="icon"
-                                className="absolute top-2 right-2 h-7 w-7"
-                                onClick={() => {
+                                className="absolute top-3 right-3 h-8 w-8 rounded-xl shadow-lg z-10"
+                                onClick={(e) => {
+                                    e.stopPropagation();
                                     setImageFile(null);
                                     setImagePreview(null);
                                     if (fileInputRef.current) fileInputRef.current.value = '';
@@ -577,14 +625,21 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                             >
                                 <X className="h-4 w-4" />
                             </Button>
+                            <div 
+                              className="absolute inset-0 cursor-pointer" 
+                              onClick={() => fileInputRef.current?.click()} 
+                            />
                         </>
                     ) : (
                         <div
-                            className="text-center cursor-pointer p-4"
+                            className="text-center cursor-pointer p-8 w-full h-full flex flex-col items-center justify-center"
                             onClick={() => fileInputRef.current?.click()}
                         >
-                            <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
-                            <p className="mt-2 text-sm text-muted-foreground">Click to upload image</p>
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                                <ImageIcon className="h-8 w-8 text-primary" />
+                            </div>
+                            <p className="text-base font-bold text-foreground">Select Image</p>
+                            <p className="text-xs text-muted-foreground mt-1 px-4">Recommended: 1200x900px high-resolution JPG or PNG</p>
                         </div>
                     )}
                     <Input
@@ -595,32 +650,57 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                         onChange={handleImageChange}
                     />
                 </div>
+              </div>
 
-                {/* Features Section */}
-                <div className="pt-4 border-t space-y-4">
-                    <h4 className="font-bold text-sm">Export Features</h4>
-                    <div>
-                        <label htmlFor="period" className="text-sm font-medium">Periode</label>
-                        <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" />
+              {/* FEATURES SECTION */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-foreground font-bold text-lg border-b pb-2">
+                  <Layers className="h-5 w-5 text-primary" />
+                  Export Features
+                </div>
+                
+                <div className="grid grid-cols-1 gap-4 bg-muted/30 p-5 rounded-2xl border border-muted-foreground/10 shadow-inner">
+                    <div className="space-y-1.5">
+                        <Label htmlFor="period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Periode</Label>
+                        <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium" />
                     </div>
-                    <div>
-                        <label htmlFor="storage" className="text-sm font-medium">Storage</label>
-                        <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" />
+                    <div className="space-y-1.5">
+                        <Label htmlFor="storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Storage Temp</Label>
+                        <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium" />
                     </div>
-                    <div>
-                        <label htmlFor="sizes" className="text-sm font-medium">Sizes</label>
-                        <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12-C28" />
+                    <div className="space-y-1.5">
+                        <Label htmlFor="sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Available Sizes</Label>
+                        <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium" />
                     </div>
                 </div>
+              </div>
             </div>
+          </div>
         </form>
-         <DialogFooter>
+
+        <Separator className="bg-primary/10" />
+
+        <DialogFooter className="p-6 md:p-8 flex flex-row items-center justify-between gap-4">
           <DialogClose asChild>
-            <Button type="button" variant="outline">Cancel</Button>
+            <Button type="button" variant="ghost" className="rounded-xl px-6 font-bold hover:bg-muted">Cancel</Button>
           </DialogClose>
-          <Button type="submit" form="product-form" disabled={isSubmitting}>
-            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isSubmitting ? 'Saving...' : 'Save Product'}
+          <Button 
+            type="submit" 
+            form="product-form" 
+            disabled={isSubmitting} 
+            className="rounded-xl px-10 h-14 font-black text-lg shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              <>
+                <Sparkles className="mr-2 h-5 w-5" />
+                {isEditing ? 'Save Changes' : 'Create Product'}
+              </>
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
