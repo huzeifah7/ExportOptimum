@@ -23,7 +23,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
-import { Linkedin, Twitter, Trash2, Edit, Loader2 } from 'lucide-react';
+import { Linkedin, MessageCircle, Trash2, Edit, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -43,7 +43,7 @@ type TeamMember = {
   bio: string;
   photoUrl: string;
   linkedin?: string;
-  twitter?: string;
+  whatsapp?: string;
 };
 
 const initialFormState: Partial<TeamMember> = {
@@ -51,7 +51,7 @@ const initialFormState: Partial<TeamMember> = {
   role: '',
   bio: '',
   linkedin: '',
-  twitter: '',
+  whatsapp: '',
   photoUrl: '',
 };
 
@@ -170,7 +170,7 @@ export default function ManageTeamPage() {
         bio: formData.bio,
         photoUrl: photoUrl,
         linkedin: formData.linkedin || '',
-        twitter: formData.twitter || '',
+        whatsapp: formData.whatsapp || '',
       };
 
       const memberDocRef = doc(firestore, 'teamMembers', memberId);
@@ -280,9 +280,9 @@ export default function ManageTeamPage() {
                       <Linkedin className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </a>
                   )}
-                  {member.twitter && (
-                    <a href={member.twitter} target="_blank" rel="noopener noreferrer">
-                      <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary" />
+                  {member.whatsapp && (
+                    <a href={`https://wa.me/${member.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </a>
                   )}
                 </div>
@@ -324,8 +324,8 @@ export default function ManageTeamPage() {
               <Input id="linkedin" name="linkedin" value={formData.linkedin} onChange={handleInputChange} />
             </div>
              <div className="space-y-2">
-              <Label htmlFor="twitter">Twitter URL</Label>
-              <Input id="twitter" name="twitter" value={formData.twitter} onChange={handleInputChange} />
+              <Label htmlFor="whatsapp">WhatsApp Number</Label>
+              <Input id="whatsapp" name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} placeholder="e.g., 212600000000" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="photo">Photo</Label>
