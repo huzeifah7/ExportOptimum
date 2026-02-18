@@ -125,7 +125,8 @@ export default function ManageProductsPage() {
     // Search
     if (searchTerm) {
       products = products.filter(p =>
-        p.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.subtitle?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -247,7 +248,7 @@ export default function ManageProductsPage() {
         <div className="relative md:col-span-2">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             <Input
-                placeholder="Search by name..."
+                placeholder="Search by name or subtitle..."
                 className="pl-10 h-11"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -310,7 +311,12 @@ export default function ManageProductsPage() {
                         )}
                         </div>
                     </TableCell>
-                    <TableCell className="font-semibold text-base">{product.name || product.id}</TableCell>
+                    <TableCell>
+                        <div>
+                            <p className="font-semibold text-base">{product.name || product.id}</p>
+                            {product.subtitle && <p className="text-xs text-muted-foreground italic line-clamp-1">{product.subtitle}</p>}
+                        </div>
+                    </TableCell>
                     <TableCell className="hidden lg:table-cell">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary capitalize border border-primary/20">
                             {product.category || 'Uncategorized'}
