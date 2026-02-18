@@ -52,6 +52,18 @@
         "slug": {
           "type": "string",
           "description": "A URL-friendly slug for the product."
+        },
+        "origin": {
+          "type": "string",
+          "description": "The geographic origin of the product."
+        },
+        "season": {
+          "type": "string",
+          "description": "The harvest season for the product."
+        },
+        "characteristics": {
+          "type": "string",
+          "description": "Key characteristics or features of the product."
         }
       },
       "required": ["name", "description", "category", "slug"]

@@ -12,6 +12,8 @@ import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react';
+import { motion } from 'framer-motion';
+import { MapPin, Calendar, Star } from 'lucide-react';
 
 type Product = {
   id: string;
@@ -21,6 +23,9 @@ type Product = {
   imageUrl?: string;
   imageHint?: string;
   slug: string;
+  origin?: string;
+  season?: string;
+  characteristics?: string;
 };
 
 const ProductDetailSkeleton = () => (
@@ -46,7 +51,6 @@ const ProductDetailSkeleton = () => (
     </div>
 );
 
-// A dedicated component to show when the product is not found.
 const ProductNotFound = () => {
     const router = useRouter();
     return (
@@ -94,47 +98,107 @@ export default function ProductDetailsPage() {
       )
   }
 
-  // Show a skeleton while the ID is loading from the URL or the data is being fetched.
   if (isLoading || !productId) {
     return <ProductDetailSkeleton />;
   }
 
-  // After loading, if there's no product, show the not found component.
   if (!product) {
     return <ProductNotFound />;
   }
 
-  // If we have a product, render the details.
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow py-16 lg:py-24">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div className="rounded-lg overflow-hidden shadow-lg">
+            
+            {/* Image Section */}
+            <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="rounded-3xl overflow-hidden shadow-2xl bg-gray-100 ring-1 ring-border/50"
+            >
               {product.imageUrl && (
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
                   width={800}
                   height={600}
-                  className="object-cover w-full"
+                  className="object-cover w-full h-auto aspect-[4/3]"
                   data-ai-hint={product.imageHint}
                   priority
                 />
               )}
-            </div>
-            <div>
-              <Badge variant="secondary" className="mb-2 capitalize">{product.category}</Badge>
-              <h1 className="text-4xl md:text-5xl font-headline font-bold">{product.name}</h1>
-              <p className="mt-4 text-lg text-muted-foreground">{product.description}</p>
+            </motion.div>
+
+            {/* Content Section */}
+            <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Badge variant="secondary" className="mb-4 capitalize py-1.5 px-4 text-sm font-semibold tracking-wide bg-primary/10 text-primary border-primary/20">
+                {product.category}
+              </Badge>
               
-              <div className="mt-8">
-                <Button asChild size="lg">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-extrabold text-foreground leading-[1.1] mb-6">
+                {product.name}
+              </h1>
+              
+              <div className="prose prose-lg text-muted-foreground mb-10 max-w-none font-light leading-relaxed">
+                <p>{product.description}</p>
+              </div>
+
+              {/* Specifications Section */}
+              <div className="grid gap-6 mb-10">
+                {product.origin && (
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/30 border border-border/50">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <MapPin className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-foreground text-sm uppercase tracking-wider mb-1">Origin</h3>
+                            <p className="text-muted-foreground">{product.origin}</p>
+                        </div>
+                    </div>
+                )}
+
+                {product.season && (
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/30 border border-border/50">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <Calendar className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-foreground text-sm uppercase tracking-wider mb-1">Harvest Season</h3>
+                            <p className="text-muted-foreground">{product.season}</p>
+                        </div>
+                    </div>
+                )}
+
+                {product.characteristics && (
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/30 border border-border/50">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <Star className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-foreground text-sm uppercase tracking-wider mb-1">Key Characteristics</h3>
+                            <p className="text-muted-foreground whitespace-pre-line">{product.characteristics}</p>
+                        </div>
+                    </div>
+                )}
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button asChild size="lg" className="h-14 px-8 rounded-full font-bold text-lg shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
                   <Link href="/contact">Inquire About This Product</Link>
                 </Button>
+                <Button asChild variant="outline" size="lg" className="h-14 px-8 rounded-full font-bold text-lg hover:bg-secondary/50">
+                  <Link href="/products">View All Produce</Link>
+                </Button>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </main>
