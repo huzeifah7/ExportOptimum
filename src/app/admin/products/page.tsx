@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
@@ -85,9 +84,6 @@ type FirestoreProduct = DocumentData & { id: string };
 
 const ITEMS_PER_PAGE = 10;
 
-/**
- * Main Management Page for Products
- */
 export default function ManageProductsPage() {
   const firestore = useFirestore();
   const storage = getStorage();
@@ -110,7 +106,6 @@ export default function ManageProductsPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<FirestoreProduct | null>(null);
 
-  // --- Data Filtering and Sorting ---
   const categories = useMemo(() => {
     if (!allProducts) return [];
     const uniqueCategories = new Set(allProducts.map(p => p.category).filter(Boolean));
@@ -122,7 +117,6 @@ export default function ManageProductsPage() {
 
     let products = [...allProducts];
 
-    // Search
     if (searchTerm) {
       products = products.filter(p =>
         p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -130,35 +124,32 @@ export default function ManageProductsPage() {
       );
     }
 
-    // Category filter
     if (categoryFilter !== 'all') {
       products = products.filter(p => p.category === categoryFilter);
     }
 
-    // Sort
     products.sort((a, b) => {
-        const aDate = a.createdAt as Timestamp | undefined;
-        const bDate = b.createdAt as Timestamp | undefined;
+      const aDate = a.createdAt as Timestamp | undefined;
+      const bDate = b.createdAt as Timestamp | undefined;
 
-        switch (sortOption) {
-            case 'newest':
-            return (bDate?.toMillis() || 0) - (aDate?.toMillis() || 0);
-            case 'oldest':
-            return (aDate?.toMillis() || 0) - (bDate?.toMillis() || 0);
-            case 'name-asc':
-                return (a.name || '').localeCompare(b.name || '');
-            case 'name-desc':
-                return (b.name || '').localeCompare(a.name || '');
-            default:
-            return 0;
-        }
+      switch (sortOption) {
+        case 'newest':
+          return (bDate?.toMillis() || 0) - (aDate?.toMillis() || 0);
+        case 'oldest':
+          return (aDate?.toMillis() || 0) - (bDate?.toMillis() || 0);
+        case 'name-asc':
+          return (a.name || '').localeCompare(b.name || '');
+        case 'name-desc':
+          return (b.name || '').localeCompare(a.name || '');
+        default:
+          return 0;
+      }
     });
 
     setFilteredProducts(products);
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   }, [allProducts, searchTerm, categoryFilter, sortOption]);
 
-  // --- Pagination Logic ---
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -166,18 +157,13 @@ export default function ManageProductsPage() {
   }, [filteredProducts, currentPage]);
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
-  // --- Handlers for Modals and Actions ---
   const handleAddProduct = () => {
     setSelectedProduct(null);
     setIsModalOpen(true);
@@ -243,16 +229,15 @@ export default function ManageProductsPage() {
         </Button>
       </div>
 
-      {/* Toolbar */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-4 rounded-xl border shadow-sm">
         <div className="relative md:col-span-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <Input
-                placeholder="Search by name or subtitle..."
-                className="pl-10 h-11"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <Input
+            placeholder="Search by name or subtitle..."
+            className="pl-10 h-11"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
           <SelectTrigger className="h-11">
@@ -277,103 +262,90 @@ export default function ManageProductsPage() {
         </Select>
       </div>
 
-      {/* Products Table */}
       <div className="bg-white border rounded-xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-            <Table>
+          <Table>
             <TableHeader className="bg-muted/30">
-                <TableRow>
+              <TableRow>
                 <TableHead className="w-[100px] py-4">Image</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead className="hidden lg:table-cell">Category</TableHead>
                 <TableHead className="text-right pr-8">Actions</TableHead>
-                </TableRow>
+              </TableRow>
             </TableHeader>
             <TableBody>
-                {isLoading ? (
+              {isLoading ? (
                 Array.from({ length: 5 }).map((_, i) => (
-                    <TableRow key={i}>
+                  <TableRow key={i}>
                     <TableCell><Skeleton className="h-12 w-12 rounded-lg" /></TableCell>
                     <TableCell><Skeleton className="h-5 w-40" /></TableCell>
                     <TableCell className="hidden lg:table-cell"><Skeleton className="h-5 w-20" /></TableCell>
                     <TableCell className="text-right pr-8"><Skeleton className="h-8 w-24 ml-auto" /></TableCell>
-                    </TableRow>
+                  </TableRow>
                 ))
-                ) : paginatedProducts.length > 0 ? (
+              ) : paginatedProducts.length > 0 ? (
                 paginatedProducts.map(product => (
-                    <TableRow key={product.id} className="hover:bg-muted/30 transition-colors">
+                  <TableRow key={product.id} className="hover:bg-muted/30 transition-colors">
                     <TableCell>
-                        <div className="h-14 w-14 rounded-lg bg-muted flex items-center justify-center overflow-hidden border shadow-sm">
+                      <div className="h-14 w-14 rounded-lg bg-muted flex items-center justify-center overflow-hidden border shadow-sm">
                         {product.imageUrl ? (
-                            <Image src={product.imageUrl} alt={product.name || 'Product'} width={56} height={56} className="object-cover h-full w-full" />
+                          <Image src={product.imageUrl} alt={product.name || 'Product'} width={56} height={56} className="object-cover h-full w-full" />
                         ) : (
-                            <ImageIcon className="h-6 w-6 text-gray-400" />
+                          <ImageIcon className="h-6 w-6 text-gray-400" />
                         )}
-                        </div>
+                      </div>
                     </TableCell>
                     <TableCell>
-                        <div>
-                            <p className="font-semibold text-base">{product.name || product.id}</p>
-                            {product.subtitle && <p className="text-xs text-muted-foreground italic line-clamp-1">{product.subtitle}</p>}
-                        </div>
+                      <div>
+                        <p className="font-semibold text-base">{product.name || product.id}</p>
+                        {product.subtitle && <p className="text-xs text-muted-foreground italic line-clamp-1">{product.subtitle}</p>}
+                      </div>
                     </TableCell>
                     <TableCell className="hidden lg:table-cell">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary capitalize border border-primary/20">
-                            {product.category || 'Uncategorized'}
-                        </span>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary capitalize border border-primary/20">
+                        {product.category || 'Uncategorized'}
+                      </span>
                     </TableCell>
                     <TableCell className="text-right pr-8">
-                        <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-2">
                         <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)} className="h-9 w-9 p-0 rounded-lg">
-                            <Edit className="h-4 w-4" />
-                            <span className="sr-only">Edit</span>
+                          <Edit className="h-4 w-4" />
+                          <span className="sr-only">Edit</span>
                         </Button>
                         <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(product)} className="h-9 w-9 p-0 rounded-lg">
-                            <Trash2 className="h-4 w-4" />
-                            <span className="sr-only">Delete</span>
+                          <Trash2 className="h-4 w-4" />
+                          <span className="sr-only">Delete</span>
                         </Button>
-                        </div>
+                      </div>
                     </TableCell>
-                    </TableRow>
+                  </TableRow>
                 ))
-                ) : (
+              ) : (
                 <TableRow>
-                    <TableCell colSpan={4} className="h-40 text-center text-muted-foreground italic">
+                  <TableCell colSpan={4} className="h-40 text-center text-muted-foreground italic">
                     No products found in your catalog.
-                    </TableCell>
+                  </TableCell>
                 </TableRow>
-                )}
+              )}
             </TableBody>
-            </Table>
+          </Table>
         </div>
         {totalPages > 1 && (
-             <div className="flex items-center justify-between p-4 border-t bg-muted/10">
-                <div className="text-sm text-muted-foreground font-medium">
-                    Page {currentPage} of {totalPages}
-                </div>
-                <div className="flex items-center gap-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handlePrevPage}
-                        disabled={currentPage === 1}
-                        className="rounded-lg"
-                    >
-                        <ChevronLeft className="h-4 w-4" />
-                        Previous
-                    </Button>
-                     <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                        className="rounded-lg"
-                    >
-                        Next
-                        <ChevronRight className="h-4 w-4" />
-                    </Button>
-                </div>
-             </div>
+          <div className="flex items-center justify-between p-4 border-t bg-muted/10">
+            <div className="text-sm text-muted-foreground font-medium">
+              Page {currentPage} of {totalPages}
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={handlePrevPage} disabled={currentPage === 1} className="rounded-lg">
+                <ChevronLeft className="h-4 w-4" />
+                Previous
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages} className="rounded-lg">
+                Next
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         )}
       </div>
 
@@ -407,9 +379,6 @@ export default function ManageProductsPage() {
   );
 }
 
-/**
- * Corrected Redesigned Product Form Modal
- */
 interface ProductFormModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -427,7 +396,6 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Export Features Checkboxes
   const [enabledPeriod, setEnabledPeriod] = useState(false);
   const [enabledStorage, setEnabledStorage] = useState(false);
   const [enabledSizes, setEnabledSizes] = useState(false);
@@ -448,9 +416,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         setEnabledSizes(false);
       }
       setImageFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   }, [isOpen, product, isEditing]);
 
@@ -475,11 +441,11 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
   const slugify = (text: string) => {
     return text.toString().toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w-]+/g, '')
-        .replace(/--+/g, '-')
-        .replace(/^-+/, '')
-        .replace(/-+$/, '');
+      .replace(/\s+/g, '-')
+      .replace(/[^\w-]+/g, '')
+      .replace(/--+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -487,12 +453,12 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
     if (!firestore || !storage) return;
 
     if (!formData.name) {
-        toast({ variant: 'destructive', title: 'Missing Info', description: 'Please provide a name for the product.' });
-        return;
+      toast({ variant: 'destructive', title: 'Missing Info', description: 'Please provide a name.' });
+      return;
     }
     if (!isEditing && !imageFile) {
-        toast({ variant: 'destructive', title: 'Image Required', description: 'Every product needs a high-quality image.' });
-        return;
+      toast({ variant: 'destructive', title: 'Image Required', description: 'Please select an image.' });
+      return;
     }
 
     setIsSubmitting(true);
@@ -508,8 +474,6 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         imageUrl = await getDownloadURL(imageStorageRef);
       }
 
-      const slug = slugify(formData.name || '');
-
       const productData = {
         name: formData.name,
         subtitle: formData.subtitle || '',
@@ -519,36 +483,23 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         storage: enabledStorage ? formData.storage || '' : '',
         sizes: enabledSizes ? formData.sizes || '' : '',
         imageUrl,
-        slug,
+        slug: slugify(formData.name || ''),
         imageHint: `${(formData.category || '').toLowerCase()} ${(formData.name || '').toLowerCase().split(' ')[0]}`,
         updatedAt: serverTimestamp(),
       };
 
       const docRef = doc(firestore, 'products', docId);
-      
       if (isEditing) {
         await updateDoc(docRef, productData);
       } else {
-        await setDoc(docRef, {
-            ...productData,
-            id: docId,
-            createdAt: serverTimestamp()
-        });
+        await setDoc(docRef, { ...productData, id: docId, createdAt: serverTimestamp() });
       }
 
-      toast({
-        title: `Success`,
-        description: `"${productData.name}" has been ${isEditing ? 'updated' : 'added'}.`,
-      });
+      toast({ title: 'Success', description: `"${productData.name}" saved.` });
       onClose();
-
     } catch (error: any) {
-      console.error('Failed to save product:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Save Failed',
-        description: error.message || 'An unexpected error occurred while saving.',
-      });
+      console.error(error);
+      toast({ variant: 'destructive', title: 'Error', description: error.message });
     } finally {
       setIsSubmitting(false);
     }
@@ -562,7 +513,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
             <Package className="h-5 w-5" />
             <span className="text-[10px] font-bold uppercase tracking-widest">{isEditing ? 'Catalog Revision' : 'New Catalog Item'}</span>
           </div>
-          <DialogHeader className="p-0">
+          <DialogHeader className="p-0 text-left">
             <DialogTitle className="text-2xl font-headline font-black text-foreground">
               {isEditing ? 'Edit Product' : 'Add New Product'}
             </DialogTitle>
@@ -573,158 +524,100 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
           <div className="p-4 md:p-6">
             <form onSubmit={handleSubmit} id="product-form">
               <div className="grid md:grid-cols-2 gap-6">
-                {/* LEFT COLUMN: BASIC INFO */}
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
                       <Info className="h-4 w-4 text-primary" />
                       General Information
                     </div>
-                    
                     <div className="grid gap-4">
                       <div className="space-y-1.5">
-                        <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
-                        <Input id="name" name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Premium Hass Avocado" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" required />
+                        <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
+                        <Input name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Hass Avocado" className="h-10 rounded-xl bg-muted/5 font-semibold" required />
                       </div>
-
                       <div className="space-y-1.5">
-                        <Label htmlFor="subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
-                        <Input id="subtitle" name="subtitle" value={formData.subtitle || ''} onChange={handleInputChange} placeholder="e.g., The Finest Quality" className="h-10 border-muted-foreground/20 focus:border-primary/50 rounded-xl bg-muted/5 font-semibold text-base" />
+                        <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
+                        <Input name="subtitle" value={formData.subtitle || ''} onChange={handleInputChange} placeholder="e.g., Premium Grade" className="h-10 rounded-xl bg-muted/5" />
                       </div>
-
                       <div className="space-y-1.5">
-                        <Label htmlFor="category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
+                        <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
                         <Select onValueChange={handleSelectChange} value={formData.category || ''}>
-                            <SelectTrigger id="category" className="h-10 rounded-xl bg-muted/5 border-muted-foreground/20">
-                                <SelectValue placeholder="Choose Category" />
-                            </SelectTrigger>
-                            <SelectContent className="rounded-xl">
-                                <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
-                                <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
-                                <SelectItem value="citrus" className="rounded-lg">Citrus Fruits</SelectItem>
-                                <SelectItem value="other" className="rounded-lg">Other Produce</SelectItem>
-                            </SelectContent>
+                          <SelectTrigger className="h-10 rounded-xl bg-muted/5">
+                            <SelectValue placeholder="Choose Category" />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-xl">
+                            <SelectItem value="avocado">Avocado Varieties</SelectItem>
+                            <SelectItem value="berries">Fresh Berries</SelectItem>
+                            <SelectItem value="citrus">Citrus Fruits</SelectItem>
+                            <SelectItem value="other">Other Produce</SelectItem>
+                          </SelectContent>
                         </Select>
                       </div>
-
                       <div className="space-y-1.5">
-                        <Label htmlFor="description" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
-                        <Textarea id="description" name="description" value={formData.description || ''} onChange={handleInputChange} placeholder="Write a compelling description..." className="min-h-[100px] rounded-xl bg-muted/5 border-muted-foreground/20 resize-none focus:border-primary/50 p-3 leading-relaxed text-sm" />
+                        <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
+                        <Textarea name="description" value={formData.description || ''} onChange={handleInputChange} placeholder="Compelling description..." className="min-h-[100px] rounded-xl bg-muted/5 resize-none" required />
                       </div>
                     </div>
                   </div>
                 </div>
-                
-                {/* RIGHT COLUMN: VISUALS & FEATURES */}
+
                 <div className="space-y-6">
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
                       <ImageIcon className="h-4 w-4 text-primary" />
                       Product Imagery
                     </div>
-                    
-                    <div className="w-full aspect-video border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group transition-all hover:bg-primary/[0.04] hover:border-primary/40 overflow-hidden">
-                        {imagePreview ? (
-                            <>
-                                <Image src={imagePreview} alt="Product preview" fill className="object-cover p-1" />
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                   <p className="text-white font-bold text-xs bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm">Click to Replace</p>
-                                </div>
-                                <button
-                                    type="button"
-                                    className="absolute top-2 right-2 h-7 w-7 rounded-lg shadow-lg z-10 bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setImageFile(null);
-                                        setImagePreview(product?.imageUrl || null);
-                                        if (fileInputRef.current) fileInputRef.current.value = '';
-                                    }}
-                                >
-                                    <X className="h-3.5 w-3.5" />
-                                </button>
-                                <div 
-                                  className="absolute inset-0 cursor-pointer" 
-                                  onClick={() => fileInputRef.current?.click()} 
-                                />
-                            </>
-                        ) : (
-                            <div
-                                className="text-center cursor-pointer p-4 w-full h-full flex flex-col items-center justify-center"
-                                onClick={() => fileInputRef.current?.click()}
-                            >
-                                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-2 transition-transform group-hover:scale-110">
-                                    <ImageIcon className="h-5 w-5 text-primary" />
-                                </div>
-                                <p className="text-sm font-bold text-foreground">Select Image</p>
-                                <p className="text-[10px] text-muted-foreground mt-0.5">High-resolution JPG or PNG</p>
-                            </div>
-                        )}
-                        <Input
-                            ref={fileInputRef}
-                            type="file"
-                            className="sr-only"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                        />
+                    <div className="w-full aspect-video border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group overflow-hidden">
+                      {imagePreview ? (
+                        <>
+                          <Image src={imagePreview} alt="Preview" fill className="object-cover p-1" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center pointer-events-none">
+                            <p className="text-white font-bold text-xs bg-black/20 px-3 py-1.5 rounded-full">Click to Replace</p>
+                          </div>
+                          <button type="button" className="absolute top-2 right-2 h-7 w-7 rounded-lg bg-destructive text-white flex items-center justify-center z-10" onClick={(e) => { e.stopPropagation(); setImageFile(null); setImagePreview(product?.imageUrl || null); if (fileInputRef.current) fileInputRef.current.value = ''; }}>
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                          <div className="absolute inset-0 cursor-pointer" onClick={() => fileInputRef.current?.click()} />
+                        </>
+                      ) : (
+                        <div className="text-center cursor-pointer p-4 w-full h-full flex flex-col items-center justify-center" onClick={() => fileInputRef.current?.click()}>
+                          <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-2"><ImageIcon className="h-5 w-5 text-primary" /></div>
+                          <p className="text-sm font-bold">Select Image</p>
+                        </div>
+                      )}
+                      <input ref={fileInputRef} type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                     </div>
                   </div>
 
-                  {/* FEATURES SECTION */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
                       <Layers className="h-4 w-4 text-primary" />
                       Export Features
                     </div>
-                    
-                    <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border border-muted-foreground/10 shadow-inner">
-                        {/* Period Feature */}
-                        <div className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                                <Checkbox 
-                                    id="enable-period" 
-                                    checked={enabledPeriod} 
-                                    onCheckedChange={(checked) => {
-                                        setEnabledPeriod(!!checked);
-                                        if(!checked) setFormData(prev => ({...prev, period: ''}));
-                                    }} 
-                                />
-                                <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
-                            </div>
-                            <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
+                    <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border">
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2">
+                          <Checkbox id="enable-period" checked={enabledPeriod} onCheckedChange={(c) => { setEnabledPeriod(!!c); if (!c) setFormData(p => ({ ...p, period: '' })); }} />
+                          <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Periode</Label>
                         </div>
-
-                        {/* Storage Feature */}
-                        <div className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                                <Checkbox 
-                                    id="enable-storage" 
-                                    checked={enabledStorage} 
-                                    onCheckedChange={(checked) => {
-                                        setEnabledStorage(!!checked);
-                                        if(!checked) setFormData(prev => ({...prev, storage: ''}));
-                                    }} 
-                                />
-                                <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
-                            </div>
-                            <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
+                        <Input name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" className="h-9 rounded-xl bg-white" disabled={!enabledPeriod} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2">
+                          <Checkbox id="enable-storage" checked={enabledStorage} onCheckedChange={(c) => { setEnabledStorage(!!c); if (!c) setFormData(p => ({ ...p, storage: '' })); }} />
+                          <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Storage Temp</Label>
                         </div>
-
-                        {/* Sizes Feature */}
-                        <div className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                                <Checkbox 
-                                    id="enable-sizes" 
-                                    checked={enabledSizes} 
-                                    onCheckedChange={(checked) => {
-                                        setEnabledSizes(!!checked);
-                                        if(!checked) setFormData(prev => ({...prev, sizes: ''}));
-                                    }} 
-                                />
-                                <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Available Sizes</Label>
-                            </div>
-                            <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-9 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
+                        <Input name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" className="h-9 rounded-xl bg-white" disabled={!enabledStorage} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2">
+                          <Checkbox id="enable-sizes" checked={enabledSizes} onCheckedChange={(c) => { setEnabledSizes(!!c); if (!c) setFormData(p => ({ ...p, sizes: '' })); }} />
+                          <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Available Sizes</Label>
                         </div>
+                        <Input name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-9 rounded-xl bg-white" disabled={!enabledSizes} />
+                      </div>
                     </div>
+                  </div>
                 </div>
               </div>
             </form>
@@ -735,25 +628,10 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
         <DialogFooter className="p-4 md:p-5 flex flex-row items-center justify-between gap-4 shrink-0">
           <DialogClose asChild>
-            <Button type="button" variant="ghost" className="rounded-xl px-4 font-bold hover:bg-muted text-sm">Cancel</Button>
+            <Button type="button" variant="ghost" className="rounded-xl px-4 font-bold text-sm">Cancel</Button>
           </DialogClose>
-          <Button 
-            type="submit" 
-            form="product-form" 
-            disabled={isSubmitting} 
-            className="rounded-xl px-8 h-11 font-black text-base shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 h-4 w-4" />
-                {isEditing ? 'Save Changes' : 'Create Product'}
-              </>
-            )}
+          <Button type="submit" form="product-form" disabled={isSubmitting} className="rounded-xl px-8 h-11 font-black shadow-lg shadow-primary/20">
+            {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</> : <><Sparkles className="mr-2 h-4 w-4" /> {isEditing ? 'Save Changes' : 'Create Product'}</>}
           </Button>
         </DialogFooter>
       </DialogContent>
