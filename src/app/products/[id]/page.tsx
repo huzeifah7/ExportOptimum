@@ -13,7 +13,22 @@ import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CalendarDays, Thermometer, Shrink } from 'lucide-react';
+import { CalendarDays, Thermometer } from 'lucide-react';
+
+const AvocadoIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 2c-3.5 0-6.5 3.5-6.5 7.5 0 5 3 12.5 6.5 12.5s6.5-7.5 6.5-12.5C18.5 5.5 15.5 2 12 2z" />
+    <circle cx="12" cy="13" r="3.5" />
+  </svg>
+);
 
 type Product = {
   id: string;
@@ -188,7 +203,7 @@ export default function ProductDetailsPage() {
                     {product.sizes && (
                         <div className="flex flex-col items-center sm:items-start gap-3">
                             <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                                <Shrink className="w-6 h-6 text-primary" />
+                                <AvocadoIcon className="w-6 h-6 text-primary" />
                             </div>
                             <div className="text-center sm:text-left">
                                 <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Sizes</p>

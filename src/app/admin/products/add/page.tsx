@@ -309,10 +309,10 @@ export default function AddProductPage() {
                                             <p className="text-[10px] text-muted-foreground mt-1">High-resolution JPG or PNG</p>
                                         </div>
                                     )}
-                                    <Input
+                                    <input
                                         ref={fileInputRef}
                                         type="file"
-                                        className="sr-only"
+                                        className="hidden"
                                         accept="image/*"
                                         onChange={handleImageChange}
                                     />
