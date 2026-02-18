@@ -78,6 +78,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Checkbox } from '@/components/ui/checkbox';
 
 // Flexible type for Firestore documents
 type FirestoreProduct = DocumentData & { id: string };
@@ -424,14 +425,25 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Export Features Checkboxes
+  const [enabledPeriod, setEnabledPeriod] = useState(false);
+  const [enabledStorage, setEnabledStorage] = useState(false);
+  const [enabledSizes, setEnabledSizes] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       if (isEditing) {
         setFormData(product);
         setImagePreview(product.imageUrl || null);
+        setEnabledPeriod(!!product.period);
+        setEnabledStorage(!!product.storage);
+        setEnabledSizes(!!product.sizes);
       } else {
         setFormData({ name: '', description: '', category: 'avocado', period: '', storage: '', sizes: '' });
         setImagePreview(null);
+        setEnabledPeriod(false);
+        setEnabledStorage(false);
+        setEnabledSizes(false);
       }
       setImageFile(null);
       if (fileInputRef.current) {
@@ -500,9 +512,9 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         name: formData.name,
         description: formData.description || '',
         category: formData.category || 'avocado',
-        period: formData.period || '',
-        storage: formData.storage || '',
-        sizes: formData.sizes || '',
+        period: enabledPeriod ? formData.period || '' : '',
+        storage: enabledStorage ? formData.storage || '' : '',
+        sizes: enabledSizes ? formData.sizes || '' : '',
         imageUrl,
         slug,
         imageHint: `${(formData.category || '').toLowerCase()} ${formData.name.toLowerCase().split(' ')[0]}`,
@@ -541,7 +553,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[850px] p-0 overflow-hidden rounded-3xl border-none shadow-2xl">
+      <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-3xl border-none shadow-2xl">
         <div className="bg-primary/5 p-6 md:p-8 border-b border-primary/10">
           <DialogHeader className="p-0">
             <div className="flex items-center gap-3 mb-2 text-primary">
@@ -611,11 +623,9 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-center justify-center pointer-events-none">
                                <p className="text-white font-bold text-sm bg-black/20 px-4 py-2 rounded-full backdrop-blur-sm">Click to Replace</p>
                             </div>
-                            <Button
+                            <button
                                 type="button"
-                                variant="destructive"
-                                size="icon"
-                                className="absolute top-3 right-3 h-8 w-8 rounded-xl shadow-lg z-10"
+                                className="absolute top-3 right-3 h-8 w-8 rounded-xl shadow-lg z-10 bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setImageFile(null);
@@ -624,7 +634,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                                 }}
                             >
                                 <X className="h-4 w-4" />
-                            </Button>
+                            </button>
                             <div 
                               className="absolute inset-0 cursor-pointer" 
                               onClick={() => fileInputRef.current?.click()} 
@@ -660,17 +670,52 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                 </div>
                 
                 <div className="grid grid-cols-1 gap-4 bg-muted/30 p-5 rounded-2xl border border-muted-foreground/10 shadow-inner">
-                    <div className="space-y-1.5">
-                        <Label htmlFor="period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Periode</Label>
-                        <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium" />
+                    {/* Period Feature */}
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <Checkbox 
+                                id="enable-period" 
+                                checked={enabledPeriod} 
+                                onCheckedChange={(checked) => {
+                                    setEnabledPeriod(!!checked);
+                                    if(!checked) setFormData(prev => ({...prev, period: ''}));
+                                }} 
+                            />
+                            <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
+                        </div>
+                        <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
                     </div>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Storage Temp</Label>
-                        <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium" />
+
+                    {/* Storage Feature */}
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <Checkbox 
+                                id="enable-storage" 
+                                checked={enabledStorage} 
+                                onCheckedChange={(checked) => {
+                                    setEnabledStorage(!!checked);
+                                    if(!checked) setFormData(prev => ({...prev, storage: ''}));
+                                }} 
+                            />
+                            <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
+                        </div>
+                        <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
                     </div>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Available Sizes</Label>
-                        <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium" />
+
+                    {/* Sizes Feature */}
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <Checkbox 
+                                id="enable-sizes" 
+                                checked={enabledSizes} 
+                                onCheckedChange={(checked) => {
+                                    setEnabledSizes(!!checked);
+                                    if(!checked) setFormData(prev => ({...prev, sizes: ''}));
+                                }} 
+                            />
+                            <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Available Sizes</Label>
+                        </div>
+                        <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-10 rounded-xl bg-white border-muted-foreground/20 font-medium disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
                     </div>
                 </div>
               </div>
