@@ -337,36 +337,25 @@
       "type": "object",
       "description": "Represents contact details for export inquiries.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Contact Information entry."
-        },
         "address": {
           "type": "string",
           "description": "Physical address of the company."
         },
-        "phoneNumber": {
-          "type": "string",
-          "description": "Phone number for contact."
-        },
-        "email": {
-          "type": "string",
-          "description": "Email address for export inquiries.",
-          "format": "email"
-        },
-        "socialMediaLinks": {
+        "phoneNumbers": {
           "type": "array",
-          "description": "Links to the company's social media profiles.",
-          "items": {
-            "type": "string"
-          }
+          "description": "List of phone numbers for contact.",
+          "items": { "type": "string" }
+        },
+        "emails": {
+          "type": "array",
+          "description": "List of email addresses for export inquiries.",
+          "items": { "type": "string", "format": "email" }
         }
       },
       "required": [
-        "id",
         "address",
-        "phoneNumber",
-        "email"
+        "phoneNumbers",
+        "emails"
       ]
     }
   },
@@ -503,19 +492,13 @@
         }
       },
       {
-        "path": "/contactInformation/{contactInformationId}",
+        "path": "/contactInformation/main",
         "definition": {
           "entityName": "ContactInformation",
           "schema": {
             "$ref": "#/backend/entities/ContactInformation"
           },
-          "description": "Stores contact details for export inquiries.",
-          "params": [
-            {
-              "name": "contactInformationId",
-              "description": "Unique identifier for the Contact Information entry."
-            }
-          ]
+          "description": "Stores contact details for export inquiries."
         }
       }
     ],

@@ -320,20 +320,21 @@
           "type": "string",
           "description": "Physical address of the company."
         },
-        "phoneNumber": {
-          "type": "string",
-          "description": "Phone number for contact."
+        "phoneNumbers": {
+          "type": "array",
+          "description": "List of phone numbers for contact.",
+          "items": { "type": "string" }
         },
-        "email": {
-          "type": "string",
-          "description": "Email address for export inquiries.",
-          "format": "email"
+        "emails": {
+          "type": "array",
+          "description": "List of email addresses for export inquiries.",
+          "items": { "type": "string", "format": "email" }
         }
       },
       "required": [
         "address",
-        "phoneNumber",
-        "email"
+        "phoneNumbers",
+        "emails"
       ]
     }
   },

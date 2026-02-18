@@ -55,8 +55,11 @@ const faqItems = [
 
 type ContactInformation = {
     address: string;
-    phoneNumber: string;
-    email: string;
+    phoneNumbers?: string[];
+    emails?: string[];
+    // For old data
+    phoneNumber?: string;
+    email?: string;
 };
 
 
@@ -82,6 +85,14 @@ const ContactPage = () => {
   }, [firestore]);
 
   const { data: contactInfo, isLoading: isLoadingContact } = useDoc<ContactInformation>(contactInfoRef);
+
+  const emails = contactInfo?.emails && contactInfo.emails.length > 0 
+    ? contactInfo.emails 
+    : (contactInfo?.email ? [contactInfo.email] : []);
+    
+  const phoneNumbers = contactInfo?.phoneNumbers && contactInfo.phoneNumbers.length > 0
+    ? contactInfo.phoneNumbers
+    : (contactInfo?.phoneNumber ? [contactInfo.phoneNumber] : []);
 
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -221,19 +232,23 @@ const ContactPage = () => {
                                         </div>
                                     </motion.div>
                                 ) : (
-                                <motion.div variants={itemVariants} className="space-y-6 text-muted-foreground">
+                                <motion.div variants={itemVariants} className="space-y-8 text-muted-foreground">
                                     <div className="flex items-start gap-4">
                                         <Mail className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                                        <div>
+                                        <div className="space-y-1">
                                             <p className="font-semibold text-foreground">Email</p>
-                                            <a href={`mailto:${contactInfo?.email}`} className="hover:text-primary transition-colors">{contactInfo?.email}</a>
+                                            {emails.map((email, idx) => (
+                                                <a key={idx} href={`mailto:${email}`} className="block hover:text-primary transition-colors">{email}</a>
+                                            ))}
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-4">
                                         <Phone className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                                        <div>
+                                        <div className="space-y-1">
                                             <p className="font-semibold text-foreground">Phone</p>
-                                            <span>{contactInfo?.phoneNumber}</span>
+                                            {phoneNumbers.map((phone, idx) => (
+                                                <span key={idx} className="block">{phone}</span>
+                                            ))}
                                         </div>
                                     </div>
                                      <div className="flex items-start gap-4">
@@ -340,4 +355,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-

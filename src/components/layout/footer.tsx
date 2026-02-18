@@ -13,8 +13,11 @@ import { useState, useEffect } from 'react';
 
 type ContactInformation = {
     address: string;
-    phoneNumber: string;
-    email: string;
+    phoneNumbers?: string[];
+    emails?: string[];
+    // For old data
+    phoneNumber?: string;
+    email?: string;
 };
 
 const socialLinks = [
@@ -36,6 +39,15 @@ export default function Footer() {
     }, [firestore]);
 
     const { data: contactInfo, isLoading } = useDoc<ContactInformation>(contactInfoRef);
+
+    // Normalize emails and phone numbers to handle migration
+    const emails = contactInfo?.emails && contactInfo.emails.length > 0 
+        ? contactInfo.emails 
+        : (contactInfo?.email ? [contactInfo.email] : []);
+        
+    const phoneNumbers = contactInfo?.phoneNumbers && contactInfo.phoneNumbers.length > 0
+        ? contactInfo.phoneNumbers
+        : (contactInfo?.phoneNumber ? [contactInfo.phoneNumber] : []);
 
 	return (
 		<footer className="bg-foreground border-t border-border/20 text-background">
@@ -66,20 +78,38 @@ export default function Footer() {
                                 </div>
                             ) : (
                                 <>
-                                    <a
-                                        href={`mailto:${contactInfo?.email}`}
-                                        className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
-                                    >
-                                        <Mail className="h-5 w-5 text-brand" aria-hidden="true" />
-                                        <span>{contactInfo?.email || 'email@example.com'}</span>
-                                    </a>
-                                    <a
-                                        href={`tel:${contactInfo?.phoneNumber?.replace(/\s+/g, '')}`}
-                                        className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
-                                    >
-                                        <Phone className="h-5 w-5 text-brand" aria-hidden="true" />
-                                        <span>{contactInfo?.phoneNumber || '+1 (234) 567-890'}</span>
-                                    </a>
+                                    {emails.length > 0 ? emails.map((email, idx) => (
+                                        <a
+                                            key={`email-${idx}`}
+                                            href={`mailto:${email}`}
+                                            className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
+                                        >
+                                            <Mail className="h-5 w-5 text-brand" aria-hidden="true" />
+                                            <span>{email}</span>
+                                        </a>
+                                    )) : (
+                                        <div className="flex items-center gap-3 text-muted-foreground">
+                                            <Mail className="h-5 w-5 text-brand" aria-hidden="true" />
+                                            <span>email@example.com</span>
+                                        </div>
+                                    )}
+
+                                    {phoneNumbers.length > 0 ? phoneNumbers.map((phone, idx) => (
+                                        <a
+                                            key={`phone-${idx}`}
+                                            href={`tel:${phone.replace(/\s+/g, '')}`}
+                                            className="flex items-center gap-3 text-muted-foreground transition hover:text-primary"
+                                        >
+                                            <Phone className="h-5 w-5 text-brand" aria-hidden="true" />
+                                            <span>{phone}</span>
+                                        </a>
+                                    )) : (
+                                        <div className="flex items-center gap-3 text-muted-foreground">
+                                            <Phone className="h-5 w-5 text-brand" aria-hidden="true" />
+                                            <span>+1 (234) 567-890</span>
+                                        </div>
+                                    )}
+
                                     <div className="flex items-start gap-3 text-muted-foreground">
                                         <MapPin className="mt-1 h-5 w-5 text-brand flex-shrink-0" aria-hidden="true" />
                                         <span>{contactInfo?.address || '123 Produce Lane, Fruit Valley, 90210'}</span>
