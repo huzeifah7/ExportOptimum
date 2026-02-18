@@ -62,9 +62,11 @@ export default function LeaveReviewPage() {
     
     setIsSubmitting(true);
     
+    // Explicitly setting status to 'not active' for admin moderation
     const newReview = {
       ...formData,
       status: 'not active',
+      createdAt: new Date().toISOString(),
     };
 
     try {

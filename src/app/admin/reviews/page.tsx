@@ -9,8 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { deleteDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { Edit, Trash2, PlusCircle } from 'lucide-react';
+import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { Edit, Trash2, PlusCircle, AlertCircle } from 'lucide-react';
 import { ReviewModal } from '@/components/admin/ReviewModal';
 
 export type Review = {
@@ -91,7 +91,10 @@ export default function ManageReviewsPage() {
   return (
     <>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold font-headline">Manage Client Reviews</h1>
+        <div>
+            <h1 className="text-3xl font-bold font-headline">Manage Client Reviews</h1>
+            <p className="text-sm text-muted-foreground mt-1">Review, approve, or edit client testimonials.</p>
+        </div>
         <Button onClick={handleAddNew}>
           <PlusCircle className="mr-2 h-4 w-4" />
           Add New Review
@@ -107,22 +110,30 @@ export default function ManageReviewsPage() {
       {!isLoading && reviews && reviews.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review) => (
-            <Card key={review.id} className="flex flex-col">
+            <Card key={review.id} className={`flex flex-col transition-all duration-300 ${review.status === 'not active' ? 'border-amber-200 bg-amber-50/30' : ''}`}>
               <CardHeader>
-                <CardTitle className="font-headline">{review.author}</CardTitle>
+                <div className="flex justify-between items-start">
+                    <CardTitle className="font-headline">{review.author}</CardTitle>
+                    {review.status === 'not active' && (
+                        <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-200 flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3" />
+                            Pending
+                        </Badge>
+                    )}
+                </div>
                 <p className="text-sm text-muted-foreground">{review.role}, {review.company}</p>
               </CardHeader>
               <CardContent className="flex-grow">
-                <blockquote className="italic text-muted-foreground">
+                <blockquote className="italic text-muted-foreground text-sm">
                   "{review.reviewText}"
                 </blockquote>
               </CardContent>
-              <CardFooter className="flex justify-between items-center">
+              <CardFooter className="flex justify-between items-center pt-4 border-t border-border/10">
                 <Badge variant={review.status === 'active' ? 'default' : 'secondary'}>
-                  {review.status === 'active' ? 'Active' : 'Not Active'}
+                  {review.status === 'active' ? 'Published' : 'Hidden'}
                 </Badge>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="icon" onClick={() => handleEdit(review)}>
+                  <Button variant="outline" size="icon" onClick={() => handleEdit(review)} className="h-8 w-8">
                     <Edit className="h-4 w-4" />
                     <span className="sr-only">Edit</span>
                   </Button>
@@ -130,6 +141,7 @@ export default function ManageReviewsPage() {
                     variant="destructive"
                     size="icon"
                     onClick={() => handleDelete(review.id, review.author)}
+                    className="h-8 w-8"
                   >
                     <Trash2 className="h-4 w-4" />
                     <span className="sr-only">Delete</span>

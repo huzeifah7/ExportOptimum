@@ -89,7 +89,10 @@ export function ReviewModal({ isOpen, onClose, onSave, review }: ReviewModalProp
             setDocumentNonBlocking(docRef, reviewData, { merge: true });
         } else {
             const collectionRef = collection(firestore, 'clientTestimonials');
-            addDocumentNonBlocking(collectionRef, reviewData);
+            addDocumentNonBlocking(collectionRef, {
+                ...reviewData,
+                createdAt: new Date().toISOString()
+            });
         }
     
         toast({
@@ -133,9 +136,12 @@ export function ReviewModal({ isOpen, onClose, onSave, review }: ReviewModalProp
             <Label htmlFor="reviewText">Review Text</Label>
             <Textarea id="reviewText" name="reviewText" value={formData.reviewText} onChange={handleChange} required className="min-h-[100px]" />
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 bg-muted/50 p-3 rounded-lg border border-border">
             <Switch id="status" checked={formData.status === 'active'} onCheckedChange={handleStatusChange} />
-            <Label htmlFor="status">Active</Label>
+            <div className="flex flex-col">
+                <Label htmlFor="status" className="font-bold">Active Status</Label>
+                <span className="text-xs text-muted-foreground">Toggle this to show the review on the live website.</span>
+            </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
