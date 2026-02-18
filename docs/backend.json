@@ -64,6 +64,18 @@
         "characteristics": {
           "type": "string",
           "description": "Key characteristics or features of the product."
+        },
+        "period": {
+          "type": "string",
+          "description": "The export period (e.g. December to April)."
+        },
+        "storage": {
+          "type": "string",
+          "description": "Storage temperature requirements (e.g. 6°C)."
+        },
+        "sizes": {
+          "type": "string",
+          "description": "Available sizes (e.g. C12-C28)."
         }
       },
       "required": ["name", "description", "category", "slug"]
@@ -144,7 +156,6 @@
       "required": ["exportTons", "employees", "majorCustomers"]
     },
     "AvocadoExportData": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "AvocadoExportData",
       "type": "object",
       "description": "Represents the core export data and statistics showcased in the hero section.",
@@ -177,7 +188,6 @@
       ]
     },
     "QualityCertification": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "QualityCertification",
       "type": "object",
       "description": "Represents a quality assurance certification held by the company.",
@@ -208,7 +218,6 @@
       ]
     },
     "AvocadoVariety": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "AvocadoVariety",
       "type": "object",
       "description": "Represents a specific variety of avocado exported.",
@@ -298,7 +307,6 @@
       ]
     },
     "BlogPost": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "BlogPost",
       "type": "object",
       "description": "Represents a blog post on the website.",
@@ -344,7 +352,6 @@
       ]
     },
     "ContactInformation": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "ContactInformation",
       "type": "object",
       "description": "Represents contact details for export inquiries.",

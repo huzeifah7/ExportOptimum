@@ -13,7 +13,7 @@ import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, Star } from 'lucide-react';
+import { MapPin, Calendar, Star, CalendarDays, Thermometer, Shrink } from 'lucide-react';
 
 type Product = {
   id: string;
@@ -26,6 +26,9 @@ type Product = {
   origin?: string;
   season?: string;
   characteristics?: string;
+  period?: string;
+  storage?: string;
+  sizes?: string;
 };
 
 const ProductDetailSkeleton = () => (
@@ -106,12 +109,14 @@ export default function ProductDetailsPage() {
     return <ProductNotFound />;
   }
 
+  const hasFeatures = product.period || product.storage || product.sizes;
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow py-16 lg:py-24">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
             
             {/* Image Section */}
             <motion.div 
@@ -200,6 +205,50 @@ export default function ProductDetailsPage() {
               </div>
             </motion.div>
           </div>
+
+          {/* New "Our Features" Section */}
+          {hasFeatures && (
+            <motion.section 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="pt-16 border-t"
+            >
+                <h2 className="text-3xl font-bold font-headline mb-12 text-center lg:text-left">Our Features</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    {product.period && (
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
+                                <CalendarDays className="w-8 h-8 text-primary" />
+                            </div>
+                            <div>
+                                <p className="text-lg font-bold text-foreground">Periode: {product.period}</p>
+                            </div>
+                        </div>
+                    )}
+                    {product.storage && (
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
+                                <Thermometer className="w-8 h-8 text-primary" />
+                            </div>
+                            <div>
+                                <p className="text-lg font-bold text-foreground">Storage: {product.storage}</p>
+                            </div>
+                        </div>
+                    )}
+                    {product.sizes && (
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
+                                <Shrink className="w-8 h-8 text-primary" />
+                            </div>
+                            <div>
+                                <p className="text-lg font-bold text-foreground">Sizes: {product.sizes}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </motion.section>
+          )}
         </div>
       </main>
       <Footer />

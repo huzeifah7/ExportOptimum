@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import {
   collection,
@@ -56,7 +56,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
@@ -487,6 +486,12 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         name: formData.name,
         description: formData.description || '',
         category: formData.category || '',
+        origin: formData.origin || '',
+        season: formData.season || '',
+        characteristics: formData.characteristics || '',
+        period: formData.period || '',
+        storage: formData.storage || '',
+        sizes: formData.sizes || '',
         imageUrl,
         slug,
         imageHint: `${(formData.category || '').toLowerCase()} ${formData.name.toLowerCase().split(' ')[0]}`,
@@ -525,11 +530,11 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] grid-rows-[auto_1fr_auto]">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
          <DialogHeader>
           <DialogTitle>{isEditing ? 'Edit Product' : 'Add New Product'}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} id="product-form" className="grid md:grid-cols-2 gap-6 overflow-y-auto py-4 px-1">
+        <form onSubmit={handleSubmit} id="product-form" className="grid md:grid-cols-2 gap-6 py-4 px-1">
             {/* Left Column */}
             <div className="space-y-4">
                 <div>
@@ -553,11 +558,29 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                         </SelectContent>
                     </Select>
                 </div>
+                
+                {/* Specs Section */}
+                <div className="pt-4 border-t space-y-4">
+                    <h4 className="font-bold text-sm">Specifications</h4>
+                    <div>
+                        <label htmlFor="origin" className="text-sm font-medium">Origin</label>
+                        <Input id="origin" name="origin" value={formData.origin || ''} onChange={handleInputChange} placeholder="e.g. Larache, Morocco" />
+                    </div>
+                    <div>
+                        <label htmlFor="season" className="text-sm font-medium">Harvest Season</label>
+                        <Input id="season" name="season" value={formData.season || ''} onChange={handleInputChange} placeholder="e.g. October to April" />
+                    </div>
+                    <div>
+                        <label htmlFor="characteristics" className="text-sm font-medium">Characteristics</label>
+                        <Textarea id="characteristics" name="characteristics" value={formData.characteristics || ''} onChange={handleInputChange} placeholder="e.g. Creamy texture..." />
+                    </div>
+                </div>
             </div>
+            
             {/* Right Column */}
             <div className="space-y-4">
                 <label className="text-sm font-medium">Product Image</label>
-                <div className="w-full aspect-square border-2 border-dashed rounded-lg flex items-center justify-center relative">
+                <div className="w-full aspect-square border-2 border-dashed rounded-lg flex items-center justify-center relative bg-muted/20">
                     {imagePreview ? (
                         <>
                             <Image src={imagePreview} alt="Product preview" fill className="object-cover rounded-md" />
@@ -591,6 +614,23 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                         accept="image/*"
                         onChange={handleImageChange}
                     />
+                </div>
+
+                {/* Features Section */}
+                <div className="pt-4 border-t space-y-4">
+                    <h4 className="font-bold text-sm">Export Features</h4>
+                    <div>
+                        <label htmlFor="period" className="text-sm font-medium">Periode</label>
+                        <Input id="period" name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="e.g. December to April" />
+                    </div>
+                    <div>
+                        <label htmlFor="storage" className="text-sm font-medium">Storage</label>
+                        <Input id="storage" name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g. 6°C" />
+                    </div>
+                    <div>
+                        <label htmlFor="sizes" className="text-sm font-medium">Sizes</label>
+                        <Input id="sizes" name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12-C28" />
+                    </div>
                 </div>
             </div>
         </form>

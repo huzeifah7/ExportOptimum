@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,6 +30,9 @@ type Product = {
     origin?: string;
     season?: string;
     characteristics?: string;
+    period?: string;
+    storage?: string;
+    sizes?: string;
 };
 
 export default function EditProductPage() {
@@ -61,6 +64,14 @@ export default function EditProductPage() {
     const [showCharacteristics, setShowCharacteristics] = useState(false);
     const [characteristics, setCharacteristics] = useState('');
 
+    // Export Features States
+    const [showPeriod, setShowPeriod] = useState(false);
+    const [period, setPeriod] = useState('');
+    const [showStorage, setShowStorage] = useState(false);
+    const [storageTemp, setStorageTemp] = useState('');
+    const [showSizes, setShowSizes] = useState(false);
+    const [sizes, setSizes] = useState('');
+
     useEffect(() => {
         if (product) {
             setProductName(product.name);
@@ -80,6 +91,18 @@ export default function EditProductPage() {
             if (product.characteristics) {
                 setShowCharacteristics(true);
                 setCharacteristics(product.characteristics);
+            }
+            if (product.period) {
+                setShowPeriod(true);
+                setPeriod(product.period);
+            }
+            if (product.storage) {
+                setShowStorage(true);
+                setStorageTemp(product.storage);
+            }
+            if (product.sizes) {
+                setShowSizes(true);
+                setSizes(product.sizes);
             }
         }
     }, [product]);
@@ -166,6 +189,9 @@ export default function EditProductPage() {
                 origin: showOrigin ? origin : '',
                 season: showSeason ? season : '',
                 characteristics: showCharacteristics ? characteristics : '',
+                period: showPeriod ? period : '',
+                storage: showStorage ? storageTemp : '',
+                sizes: showSizes ? sizes : '',
             };
 
             await setDoc(productRef, updatedProduct, { merge: true });
@@ -312,6 +338,82 @@ export default function EditProductPage() {
                                                 placeholder="e.g. Creamy texture, rich flavor, high oil content..." 
                                                 value={characteristics}
                                                 onChange={(e) => setCharacteristics(e.target.value)}
+                                                disabled={isSubmitting}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Export Features</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="space-y-4">
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox 
+                                            id="show-period" 
+                                            checked={showPeriod} 
+                                            onCheckedChange={(checked) => setShowPeriod(!!checked)} 
+                                        />
+                                        <Label htmlFor="show-period" className="cursor-pointer">Specify Period</Label>
+                                    </div>
+                                    {showPeriod && (
+                                        <div className="pl-6 space-y-2">
+                                            <Label htmlFor="product-period">Period Details</Label>
+                                            <Input 
+                                                id="product-period" 
+                                                placeholder="e.g. December to April" 
+                                                value={period}
+                                                onChange={(e) => setPeriod(e.target.value)}
+                                                disabled={isSubmitting}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox 
+                                            id="show-storage" 
+                                            checked={showStorage} 
+                                            onCheckedChange={(checked) => setShowStorage(!!checked)} 
+                                        />
+                                        <Label htmlFor="show-storage" className="cursor-pointer">Specify Storage</Label>
+                                    </div>
+                                    {showStorage && (
+                                        <div className="pl-6 space-y-2">
+                                            <Label htmlFor="product-storage">Storage Details</Label>
+                                            <Input 
+                                                id="product-storage" 
+                                                placeholder="e.g. 6°C" 
+                                                value={storageTemp}
+                                                onChange={(e) => setStorageTemp(e.target.value)}
+                                                disabled={isSubmitting}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox 
+                                            id="show-sizes" 
+                                            checked={showSizes} 
+                                            onCheckedChange={(checked) => setShowSizes(!!checked)} 
+                                        />
+                                        <Label htmlFor="show-sizes" className="cursor-pointer">Specify Sizes</Label>
+                                    </div>
+                                    {showSizes && (
+                                        <div className="pl-6 space-y-2">
+                                            <Label htmlFor="product-sizes">Sizes Details</Label>
+                                            <Input 
+                                                id="product-sizes" 
+                                                placeholder="e.g. C12-C28" 
+                                                value={sizes}
+                                                onChange={(e) => setSizes(e.target.value)}
                                                 disabled={isSubmitting}
                                             />
                                         </div>
