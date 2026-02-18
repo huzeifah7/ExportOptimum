@@ -408,7 +408,7 @@ export default function ManageProductsPage() {
 }
 
 /**
- * Redesigned Product Form Modal
+ * Corrected Redesigned Product Form Modal
  */
 interface ProductFormModalProps {
   isOpen: boolean;
@@ -508,7 +508,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         imageUrl = await getDownloadURL(imageStorageRef);
       }
 
-      const slug = slugify(formData.name);
+      const slug = slugify(formData.name || '');
 
       const productData = {
         name: formData.name,
@@ -520,7 +520,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         sizes: enabledSizes ? formData.sizes || '' : '',
         imageUrl,
         slug,
-        imageHint: `${(formData.category || '').toLowerCase()} ${formData.name.toLowerCase().split(' ')[0]}`,
+        imageHint: `${(formData.category || '').toLowerCase()} ${(formData.name || '').toLowerCase().split(' ')[0]}`,
         updatedAt: serverTimestamp(),
       };
 
@@ -553,7 +553,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[95vh] flex flex-col">
