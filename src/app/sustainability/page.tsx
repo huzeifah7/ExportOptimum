@@ -9,8 +9,13 @@ import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
-import DomeGallery from '@/components/ui/dome-gallery';
+import dynamic from 'next/dynamic';
 import { Skeleton } from '@/components/ui/skeleton';
+
+const DomeGallery = dynamic(() => import('@/components/ui/dome-gallery'), {
+  ssr: false,
+  loading: () => <div className="h-[600px] w-full bg-gray-100 animate-pulse rounded-full" />
+});
 
 const pillars = [
   {
@@ -215,6 +220,7 @@ export default function SustainabilityPage() {
                         src={pillar.image}
                         alt={pillar.imageAlt}
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
                         data-ai-hint={pillar.imageAlt}
                       />

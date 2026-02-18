@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ReactLenis } from 'lenis/react';
@@ -70,6 +71,7 @@ function ProductCard({
                 fill
                 src={product.imageUrl}
                 alt={product.name}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 className="object-cover transition-all duration-700 group-hover:brightness-105"
               />
             ) : (

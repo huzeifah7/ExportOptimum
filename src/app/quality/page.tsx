@@ -1,20 +1,28 @@
+
 'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Leaf, PackageCheck, Truck, Microscope, CheckCircle, Award, Sparkles, ArrowRight, Globe, BadgeCheck, MapPin, Calendar, Snowflake, CalendarCheck, MessagesSquare } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion } from 'framer-motion';
 import Marquee from '@/components/ui/marquee';
-import MagicBento from '@/components/ui/MagicBento';
-import { AnimatedGradientBackground } from '@/components/ui/animated-gradient-background';
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { HeroGeometric } from '@/components/ui/shape-landing-hero';
+import dynamic from 'next/dynamic';
+
+const MagicBento = dynamic(() => import('@/components/ui/MagicBento'), {
+  ssr: false,
+  loading: () => <div className="h-[600px] w-full bg-gray-50 animate-pulse rounded-3xl" />
+});
+
+const HeroGeometric = dynamic(() => import('@/components/ui/shape-landing-hero').then(mod => mod.HeroGeometric), {
+  ssr: false,
+  loading: () => <div className="h-screen w-full bg-white" />
+});
 
 const processSteps = [
   {
@@ -276,6 +284,7 @@ export default function QualityPage() {
                                   src={cert.imageUrl}
                                   alt={cert.name}
                                   fill
+                                  sizes="200px"
                                   className="object-contain transition-transform duration-500 group-hover:scale-110"
                                 />
                               ) : (
