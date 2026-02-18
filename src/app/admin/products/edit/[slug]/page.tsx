@@ -27,9 +27,6 @@ type Product = {
     category: string;
     imageUrl?: string;
     slug: string;
-    origin?: string;
-    season?: string;
-    characteristics?: string;
     period?: string;
     storage?: string;
     sizes?: string;
@@ -56,14 +53,6 @@ export default function EditProductPage() {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Specification States
-    const [showOrigin, setShowOrigin] = useState(false);
-    const [origin, setOrigin] = useState('');
-    const [showSeason, setShowSeason] = useState(false);
-    const [season, setSeason] = useState('');
-    const [showCharacteristics, setShowCharacteristics] = useState(false);
-    const [characteristics, setCharacteristics] = useState('');
-
     // Export Features States
     const [showPeriod, setShowPeriod] = useState(false);
     const [period, setPeriod] = useState('');
@@ -79,18 +68,6 @@ export default function EditProductPage() {
             setCategory(product.category);
             if(product.imageUrl) {
                 setImagePreview(product.imageUrl);
-            }
-            if (product.origin) {
-                setShowOrigin(true);
-                setOrigin(product.origin);
-            }
-            if (product.season) {
-                setShowSeason(true);
-                setSeason(product.season);
-            }
-            if (product.characteristics) {
-                setShowCharacteristics(true);
-                setCharacteristics(product.characteristics);
             }
             if (product.period) {
                 setShowPeriod(true);
@@ -186,9 +163,6 @@ export default function EditProductPage() {
                 imageUrl: finalImageUrl,
                 slug: slug,
                 imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`,
-                origin: showOrigin ? origin : '',
-                season: showSeason ? season : '',
-                characteristics: showCharacteristics ? characteristics : '',
                 period: showPeriod ? period : '',
                 storage: showStorage ? storageTemp : '',
                 sizes: showSizes ? sizes : '',
@@ -266,82 +240,6 @@ export default function EditProductPage() {
                                             <SelectItem value="other">Other</SelectItem>
                                         </SelectContent>
                                     </Select>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Product Specifications</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="space-y-4">
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox 
-                                            id="show-origin" 
-                                            checked={showOrigin} 
-                                            onCheckedChange={(checked) => setShowOrigin(!!checked)} 
-                                        />
-                                        <Label htmlFor="show-origin" className="cursor-pointer">Specify Origin</Label>
-                                    </div>
-                                    {showOrigin && (
-                                        <div className="pl-6 space-y-2">
-                                            <Label htmlFor="product-origin">Origin Details</Label>
-                                            <Input 
-                                                id="product-origin" 
-                                                placeholder="e.g. Larache, Morocco" 
-                                                value={origin}
-                                                onChange={(e) => setOrigin(e.target.value)}
-                                                disabled={isSubmitting}
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="space-y-4">
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox 
-                                            id="show-season" 
-                                            checked={showSeason} 
-                                            onCheckedChange={(checked) => setShowSeason(!!checked)} 
-                                        />
-                                        <Label htmlFor="show-season" className="cursor-pointer">Specify Harvest Season</Label>
-                                    </div>
-                                    {showSeason && (
-                                        <div className="pl-6 space-y-2">
-                                            <Label htmlFor="product-season">Season Details</Label>
-                                            <Input 
-                                                id="product-season" 
-                                                placeholder="e.g. October to April" 
-                                                value={season}
-                                                onChange={(e) => setSeason(e.target.value)}
-                                                disabled={isSubmitting}
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="space-y-4">
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox 
-                                            id="show-characteristics" 
-                                            checked={showCharacteristics} 
-                                            onCheckedChange={(checked) => setShowCharacteristics(!!checked)} 
-                                        />
-                                        <Label htmlFor="show-characteristics" className="cursor-pointer">Specify Key Characteristics</Label>
-                                    </div>
-                                    {showCharacteristics && (
-                                        <div className="pl-6 space-y-2">
-                                            <Label htmlFor="product-characteristics">Characteristics Details</Label>
-                                            <Textarea 
-                                                id="product-characteristics" 
-                                                placeholder="e.g. Creamy texture, rich flavor, high oil content..." 
-                                                value={characteristics}
-                                                onChange={(e) => setCharacteristics(e.target.value)}
-                                                disabled={isSubmitting}
-                                            />
-                                        </div>
-                                    )}
                                 </div>
                             </CardContent>
                         </Card>

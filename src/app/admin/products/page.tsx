@@ -486,9 +486,6 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         name: formData.name,
         description: formData.description || '',
         category: formData.category || '',
-        origin: formData.origin || '',
-        season: formData.season || '',
-        characteristics: formData.characteristics || '',
         period: formData.period || '',
         storage: formData.storage || '',
         sizes: formData.sizes || '',
@@ -557,23 +554,6 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                             <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                     </Select>
-                </div>
-                
-                {/* Specs Section */}
-                <div className="pt-4 border-t space-y-4">
-                    <h4 className="font-bold text-sm">Specifications</h4>
-                    <div>
-                        <label htmlFor="origin" className="text-sm font-medium">Origin</label>
-                        <Input id="origin" name="origin" value={formData.origin || ''} onChange={handleInputChange} placeholder="e.g. Larache, Morocco" />
-                    </div>
-                    <div>
-                        <label htmlFor="season" className="text-sm font-medium">Harvest Season</label>
-                        <Input id="season" name="season" value={formData.season || ''} onChange={handleInputChange} placeholder="e.g. October to April" />
-                    </div>
-                    <div>
-                        <label htmlFor="characteristics" className="text-sm font-medium">Characteristics</label>
-                        <Textarea id="characteristics" name="characteristics" value={formData.characteristics || ''} onChange={handleInputChange} placeholder="e.g. Creamy texture..." />
-                    </div>
                 </div>
             </div>
             

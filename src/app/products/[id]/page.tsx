@@ -13,7 +13,7 @@ import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, Star, CalendarDays, Thermometer, Shrink } from 'lucide-react';
+import { CalendarDays, Thermometer, Shrink } from 'lucide-react';
 
 type Product = {
   id: string;
@@ -23,9 +23,6 @@ type Product = {
   imageUrl?: string;
   imageHint?: string;
   slug: string;
-  origin?: string;
-  season?: string;
-  characteristics?: string;
   period?: string;
   storage?: string;
   sizes?: string;
@@ -155,45 +152,6 @@ export default function ProductDetailsPage() {
               <div className="prose prose-lg text-muted-foreground mb-10 max-w-none font-light leading-relaxed">
                 <p>{product.description}</p>
               </div>
-
-              {/* Specifications Section */}
-              <div className="grid gap-6 mb-10">
-                {product.origin && (
-                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/30 border border-border/50">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <MapPin className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-foreground text-sm uppercase tracking-wider mb-1">Origin</h3>
-                            <p className="text-muted-foreground">{product.origin}</p>
-                        </div>
-                    </div>
-                )}
-
-                {product.season && (
-                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/30 border border-border/50">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <Calendar className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-foreground text-sm uppercase tracking-wider mb-1">Harvest Season</h3>
-                            <p className="text-muted-foreground">{product.season}</p>
-                        </div>
-                    </div>
-                )}
-
-                {product.characteristics && (
-                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/30 border border-border/50">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <Star className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-foreground text-sm uppercase tracking-wider mb-1">Key Characteristics</h3>
-                            <p className="text-muted-foreground whitespace-pre-line">{product.characteristics}</p>
-                        </div>
-                    </div>
-                )}
-              </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button asChild size="lg" className="h-14 px-8 rounded-full font-bold text-lg shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
@@ -206,7 +164,7 @@ export default function ProductDetailsPage() {
             </motion.div>
           </div>
 
-          {/* New "Our Features" Section */}
+          {/* "Our Features" Section */}
           {hasFeatures && (
             <motion.section 
                 initial={{ opacity: 0, y: 30 }}
