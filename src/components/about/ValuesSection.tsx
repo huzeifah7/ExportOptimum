@@ -32,11 +32,11 @@ const ValuesSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-black leading-[0.95] tracking-tight text-foreground max-w-xl"
+            className="text-4xl md:text-6xl font-black leading-[0.95] tracking-tight text-foreground max-w-xl text-center"
           >
-            The Export Optimum{' '}
+            Qhy work with {' '}
             <span style={{ color: 'transparent', backgroundImage: 'linear-gradient(135deg, hsl(88,92%,55%), hsl(88,92%,30%))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>
-              Advantage
+              Export Optimum
             </span>
           </motion.h2>
         </div>

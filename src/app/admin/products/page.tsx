@@ -45,7 +45,6 @@ import {
   DialogTitle,
   DialogFooter,
   DialogClose,
-  DialogDescription,
 } from '@/components/ui/dialog';
 import {
   AlertDialog,
@@ -86,7 +85,9 @@ type FirestoreProduct = DocumentData & { id: string };
 
 const ITEMS_PER_PAGE = 10;
 
-// --- Main Page Component ---
+/**
+ * Main Management Page for Products
+ */
 export default function ManageProductsPage() {
   const firestore = useFirestore();
   const storage = getStorage();
@@ -175,7 +176,6 @@ export default function ManageProductsPage() {
     }
   };
 
-
   // --- Handlers for Modals and Actions ---
   const handleAddProduct = () => {
     setSelectedProduct(null);
@@ -196,16 +196,13 @@ export default function ManageProductsPage() {
     if (!selectedProduct || !firestore || !storage) return;
 
     try {
-      // Delete Firestore document
       await deleteDoc(doc(firestore, 'products', selectedProduct.id));
 
-      // If there's an image, delete it from Storage
       if (selectedProduct.imageUrl) {
         try {
           const imageStorageRef = storageRef(storage, selectedProduct.imageUrl);
           await deleteObject(imageStorageRef);
         } catch (storageError: any) {
-          // If file doesn't exist, we don't need to throw an error
           if (storageError.code !== 'storage/object-not-found') {
             console.warn("Could not delete product image from storage:", storageError);
           }
@@ -227,7 +224,6 @@ export default function ManageProductsPage() {
       });
     }
   };
-
 
   return (
     <motion.div
@@ -375,7 +371,6 @@ export default function ManageProductsPage() {
         )}
       </div>
 
-      {/* Add/Edit Modal */}
       <ProductFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -385,7 +380,6 @@ export default function ManageProductsPage() {
         toast={toast}
       />
 
-      {/* Delete Confirmation Dialog */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent className="rounded-2xl">
           <AlertDialogHeader>
@@ -407,8 +401,9 @@ export default function ManageProductsPage() {
   );
 }
 
-// --- Product Form Modal Component ---
-
+/**
+ * Redesigned Product Form Modal
+ */
 interface ProductFormModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -433,7 +428,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
   useEffect(() => {
     if (isOpen) {
-      if (isEditing) {
+      if (isEditing && product) {
         setFormData(product);
         setImagePreview(product.imageUrl || null);
         setEnabledPeriod(!!product.period);
@@ -479,7 +474,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         .replace(/--+/g, '-')
         .replace(/^-+/, '')
         .replace(/-+$/, '');
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -557,11 +552,11 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[95vh] flex flex-col">
         <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 shrink-0">
+          <div className="flex items-center gap-2 mb-1 text-primary">
+            <Package className="h-5 w-5" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">{isEditing ? 'Catalog Revision' : 'New Catalog Item'}</span>
+          </div>
           <DialogHeader className="p-0">
-            <div className="flex items-center gap-2 mb-1 text-primary">
-              <Package className="h-5 w-5" />
-              <span className="text-[10px] font-bold uppercase tracking-widest">{isEditing ? 'Catalog Revision' : 'New Catalog Item'}</span>
-            </div>
             <DialogTitle className="text-2xl font-headline font-black text-foreground">
               {isEditing ? 'Edit Product' : 'Add New Product'}
             </DialogTitle>
@@ -635,7 +630,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setImageFile(null);
-                                        setImagePreview(null);
+                                        setImagePreview(product?.imageUrl || null);
                                         if (fileInputRef.current) fileInputRef.current.value = '';
                                     }}
                                 >
