@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
@@ -79,6 +78,21 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
+
+const AvocadoIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 2c-3.5 0-6.5 3.5-6.5 7.5 0 5 3 12.5 6.5 12.5s6.5-7.5 6.5-12.5C18.5 5.5 15.5 2 12 2z" />
+    <circle cx="12" cy="13" r="3.5" />
+  </svg>
+);
 
 type FirestoreProduct = DocumentData & { id: string };
 
@@ -358,7 +372,7 @@ export default function ManageProductsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle className="text-2xl font-bold">Delete Product</AlertDialogTitle>
             <AlertDialogDescription className="text-base">
-              This action <span className="font-bold text-destructive">cannot be undone</span>. 
+              This action <span className="font-bold text-destructive">cannot be undone</span>.
               Are you sure you want to permanently delete <span className="font-bold text-foreground italic">"{selectedProduct?.name || selectedProduct?.id}"</span> and all its media?
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -607,7 +621,9 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
                           <Checkbox id="enable-sizes" checked={enabledSizes} onCheckedChange={(c) => { setEnabledSizes(!!c); if (!c) setFormData(p => ({ ...p, sizes: '' })); }} />
-                          <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Available Sizes</Label>
+                          <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer flex items-center gap-1">
+                            <AvocadoIcon className="h-3 w-3" /> Sizes
+                          </Label>
                         </div>
                         <Input name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="e.g. C12 - C28" className="h-9 rounded-xl bg-white" disabled={!enabledSizes} />
                       </div>
