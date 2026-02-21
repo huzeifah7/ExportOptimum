@@ -19,20 +19,29 @@ const ValuesSection = () => {
   return (
     <section ref={ref} className="py-28 lg:py-36 relative bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ duration: 0.5 }}
-          className="flex items-center gap-3 mb-6">
-          <span className="w-8 h-px bg-primary" />
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            <Sparkles className="w-3.5 h-3.5" /> Why Choose Us
-          </span>
-        </motion.div>
+        {/* Centered Eyebrow */}
+        <div className="flex justify-center mb-6">
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={isInView ? { opacity: 1 } : {}} 
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-3"
+          >
+            <span className="w-8 h-px bg-primary" />
+            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+              <Sparkles className="w-3.5 h-3.5" /> Why Choose Us
+            </span>
+            <span className="w-8 h-px bg-primary" />
+          </motion.div>
+        </div>
 
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-20 text-center">
+        {/* Centered Main Title */}
+        <div className="flex justify-center mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-black leading-[0.95] tracking-tight text-foreground max-w-xl text-center"
+            className="text-4xl md:text-6xl font-black leading-[0.95] tracking-tight text-foreground max-w-3xl text-center"
           >
             Why work with {' '}
             <span style={{ color: 'transparent', backgroundImage: 'linear-gradient(135deg, hsl(88,92%,55%), hsl(88,92%,30%))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>
