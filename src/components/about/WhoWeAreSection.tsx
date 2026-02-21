@@ -35,13 +35,16 @@ const WhoWeAreSection = () => {
                 Founded in 2019 as a family-owned company, Export Optimum is the natural evolution of over 10 years of hands-on experience in farm management and international fresh produce supply.
               </p>
               <p>
-                We own two dedicated avocado farms and manage more than 500 hectares of production, with exclusive access to major Moroccan farms, giving us direct control over quality, volumes, and long-term supply planning.
+                Powered by a loyal global customer base, we operate with precision planning, strict quality standards, and responsible sourcing at the core of everything we do.
+              </p>
+              <p>
+                Today, Export Optimum stands as a leading exporter of Moroccan avocados, consumers worldwide and  supplying fresh berries and premium melons to international markets ; and to further strengthen our global presence and streamline regional operations, we proudly operate a fully established subsidiary in Lebanon. This strategic branch allows us to facilitate supply across the Middle East and enhance distribution efficiency to key markets worldwide.
               </p>
             </div>
 
             <div className="relative border-l-2 border-primary pl-8 py-2">
               <p className="text-xl font-semibold text-foreground leading-snug">
-                Export Optimum; fresh produce from our family to yours.
+                Export Optimum;  fresh produce from our family to yours.
               </p>
             </div>
           </motion.div>

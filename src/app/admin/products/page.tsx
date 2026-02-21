@@ -517,7 +517,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[95vh] flex flex-col">
+      <DialogContent valign="top" className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[95vh] flex flex-col">
         <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 shrink-0">
           <div className="flex items-center gap-2 mb-1 text-primary">
             <Package className="h-5 w-5" />
