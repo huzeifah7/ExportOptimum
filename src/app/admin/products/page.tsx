@@ -487,8 +487,10 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent valign="center" className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[90vh] flex flex-col">
-        <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 shrink-0">
+      <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[90vh] flex flex-col">
+        
+        {/* Fixed Header */}
+        <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 flex-shrink-0">
           <div className="flex items-center gap-2 mb-1 text-primary">
             <Package className="h-5 w-5" />
             <span className="text-[10px] font-bold uppercase tracking-widest">{isEditing ? 'Update Catalog' : 'New Product'}</span>
@@ -500,7 +502,8 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
           </DialogHeader>
         </div>
 
-        <ScrollArea className="flex-grow">
+        {/* Scrollable Content */}
+        <ScrollArea className="flex-1">
           <div className="p-4 md:p-6">
             <form onSubmit={handleSubmit} id="product-form">
               <div className="grid md:grid-cols-2 gap-6">
@@ -514,10 +517,15 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                         <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
                         <Input name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Hass Avocado" className="h-10 rounded-xl bg-muted/5 font-semibold" required />
                       </div>
-                      <div className="space-y-1.5">
-                        <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Subtitle / Catchphrase</Label>
-                        <Input name="subtitle" value={formData.subtitle || ''} onChange={handleInputChange} placeholder="e.g., Premium Moroccan Selection" className="h-10 rounded-xl bg-muted/5" />
-                      </div>
+                      
+                      {/* Conditional Subtitle Logic */}
+                      {formData.category === 'avocado' && (
+                        <div className="space-y-1.5">
+                          <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Subtitle / Catchphrase</Label>
+                          <Input name="subtitle" value={formData.subtitle || ''} onChange={handleInputChange} placeholder="e.g., Premium Moroccan Selection" className="h-10 rounded-xl bg-muted/5" />
+                        </div>
+                      )}
+
                       <div className="space-y-1.5">
                         <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
                         <Select onValueChange={(v) => handleInputChange({ target: { name: 'category', value: v } } as any)} value={formData.category || ''}>
@@ -527,8 +535,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                           <SelectContent className="rounded-xl">
                             <SelectItem value="avocado">Avocados</SelectItem>
                             <SelectItem value="berries">Berries</SelectItem>
-                            <SelectItem value="citrus">Citrus</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                            <SelectItem value="melon">Melons</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -603,16 +610,18 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
           </div>
         </ScrollArea>
 
-        <Separator className="bg-primary/10" />
-
-        <DialogFooter className="p-4 md:p-5 flex flex-row items-center justify-between gap-4 shrink-0">
-          <DialogClose asChild>
-            <Button type="button" variant="ghost" className="rounded-xl px-4 font-bold text-sm">Cancel</Button>
-          </DialogClose>
-          <Button type="submit" form="product-form" disabled={isSubmitting} className="rounded-xl px-8 h-11 font-black shadow-lg shadow-primary/20 transition-all active:scale-95">
-            {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Working...</> : <><Sparkles className="mr-2 h-4 w-4" /> {isEditing ? 'Save Changes' : 'Create'}</>}
-          </Button>
-        </DialogFooter>
+        {/* Fixed Footer */}
+        <div className="flex-shrink-0">
+          <Separator className="bg-primary/10" />
+          <DialogFooter className="p-4 md:p-5 flex flex-row items-center justify-between gap-4">
+            <DialogClose asChild>
+              <Button type="button" variant="ghost" className="rounded-xl px-4 font-bold text-sm">Cancel</Button>
+            </DialogClose>
+            <Button type="submit" form="product-form" disabled={isSubmitting} className="rounded-xl px-8 h-11 font-black shadow-lg shadow-primary/20 transition-all active:scale-95">
+              {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Working...</> : <><Sparkles className="mr-2 h-4 w-4" /> {isEditing ? 'Save Changes' : 'Create'}</>}
+            </Button>
+          </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );

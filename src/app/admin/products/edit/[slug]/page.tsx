@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -162,7 +161,7 @@ export default function EditProductPage() {
 
             const updatedProduct = {
                 name: productName,
-                subtitle: subtitle,
+                subtitle: category === 'avocado' ? subtitle : '',
                 description,
                 category,
                 imageUrl: finalImageUrl,
@@ -227,17 +226,22 @@ export default function EditProductPage() {
                                             className="h-11 rounded-xl bg-muted/5 font-semibold text-base"
                                         />
                                     </div>
-                                    <div className="space-y-1.5">
-                                        <Label htmlFor="product-subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
-                                        <Input 
-                                            id="product-subtitle" 
-                                            placeholder="e.g., Premium Selection" 
-                                            value={subtitle}
-                                            onChange={(e) => setSubtitle(e.target.value)}
-                                            disabled={isSubmitting}
-                                            className="h-11 rounded-xl bg-muted/5 font-semibold text-base"
-                                        />
-                                    </div>
+                                    
+                                    {/* Conditional Subtitle Logic */}
+                                    {category === 'avocado' && (
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="product-subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
+                                            <Input 
+                                                id="product-subtitle" 
+                                                placeholder="e.g., Premium Selection" 
+                                                value={subtitle}
+                                                onChange={(e) => setSubtitle(e.target.value)}
+                                                disabled={isSubmitting}
+                                                className="h-11 rounded-xl bg-muted/5 font-semibold text-base"
+                                            />
+                                        </div>
+                                    )}
+
                                     <div className="space-y-1.5">
                                         <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
                                         <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
@@ -335,7 +339,7 @@ export default function EditProductPage() {
                                 </div>
                             </CardHeader>
                             <CardContent className="p-6 space-y-4">
-                                <div className="w-full aspect-square border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group transition-all hover:bg-primary/[0.04] hover:border-primary/40 overflow-hidden">
+                                <div className="w-full aspect-square border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group overflow-hidden">
                                     {imagePreview ? (
                                         <>
                                             <Image src={imagePreview} alt="Product preview" fill className="object-cover p-1" />

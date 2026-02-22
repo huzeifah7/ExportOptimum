@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef } from 'react';
@@ -97,7 +96,7 @@ export default function AddProductPage() {
             const newProduct = {
                 id: newProductId,
                 name: productName,
-                subtitle,
+                subtitle: category === 'avocado' ? subtitle : '',
                 description,
                 category,
                 imageUrl,
@@ -132,8 +131,9 @@ export default function AddProductPage() {
     };
 
     return (
-        <div className="max-w-5xl mx-auto">
-            <div className="flex items-center gap-4 mb-8">
+        <div className="max-w-5xl mx-auto h-screen flex flex-col">
+            {/* Fixed Header */}
+            <div className="flex items-center gap-4 mb-6 px-4 pt-4 flex-shrink-0">
                 <Button variant="outline" size="icon" asChild>
                     <Link href="/admin/products">
                         <ArrowLeft />
@@ -141,204 +141,213 @@ export default function AddProductPage() {
                 </Button>
                 <h1 className="text-3xl font-bold font-headline">Add New Product</h1>
             </div>
-            <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2 space-y-8">
-                        <Card>
-                            <CardHeader className="border-b bg-muted/10">
-                                <div className="flex items-center gap-2 text-foreground font-bold">
-                                    <Info className="h-5 w-5 text-primary" />
-                                    General Information
-                                </div>
-                            </CardHeader>
-                            <CardContent className="p-6 space-y-6">
-                                <div className="grid gap-4">
-                                    <div className="space-y-1.5">
-                                        <Label htmlFor="product-name" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
-                                        <Input 
-                                            id="product-name" 
-                                            placeholder="e.g., Hass Avocado" 
-                                            value={productName}
-                                            onChange={(e) => setProductName(e.target.value)}
-                                            required
-                                            disabled={isSubmitting}
-                                            className="h-11 rounded-xl bg-muted/5 font-semibold text-base"
-                                        />
+            
+            {/* Scrollable Content */}
+            <ScrollArea className="flex-1 px-4">
+                <form onSubmit={handleSubmit} className="pb-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div className="lg:col-span-2 space-y-8">
+                            <Card>
+                                <CardHeader className="border-b bg-muted/10">
+                                    <div className="flex items-center gap-2 text-foreground font-bold">
+                                        <Info className="h-5 w-5 text-primary" />
+                                        General Information
                                     </div>
-                                    <div className="space-y-1.5">
-                                        <Label htmlFor="product-subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
-                                        <Input 
-                                            id="product-subtitle" 
-                                            placeholder="e.g., Premium Selection" 
-                                            value={subtitle}
-                                            onChange={(e) => setSubtitle(e.target.value)}
-                                            disabled={isSubmitting}
-                                            className="h-11 rounded-xl bg-muted/5 font-semibold text-base"
-                                        />
-                                    </div>
-                                    <div className="space-y-1.5">
-                                        <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
-                                        <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
-                                            <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
-                                                <SelectValue placeholder="Select a category" />
-                                            </SelectTrigger>
-                                            <SelectContent className="rounded-xl">
-                                                <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
-                                                <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
-                                                <SelectItem value="citrus" className="rounded-lg">Citrus Fruits</SelectItem>
-                                                <SelectItem value="other" className="rounded-lg">Other Produce</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                    <div className="space-y-1.5">
-                                        <Label htmlFor="product-description" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
-                                        <Textarea 
-                                            id="product-description" 
-                                            placeholder="A short description of the product..." 
-                                            value={description}
-                                            onChange={(e) => setDescription(e.target.value)}
-                                            required
-                                            disabled={isSubmitting}
-                                            className="min-h-[120px] rounded-xl bg-muted/5 resize-none focus:border-primary/50 p-3 leading-relaxed text-sm"
-                                        />
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <Card>
-                            <CardHeader className="border-b bg-muted/10">
-                                <div className="flex items-center gap-2 text-foreground font-bold">
-                                    <Layers className="h-5 w-5 text-primary" />
-                                    Export Features
-                                </div>
-                            </CardHeader>
-                            <CardContent className="p-6">
-                                <div className="grid grid-cols-1 gap-4 bg-muted/30 p-4 rounded-xl border border-muted-foreground/10 shadow-inner">
-                                    <div className="space-y-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox 
-                                                id="enable-period" 
-                                                checked={enabledPeriod} 
-                                                onCheckedChange={(checked) => {
-                                                    setEnabledPeriod(!!checked);
-                                                    if(!checked) setPeriod('');
-                                                }} 
+                                </CardHeader>
+                                <CardContent className="p-6 space-y-6">
+                                    <div className="grid gap-4">
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="product-name" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
+                                            <Input 
+                                                id="product-name" 
+                                                placeholder="e.g., Hass Avocado" 
+                                                value={productName}
+                                                onChange={(e) => setProductName(e.target.value)}
+                                                required
+                                                disabled={isSubmitting}
+                                                className="h-11 rounded-xl bg-muted/5 font-semibold text-base"
                                             />
-                                            <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
                                         </div>
-                                        <Input id="period" name="period" value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox 
-                                                id="enable-storage" 
-                                                checked={enabledStorage} 
-                                                onCheckedChange={(checked) => {
-                                                    setEnabledStorage(!!checked);
-                                                    if(!checked) setStorageTemp('');
-                                                }} 
-                                            />
-                                            <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
-                                        </div>
-                                        <Input id="storage" name="storage" value={storageTemp} onChange={(e) => setStorageTemp(e.target.value)} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox 
-                                                id="enable-sizes" 
-                                                checked={enabledSizes} 
-                                                onCheckedChange={(checked) => {
-                                                    setEnabledSizes(!!checked);
-                                                    if(!checked) setSizes('');
-                                                }} 
-                                            />
-                                            <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Available Sizes</Label>
-                                        </div>
-                                        <Input id="sizes" name="sizes" value={sizes} onChange={(e) => setSizes(e.target.value)} placeholder="e.g. C12 - C28" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-
-                    <div className="space-y-8">
-                        <Card className="sticky top-24">
-                            <CardHeader className="border-b bg-muted/10">
-                                <div className="flex items-center gap-2 text-foreground font-bold">
-                                    <ImageIcon className="h-5 w-5 text-primary" />
-                                    Product Imagery
-                                </div>
-                            </CardHeader>
-                            <CardContent className="p-6 space-y-4">
-                                <div className="w-full aspect-square border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group transition-all hover:bg-primary/[0.04] hover:border-primary/40 overflow-hidden">
-                                    {imagePreview ? (
-                                        <>
-                                            <Image src={imagePreview} alt="Product preview" fill className="object-cover p-1" />
-                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                               <p className="text-white font-bold text-xs bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm">Click to Replace</p>
+                                        
+                                        {/* Conditional Subtitle Logic */}
+                                        {category === 'avocado' && (
+                                            <div className="space-y-1.5">
+                                                <Label htmlFor="product-subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
+                                                <Input 
+                                                    id="product-subtitle" 
+                                                    placeholder="e.g., Premium Selection" 
+                                                    value={subtitle}
+                                                    onChange={(e) => setSubtitle(e.target.value)}
+                                                    disabled={isSubmitting}
+                                                    className="h-11 rounded-xl bg-muted/5 font-semibold text-base"
+                                                />
                                             </div>
-                                            <button
-                                                type="button"
-                                                className="absolute top-2 right-2 h-8 w-8 rounded-lg shadow-lg z-10 bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setImageFile(null);
-                                                    setImagePreview(null);
-                                                    if (fileInputRef.current) fileInputRef.current.value = '';
-                                                }}
+                                        )}
+
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
+                                            <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
+                                                <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
+                                                    <SelectValue placeholder="Select a category" />
+                                                </SelectTrigger>
+                                                <SelectContent className="rounded-xl">
+                                                    <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
+                                                    <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
+                                                    <SelectItem value="melon" className="rounded-lg">Melons </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="product-description" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
+                                            <Textarea 
+                                                id="product-description" 
+                                                placeholder="A short description of the product..." 
+                                                value={description}
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                required
+                                                disabled={isSubmitting}
+                                                className="min-h-[120px] rounded-xl bg-muted/5 resize-none focus:border-primary/50 p-3 leading-relaxed text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            <Card>
+                                <CardHeader className="border-b bg-muted/10">
+                                    <div className="flex items-center gap-2 text-foreground font-bold">
+                                        <Layers className="h-5 w-5 text-primary" />
+                                        Export Features
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="p-6">
+                                    <div className="grid grid-cols-1 gap-4 bg-muted/30 p-4 rounded-xl border border-muted-foreground/10 shadow-inner">
+                                        <div className="space-y-1.5">
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox 
+                                                    id="enable-period" 
+                                                    checked={enabledPeriod} 
+                                                    onCheckedChange={(checked) => {
+                                                        setEnabledPeriod(!!checked);
+                                                        if(!checked) setPeriod('');
+                                                    }} 
+                                                />
+                                                <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
+                                            </div>
+                                            <Input id="period" name="period" value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
+                                        </div>
+
+                                        <div className="space-y-1.5">
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox 
+                                                    id="enable-storage" 
+                                                    checked={enabledStorage} 
+                                                    onCheckedChange={(checked) => {
+                                                        setEnabledStorage(!!checked);
+                                                        if(!checked) setStorageTemp('');
+                                                    }} 
+                                                />
+                                                <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
+                                            </div>
+                                            <Input id="storage" name="storage" value={storageTemp} onChange={(e) => setStorageTemp(e.target.value)} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
+                                        </div>
+
+                                        <div className="space-y-1.5">
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox 
+                                                    id="enable-sizes" 
+                                                    checked={enabledSizes} 
+                                                    onCheckedChange={(checked) => {
+                                                        setEnabledSizes(!!checked);
+                                                        if(!checked) setSizes('');
+                                                    }} 
+                                                />
+                                                <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Available Sizes</Label>
+                                            </div>
+                                            <Input id="sizes" name="sizes" value={sizes} onChange={(e) => setSizes(e.target.value)} placeholder="e.g. C12 - C28" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+
+                        <div className="space-y-8">
+                            <Card>
+                                <CardHeader className="border-b bg-muted/10">
+                                    <div className="flex items-center gap-2 text-foreground font-bold">
+                                        <ImageIcon className="h-5 w-5 text-primary" />
+                                        Product Imagery
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="p-6 space-y-4">
+                                    <div className="w-full aspect-square border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center relative bg-primary/[0.02] group transition-all hover:bg-primary/[0.04] hover:border-primary/40 overflow-hidden">
+                                        {imagePreview ? (
+                                            <>
+                                                <Image src={imagePreview} alt="Product preview" fill className="object-cover p-1" />
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                                                   <p className="text-white font-bold text-xs bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm">Click to Replace</p>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    className="absolute top-2 right-2 h-8 w-8 rounded-lg shadow-lg z-10 bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setImageFile(null);
+                                                        setImagePreview(null);
+                                                        if (fileInputRef.current) fileInputRef.current.value = '';
+                                                    }}
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </button>
+                                                <div 
+                                                  className="absolute inset-0 cursor-pointer" 
+                                                  onClick={() => fileInputRef.current?.click()} 
+                                                />
+                                            </>
+                                        ) : (
+                                            <div
+                                                className="text-center cursor-pointer p-4 w-full h-full flex flex-col items-center justify-center"
+                                                onClick={() => fileInputRef.current?.click()}
                                             >
-                                                <X className="h-4 w-4" />
-                                            </button>
-                                            <div 
-                                              className="absolute inset-0 cursor-pointer" 
-                                              onClick={() => fileInputRef.current?.click()} 
-                                            />
-                                        </>
-                                    ) : (
-                                        <div
-                                            className="text-center cursor-pointer p-4 w-full h-full flex flex-col items-center justify-center"
-                                            onClick={() => fileInputRef.current?.click()}
-                                        >
-                                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110">
-                                                <ImageIcon className="h-6 w-6 text-primary" />
+                                                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110">
+                                                    <ImageIcon className="h-6 w-6 text-primary" />
+                                                </div>
+                                                <p className="text-sm font-bold text-foreground">Select Image</p>
+                                                <p className="text-[10px] text-muted-foreground mt-1">High-resolution JPG or PNG</p>
                                             </div>
-                                            <p className="text-sm font-bold text-foreground">Select Image</p>
-                                            <p className="text-[10px] text-muted-foreground mt-1">High-resolution JPG or PNG</p>
-                                        </div>
-                                    )}
-                                    <input
-                                        ref={fileInputRef}
-                                        type="file"
-                                        className="hidden"
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-                                    />
-                                </div>
-                            </CardContent>
-                        </Card>
+                                        )}
+                                        <input
+                                            ref={fileInputRef}
+                                            type="file"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                        />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
-                </div>
 
-                <div className="mt-8 flex justify-end gap-3 border-t pt-8">
-                    <Button variant="ghost" type="button" onClick={() => router.push('/admin/products')} disabled={isSubmitting} className="rounded-xl px-6 h-12 font-bold text-base">Cancel</Button>
-                    <Button type="submit" disabled={isSubmitting || !productName || !description || !imageFile} className="rounded-xl px-10 h-12 font-black text-base shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">
-                        {isSubmitting ? (
-                            <>
-                                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                                Processing...
-                            </>
-                        ) : (
-                            <>
-                                <Sparkles className="mr-2 h-5 w-5" />
-                                Create Product
-                            </>
-                        )}
-                    </Button>
-                </div>
-            </form>
+                    {/* Fixed Bottom Buttons */}
+                    <div className="mt-8 flex justify-end gap-3 border-t pt-8 sticky bottom-0 bg-background">
+                        <Button variant="ghost" type="button" onClick={() => router.push('/admin/products')} disabled={isSubmitting} className="rounded-xl px-6 h-12 font-bold text-base">Cancel</Button>
+                        <Button type="submit" disabled={isSubmitting || !productName || !description || !imageFile} className="rounded-xl px-10 h-12 font-black text-base shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                    Processing...
+                                </>
+                            ) : (
+                                <>
+                                    <Sparkles className="mr-2 h-5 w-5" />
+                                    Create Product
+                                </>
+                            )}
+                        </Button>
+                    </div>
+                </form>
+            </ScrollArea>
         </div>
     );
 }
