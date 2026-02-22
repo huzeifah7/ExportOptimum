@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -67,30 +66,11 @@ const ProductDetailSkeleton = () => (
     </div>
 );
 
-const ProductNotFound = () => {
-    const router = useRouter();
-    return (
-        <div className="flex flex-col min-h-screen bg-background">
-            <Header />
-            <main className="flex-grow flex items-center justify-center text-center py-20">
-                <div>
-                    <h1 className="text-4xl font-bold font-headline text-destructive">404 - Product Not Found</h1>
-                    <p className="mt-4 text-lg text-muted-foreground">We couldn't find the product you're looking for.</p>
-                    <Button onClick={() => router.push('/products')} className="mt-8">
-                        Back to All Products
-                    </Button>
-                </div>
-            </main>
-            <Footer />
-        </div>
-    );
-};
-
-
 export default function ProductDetailsPage() {
   const params = useParams();
   const productId = params?.id as string;
   const firestore = useFirestore();
+  const router = useRouter();
 
   const productRef = useMemoFirebase(() => {
     if (!firestore || !productId) return null;
@@ -99,27 +79,22 @@ export default function ProductDetailsPage() {
 
   const { data: product, isLoading, error } = useDoc<Product>(productRef);
 
-  if (error) {
-      return (
-         <div className="flex flex-col min-h-screen bg-background">
-            <Header />
-            <main className="flex-grow flex items-center justify-center text-center py-20">
-                <div>
-                    <h1 className="text-4xl font-bold font-headline text-destructive">Error Loading Product</h1>
-                    <p className="mt-4 text-lg text-muted-foreground">There was a problem fetching the product data. Please try again later.</p>
-                </div>
-            </main>
-            <Footer />
-        </div>
-      )
-  }
+  if (isLoading || !productId) return <ProductDetailSkeleton />;
 
-  if (isLoading || !productId) {
-    return <ProductDetailSkeleton />;
-  }
-
-  if (!product) {
-    return <ProductNotFound />;
+  if (error || !product) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background">
+        <Header />
+        <main className="flex-grow flex items-center justify-center text-center py-20">
+          <div>
+            <h1 className="text-4xl font-bold font-headline text-destructive">404 - Product Not Found</h1>
+            <p className="mt-4 text-lg text-muted-foreground">We couldn't find the product you're looking for.</p>
+            <Button onClick={() => router.push('/products')} className="mt-8">Back to All Products</Button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
   }
 
   const hasFeatures = product.period || product.storage || product.sizes;

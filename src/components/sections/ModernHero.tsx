@@ -65,11 +65,7 @@ const ModernHero = () => {
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="h-full">
               <div className="modern-hero__slide-container">
-                {slide.type === 'video' ? (
-                  <video src={slide.src} poster={(slide as any).poster} className="modern-hero__media" autoPlay loop muted playsInline />
-                ) : (
-                  <img src={slide.src} alt={slide.alt} className="modern-hero__media" />
-                )}
+                <img src={slide.src} alt={slide.alt} className="modern-hero__media" />
               </div>
             </CarouselItem>
           ))}
