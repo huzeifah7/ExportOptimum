@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
@@ -457,7 +458,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
       const productData = {
         name: formData.name,
-        subtitle: formData.subtitle || '',
+        subtitle: formData.category === 'avocado' ? formData.subtitle || '' : '',
         description: formData.description || '',
         category: formData.category || 'avocado',
         period: enabledPeriod ? formData.period || '' : '',
@@ -489,8 +490,8 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[90vh] flex flex-col">
         
-        {/* Fixed Header */}
-        <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 flex-shrink-0">
+        {/* Header */}
+        <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 shrink-0">
           <div className="flex items-center gap-2 mb-1 text-primary">
             <Package className="h-5 w-5" />
             <span className="text-[10px] font-bold uppercase tracking-widest">{isEditing ? 'Update Catalog' : 'New Product'}</span>
@@ -610,8 +611,8 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
           </div>
         </ScrollArea>
 
-        {/* Fixed Footer */}
-        <div className="flex-shrink-0">
+        {/* Footer */}
+        <div className="shrink-0">
           <Separator className="bg-primary/10" />
           <DialogFooter className="p-4 md:p-5 flex flex-row items-center justify-between gap-4">
             <DialogClose asChild>

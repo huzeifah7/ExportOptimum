@@ -8,16 +8,21 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null;
     }
+    match /products {
+      allow list: if true;
+    }
 
     match /teamMembers/{memberId} {
       allow read, write: if request.auth != null;
+    }
+    match /teamMembers {
+      allow list: if true;
     }
     
     match /sustainabilityGallery/{imageId} {
       allow get: if true;
       allow create, update, delete: if request.auth != null;
     }
-
     match /sustainabilityGallery {
         allow list: if true;
     }
@@ -25,6 +30,9 @@ service cloud.firestore {
     match /blogPosts/{docId} {
       allow read: if true;
       allow create, update, delete: if request.auth != null;
+    }
+    match /blogPosts {
+      allow list: if true;
     }
 
     match /keyFigures/main {
@@ -41,6 +49,9 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null;
     }
+    match /qualityCertifications {
+      allow list: if true;
+    }
 
     match /avocadoVarieties/{avocadoVarietyId} {
       allow get, list: if true;
@@ -51,10 +62,16 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null;
     }
+    match /clientTestimonials {
+      allow list: if true;
+    }
 
     match /partners/{partnerId} {
       allow read: if true;
       allow write: if request.auth != null;
+    }
+    match /partners {
+      allow list: if true;
     }
 
     match /contactInformation/main {

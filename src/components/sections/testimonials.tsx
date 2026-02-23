@@ -1,15 +1,10 @@
-
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
-import { Quote } from 'lucide-react';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-
 
 type ClientTestimonial = {
   id: string;
@@ -20,44 +15,132 @@ type ClientTestimonial = {
   status: 'active' | 'not active';
 };
 
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
 const TestimonialCardSkeleton = () => (
-  <div className="bg-card border border-border/20 rounded-2xl p-8 space-y-4 h-full">
-    <Skeleton className="h-10 w-10" />
-    <div className="space-y-3 flex-grow">
-      <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-4/5" />
-    </div>
-    <div className="border-t border-border/20 pt-6 space-y-2">
-        <Skeleton className="h-5 w-28" />
-        <Skeleton className="h-4 w-36" />
+  <div className="rounded-2xl border border-border/20 bg-card p-5 space-y-3">
+    <Skeleton className="h-2.5 w-3/4 rounded-full" />
+    <Skeleton className="h-2.5 w-full rounded-full" />
+    <Skeleton className="h-2.5 w-4/5 rounded-full" />
+    <div className="flex items-center gap-2 pt-3 border-t border-border/20">
+      <Skeleton className="h-7 w-7 rounded-full flex-shrink-0" />
+      <div className="space-y-1.5 flex-1">
+        <Skeleton className="h-2.5 w-20 rounded-full" />
+        <Skeleton className="h-2 w-28 rounded-full" />
+      </div>
     </div>
   </div>
 );
 
-const TestimonialCard = ({ review }: { review: ClientTestimonial }) => {
+// ─── Small Card (list) ────────────────────────────────────────────────────────
+const TestimonialCard = ({
+  review,
+  isActive,
+  onClick,
+  index,
+}: {
+  review: ClientTestimonial;
+  isActive: boolean;
+  onClick: () => void;
+  index: number;
+}) => {
+  const initials = review.author
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
-    <div className="bg-background rounded-2xl p-8 shadow-lg border border-border/10 flex flex-col h-full">
-      <Quote className="w-10 h-10 text-primary/80 mb-6" />
-      <blockquote className="text-foreground/80 text-base leading-relaxed flex-grow">
+    <motion.article
+      layout
+      onClick={onClick}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      className={`group relative cursor-pointer rounded-2xl border p-5 transition-all duration-200
+        ${isActive
+          ? 'border-primary/30 bg-primary/5 shadow-sm'
+          : 'border-border/20 bg-card hover:border-primary/20 hover:bg-primary/[0.03]'
+        }`}
+    >
+      {/* Active left bar */}
+      <div
+        className={`absolute left-0 top-4 bottom-4 w-0.5 rounded-full bg-primary transition-opacity duration-200
+          ${isActive ? 'opacity-100' : 'opacity-0'}`}
+      />
+
+      <blockquote className="text-xs leading-relaxed text-foreground/60 line-clamp-3 mb-4 pl-2">
         {review.reviewText}
       </blockquote>
-      <figcaption className="mt-8 pt-6 border-t border-border/20">
-        <div className="text-lg font-bold text-foreground">{review.author}</div>
-        <div className="text-sm text-primary font-semibold">
-          {review.role}{review.role && review.company ? ', ' : ''}{review.company}
+
+      <figcaption className="flex items-center gap-2 pl-2">
+        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground">
+          {initials}
+        </div>
+        <div className="min-w-0">
+          <div className="text-xs font-semibold text-foreground truncate">{review.author}</div>
+          <div className="text-[11px] text-primary font-medium truncate">
+            {review.role}{review.role && review.company ? ' · ' : ''}{review.company}
+          </div>
         </div>
       </figcaption>
-    </div>
+    </motion.article>
   );
 };
 
+// ─── Detail Panel ─────────────────────────────────────────────────────────────
+const DetailPanel = ({ review }: { review: ClientTestimonial }) => {
+  const initials = review.author
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 
+  return (
+    <motion.div
+      key={review.id}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className="relative flex flex-col justify-between h-full rounded-2xl border border-primary/20 bg-primary/5 p-8 overflow-hidden"
+    >
+      {/* Top accent line */}
+      <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+
+      {/* Decorative quote */}
+      <span
+        className="absolute top-4 right-6 text-8xl font-serif leading-none text-primary/10 select-none pointer-events-none"
+        aria-hidden="true"
+      >
+        &ldquo;
+      </span>
+
+      <blockquote className="relative text-base font-light leading-relaxed text-foreground/80">
+        {review.reviewText}
+      </blockquote>
+
+      <figcaption className="relative flex items-center gap-4 mt-8 pt-6 border-t border-primary/15">
+        <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary flex items-center justify-center text-sm font-bold text-primary-foreground shadow-md">
+          {initials}
+        </div>
+        <div>
+          <div className="text-sm font-semibold text-foreground">{review.author}</div>
+          <div className="text-xs text-primary font-medium">
+            {review.role}{review.role && review.company ? ', ' : ''}{review.company}
+          </div>
+        </div>
+      </figcaption>
+    </motion.div>
+  );
+};
+
+// ─── Main Section ─────────────────────────────────────────────────────────────
 export default function Testimonials() {
   const firestore = useFirestore();
-  const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
-  );
+  const [activeIndex, setActiveIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const testimonialsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -69,62 +152,119 @@ export default function Testimonials() {
 
   const { data: testimonials, isLoading } = useCollection<ClientTestimonial>(testimonialsQuery);
 
+  const startAutoplay = (length: number) => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % length);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (!testimonials || testimonials.length === 0) return;
+    startAutoplay(testimonials.length);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [testimonials]);
+
+  const handleCardClick = (idx: number) => {
+    setActiveIndex(idx);
+    if (testimonials) startAutoplay(testimonials.length);
+  };
+
   return (
-    <section id="testimonials" className="py-24 lg:py-32 bg-background ">
-      <div className="container mx-auto px-4">
+    <section id="testimonials" className="py-20 lg:py-28 bg-background">
+      <div className="container mx-auto px-4 max-w-6xl">
+
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-headline font-bold text-foreground">
-            Trusted by Teams Worldwide
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Hear what our partners have to say about the quality, reliability, and service that defines Export Optimum.
+          <div>
+            <div className="inline-flex items-center gap-1.5 mb-3 px-2.5 py-1 rounded-full border border-primary/20 bg-primary/5">
+              <span className="w-1 h-1 rounded-full bg-primary" />
+              <span className="text-[11px] font-semibold text-primary tracking-widest uppercase">Testimonials</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">
+              Trusted by Teams Worldwide
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground max-w-xs leading-relaxed sm:text-right">
+            Hear what our partners say about the quality and reliability that defines Export Optimum.
           </p>
         </motion.div>
 
+        {/* Loading */}
         {isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <TestimonialCardSkeleton />
-            <TestimonialCardSkeleton />
-            <TestimonialCardSkeleton />
-            <TestimonialCardSkeleton />
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+            <div className="lg:col-span-2 space-y-3">
+              {[...Array(4)].map((_, i) => <TestimonialCardSkeleton key={i} />)}
+            </div>
+            <div className="lg:col-span-3">
+              <Skeleton className="h-64 w-full rounded-2xl" />
+            </div>
           </div>
         )}
 
+        {/* Content */}
         {!isLoading && testimonials && testimonials.length > 0 && (
-           <Carousel
-            plugins={[plugin.current]}
-            className="w-full max-w-7xl mx-auto"
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
-            opts={{
-              align: "start",
-              loop: true,
-            }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 lg:grid-cols-5 gap-5 items-start"
           >
-            <CarouselContent className="-ml-4">
-              {testimonials.map((testimonial) => (
-                <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 pl-4">
-                    <div className="p-1 h-full">
-                        <TestimonialCard review={testimonial} />
-                    </div>
-                </CarouselItem>
+            {/* Left: scrollable card list */}
+            <div className="lg:col-span-2 space-y-3">
+              {testimonials.map((t, i) => (
+                <TestimonialCard
+                  key={t.id}
+                  review={t}
+                  index={i}
+                  isActive={activeIndex === i}
+                  onClick={() => handleCardClick(i)}
+                />
               ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden xl:flex" />
-            <CarouselNext className="hidden xl:flex" />
-          </Carousel>
-        )}
-        
-        {!isLoading && (!testimonials || testimonials.length === 0) && (
-            <div className="text-center text-muted-foreground py-12">
-                <p>Client testimonials will be shared here soon.</p>
             </div>
+
+            {/* Right: expanded detail */}
+            <div className="lg:col-span-3 lg:sticky lg:top-8 flex flex-col gap-4">
+              <AnimatePresence mode="wait">
+                <DetailPanel
+                  key={testimonials[activeIndex]?.id}
+                  review={testimonials[activeIndex]}
+                />
+              </AnimatePresence>
+
+              {/* Progress dots */}
+              <div className="flex items-center gap-1.5 justify-end">
+                {testimonials.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleCardClick(i)}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                    className="h-1 rounded-full transition-all duration-300 focus:outline-none"
+                    style={{
+                      width: activeIndex === i ? '20px' : '5px',
+                      backgroundColor:
+                        activeIndex === i
+                          ? 'hsl(var(--primary))'
+                          : 'hsl(var(--primary) / 0.2)',
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Empty */}
+        {!isLoading && (!testimonials || testimonials.length === 0) && (
+          <div className="text-center py-16">
+            <p className="text-sm text-muted-foreground">Client testimonials will be shared here soon.</p>
+          </div>
         )}
       </div>
     </section>
