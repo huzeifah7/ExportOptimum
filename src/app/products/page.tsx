@@ -1,4 +1,3 @@
-
 'use client';
 import { motion, useInView } from 'framer-motion';
 import Header from '@/components/layout/header';
@@ -9,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { ArrowRight, Leaf, Package } from 'lucide-react';
 import Link from 'next/link';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 type Product = {
   id: string;
