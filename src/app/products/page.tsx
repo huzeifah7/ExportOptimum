@@ -300,9 +300,7 @@ export default function ProductsPage() {
           }
         `}</style>
 
-        {/* ══════════════════════════════════════
-            3 × VARIETY SECTIONS
-        ══════════════════════════════════════ */}
+        {/* 3 × VARIETY SECTIONS */}
         {VARIETIES.map((v, i) => (
           <VarietySection
             key={v.key}
@@ -315,10 +313,8 @@ export default function ProductsPage() {
           />
         ))}
 
-        {/* ══════════════════════════════════════
-            CTA - Floating Card Style
-        ══════════════════════════════════════ */}
-        <section className="mx-4 sm:mx-6 lg:mx-8 mb-12 py-20 lg:py-28 bg-gray-900 text-white overflow-hidden relative rounded-3xl">
+        {/* CTA - Floating Card Style with Margins */}
+        <section className="mx-4 sm:mx-6 lg:mx-12 mb-16 py-20 lg:py-28 bg-gray-900 text-white overflow-hidden relative rounded-[40px] shadow-2xl">
           <div className="absolute inset-0 pointer-events-none" aria-hidden>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
               style={{ background: 'radial-gradient(ellipse, hsl(88,92%,40%,0.15) 0%, transparent 70%)', filter: 'blur(100px)' }} />
