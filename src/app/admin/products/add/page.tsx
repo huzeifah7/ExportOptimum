@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef } from 'react';
@@ -9,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X, ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
@@ -28,6 +29,7 @@ export default function AddProductPage() {
     const [subtitle, setSubtitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('avocado');
+    const [order, setOrder] = useState(0);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,6 +103,7 @@ export default function AddProductPage() {
                 category,
                 imageUrl,
                 slug,
+                order: order,
                 imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`,
                 period: enabledPeriod ? period : '',
                 storage: enabledStorage ? storageTemp : '',
@@ -132,7 +135,6 @@ export default function AddProductPage() {
 
     return (
         <div className="max-w-5xl mx-auto h-screen flex flex-col">
-            {/* Fixed Header */}
             <div className="flex items-center gap-4 mb-6 px-4 pt-4 flex-shrink-0">
                 <Button variant="outline" size="icon" asChild>
                     <Link href="/admin/products">
@@ -142,7 +144,6 @@ export default function AddProductPage() {
                 <h1 className="text-3xl font-bold font-headline">Add New Product</h1>
             </div>
             
-            {/* Scrollable Content */}
             <ScrollArea className="flex-1 px-4">
                 <form onSubmit={handleSubmit} className="pb-8">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -169,7 +170,6 @@ export default function AddProductPage() {
                                             />
                                         </div>
                                         
-                                        {/* Conditional Subtitle Logic */}
                                         {category === 'avocado' && (
                                             <div className="space-y-1.5">
                                                 <Label htmlFor="product-subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
@@ -184,19 +184,35 @@ export default function AddProductPage() {
                                             </div>
                                         )}
 
-                                        <div className="space-y-1.5">
-                                            <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
-                                            <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
-                                                <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
-                                                    <SelectValue placeholder="Select a category" />
-                                                </SelectTrigger>
-                                                <SelectContent className="rounded-xl">
-                                                    <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
-                                                    <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
-                                                    <SelectItem value="melon" className="rounded-lg">Melons </SelectItem>
-                                                </SelectContent>
-                                            </Select>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-1.5">
+                                                <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
+                                                <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
+                                                    <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
+                                                        <SelectValue placeholder="Select a category" />
+                                                    </SelectTrigger>
+                                                    <SelectContent className="rounded-xl">
+                                                        <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
+                                                        <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
+                                                        <SelectItem value="melon" className="rounded-lg">Melons </SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                            <div className="space-y-1.5">
+                                                <Label htmlFor="product-order" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground flex items-center gap-1">
+                                                    <ArrowUpDown className="h-3 w-3" /> Ordering Number
+                                                </Label>
+                                                <Input 
+                                                    id="product-order" 
+                                                    type="number"
+                                                    value={order}
+                                                    onChange={(e) => setOrder(parseInt(e.target.value) || 0)}
+                                                    disabled={isSubmitting}
+                                                    className="h-11 rounded-xl bg-muted/5 font-mono"
+                                                />
+                                            </div>
                                         </div>
+
                                         <div className="space-y-1.5">
                                             <Label htmlFor="product-description" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
                                             <Textarea 
@@ -329,7 +345,6 @@ export default function AddProductPage() {
                         </div>
                     </div>
 
-                    {/* Fixed Bottom Buttons */}
                     <div className="mt-8 flex justify-end gap-3 border-t pt-8 sticky bottom-0 bg-background">
                         <Button variant="ghost" type="button" onClick={() => router.push('/admin/products')} disabled={isSubmitting} className="rounded-xl px-6 h-12 font-bold text-base">Cancel</Button>
                         <Button type="submit" disabled={isSubmitting || !productName || !description || !imageFile} className="rounded-xl px-10 h-12 font-black text-base shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">

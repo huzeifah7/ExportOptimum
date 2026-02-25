@@ -19,6 +19,7 @@ type Product = {
   imageUrl?: string;
   imageHint?: string;
   slug: string;
+  order?: number;
 };
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
@@ -125,7 +126,7 @@ const VarietySection = ({
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
-  // Note: Removed orderBy('name') to avoid requiring composite indexes for category filter.
+  // Use local sorting to avoid composite index requirements for MVP
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(
@@ -134,7 +135,13 @@ const VarietySection = ({
     );
   }, [firestore, variety]);
 
-  const { data: products, isLoading } = useCollection<Product>(productsQuery);
+  const { data: rawProducts, isLoading } = useCollection<Product>(productsQuery);
+
+  // Apply manual order locally
+  const products = useMemo(() => {
+    if (!rawProducts) return null;
+    return [...rawProducts].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  }, [rawProducts]);
 
   return (
     <section ref={sectionRef} className="py-16 lg:py-20" id={variety}>

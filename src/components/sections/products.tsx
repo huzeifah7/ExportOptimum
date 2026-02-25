@@ -1,7 +1,8 @@
+
 'use client';
 
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
@@ -20,6 +21,7 @@ type Product = {
   description: string;
   imageUrl?: string;
   slug: string;
+  order?: number;
 };
 
 /* ---------------------------------------------
@@ -29,7 +31,6 @@ type Product = {
 function ProductSlideCard({ product, isActive }: { product: Product; isActive: boolean }) {
   return (
     <Link href={`/products/${product.id}`} className="group block h-full">
-      {/* Card Container */}
       <motion.div 
         initial={{ opacity: 0.6, scale: 0.95 }}
         animate={{ 
@@ -39,8 +40,6 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="relative h-240 flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 hover:border-[hsl(88,92%,28%)]/40 transition-all duration-500 hover:shadow-xl hover:shadow-[hsl(88,92%,30%)]/10"
       >
-        
-        {/* Image Container - Reduced from aspect-[3/4] to aspect-[4/5] */}
         <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
           {product.imageUrl ? (
             <>
@@ -52,7 +51,6 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 priority={isActive}
               />
-              {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </>
           ) : (
@@ -61,14 +59,12 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
             </div>
           )}
 
-          {/* Category Badge - Reduced size */}
           <div className="absolute top-3 left-3">
             <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.15em] bg-white/95 text-[hsl(88,92%,22%)] backdrop-blur-sm shadow-md border border-gray-100">
               {product.category}
             </span>
           </div>
 
-          {/* View Indicator - Reduced size */}
           <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
             <div className="w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-xl border border-gray-100 group-hover:bg-[hsl(88,92%,28%)] group-hover:border-[hsl(88,92%,28%)]">
               <ArrowRight className="w-4 h-4 text-[hsl(88,92%,25%)] group-hover:text-white transition-colors duration-300" />
@@ -76,19 +72,13 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
           </div>
         </div>
 
-        {/* Content - Reduced padding */}
         <div className="p-5 flex flex-col flex-grow">
-          {/* Title - Reduced size */}
           <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight tracking-tight group-hover:text-[hsl(88,92%,25%)] transition-colors duration-300 line-clamp-2">
             {product.name}
           </h3>
-
-          {/* Description - Reduced size and lines */}
           <p className="text-sm text-gray-600 leading-relaxed line-clamp-2 font-light flex-grow mb-3">
             {product.description}
           </p>
-
-          {/* Bottom Action - Simplified */}
           <div className="flex items-center justify-end pt-3 border-t border-gray-100">
             <div className="flex items-center gap-1.5 text-gray-400 group-hover:text-[hsl(88,92%,25%)] transition-colors duration-300">
               <span className="text-xs font-medium">Details</span>
@@ -96,8 +86,6 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
             </div>
           </div>
         </div>
-
-        {/* Accent Line */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </motion.div>
     </Link>
@@ -140,18 +128,23 @@ export default function Products() {
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
-      orderBy('name'),
-      limit(8)
+      limit(12)
     );
   }, [firestore]);
 
-  const { data: products, isLoading } = useCollection<Product>(productsQuery);
+  const { data: rawProducts, isLoading } = useCollection<Product>(productsQuery);
+
+  // Apply manual order locally
+  const products = useMemo(() => {
+    if (!rawProducts) return null;
+    return [...rawProducts].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  }, [rawProducts]);
 
   // Responsive slides per view
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1280) setSlidesPerView(4); // Changed from 3 to 4
-      else if (window.innerWidth >= 1024) setSlidesPerView(3); // Added lg breakpoint
+      if (window.innerWidth >= 1280) setSlidesPerView(4);
+      else if (window.innerWidth >= 1024) setSlidesPerView(3);
       else if (window.innerWidth >= 768) setSlidesPerView(2);
       else setSlidesPerView(1);
     };
@@ -193,16 +186,9 @@ export default function Products() {
 
   return (
     <main className="bg-white overflow-hidden">
-
-      {/* ══════════════════════════════════════
-          SECTION HEADER
-      ══════════════════════════════════════ */}
       <section className="pt-20 pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
-            
-            {/* Left: Titles */}
             <div className="flex-1">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -243,7 +229,6 @@ export default function Products() {
               </motion.p>
             </div>
 
-            {/* Right: Navigation Controls */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -251,14 +236,12 @@ export default function Products() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="flex items-center gap-3"
             >
-              {/* Progress Indicator */}
               <div className="text-sm font-bold text-gray-400 mr-2">
                 <span className="text-2xl text-[hsl(88,92%,25%)]">{String(currentIndex + 1).padStart(2, '0')}</span>
                 <span className="mx-1">/</span>
                 <span>{String(products.length).padStart(2, '0')}</span>
               </div>
 
-              {/* Prev Button */}
               <button
                 onClick={handlePrev}
                 disabled={!canGoPrev}
@@ -267,7 +250,6 @@ export default function Products() {
                 <ChevronLeft className="w-5 h-5 text-gray-600 transition-colors group-hover:text-[hsl(88,92%,25%)]" />
               </button>
 
-              {/* Next Button */}
               <button
                 onClick={handleNext}
                 disabled={!canGoNext}
@@ -276,18 +258,12 @@ export default function Products() {
                 <ChevronRight className="w-5 h-5 text-white" />
               </button>
             </motion.div>
-
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          PRODUCTS SLIDER
-      ══════════════════════════════════════ */}
       <section className="pb-2" ref={containerRef}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          
-          {/* Slider Container */}
           <div className="relative overflow-hidden">
             <motion.div
               className="flex gap-6"
@@ -314,7 +290,6 @@ export default function Products() {
             </motion.div>
           </div>
 
-          {/* Progress Bar */}
           <div className="mt-12 max-w-md mx-auto">
             <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
               <motion.div
@@ -327,13 +302,9 @@ export default function Products() {
               />
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          FOOTER CTA
-      ══════════════════════════════════════ */}
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4 text-center">
           <motion.div
@@ -352,7 +323,6 @@ export default function Products() {
           </motion.div>
         </div>
       </section>
-
     </main>
   );
 }

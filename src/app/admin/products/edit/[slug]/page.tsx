@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -9,11 +10,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X, ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
@@ -30,6 +31,7 @@ type Product = {
     period?: string;
     storage?: string;
     sizes?: string;
+    order?: number;
 };
 
 export default function EditProductPage() {
@@ -51,6 +53,7 @@ export default function EditProductPage() {
     const [subtitle, setSubtitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('avocado');
+    const [order, setOrder] = useState(0);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,6 +72,7 @@ export default function EditProductPage() {
             setSubtitle(product.subtitle || '');
             setDescription(product.description);
             setCategory(product.category);
+            setOrder(product.order ?? 0);
             if(product.imageUrl) {
                 setImagePreview(product.imageUrl);
             }
@@ -164,12 +168,14 @@ export default function EditProductPage() {
                 subtitle: category === 'avocado' ? subtitle : '',
                 description,
                 category,
+                order: order,
                 imageUrl: finalImageUrl,
                 slug: slug,
                 imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`,
                 period: enabledPeriod ? period : '',
                 storage: enabledStorage ? storageTemp : '',
                 sizes: enabledSizes ? sizes : '',
+                updatedAt: serverTimestamp(),
             };
 
             await setDoc(productRef, updatedProduct, { merge: true });
@@ -227,13 +233,12 @@ export default function EditProductPage() {
                                         />
                                     </div>
                                     
-                                    {/* Conditional Subtitle Logic */}
                                     {category === 'avocado' && (
                                         <div className="space-y-1.5">
                                             <Label htmlFor="product-subtitle" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Catchphrase / Subtitle</Label>
                                             <Input 
                                                 id="product-subtitle" 
-                                                placeholder="e.g., Premium Selection" 
+                                                placeholder="e.g., Premium Moroccan Selection" 
                                                 value={subtitle}
                                                 onChange={(e) => setSubtitle(e.target.value)}
                                                 disabled={isSubmitting}
@@ -242,20 +247,35 @@ export default function EditProductPage() {
                                         </div>
                                     )}
 
-                                    <div className="space-y-1.5">
-                                        <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
-                                        <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
-                                            <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
-                                                <SelectValue placeholder="Select a category" />
-                                            </SelectTrigger>
-                                            <SelectContent className="rounded-xl">
-                                                <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
-                                                <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
-                                                <SelectItem value="citrus" className="rounded-lg">Citrus Fruits</SelectItem>
-                                                <SelectItem value="other" className="rounded-lg">Other Produce</SelectItem>
-                                            </SelectContent>
-                                        </Select>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
+                                            <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
+                                                <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
+                                                    <SelectValue placeholder="Select a category" />
+                                                </SelectTrigger>
+                                                <SelectContent className="rounded-xl">
+                                                    <SelectItem value="avocado" className="rounded-lg">Avocado Varieties</SelectItem>
+                                                    <SelectItem value="berries" className="rounded-lg">Fresh Berries</SelectItem>
+                                                    <SelectItem value="melon" className="rounded-lg">Melons </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="product-order" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground flex items-center gap-1">
+                                                <ArrowUpDown className="h-3 w-3" /> Ordering Number
+                                            </Label>
+                                            <Input 
+                                                id="product-order" 
+                                                type="number"
+                                                value={order}
+                                                onChange={(e) => setOrder(parseInt(e.target.value) || 0)}
+                                                disabled={isSubmitting}
+                                                className="h-11 rounded-xl bg-muted/5 font-mono"
+                                            />
+                                        </div>
                                     </div>
+
                                     <div className="space-y-1.5">
                                         <Label htmlFor="product-description" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
                                         <Textarea 

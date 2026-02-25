@@ -42,7 +42,7 @@
         },
         "category": {
           "type": "string",
-          "description": "The category the product belongs to (e.g., 'Avocado', 'Berries')."
+          "description": "The category the product belongs to (e.g., 'avocado', 'berries', 'melon')."
         },
         "imageUrl": {
           "type": "string",
@@ -68,6 +68,10 @@
         "sizes": {
           "type": "string",
           "description": "Available sizes (e.g. C12-C28)."
+        },
+        "order": {
+          "type": "number",
+          "description": "The sorting order of the product (lower values appear first)."
         }
       },
       "required": ["name", "description", "category", "slug"]

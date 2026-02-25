@@ -73,6 +73,7 @@ import {
   Info,
   Layers,
   Sparkles,
+  ArrowUpDown,
 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -95,7 +96,7 @@ const AvocadoIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-type FirestoreProduct = DocumentData & { id: string };
+type FirestoreProduct = DocumentData & { id: string; order?: number };
 
 const ITEMS_PER_PAGE = 10;
 
@@ -113,7 +114,7 @@ export default function ManageProductsPage() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
-  const [sortOption, setSortOption] = useState('newest');
+  const [sortOption, setSortOption] = useState('order-asc');
   const [currentPage, setCurrentPage] = useState(1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -137,14 +138,13 @@ export default function ManageProductsPage() {
     }
 
     products.sort((a, b) => {
-      const aDate = a.createdAt as Timestamp | undefined;
-      const bDate = b.createdAt as Timestamp | undefined;
-
       switch (sortOption) {
+        case 'order-asc':
+          return (a.order ?? 999) - (b.order ?? 999);
         case 'newest':
-          return (bDate?.toMillis() || 0) - (aDate?.toMillis() || 0);
+          return ((b.createdAt as Timestamp)?.toMillis() || 0) - ((a.createdAt as Timestamp)?.toMillis() || 0);
         case 'oldest':
-          return (aDate?.toMillis() || 0) - (bDate?.toMillis() || 0);
+          return ((a.createdAt as Timestamp)?.toMillis() || 0) - ((b.createdAt as Timestamp)?.toMillis() || 0);
         case 'name-asc':
           return (a.name || '').localeCompare(b.name || '');
         case 'name-desc':
@@ -254,6 +254,7 @@ export default function ManageProductsPage() {
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="order-asc">Custom Order (Low to High)</SelectItem>
             <SelectItem value="newest">Newest First</SelectItem>
             <SelectItem value="oldest">Oldest First</SelectItem>
             <SelectItem value="name-asc">Name: A-Z</SelectItem>
@@ -270,6 +271,7 @@ export default function ManageProductsPage() {
                 <TableHead className="w-[100px] py-4 text-center">Image</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead className="hidden lg:table-cell">Category</TableHead>
+                <TableHead className="w-[80px] text-center">Order</TableHead>
                 <TableHead className="text-right pr-8">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -280,6 +282,7 @@ export default function ManageProductsPage() {
                     <TableCell><Skeleton className="h-12 w-12 rounded-lg mx-auto" /></TableCell>
                     <TableCell><Skeleton className="h-5 w-40" /></TableCell>
                     <TableCell className="hidden lg:table-cell"><Skeleton className="h-5 w-20" /></TableCell>
+                    <TableCell><Skeleton className="h-5 w-10 mx-auto" /></TableCell>
                     <TableCell className="text-right pr-8"><Skeleton className="h-8 w-24 ml-auto" /></TableCell>
                   </TableRow>
                 ))
@@ -306,6 +309,9 @@ export default function ManageProductsPage() {
                         {product.category || 'Uncategorized'}
                       </span>
                     </TableCell>
+                    <TableCell className="text-center font-mono text-sm text-muted-foreground">
+                      {product.order ?? '—'}
+                    </TableCell>
                     <TableCell className="text-right pr-8">
                       <div className="flex items-center justify-end gap-2">
                         <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)} className="h-9 w-9 p-0 rounded-lg">
@@ -322,7 +328,7 @@ export default function ManageProductsPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} className="h-40 text-center text-muted-foreground italic">
+                  <TableCell colSpan={5} className="h-40 text-center text-muted-foreground italic">
                     No products found in your catalog.
                   </TableCell>
                 </TableRow>
@@ -400,13 +406,13 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   useEffect(() => {
     if (isOpen) {
       if (isEditing && product) {
-        setFormData(product);
+        setFormData({ ...product, order: product.order ?? 0 });
         setImagePreview(product.imageUrl || null);
         setEnabledPeriod(!!product.period);
         setEnabledStorage(!!product.storage);
         setEnabledSizes(!!product.sizes);
       } else {
-        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', period: '', storage: '', sizes: '' });
+        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', period: '', storage: '', sizes: '', order: 0 });
         setImagePreview(null);
         setEnabledPeriod(false);
         setEnabledStorage(false);
@@ -419,7 +425,8 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const finalValue = name === 'order' ? parseInt(value) || 0 : value;
+    setFormData(prev => ({ ...prev, [name]: finalValue }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -464,6 +471,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         period: enabledPeriod ? formData.period || '' : '',
         storage: enabledStorage ? formData.storage || '' : '',
         sizes: enabledSizes ? formData.sizes || '' : '',
+        order: formData.order ?? 0,
         imageUrl,
         slug: (formData.name || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
         updatedAt: serverTimestamp(),
@@ -527,19 +535,28 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                         </div>
                       )}
 
-                      <div className="space-y-1.5">
-                        <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
-                        <Select onValueChange={(v) => handleInputChange({ target: { name: 'category', value: v } } as any)} value={formData.category || ''}>
-                          <SelectTrigger className="h-10 rounded-xl bg-muted/5">
-                            <SelectValue placeholder="Category" />
-                          </SelectTrigger>
-                          <SelectContent className="rounded-xl">
-                            <SelectItem value="avocado">Avocados</SelectItem>
-                            <SelectItem value="berries">Berries</SelectItem>
-                            <SelectItem value="melon">Melons</SelectItem>
-                          </SelectContent>
-                        </Select>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                          <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
+                          <Select onValueChange={(v) => handleInputChange({ target: { name: 'category', value: v } } as any)} value={formData.category || ''}>
+                            <SelectTrigger className="h-10 rounded-xl bg-muted/5">
+                              <SelectValue placeholder="Category" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl">
+                              <SelectItem value="avocado">Avocados</SelectItem>
+                              <SelectItem value="berries">Berries</SelectItem>
+                              <SelectItem value="melon">Melons</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground flex items-center gap-1.5">
+                            <ArrowUpDown className="h-3 w-3" /> Ordering Number
+                          </Label>
+                          <Input name="order" type="number" value={formData.order ?? 0} onChange={handleInputChange} placeholder="0" className="h-10 rounded-xl bg-muted/5 font-mono" />
+                        </div>
                       </div>
+
                       <div className="space-y-1.5">
                         <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Description</Label>
                         <Textarea name="description" value={formData.description || ''} onChange={handleInputChange} placeholder="Detailed product info..." className="min-h-[100px] rounded-xl bg-muted/5 resize-none" required />
