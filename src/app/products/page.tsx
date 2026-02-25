@@ -19,7 +19,6 @@ type Product = {
   imageUrl?: string;
   imageHint?: string;
   slug: string;
-  variety: 'avocado' | 'berries' | 'melon';
 };
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
@@ -37,7 +36,6 @@ const ProductCardSkeleton = () => (
 // ─── Product Card ─────────────────────────────────────────────────────────────
 const ProductCard = ({ product, index, isInView }: { product: Product; index: number; isInView: boolean }) => (
   <motion.article
-    key={product.id}
     initial={{ opacity: 0, y: 30 }}
     animate={isInView ? { opacity: 1, y: 0 } : {}}
     transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
@@ -83,7 +81,7 @@ const ProductCard = ({ product, index, isInView }: { product: Product; index: nu
 
 // ─── Section config ───────────────────────────────────────────────────────────
 const VARIETIES: {
-  key: 'avocado' | 'berries' | 'melon';
+  key: string;
   label: string;
   emoji: string;
   description: string;
@@ -117,7 +115,7 @@ const VarietySection = ({
   firestore,
   sectionIndex,
 }: {
-  variety: 'avocado' | 'berries' | 'melon';
+  variety: string;
   label: string;
   emoji: string;
   description: string;
@@ -139,7 +137,7 @@ const VarietySection = ({
   const { data: products, isLoading } = useCollection<Product>(productsQuery);
 
   return (
-    <section ref={sectionRef} className="py-16 lg:py-20">
+    <section ref={sectionRef} className="py-16 lg:py-20" id={variety}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
 
         {/* Section header */}
@@ -305,18 +303,16 @@ export default function ProductsPage() {
         {/* ══════════════════════════════════════
             3 × VARIETY SECTIONS
         ══════════════════════════════════════ */}
-        <div id="avocado" />
         {VARIETIES.map((v, i) => (
-          <div key={v.key} id={i === 0 ? undefined : v.key}>
-            <VarietySection
-              variety={v.key}
-              label={v.label}
-              emoji={v.emoji}
-              description={v.description}
-              firestore={firestore}
-              sectionIndex={i}
-            />
-          </div>
+          <VarietySection
+            key={v.key}
+            variety={v.key}
+            label={v.label}
+            emoji={v.emoji}
+            description={v.description}
+            firestore={firestore}
+            sectionIndex={i}
+          />
         ))}
 
         {/* ══════════════════════════════════════
