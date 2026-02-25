@@ -131,7 +131,7 @@ const VarietySection = ({
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
-      where('category', '==', variety), // Use category instead of variety to match database
+      where('category', '==', variety),
       orderBy('name')
     );
   }, [firestore, variety]);
@@ -320,7 +320,7 @@ export default function ProductsPage() {
         ))}
 
         {/* ══════════════════════════════════════
-            CTA
+            CTA - Floating Card Style
         ══════════════════════════════════════ */}
         <section className="mx-4 sm:mx-6 lg:mx-8 mb-12 py-20 lg:py-28 bg-gray-900 text-white overflow-hidden relative rounded-3xl">
           <div className="absolute inset-0 pointer-events-none" aria-hidden>

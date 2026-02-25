@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -150,7 +151,7 @@ export default function ProductDetailsPage() {
                 <p>{product.description}</p>
               </div>
 
-              {/* Integrated "Our Features" Section */}
+              {/* Integrated "Our Features" Section under content */}
               {hasFeatures && (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10 py-8 border-y border-border/50">
                     {product.period && (
