@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, orderBy, query, where } from 'firebase/firestore';
+import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { ArrowRight, Leaf, Package } from 'lucide-react';
@@ -125,12 +125,12 @@ const VarietySection = ({
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
+  // Note: Removed orderBy('name') to avoid requiring composite indexes for category filter.
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
-      where('category', '==', variety),
-      orderBy('name')
+      where('category', '==', variety)
     );
   }, [firestore, variety]);
 

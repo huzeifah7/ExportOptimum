@@ -1,44 +1,27 @@
 
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    match /users/{userId} {
-      allow read: if true;
-      allow write: if request.auth != null && request.auth.uid == userId;
-    }
 
     match /products/{productId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
-    match /products {
-      allow read, list: if true;
-    }
-
+    
     match /teamMembers/{memberId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
-    match /teamMembers {
-      allow list: if true;
-    }
     
     match /sustainabilityGallery/{imageId} {
-      allow get, list: if true;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null;
-    }
-    match /sustainabilityGallery {
-      allow list: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
     }
 
     match /blogPosts/{docId} {
       allow read: if true;
-      allow create, update, delete: if request.auth != null;
-    }
-    match /blogPosts {
-      allow list: if true;
+      allow write: if request.auth != null;
     }
 
     match /keyFigures/main {
@@ -46,22 +29,9 @@ service cloud.firestore {
       allow write: if request.auth != null;
     }
 
-    match /avocadoExportData/{avocadoExportDataId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
-    }
-
     match /qualityCertifications/{qualityCertificationId} {
       allow read: if true;
       allow write: if request.auth != null;
-    }
-    match /qualityCertifications {
-      allow list: if true;
-    }
-
-    match /avocadoVarieties/{avocadoVarietyId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
     }
 
     match /clientTestimonials/{clientTestimonialId} {
@@ -69,19 +39,13 @@ service cloud.firestore {
       allow create: if true;
       allow update, delete: if request.auth != null;
     }
-    match /clientTestimonials {
-      allow list: if true;
-    }
 
     match /partners/{partnerId} {
-      allow get, list: if true;
+      allow read: if true;
       allow write: if request.auth != null;
     }
-    match /partners {
-      allow list: if true;
-    }
 
-    match /contactInformation/{contactInformationId} {
+    match /contactInformation/main {
       allow read: if true;
       allow write: if request.auth != null;
     }
@@ -90,9 +54,6 @@ service cloud.firestore {
       allow get, list, delete: if request.auth != null;
       allow create: if true;
       allow update: if false;
-    }
-     match /messages {
-      allow list: if request.auth != null;
     }
   }
 }
