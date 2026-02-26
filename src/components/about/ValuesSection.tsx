@@ -90,7 +90,7 @@ const ValuesSection = () => {
           className="flex items-center justify-center gap-3 mb-8"
         >
           <span className="w-8 h-px bg-[hsl(88,92%,28%)]" />
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
+          <span className="text-lg font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
             Why Choose Us
           </span>
           <span className="w-8 h-px bg-[hsl(88,92%,28%)]" />

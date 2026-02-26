@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -7,8 +6,6 @@ import {
   doc,
   serverTimestamp,
   setDoc,
-  updateDoc,
-  deleteDoc,
 } from 'firebase/firestore';
 import {
   ref as storageRef,
@@ -35,6 +32,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 type TeamMember = {
   id: string;
@@ -174,17 +174,19 @@ export default function ManageTeamPage() {
       };
 
       const memberDocRef = doc(firestore, 'teamMembers', memberId);
+      const dataToSave = isEditing 
+        ? { ...memberData, updatedAt: serverTimestamp() }
+        : { ...memberData, id: memberId, createdAt: serverTimestamp(), updatedAt: serverTimestamp() };
 
-      if (isEditing) {
-        await updateDoc(memberDocRef, { ...memberData, updatedAt: serverTimestamp() });
-      } else {
-        await setDoc(memberDocRef, {
-            ...memberData,
-            id: memberId,
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
+      setDoc(memberDocRef, dataToSave, { merge: true })
+        .catch(async (serverError) => {
+          const permissionError = new FirestorePermissionError({
+            path: memberDocRef.path,
+            operation: 'write',
+            requestResourceData: dataToSave,
+          });
+          errorEmitter.emit('permission-error', permissionError);
         });
-      }
 
       toast({ title: isEditing ? 'Team member updated' : 'Team member added' });
       closeModal();
@@ -212,7 +214,7 @@ export default function ManageTeamPage() {
     try {
       // Delete Firestore document
       const docRef = doc(firestore, 'teamMembers', memberToDelete.id);
-      await deleteDoc(docRef);
+      deleteDocumentNonBlocking(docRef);
 
       // Delete image from Storage
       if (memberToDelete.photoUrl && storage) {
@@ -220,10 +222,8 @@ export default function ManageTeamPage() {
           const imageRef = storageRef(storage, memberToDelete.photoUrl);
           await deleteObject(imageRef);
         } catch (storageError: any) {
-          // If the image doesn't exist, we don't need to block the process.
-          // This can happen if a previous deletion failed midway.
           if (storageError.code !== 'storage/object-not-found') {
-            console.warn("Could not delete old image from storage:", storageError);
+            console.warn("Could not delete image from storage:", storageError);
           }
         }
       }
