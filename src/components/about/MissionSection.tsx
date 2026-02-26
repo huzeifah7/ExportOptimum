@@ -19,7 +19,7 @@ const MissionSection = () => {
                     className="flex items-center gap-3 mb-12"
                 >
                     <span className="w-8 h-px bg-primary" />
-                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary inline-flex items-center gap-2"><Globe className="w-3.5 h-3.5" /> Our Mission</span>
+                    <span className="text-lg font-bold uppercase tracking-[0.2em] text-primary inline-flex items-center gap-2"><Globe className="w-3.5 h-3.5" /> Our Mission</span>
                 </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">

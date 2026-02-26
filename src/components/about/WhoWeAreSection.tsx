@@ -21,8 +21,8 @@ const WhoWeAreSection = () => {
           >
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-primary" />
-              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-                <Users className="w-3.5 h-3.5" /> Who We Are
+              <span className="inline-flex items-center gap-2 text-lg font-bold uppercase tracking-[0.2em] text-primary">
+                <Users className="w-4.5 h-4.5" /> Who We Are
               </span>
             </div>
 
@@ -38,7 +38,7 @@ const WhoWeAreSection = () => {
                 Powered by a loyal global customer base, we operate with precision planning, strict quality standards, and responsible sourcing at the core of everything we do.
               </p>
               <p>
-                Today, Export Optimum stands as a leading exporter of Moroccan avocados, consumers worldwide and supplying fresh berries and premium melons to international markets ; and to further strengthen our global presence and streamline regional operations, we proudly operate a fully established subsidiary in Lebanon. This strategic branch allows us to facilitate supply across the Middle East and enhance distribution efficiency to key markets worldwide.
+                Today, Export Optimum stands as a leading exporter of Moroccan avocados, consumers worldwide and supplying fresh berries and premium melons to international markets ; and to further strengthen our global presence and streamline regional operations, we proudly operate a fully established subsidiary in Lebanon: <b>Export Optimum Lebanon</b>. This strategic branch allows us to facilitate supply across the Middle East and enhance distribution efficiency to key markets worldwide.
               </p>
             </div>
 
