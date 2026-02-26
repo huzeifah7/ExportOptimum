@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X, ArrowUpDown, Droplet } from 'lucide-react';
 import Link from 'next/link';
-import { useFirestore } from '@/firebase';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -58,6 +58,25 @@ export default function AddProductPage() {
     const [enabledSizes, setEnabledSizes] = useState(false);
     const [sizes, setSizes] = useState('');
     const [brix, setBrix] = useState('');
+
+    // Fetch products to determine next order
+    const productsQuery = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return collection(firestore, 'products');
+    }, [firestore]);
+
+    const { data: allProducts } = useCollection(productsQuery);
+
+    const suggestedOrder = useMemo(() => {
+        if (!allProducts || allProducts.length === 0) return 1;
+        return Math.max(...allProducts.map(p => p.order ?? 0)) + 1;
+    }, [allProducts]);
+
+    useEffect(() => {
+        if (suggestedOrder > 0 && order === 0) {
+            setOrder(suggestedOrder);
+        }
+    }, [suggestedOrder, order]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

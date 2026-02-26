@@ -123,6 +123,11 @@ export default function ManageProductsPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<FirestoreProduct | null>(null);
 
+  const nextOrder = useMemo(() => {
+    if (!allProducts || allProducts.length === 0) return 1;
+    return Math.max(...allProducts.map(p => p.order ?? 0)) + 1;
+  }, [allProducts]);
+
   const filteredProducts = useMemo(() => {
     if (!allProducts) return [];
 
@@ -395,6 +400,7 @@ export default function ManageProductsPage() {
         firestore={firestore}
         storage={storage}
         toast={toast}
+        nextOrder={nextOrder}
       />
 
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
@@ -424,9 +430,10 @@ interface ProductFormModalProps {
   firestore: any;
   storage: any;
   toast: any;
+  nextOrder: number;
 }
 
-function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast }: ProductFormModalProps) {
+function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast, nextOrder }: ProductFormModalProps) {
   const isEditing = !!product;
   const [formData, setFormData] = useState<Partial<FirestoreProduct>>({});
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -447,7 +454,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         setEnabledStorage(!!product.storage);
         setEnabledSizes(!!product.sizes);
       } else {
-        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', period: '', storage: '', sizes: '', brix: '', order: 0 });
+        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', period: '', storage: '', sizes: '', brix: '', order: nextOrder });
         setImagePreview(null);
         setEnabledPeriod(false);
         setEnabledStorage(false);
@@ -456,7 +463,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
       setImageFile(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
-  }, [isOpen, product, isEditing]);
+  }, [isOpen, product, isEditing, nextOrder]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
