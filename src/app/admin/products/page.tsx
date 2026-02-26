@@ -504,9 +504,9 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         description: formData.description || '',
         category: formData.category || 'avocado',
         berryType: formData.category === 'berries' ? formData.berryType || '' : '',
-        period: formData.category !== 'berries' && enabledPeriod ? formData.period || '' : '',
-        storage: formData.category !== 'berries' && enabledStorage ? formData.storage || '' : '',
-        sizes: formData.category !== 'berries' && enabledSizes ? formData.sizes || '' : '',
+        period: formData.category !== 'berries' && formData.category !== 'melon' && enabledPeriod ? formData.period || '' : '',
+        storage: formData.category !== 'berries' && formData.category !== 'melon' && enabledStorage ? formData.storage || '' : '',
+        sizes: formData.category !== 'berries' && formData.category !== 'melon' && enabledSizes ? formData.sizes || '' : '',
         brix: formData.category === 'berries' ? formData.brix || '' : '',
         order: formData.order ?? 0,
         imageUrl,
@@ -648,47 +648,49 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                     </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
-                      <Layers className="h-4 w-4 text-primary" /> Export Features
+                  {formData.category !== 'melon' && (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
+                        <Layers className="h-4 w-4 text-primary" /> Export Features
+                      </div>
+                      <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border">
+                        {formData.category === 'berries' ? (
+                          <div className="space-y-1.5">
+                            <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                              <Droplet className="h-3 w-3 text-primary" /> Brix
+                            </Label>
+                            <Input name="brix" value={formData.brix || ''} onChange={handleInputChange} placeholder="e.g., 12-14%" className="h-10 rounded-xl bg-white" />
+                          </div>
+                        ) : (
+                          <>
+                            <div className="space-y-1.5">
+                              <div className="flex items-center gap-2">
+                                <Checkbox id="enable-period" checked={enabledPeriod} onCheckedChange={(c) => { setEnabledPeriod(!!c); if (!c) setFormData(p => ({ ...p, period: '' })); }} />
+                                <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Periode</Label>
+                              </div>
+                              <Input name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="Dec - Apr" className="h-9 rounded-xl bg-white" disabled={!enabledPeriod} />
+                            </div>
+                            <div className="space-y-1.5">
+                              <div className="flex items-center gap-2">
+                                <Checkbox id="enable-storage" checked={enabledStorage} onCheckedChange={(c) => { setEnabledStorage(!!c); if (!c) setFormData(p => ({ ...p, storage: '' })); }} />
+                                <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Storage</Label>
+                              </div>
+                              <Input name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g., 6°C" className="h-9 rounded-xl bg-white" disabled={!enabledStorage} />
+                            </div>
+                            <div className="space-y-1.5">
+                              <div className="flex items-center gap-2">
+                                <Checkbox id="enable-sizes" checked={enabledSizes} onCheckedChange={(c) => { setEnabledSizes(!!c); if (!c) setFormData(p => ({ ...p, sizes: '' })); }} />
+                                <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer flex items-center gap-1">
+                                  <AvocadoIcon className="h-3 w-3" /> Sizes
+                                </Label>
+                              </div>
+                              <Input name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="C12 - C28" className="h-9 rounded-xl bg-white" disabled={!enabledSizes} />
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border">
-                      {formData.category === 'berries' ? (
-                        <div className="space-y-1.5">
-                          <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                            <Droplet className="h-3 w-3 text-primary" /> Brix
-                          </Label>
-                          <Input name="brix" value={formData.brix || ''} onChange={handleInputChange} placeholder="e.g., 12-14%" className="h-10 rounded-xl bg-white" />
-                        </div>
-                      ) : (
-                        <>
-                          <div className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                              <Checkbox id="enable-period" checked={enabledPeriod} onCheckedChange={(c) => { setEnabledPeriod(!!c); if (!c) setFormData(p => ({ ...p, period: '' })); }} />
-                              <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Periode</Label>
-                            </div>
-                            <Input name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="Dec - Apr" className="h-9 rounded-xl bg-white" disabled={!enabledPeriod} />
-                          </div>
-                          <div className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                              <Checkbox id="enable-storage" checked={enabledStorage} onCheckedChange={(c) => { setEnabledStorage(!!c); if (!c) setFormData(p => ({ ...p, storage: '' })); }} />
-                              <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Storage</Label>
-                            </div>
-                            <Input name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g., 6°C" className="h-9 rounded-xl bg-white" disabled={!enabledStorage} />
-                          </div>
-                          <div className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                              <Checkbox id="enable-sizes" checked={enabledSizes} onCheckedChange={(c) => { setEnabledSizes(!!c); if (!c) setFormData(p => ({ ...p, sizes: '' })); }} />
-                              <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer flex items-center gap-1">
-                                <AvocadoIcon className="h-3 w-3" /> Sizes
-                              </Label>
-                            </div>
-                            <Input name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="C12 - C28" className="h-9 rounded-xl bg-white" disabled={!enabledSizes} />
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </form>
