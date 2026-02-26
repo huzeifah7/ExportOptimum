@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -7,15 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, UploadCloud, X } from 'lucide-react';
 import Link from 'next/link';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
-import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 type Certification = {
     id: string;
@@ -28,7 +26,6 @@ export default function EditCertificationPage() {
     const params = useParams();
     const certId = params.id as string;
     const firestore = useFirestore();
-    const storage = getStorage();
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,8 +46,6 @@ export default function EditCertificationPage() {
             setName(certification.name);
             if (certification.imageUrl) {
                 setImagePreview(certification.imageUrl);
-            } else {
-                setImagePreview(null);
             }
         }
     }, [certification]);
@@ -82,8 +77,7 @@ export default function EditCertificationPage() {
                         </div>
                         <div className="space-y-4">
                             <Skeleton className="h-4 w-40" />
-                            <Skeleton className="h-10 w-full" />
-                            <Skeleton className="aspect-square w-48" />
+                            <Skeleton className="h-32 w-full" />
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end gap-2 border-t pt-6">
@@ -120,7 +114,7 @@ export default function EditCertificationPage() {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (!certRef) return;
+        if (!certRef || !firestore) return;
 
         setIsSubmitting(true);
 
@@ -128,18 +122,21 @@ export default function EditCertificationPage() {
             let finalImageUrl = certification?.imageUrl || '';
 
             if (imageFile) {
-                const imageStorageRef = ref(storage, `certifications/${certId}/${imageFile.name}`);
-                await uploadBytes(imageStorageRef, imageFile);
-                finalImageUrl = await getDownloadURL(imageStorageRef);
+                const storage = getStorage();
+                const path = `certifications/${certId}/${imageFile.name}`;
+                const imageRef = storageRef(storage, path);
+                await uploadBytes(imageRef, imageFile);
+                finalImageUrl = await getDownloadURL(imageRef);
             }
 
             const updatedCertification = {
                 name: name,
                 imageUrl: finalImageUrl,
                 description: `${name} certification logo`,
+                updatedAt: serverTimestamp(),
             };
 
-            setDocumentNonBlocking(certRef, updatedCertification, { merge: true });
+            await updateDoc(certRef, updatedCertification);
 
             toast({
                 title: "Certification Updated",
@@ -147,12 +144,12 @@ export default function EditCertificationPage() {
             });
 
             router.push('/admin/quality');
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Failed to update certification."
+                description: err.message || "Failed to update certification."
             });
         } finally {
             setIsSubmitting(false);
@@ -187,32 +184,62 @@ export default function EditCertificationPage() {
                             />
                         </div>
                         <div className="space-y-4">
-                            <Label htmlFor="cert-image">Certification Logo/Image</Label>
-                            <Input
-                                id="cert-image"
-                                type="file"
-                                accept="image/*"
-                                ref={fileInputRef}
-                                onChange={handleImageChange}
-                                disabled={isSubmitting}
-                            />
-                            {imagePreview && (
-                                <div className="mt-4 rounded-lg overflow-hidden border aspect-square w-48 relative">
-                                    <Image
-                                        src={imagePreview}
-                                        alt="Image preview"
-                                        fill
-                                        className="object-contain p-2"
-                                    />
+                            <Label>Certification Logo/Image</Label>
+                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-input px-6 py-10">
+                                <div className="text-center w-full">
+                                    {imagePreview ? (
+                                        <div className="relative mx-auto w-48 h-48 bg-muted rounded-md p-4">
+                                            <Image
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                fill
+                                                className="object-contain p-2"
+                                            />
+                                            <Button 
+                                                variant="ghost" 
+                                                size="icon" 
+                                                type="button"
+                                                className="absolute -top-2 -right-2 bg-background rounded-full h-8 w-8 shadow-md" 
+                                                onClick={() => {
+                                                    setImageFile(null);
+                                                    setImagePreview(certification?.imageUrl || null);
+                                                    if(fileInputRef.current) fileInputRef.current.value = '';
+                                                }}
+                                            >
+                                                <X className="h-4 w-4"/>
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
+                                            <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
+                                                <label
+                                                    htmlFor="cert-image"
+                                                    className="relative cursor-pointer rounded-md bg-background font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:text-primary/80"
+                                                >
+                                                    <span>Change Logo</span>
+                                                    <Input
+                                                        id="cert-image"
+                                                        type="file"
+                                                        accept="image/*"
+                                                        ref={fileInputRef}
+                                                        className="sr-only"
+                                                        onChange={handleImageChange}
+                                                        disabled={isSubmitting}
+                                                    />
+                                                </label>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                            )}
+                            </div>
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end gap-2 border-t pt-6">
                         <Button variant="outline" type="button" onClick={() => router.push('/admin/quality')} disabled={isSubmitting}>Cancel</Button>
                         <Button type="submit" disabled={isSubmitting}>
                             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Save Changes
+                            {isSubmitting ? "Saving..." : "Save Changes"}
                         </Button>
                     </CardFooter>
                 </Card>

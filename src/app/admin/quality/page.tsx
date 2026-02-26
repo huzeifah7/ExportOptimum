@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -7,9 +6,11 @@ import Image from "next/image";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
-import { collection, deleteDoc, doc } from "firebase/firestore";
+import { collection, doc } from "firebase/firestore";
+import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { deleteDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 type Certification = {
   id: string;
@@ -28,8 +29,8 @@ export default function ManageQualityPage() {
 
   const { data: certifications, isLoading } = useCollection<Certification>(certificationsQuery);
 
-  const handleDelete = async (certId: string, certName: string) => {
-    if (confirm(`Are you sure you want to delete "${certName}"?`)) {
+  const handleDelete = async (cert: Certification) => {
+    if (confirm(`Are you sure you want to delete "${cert.name}"?`)) {
        if (!firestore) {
             toast({
               variant: "destructive",
@@ -38,19 +39,33 @@ export default function ManageQualityPage() {
             });
             return;
         }
-      const docRef = doc(firestore, "qualityCertifications", certId);
+
       try {
-        await deleteDoc(docRef);
+        const docRef = doc(firestore, "qualityCertifications", cert.id);
+        deleteDocumentNonBlocking(docRef);
+
+        if (cert.imageUrl) {
+            const storage = getStorage();
+            try {
+                const imgRef = storageRef(storage, cert.imageUrl);
+                await deleteObject(imgRef);
+            } catch (storageError: any) {
+                if (storageError.code !== 'storage/object-not-found') {
+                    console.warn("Could not delete certification logo from storage:", storageError);
+                }
+            }
+        }
+
         toast({
           title: "Certification Deleted",
-          description: `"${certName}" has been successfully deleted.`,
+          description: `"${cert.name}" has been successfully deleted.`,
         });
-      } catch (error) {
-        console.error("Error deleting document: ", error);
+      } catch (error: any) {
+        console.error("Error deleting certification: ", error);
         toast({
           variant: "destructive",
           title: "Error",
-          description: "Could not delete certification. Please try again.",
+          description: error.message || "Could not delete certification. Please try again.",
         });
       }
     }
@@ -69,7 +84,7 @@ export default function ManageQualityPage() {
           <CardTitle>Your Certifications</CardTitle>
         </CardHeader>
         <CardContent>
-          {isLoading && (
+          {isLoading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Card key={i} className="overflow-hidden shadow-lg flex flex-col items-center justify-center p-4">
@@ -82,42 +97,44 @@ export default function ManageQualityPage() {
                 </Card>
               ))}
             </div>
-          )}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {certifications?.map((cert) => (
-              <Card key={cert.id} className="overflow-hidden shadow-lg flex flex-col items-center p-4">
-                <div className="relative h-24 w-24 mb-4">
-                  {cert.imageUrl ? (
-                    <Image
-                      src={cert.imageUrl}
-                      alt={cert.name}
-                      fill
-                      className="object-contain"
-                    />
-                  ) : (
-                    <div className="bg-secondary h-full w-full flex items-center justify-center rounded-md">
-                      <p className="text-muted-foreground text-xs">No Image</p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                {certifications?.map((cert) => (
+                <Card key={cert.id} className="overflow-hidden shadow-lg flex flex-col items-center p-4">
+                    <div className="relative h-24 w-24 mb-4 bg-muted rounded-md p-2">
+                    {cert.imageUrl ? (
+                        <Image
+                        src={cert.imageUrl}
+                        alt={cert.name}
+                        fill
+                        className="object-contain"
+                        />
+                    ) : (
+                        <div className="h-full w-full flex items-center justify-center">
+                        <p className="text-muted-foreground text-xs">No Image</p>
+                        </div>
+                    )}
                     </div>
-                  )}
-                </div>
-                <CardTitle className="font-headline text-lg text-center">{cert.name}</CardTitle>
-                <CardFooter className="mt-auto flex justify-end gap-2 p-0 pt-4">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={`/admin/quality/edit/${cert.id}`}>
-                      <Pencil className="mr-2 h-4 w-4" /> Edit
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleDelete(cert.id, cert.name)}
-                  >
-                    <Trash2 className="mr-2 h-4 w-4" /> Delete
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+                    <CardTitle className="font-headline text-lg text-center truncate w-full px-2" title={cert.name}>{cert.name}</CardTitle>
+                    <CardFooter className="mt-auto flex justify-end gap-2 p-0 pt-4">
+                    <Button variant="outline" size="sm" asChild title="Edit">
+                        <Link href={`/admin/quality/edit/${cert.id}`}>
+                        <Pencil className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleDelete(cert)}
+                        title="Delete"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                    </CardFooter>
+                </Card>
+                ))}
+            </div>
+          )}
            {!isLoading && certifications?.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
                     <p>No certifications found.</p>

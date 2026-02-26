@@ -92,7 +92,7 @@ export default function QualityPage() {
                 badge="Our Commitment"
                 title1="At Export Optimum,"
                 title2="Quality is non-negotiable."
-                subtitle="From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. Our operations are centered around six uncompromising quality pillars."
+                subtitle="From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. "
               />
 
 
@@ -121,7 +121,7 @@ export default function QualityPage() {
                     </h2>
                     
                     <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
-                    Our operations are centered around six uncompromising quality pillars, Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
+                    Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
                     </p>
                   </motion.div>
                   
