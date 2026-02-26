@@ -73,6 +73,7 @@ import {
   Layers,
   Sparkles,
   ArrowUpDown,
+  SortAsc,
 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -113,7 +114,7 @@ export default function ManageProductsPage() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
-  const [sortOption, setSortOption] = useState('order-asc');
+  const [sortOption, setSortOption] = useState('category-order');
   const [currentPage, setCurrentPage] = useState(1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -138,6 +139,11 @@ export default function ManageProductsPage() {
 
     products.sort((a, b) => {
       switch (sortOption) {
+        case 'category-order':
+          if ((a.category || '') !== (b.category || '')) {
+            return (a.category || '').localeCompare(b.category || '');
+          }
+          return (a.order ?? 999) - (b.order ?? 999);
         case 'order-asc':
           return (a.order ?? 999) - (b.order ?? 999);
         case 'newest':
@@ -216,6 +222,10 @@ export default function ManageProductsPage() {
     }
   };
 
+  const toggleSort = (option: string) => {
+    setSortOption(prev => prev === option ? (option.endsWith('-asc') ? option.replace('-asc', '-desc') : option.replace('-desc', '-asc')) : option);
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -253,6 +263,7 @@ export default function ManageProductsPage() {
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="category-order">Category & Order</SelectItem>
             <SelectItem value="order-asc">Custom Order (Low to High)</SelectItem>
             <SelectItem value="newest">Newest First</SelectItem>
             <SelectItem value="oldest">Oldest First</SelectItem>
@@ -268,10 +279,22 @@ export default function ManageProductsPage() {
             <TableHeader className="bg-muted/30">
               <TableRow>
                 <TableHead className="w-[100px] py-4 text-center">Image</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead className="hidden lg:table-cell">Category</TableHead>
-                <TableHead className="w-[80px] text-center">Order</TableHead>
-                <TableHead className="text-right pr-8">Actions</TableHead>
+                <TableHead>
+                  <button onClick={() => toggleSort('name-asc')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest">
+                    Name <ArrowUpDown className="h-3 w-3" />
+                  </button>
+                </TableHead>
+                <TableHead className="hidden lg:table-cell">
+                  <button onClick={() => toggleSort('category-order')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest">
+                    Category <ArrowUpDown className="h-3 w-3" />
+                  </button>
+                </TableHead>
+                <TableHead className="w-[100px] text-center">
+                  <button onClick={() => toggleSort('order-asc')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest mx-auto">
+                    Order <ArrowUpDown className="h-3 w-3" />
+                  </button>
+                </TableHead>
+                <TableHead className="text-right pr-8 uppercase text-[10px] font-black tracking-widest">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -309,7 +332,7 @@ export default function ManageProductsPage() {
                       </span>
                     </TableCell>
                     <TableCell className="text-center font-mono text-sm text-muted-foreground">
-                      {product.order ?? '—'}
+                      <Badge variant="outline" className="bg-muted/50 border-primary/10">{product.order ?? '—'}</Badge>
                     </TableCell>
                     <TableCell className="text-right pr-8">
                       <div className="flex items-center justify-end gap-2">
