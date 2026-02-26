@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -9,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X, ArrowUpDown } from 'lucide-react';
+import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X, ArrowUpDown, Droplet } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
@@ -18,6 +19,21 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+const AvocadoIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 2c-3.5 0-6.5 3.5-6.5 7.5 0 5 3 12.5 6.5 12.5s6.5-7.5 6.5-12.5C18.5 5.5 15.5 2 12 2z" />
+    <circle cx="12" cy="13" r="3.5" />
+  </svg>
+);
 
 type Product = {
     id: string;
@@ -30,6 +46,7 @@ type Product = {
     period?: string;
     storage?: string;
     sizes?: string;
+    brix?: string;
     order?: number;
 };
 
@@ -64,6 +81,7 @@ export default function EditProductPage() {
     const [storageTemp, setStorageTemp] = useState('');
     const [enabledSizes, setEnabledSizes] = useState(false);
     const [sizes, setSizes] = useState('');
+    const [brix, setBrix] = useState('');
 
     useEffect(() => {
         if (product) {
@@ -86,6 +104,9 @@ export default function EditProductPage() {
             if (product.sizes) {
                 setEnabledSizes(true);
                 setSizes(product.sizes);
+            }
+            if (product.brix) {
+                setBrix(product.brix);
             }
         }
     }, [product]);
@@ -171,9 +192,10 @@ export default function EditProductPage() {
                 imageUrl: finalImageUrl,
                 slug: slug,
                 imageHint: `${category.toLowerCase()} ${productName.toLowerCase().split(' ')[0]}`,
-                period: enabledPeriod ? period : '',
-                storage: enabledStorage ? storageTemp : '',
-                sizes: enabledSizes ? sizes : '',
+                period: category !== 'berries' && enabledPeriod ? period : '',
+                storage: category !== 'berries' && enabledStorage ? storageTemp : '',
+                sizes: category !== 'berries' && enabledSizes ? sizes : '',
+                brix: category === 'berries' ? brix : '',
                 updatedAt: serverTimestamp(),
             };
 
@@ -300,50 +322,70 @@ export default function EditProductPage() {
                             </CardHeader>
                             <CardContent className="p-6">
                                 <div className="grid grid-cols-1 gap-4 bg-muted/30 p-4 rounded-xl border border-muted-foreground/10 shadow-inner">
-                                    <div className="space-y-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox 
-                                                id="enable-period" 
-                                                checked={enabledPeriod} 
-                                                onCheckedChange={(checked) => {
-                                                    setEnabledPeriod(!!checked);
-                                                    if(!checked) setPeriod('');
-                                                }} 
+                                    {category === 'berries' ? (
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="brix" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                                                <Droplet className="h-3 w-3 text-primary" /> Brix
+                                            </Label>
+                                            <Input 
+                                                id="brix" 
+                                                name="brix" 
+                                                value={brix} 
+                                                onChange={(e) => setBrix(e.target.value)} 
+                                                placeholder="e.g. 12-14%" 
+                                                className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm" 
                                             />
-                                            <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
                                         </div>
-                                        <Input id="period" name="period" value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
-                                    </div>
+                                    ) : (
+                                        <>
+                                            <div className="space-y-1.5">
+                                                <div className="flex items-center gap-2">
+                                                    <Checkbox 
+                                                        id="enable-period" 
+                                                        checked={enabledPeriod} 
+                                                        onCheckedChange={(checked) => {
+                                                            setEnabledPeriod(!!checked);
+                                                            if(!checked) setPeriod('');
+                                                        }} 
+                                                    />
+                                                    <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
+                                                </div>
+                                                <Input id="period" name="period" value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
+                                            </div>
 
-                                    <div className="space-y-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox 
-                                                id="enable-storage" 
-                                                checked={enabledStorage} 
-                                                onCheckedChange={(checked) => {
-                                                    setEnabledStorage(!!checked);
-                                                    if(!checked) setStorageTemp('');
-                                                }} 
-                                            />
-                                            <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
-                                        </div>
-                                        <Input id="storage" name="storage" value={storageTemp} onChange={(e) => setStorageTemp(e.target.value)} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
-                                    </div>
+                                            <div className="space-y-1.5">
+                                                <div className="flex items-center gap-2">
+                                                    <Checkbox 
+                                                        id="enable-storage" 
+                                                        checked={enabledStorage} 
+                                                        onCheckedChange={(checked) => {
+                                                            setEnabledStorage(!!checked);
+                                                            if(!checked) setStorageTemp('');
+                                                        }} 
+                                                    />
+                                                    <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
+                                                </div>
+                                                <Input id="storage" name="storage" value={storageTemp} onChange={(e) => setStorageTemp(e.target.value)} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
+                                            </div>
 
-                                    <div className="space-y-1.5">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox 
-                                                id="enable-sizes" 
-                                                checked={enabledSizes} 
-                                                onCheckedChange={(checked) => {
-                                                    setEnabledSizes(!!checked);
-                                                    if(!checked) setSizes('');
-                                                }} 
-                                            />
-                                            <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Available Sizes</Label>
-                                        </div>
-                                        <Input id="sizes" name="sizes" value={sizes} onChange={(e) => setSizes(e.target.value)} placeholder="e.g. C12 - C28" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
-                                    </div>
+                                            <div className="space-y-1.5">
+                                                <div className="flex items-center gap-2">
+                                                    <Checkbox 
+                                                        id="enable-sizes" 
+                                                        checked={enabledSizes} 
+                                                        onCheckedChange={(checked) => {
+                                                            setEnabledSizes(!!checked);
+                                                            if(!checked) setSizes('');
+                                                        }} 
+                                                    />
+                                                    <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer flex items-center gap-1">
+                                                        <AvocadoIcon className="h-3 w-3" /> Available Sizes
+                                                    </Label>
+                                                </div>
+                                                <Input id="sizes" name="sizes" value={sizes} onChange={(e) => setSizes(e.target.value)} placeholder="e.g. C12 - C28" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledSizes} />
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>

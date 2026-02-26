@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -67,6 +68,10 @@
         "sizes": {
           "type": "string",
           "description": "Available sizes (e.g. C12-C28)."
+        },
+        "brix": {
+          "type": "string",
+          "description": "Brix content for berries (e.g. 12-14%)."
         },
         "order": {
           "type": "number",

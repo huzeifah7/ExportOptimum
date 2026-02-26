@@ -13,7 +13,7 @@ import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CalendarDays, Thermometer } from 'lucide-react';
+import { CalendarDays, Thermometer, Droplet } from 'lucide-react';
 
 const AvocadoIcon = ({ className }: { className?: string }) => (
   <svg
@@ -42,6 +42,7 @@ type Product = {
   period?: string;
   storage?: string;
   sizes?: string;
+  brix?: string;
 };
 
 const ProductDetailSkeleton = () => (
@@ -98,7 +99,8 @@ export default function ProductDetailsPage() {
     );
   }
 
-  const hasFeatures = product.period || product.storage || product.sizes;
+  const isBerries = product.category === 'berries';
+  const hasFeatures = isBerries ? !!product.brix : (product.period || product.storage || product.sizes);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -151,41 +153,57 @@ export default function ProductDetailsPage() {
                 <p>{product.description}</p>
               </div>
 
-              {/* Integrated "Our Features" Section under content */}
+              {/* Integrated Features Section */}
               {hasFeatures && (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10 py-8 border-y border-border/50">
-                    {product.period && (
-                        <div className="flex flex-col items-center sm:items-start gap-3">
-                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                                <CalendarDays className="w-6 h-6 text-primary" />
+                    {isBerries ? (
+                        product.brix && (
+                            <div className="flex flex-col items-center sm:items-start gap-3">
+                                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                    <Droplet className="w-6 h-6 text-primary" />
+                                </div>
+                                <div className="text-center sm:text-left">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Brix</p>
+                                    <p className="text-sm font-bold text-foreground leading-tight">{product.brix}</p>
+                                </div>
                             </div>
-                            <div className="text-center sm:text-left">
-                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Periode</p>
-                                <p className="text-sm font-bold text-foreground leading-tight">{product.period}</p>
-                            </div>
-                        </div>
-                    )}
-                    {product.storage && (
-                        <div className="flex flex-col items-center sm:items-start gap-3">
-                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                                <Thermometer className="w-6 h-6 text-primary" />
-                            </div>
-                            <div className="text-center sm:text-left">
-                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Storage</p>
-                                <p className="text-sm font-bold text-foreground leading-tight">{product.storage}</p>
-                            </div>
-                        </div>
-                    )}
-                    {product.sizes && (
-                        <div className="flex flex-col items-center sm:items-start gap-3">
-                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                                <AvocadoIcon className="w-6 h-6 text-primary" />
-                            </div>
-                            <div className="text-center sm:text-left">
-                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Sizes</p>
-                                <p className="text-sm font-bold text-foreground leading-tight">{product.sizes}</p>
-                            </div>
-                        </div>
+                        )
+                    ) : (
+                        <>
+                            {product.period && (
+                                <div className="flex flex-col items-center sm:items-start gap-3">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                        <CalendarDays className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Periode</p>
+                                        <p className="text-sm font-bold text-foreground leading-tight">{product.period}</p>
+                                    </div>
+                                </div>
+                            )}
+                            {product.storage && (
+                                <div className="flex flex-col items-center sm:items-start gap-3">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                        <Thermometer className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Storage</p>
+                                        <p className="text-sm font-bold text-foreground leading-tight">{product.storage}</p>
+                                    </div>
+                                </div>
+                            )}
+                            {product.sizes && (
+                                <div className="flex flex-col items-center sm:items-start gap-3">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                        <AvocadoIcon className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Sizes</p>
+                                        <p className="text-sm font-bold text-foreground leading-tight">{product.sizes}</p>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
               )}
