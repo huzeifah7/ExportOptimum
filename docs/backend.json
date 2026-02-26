@@ -44,6 +44,11 @@
           "type": "string",
           "description": "The category the product belongs to (e.g., 'avocado', 'berries', 'melon')."
         },
+        "berryType": {
+          "type": "string",
+          "enum": ["raspberry", "blueberry", "strawberry"],
+          "description": "The specific type of berry (only for Berries category)."
+        },
         "imageUrl": {
           "type": "string",
           "description": "URL of the product image.",

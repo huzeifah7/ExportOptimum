@@ -98,7 +98,7 @@ const AvocadoIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-type FirestoreProduct = DocumentData & { id: string; order?: number };
+type FirestoreProduct = DocumentData & { id: string; order?: number; berryType?: string };
 
 const ITEMS_PER_PAGE = 10;
 
@@ -441,13 +441,13 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
   useEffect(() => {
     if (isOpen) {
       if (isEditing && product) {
-        setFormData({ ...product, order: product.order ?? 0 });
+        setFormData({ ...product, order: product.order ?? 0, berryType: product.berryType || '' });
         setImagePreview(product.imageUrl || null);
         setEnabledPeriod(!!product.period);
         setEnabledStorage(!!product.storage);
         setEnabledSizes(!!product.sizes);
       } else {
-        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', period: '', storage: '', sizes: '', brix: '', order: 0 });
+        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', period: '', storage: '', sizes: '', brix: '', order: 0 });
         setImagePreview(null);
         setEnabledPeriod(false);
         setEnabledStorage(false);
@@ -503,6 +503,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
         subtitle: formData.category === 'avocado' ? formData.subtitle || '' : '',
         description: formData.description || '',
         category: formData.category || 'avocado',
+        berryType: formData.category === 'berries' ? formData.berryType || '' : '',
         period: formData.category !== 'berries' && enabledPeriod ? formData.period || '' : '',
         storage: formData.category !== 'berries' && enabledStorage ? formData.storage || '' : '',
         sizes: formData.category !== 'berries' && enabledSizes ? formData.sizes || '' : '',
@@ -570,10 +571,13 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                         </div>
                       )}
 
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                           <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
-                          <Select onValueChange={(v) => handleInputChange({ target: { name: 'category', value: v } } as any)} value={formData.category || ''}>
+                          <Select onValueChange={(v) => {
+                            handleInputChange({ target: { name: 'category', value: v } } as any);
+                            if (v !== 'berries') setFormData(prev => ({...prev, berryType: ''}));
+                          }} value={formData.category || ''}>
                             <SelectTrigger className="h-10 rounded-xl bg-muted/5">
                               <SelectValue placeholder="Category" />
                             </SelectTrigger>
@@ -584,6 +588,23 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                             </SelectContent>
                           </Select>
                         </div>
+
+                        {formData.category === 'berries' && (
+                          <div className="space-y-1.5">
+                            <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Berries Variety</Label>
+                            <Select onValueChange={(v) => handleInputChange({ target: { name: 'berryType', value: v } } as any)} value={formData.berryType || ''}>
+                              <SelectTrigger className="h-10 rounded-xl bg-muted/5">
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent className="rounded-xl">
+                                <SelectItem value="raspberry">Raspberry</SelectItem>
+                                <SelectItem value="blueberry">Blueberry</SelectItem>
+                                <SelectItem value="strawberry">Strawberry</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        )}
+
                         <div className="space-y-1.5">
                           <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground flex items-center gap-1.5">
                             <ArrowUpDown className="h-3 w-3" /> Ordering Number

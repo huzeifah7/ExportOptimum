@@ -41,6 +41,7 @@ type Product = {
     subtitle?: string;
     description: string;
     category: string;
+    berryType?: string;
     imageUrl?: string;
     slug: string;
     period?: string;
@@ -69,6 +70,7 @@ export default function EditProductPage() {
     const [subtitle, setSubtitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('avocado');
+    const [berryType, setBerryType] = useState('');
     const [order, setOrder] = useState(0);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -89,6 +91,7 @@ export default function EditProductPage() {
             setSubtitle(product.subtitle || '');
             setDescription(product.description);
             setCategory(product.category);
+            setBerryType(product.berryType || '');
             setOrder(product.order ?? 0);
             if(product.imageUrl) {
                 setImagePreview(product.imageUrl);
@@ -188,6 +191,7 @@ export default function EditProductPage() {
                 subtitle: category === 'avocado' ? subtitle : '',
                 description,
                 category,
+                berryType: category === 'berries' ? berryType : '',
                 order: order,
                 imageUrl: finalImageUrl,
                 slug: slug,
@@ -268,10 +272,13 @@ export default function EditProductPage() {
                                         </div>
                                     )}
 
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-1.5">
                                             <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
-                                            <Select onValueChange={setCategory} value={category} required disabled={isSubmitting}>
+                                            <Select onValueChange={(v) => {
+                                                setCategory(v);
+                                                if (v !== 'berries') setBerryType('');
+                                            }} value={category} required disabled={isSubmitting}>
                                                 <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
                                                     <SelectValue placeholder="Select a category" />
                                                 </SelectTrigger>
@@ -282,6 +289,23 @@ export default function EditProductPage() {
                                                 </SelectContent>
                                             </Select>
                                         </div>
+
+                                        {category === 'berries' && (
+                                            <div className="space-y-1.5">
+                                                <Label htmlFor="berry-type" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Berries Variety</Label>
+                                                <Select onValueChange={setBerryType} value={berryType} required disabled={isSubmitting}>
+                                                    <SelectTrigger id="berry-type" className="h-11 rounded-xl bg-muted/5">
+                                                        <SelectValue placeholder="Select berry type" />
+                                                    </SelectTrigger>
+                                                    <SelectContent className="rounded-xl">
+                                                        <SelectItem value="raspberry">Raspberry</SelectItem>
+                                                        <SelectItem value="blueberry">Blueberry</SelectItem>
+                                                        <SelectItem value="strawberry">Strawberry</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        )}
+
                                         <div className="space-y-1.5">
                                             <Label htmlFor="product-order" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground flex items-center gap-1">
                                                 <ArrowUpDown className="h-3 w-3" /> Ordering Number
@@ -348,7 +372,7 @@ export default function EditProductPage() {
                                                             if(!checked) setPeriod('');
                                                         }} 
                                                     />
-                                                    <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Periode</Label>
+                                                    <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Periode</Label>
                                                 </div>
                                                 <Input id="period" name="period" value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="e.g. December to April" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledPeriod} />
                                             </div>
@@ -363,7 +387,7 @@ export default function EditProductPage() {
                                                             if(!checked) setStorageTemp('');
                                                         }} 
                                                     />
-                                                    <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer">Storage Temp</Label>
+                                                    <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Storage Temp</Label>
                                                 </div>
                                                 <Input id="storage" name="storage" value={storageTemp} onChange={(e) => setStorageTemp(e.target.value)} placeholder="e.g. 6°C" className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm disabled:opacity-50 disabled:bg-gray-100" disabled={!enabledStorage} />
                                             </div>
@@ -378,7 +402,7 @@ export default function EditProductPage() {
                                                             if(!checked) setSizes('');
                                                         }} 
                                                     />
-                                                    <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground cursor-pointer flex items-center gap-1">
+                                                    <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer flex items-center gap-1">
                                                         <AvocadoIcon className="h-3 w-3" /> Available Sizes
                                                     </Label>
                                                 </div>
@@ -422,7 +446,7 @@ export default function EditProductPage() {
                                             <div 
                                               className="absolute inset-0 cursor-pointer" 
                                               onClick={() => fileInputRef.current?.click()} 
-                                            />
+                                                />
                                         </>
                                     ) : (
                                         <div
