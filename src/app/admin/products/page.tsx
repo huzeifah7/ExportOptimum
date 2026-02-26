@@ -56,6 +56,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import {
@@ -73,7 +74,6 @@ import {
   Layers,
   Sparkles,
   ArrowUpDown,
-  SortAsc,
 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -146,6 +146,8 @@ export default function ManageProductsPage() {
           return (a.order ?? 999) - (b.order ?? 999);
         case 'order-asc':
           return (a.order ?? 999) - (b.order ?? 999);
+        case 'order-desc':
+          return (b.order ?? 999) - (a.order ?? 999);
         case 'newest':
           return ((b.createdAt as Timestamp)?.toMillis() || 0) - ((a.createdAt as Timestamp)?.toMillis() || 0);
         case 'oldest':
@@ -154,6 +156,10 @@ export default function ManageProductsPage() {
           return (a.name || '').localeCompare(b.name || '');
         case 'name-desc':
           return (b.name || '').localeCompare(a.name || '');
+        case 'category-asc':
+          return (a.category || '').localeCompare(b.category || '');
+        case 'category-desc':
+          return (b.category || '').localeCompare(a.category || '');
         default:
           return 0;
       }
@@ -223,7 +229,11 @@ export default function ManageProductsPage() {
   };
 
   const toggleSort = (option: string) => {
-    setSortOption(prev => prev === option ? (option.endsWith('-asc') ? option.replace('-asc', '-desc') : option.replace('-desc', '-asc')) : option);
+    setSortOption(prev => {
+      if (prev === `${option}-asc`) return `${option}-desc`;
+      if (prev === `${option}-desc`) return `${option}-asc`;
+      return `${option}-asc`;
+    });
   };
 
   return (
@@ -265,6 +275,7 @@ export default function ManageProductsPage() {
           <SelectContent>
             <SelectItem value="category-order">Category & Order</SelectItem>
             <SelectItem value="order-asc">Custom Order (Low to High)</SelectItem>
+            <SelectItem value="order-desc">Custom Order (High to Low)</SelectItem>
             <SelectItem value="newest">Newest First</SelectItem>
             <SelectItem value="oldest">Oldest First</SelectItem>
             <SelectItem value="name-asc">Name: A-Z</SelectItem>
@@ -280,17 +291,17 @@ export default function ManageProductsPage() {
               <TableRow>
                 <TableHead className="w-[100px] py-4 text-center">Image</TableHead>
                 <TableHead>
-                  <button onClick={() => toggleSort('name-asc')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest">
+                  <button onClick={() => toggleSort('name')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest">
                     Name <ArrowUpDown className="h-3 w-3" />
                   </button>
                 </TableHead>
                 <TableHead className="hidden lg:table-cell">
-                  <button onClick={() => toggleSort('category-order')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest">
+                  <button onClick={() => toggleSort('category')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest">
                     Category <ArrowUpDown className="h-3 w-3" />
                   </button>
                 </TableHead>
                 <TableHead className="w-[100px] text-center">
-                  <button onClick={() => toggleSort('order-asc')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest mx-auto">
+                  <button onClick={() => toggleSort('order')} className="flex items-center gap-1 hover:text-primary transition-colors uppercase text-[10px] font-black tracking-widest mx-auto">
                     Order <ArrowUpDown className="h-3 w-3" />
                   </button>
                 </TableHead>
@@ -549,7 +560,6 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast 
                         <Input name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Hass Avocado" className="h-10 rounded-xl bg-muted/5 font-semibold" required />
                       </div>
                       
-                      {/* Conditional Subtitle Logic */}
                       {formData.category === 'avocado' && (
                         <div className="space-y-1.5">
                           <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Subtitle / Catchphrase</Label>
