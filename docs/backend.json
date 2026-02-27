@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -114,9 +115,18 @@
         "whatsapp": {
           "type": "string",
           "description": "WhatsApp phone number for the team member."
+        },
+        "isManager": {
+          "type": "boolean",
+          "description": "Whether this member is a department manager."
+        },
+        "department": {
+          "type": "string",
+          "enum": ["Buying", "Administrative", "RH", "Production", "Quality", "Other"],
+          "description": "The department the member belongs to."
         }
       },
-      "required": ["name", "role", "bio", "photoUrl"]
+      "required": ["name", "role", "bio", "photoUrl", "department"]
     },
     "SustainabilityImage": {
       "title": "Sustainability Image",

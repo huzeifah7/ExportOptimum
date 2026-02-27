@@ -160,7 +160,6 @@ const VarietySection = ({
                 {label}
               </h2>
             </div>
-            <p className="text-sm text-gray-500 font-light max-w-md">{description}</p>
           </div>
 
           {/* Divider line */}

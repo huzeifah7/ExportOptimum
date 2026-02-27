@@ -88,7 +88,7 @@ export default function BlogPage() {
                 className="flex items-center justify-center gap-3 mb-10"
               >
                 <span className="w-6 h-px bg-[hsl(88,92%,28%)]" />
-                <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
+                <span className="inline-flex items-center gap-2 text-md font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
                   <BookOpen className="w-3.5 h-3.5" />
                   Our Blog
                 </span>

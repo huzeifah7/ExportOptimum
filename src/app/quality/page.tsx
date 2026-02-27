@@ -53,7 +53,7 @@ const processSteps = [
   {
     icon: MessagesSquare,
     title: 'Communication Beyond the Sales  ',
-    description: "Export Optimum, our commitment doesn't end once the shipment is booked or delivered. We maintain clear, proactive communication throughout the entire process, addressing concerns and offering support whenever it's needed. Our team remains readily available to provide guidance, timely updates, and solution ensuring our clients feel informed, supported, and confident from start to finish.",
+    description: "At Export Optimum, our commitment doesn't end once the shipment is booked or delivered. We maintain clear, proactive communication throughout the entire process, addressing concerns and offering support whenever it's needed. Our team remains readily available to provide guidance, timely updates, and solution ensuring our clients feel informed, supported, and confident from start to finish.",
   }
 ];
 
@@ -97,7 +97,7 @@ export default function QualityPage() {
 
 
               {/* Quality Pillars Section */}
-              <section className="py-20 lg:py-32 bg-primary/5">
+              <section className="py-20  bg-primary/5">
                 <div className="w-full">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -107,8 +107,8 @@ export default function QualityPage() {
                     className="text-center mb-16 px-4"
                   >
                     <div className="inline-block mb-6">
-                      <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
-                        <Sparkles className="w-4 h-4 mr-2" />
+                      <span className="inline-flex items-center px-4 py-2 rounded-full text-lgx font-medium bg-primary/10 text-primary backdrop-blur-sm border border-primary/20">
+                        
                         Our Standards
                       </span>
                     </div>

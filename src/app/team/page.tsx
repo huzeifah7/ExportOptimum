@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -25,6 +25,8 @@ type TeamMember = {
   photoUrl: string;
   linkedin?: string;
   whatsapp?: string;
+  isManager?: boolean;
+  department: string;
 };
 
 export default function TeamPage() {
@@ -41,7 +43,23 @@ export default function TeamPage() {
     return collection(firestore, 'teamMembers');
   }, [firestore]);
 
-  const { data: teamMembers, isLoading } = useCollection<TeamMember>(teamMembersQuery);
+  const { data: allTeamMembers, isLoading } = useCollection<TeamMember>(teamMembersQuery);
+
+  // Filter to only show managers on the main page
+  const managers = useMemo(() => {
+    if (!allTeamMembers) return [];
+    return allTeamMembers.filter(m => m.isManager === true);
+  }, [allTeamMembers]);
+
+  // When a manager is selected, find all their department staff
+  const departmentStaff = useMemo(() => {
+    if (!selectedMember || !allTeamMembers) return [];
+    return allTeamMembers.filter(m => 
+      m.department === selectedMember.department && 
+      m.id !== selectedMember.id &&
+      m.isManager !== true
+    );
+  }, [selectedMember, allTeamMembers]);
 
   const handleCardClick = useCallback((member: TeamMember) => {
     setSelectedMember(member);
@@ -54,7 +72,7 @@ export default function TeamPage() {
   return (
     <>
       <div className="flex min-h-screen flex-col bg-white relative overflow-hidden">
-        {/* Optimized Animated Background - Uses CSS for performance */}
+        {/* Optimized Animated Background */}
         <div className="fixed inset-0 pointer-events-none z-0" aria-hidden>
           <div 
             className="absolute top-0 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.08] will-change-transform"
@@ -70,25 +88,6 @@ export default function TeamPage() {
               animation: 'float-orb-dynamic 20s ease-in-out infinite 5s'
             }} 
           />
-          
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div 
-              className="absolute inset-0"
-              style={{
-                background: 'linear-gradient(45deg, hsl(88,92%,50%) 0%, transparent 50%, hsl(88,92%,40%) 100%)',
-                animation: 'wave-move 20s linear infinite'
-              }}
-            />
-          </div>
-
-          <div 
-            className="absolute inset-0 opacity-[0.02]"
-            style={{
-              backgroundImage: `linear-gradient(0deg, hsl(88,92%,50%) 1px, transparent 1px), linear-gradient(90deg, hsl(88,92%,50%) 1px, transparent 1px)`,
-              backgroundSize: '80px 80px',
-              animation: 'grid-pulse 8s ease-in-out infinite'
-            }}
-          />
         </div>
 
         <Header />
@@ -102,11 +101,9 @@ export default function TeamPage() {
                 transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 className="text-center relative"
               >
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-32 h-32 bg-[hsl(88,92%,50%)] opacity-5 rounded-full blur-3xl" />
-
                 <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] text-white text-sm font-bold mb-6 shadow-lg">
                   <Sparkles className="w-4 h-4" />
-                  Meet Our Team
+                  Meet Our Leaders
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[0.95] tracking-tight mb-6">
@@ -117,7 +114,7 @@ export default function TeamPage() {
                 </h1>
 
                 <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mt-8">
-                  A dedicated team of visionaries cultivating excellence in every order.  
+                  A dedicated team of visionaries cultivating excellence in every order. Click on a manager to meet their department team.
                 </p>
               </motion.div>
             </div>
@@ -125,9 +122,9 @@ export default function TeamPage() {
 
           <section className="py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
-              {!isLoading && teamMembers && teamMembers.length > 0 ? (
+              {!isLoading && managers && managers.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {teamMembers.map((member, index) => (
+                  {managers.map((member, index) => (
                     <TeamCard 
                       key={member.id} 
                       member={member} 
@@ -187,6 +184,7 @@ export default function TeamPage() {
           <TeamMemberModal
             member={selectedMember}
             onClose={handleCloseModal}
+            departmentStaff={departmentStaff}
           />
         </Suspense>
       )}

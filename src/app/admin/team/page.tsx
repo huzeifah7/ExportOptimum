@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -20,7 +21,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
-import { Linkedin, MessageCircle, Trash2, Edit, Loader2 } from 'lucide-react';
+import { Linkedin, MessageCircle, Trash2, Edit, Loader2, UserCheck, ShieldCheck } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -32,9 +33,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import { Badge } from '@/components/ui/badge';
 
 type TeamMember = {
   id: string;
@@ -44,6 +48,8 @@ type TeamMember = {
   photoUrl: string;
   linkedin?: string;
   whatsapp?: string;
+  isManager?: boolean;
+  department: "Buying" | "Administrative" | "RH" | "Production" | "Quality" | "Other";
 };
 
 const initialFormState: Partial<TeamMember> = {
@@ -53,6 +59,8 @@ const initialFormState: Partial<TeamMember> = {
   linkedin: '',
   whatsapp: '',
   photoUrl: '',
+  isManager: false,
+  department: 'Other',
 };
 
 export default function ManageTeamPage() {
@@ -90,6 +98,14 @@ export default function ManageTeamPage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setFormData((prev) => ({ ...prev, isManager: checked }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, department: value as any }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +158,7 @@ export default function ManageTeamPage() {
       return;
     }
     
-    if (!formData.name || !formData.role || !formData.bio) {
+    if (!formData.name || !formData.role || !formData.bio || !formData.department) {
       toast({ variant: 'destructive', title: 'Please fill all required fields.' });
       return;
     }
@@ -171,6 +187,8 @@ export default function ManageTeamPage() {
         photoUrl: photoUrl,
         linkedin: formData.linkedin || '',
         whatsapp: formData.whatsapp || '',
+        isManager: formData.isManager || false,
+        department: formData.department,
       };
 
       const memberDocRef = doc(firestore, 'teamMembers', memberId);
@@ -259,7 +277,7 @@ export default function ManageTeamPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {teamMembers?.map((member) => (
-            <Card key={member.id} className="flex flex-col">
+            <Card key={member.id} className="flex flex-col relative overflow-hidden group">
               <div className="relative w-full h-64">
                 <Image
                   src={member.photoUrl}
@@ -267,11 +285,19 @@ export default function ManageTeamPage() {
                   fill
                   className="object-cover rounded-t-lg"
                 />
+                {member.isManager && (
+                  <Badge className="absolute top-4 left-4 bg-primary text-white shadow-lg">
+                    <ShieldCheck className="w-3 h-3 mr-1" /> Manager
+                  </Badge>
+                )}
               </div>
               <CardContent className="p-6 flex-grow flex flex-col">
-                <h3 className="text-xl font-bold font-headline">{member.name}</h3>
-                <p className="text-primary font-semibold">{member.role}</p>
-                <p className="text-muted-foreground mt-2 text-sm flex-grow">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-bold font-headline">{member.name}</h3>
+                  <Badge variant="secondary" className="text-[10px] uppercase tracking-wider">{member.department}</Badge>
+                </div>
+                <p className="text-primary font-semibold text-sm">{member.role}</p>
+                <p className="text-muted-foreground mt-2 text-sm flex-grow line-clamp-3">
                   {member.bio}
                 </p>
                 <div className="flex items-center gap-4 mt-4">
@@ -302,41 +328,80 @@ export default function ManageTeamPage() {
 
       {/* Add/Edit Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>{currentMember ? 'Edit Staff' : 'Add New Staff'}</DialogTitle>
+            <DialogTitle>{currentMember ? 'Edit Staff Member' : 'Add New Staff Member'}</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+          <form onSubmit={handleSubmit} className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto px-1">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" name="name" value={formData.name} onChange={handleInputChange} required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="department">Department</Label>
+                <Select onValueChange={handleSelectChange} value={formData.department}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Buying">Buying</SelectItem>
+                    <SelectItem value="Administrative">Administrative</SelectItem>
+                    <SelectItem value="RH">RH</SelectItem>
+                    <SelectItem value="Production">Production</SelectItem>
+                    <SelectItem value="Quality">Quality</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 bg-muted/50 p-3 rounded-lg border">
+              <Checkbox 
+                id="isManager" 
+                checked={formData.isManager} 
+                onCheckedChange={handleCheckboxChange}
+              />
+              <div className="grid gap-1.5 leading-none">
+                <label htmlFor="isManager" className="text-sm font-bold leading-none cursor-pointer">
+                  Department Manager
+                </label>
+                <p className="text-xs text-muted-foreground">
+                  Managers are highlighted and shown on the main team page.
+                </p>
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" name="name" value={formData.name} onChange={handleInputChange} required />
+              <Label htmlFor="role">Job Title / Role</Label>
+              <Input id="role" name="role" value={formData.role} onChange={handleInputChange} required placeholder="e.g., Export Manager" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
-              <Input id="role" name="role" value={formData.role} onChange={handleInputChange} required />
+              <Label htmlFor="bio">Biography</Label>
+              <Textarea id="bio" name="bio" value={formData.bio} onChange={handleInputChange} required className="min-h-[100px]" />
             </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="linkedin">LinkedIn URL</Label>
+                <Input id="linkedin" name="linkedin" value={formData.linkedin} onChange={handleInputChange} placeholder="https://linkedin.com/in/..." />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="whatsapp">WhatsApp Number</Label>
+                <Input id="whatsapp" name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} placeholder="e.g., 212600000000" />
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="bio">Bio</Label>
-              <Textarea id="bio" name="bio" value={formData.bio} onChange={handleInputChange} required />
-            </div>
-             <div className="space-y-2">
-              <Label htmlFor="linkedin">LinkedIn URL</Label>
-              <Input id="linkedin" name="linkedin" value={formData.linkedin} onChange={handleInputChange} />
-            </div>
-             <div className="space-y-2">
-              <Label htmlFor="whatsapp">WhatsApp Number</Label>
-              <Input id="whatsapp" name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} placeholder="e.g., 212600000000" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="photo">Photo</Label>
-              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} />
+              <Label htmlFor="photo">Profile Photo</Label>
+              <Input id="photo" type="file" accept="image/*" onChange={handleImageChange} ref={fileInputRef} className="cursor-pointer" />
               {imagePreview && (
-                <div className="mt-2">
-                  <Image src={imagePreview} alt="Preview" width={100} height={100} className="rounded-md object-cover" />
+                <div className="mt-2 relative w-24 h-24 rounded-lg overflow-hidden border">
+                  <Image src={imagePreview} alt="Preview" fill className="object-cover" />
                 </div>
               )}
             </div>
-            <DialogFooter>
+            <DialogFooter className="sticky bottom-0 bg-background pt-4 border-t">
               <DialogClose asChild>
                 <Button type="button" variant="secondary" onClick={closeModal}>Cancel</Button>
               </DialogClose>
@@ -346,7 +411,7 @@ export default function ManageTeamPage() {
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Saving...
                   </>
-                ) : 'Save'}
+                ) : 'Save Staff Member'}
               </Button>
             </DialogFooter>
           </form>
@@ -361,7 +426,7 @@ export default function ManageTeamPage() {
             </DialogHeader>
             <p>
                 This action will permanently delete{' '}
-                <span className="font-semibold">{memberToDelete?.name}</span>.
+                <span className="font-semibold text-foreground">{memberToDelete?.name}</span> and remove them from the team.
             </p>
             <DialogFooter>
                 <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
@@ -369,7 +434,7 @@ export default function ManageTeamPage() {
                 </Button>
                 <Button variant="destructive" onClick={handleDelete} disabled={isSubmitting}>
                     {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Delete
+                    Delete Forever
                 </Button>
             </DialogFooter>
         </DialogContent>

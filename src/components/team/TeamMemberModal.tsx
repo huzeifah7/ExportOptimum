@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Linkedin, Mail, X } from 'lucide-react';
+import { Linkedin, Mail, X, Users2 } from 'lucide-react';
 
 type TeamMember = {
   id: string;
@@ -15,7 +15,14 @@ type TeamMember = {
   photoUrl: string;
   linkedin?: string;
   whatsapp?: string;
+  department: string;
 };
+
+interface TeamMemberModalProps {
+  member: TeamMember;
+  onClose: () => void;
+  departmentStaff?: TeamMember[];
+}
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg 
@@ -28,7 +35,7 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const TeamMemberModal = ({ member, onClose }: { member: TeamMember; onClose: () => void }) => {
+const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberModalProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -62,7 +69,7 @@ const TeamMemberModal = ({ member, onClose }: { member: TeamMember; onClose: () 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+            className="relative bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[95vh] overflow-hidden"
           >
             <button
               onClick={handleClose}
@@ -71,15 +78,16 @@ const TeamMemberModal = ({ member, onClose }: { member: TeamMember; onClose: () 
               <X className="w-5 h-5 text-gray-700 group-hover:text-gray-900 transition-colors" />
             </button>
 
-            <div className="grid md:grid-cols-2 gap-0">
-              <div className="relative aspect-square md:aspect-auto bg-gradient-to-br from-gray-100 to-gray-50">
+            <div className="grid md:grid-cols-5 gap-0 h-full">
+              {/* Photo Section */}
+              <div className="relative md:col-span-2 aspect-square md:aspect-auto bg-gradient-to-br from-gray-100 to-gray-50 h-full">
                 {member.photoUrl ? (
                   <Image
                     src={member.photoUrl}
                     alt={member.name}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 768px) 100vw, 40vw"
                     priority
                     data-ai-hint="person portrait"
                   />
@@ -93,14 +101,15 @@ const TeamMemberModal = ({ member, onClose }: { member: TeamMember; onClose: () 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
 
-              <div className="p-8 md:p-10 flex flex-col overflow-y-auto max-h-[90vh] md:max-h-none">
+              {/* Bio & Team Section */}
+              <div className="md:col-span-3 p-8 md:p-12 flex flex-col overflow-y-auto max-h-[95vh]">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[hsl(88,92%,95%)] border border-[hsl(88,92%,40%)] text-[hsl(88,92%,30%)] text-xs font-bold uppercase tracking-wider mb-4 self-start"
                 >
-                  {member.role}
+                  {member.department} · {member.role}
                 </motion.div>
 
                 <motion.h2
@@ -116,16 +125,50 @@ const TeamMemberModal = ({ member, onClose }: { member: TeamMember; onClose: () 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 flex-grow"
+                  className="text-gray-600 text-base md:text-lg leading-relaxed mb-10"
                 >
                   {member.bio}
                 </motion.p>
 
+                {/* Staff Section */}
+                {departmentStaff.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="mb-10 bg-gray-50/50 p-6 rounded-2xl border border-gray-100"
+                  >
+                    <h3 className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.2em] text-gray-400 mb-6">
+                      <Users2 className="w-4 h-4" />
+                      {member.department} Team
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {departmentStaff.map((staff) => (
+                        <div key={staff.id} className="flex items-center gap-3 bg-white p-3 rounded-xl border border-gray-100 shadow-sm">
+                          <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-primary/10">
+                            {staff.photoUrl ? (
+                              <Image src={staff.photoUrl} alt={staff.name} fill className="object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-primary font-bold text-xs">
+                                {staff.name.charAt(0)}
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-bold text-gray-900 truncate">{staff.name}</p>
+                            <p className="text-[10px] text-primary font-semibold truncate uppercase tracking-wider">{staff.role}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="flex gap-3 pt-6 border-t border-gray-100"
+                  transition={{ delay: 0.6 }}
+                  className="flex gap-3 pt-6 border-t border-gray-100 mt-auto"
                 >
                   {member.linkedin && (
                     <Link
@@ -150,7 +193,7 @@ const TeamMemberModal = ({ member, onClose }: { member: TeamMember; onClose: () 
                   {!member.linkedin && !member.whatsapp && (
                     <button className="flex-1 h-14 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] text-white flex items-center justify-center gap-2 font-semibold shadow-lg">
                       <Mail className="w-5 h-5" />
-                      <span className="hidden sm:inline">Contact</span>
+                      <span className="hidden sm:inline">Contact Office</span>
                     </button>
                   )}
                 </motion.div>

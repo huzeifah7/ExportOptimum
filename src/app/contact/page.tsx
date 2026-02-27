@@ -111,7 +111,7 @@ const ContactPage = () => {
               className="flex items-center justify-center gap-3 mb-10"
             >
               <span className="w-6 h-px bg-[hsl(88,92%,28%)]" />
-              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
+              <span className="inline-flex items-center gap-2 text-md font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
                 <MessageSquare className="w-3.5 h-3.5" />
                 Get in Touch
               </span>
@@ -331,58 +331,13 @@ const ContactPage = () => {
                   </div>
                 )}
 
-                {/* Why partner card */}
-                <div className="p-6 rounded-2xl bg-gray-50 border border-gray-100">
-                  <h4 className="font-bold text-gray-900 mb-4">Why Partner With Us?</h4>
-                  <div className="space-y-3 text-sm text-gray-600 font-light">
-                    <p>✓ Vertically Integrated Supply Chain</p>
-                    <p>✓ Global Export Expertise</p>
-                    <p>✓ Dedicated Partner Support</p>
-                  </div>
-                </div>
+                
               </motion.div>
 
             </div>
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            FAQ
-        ══════════════════════════════════════ */}
-        <section className="py-20 lg:py-28 bg-gray-50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 tracking-tight">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-gray-500 font-light">Quick answers to common inquiries</p>
-            </motion.div>
-
-            <Accordion type="single" collapsible className="space-y-4">
-              {faqItems.map((item, index) => (
-                <AccordionItem 
-                  key={index} 
-                  value={`item-${index}`}
-                  className="bg-white border border-gray-100 rounded-2xl px-6 data-[state=open]:shadow-lg transition-shadow"
-                >
-                  <AccordionTrigger className="text-left font-bold text-gray-900 hover:no-underline hover:text-[hsl(88,92%,25%)] py-5">
-                    {item.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-600 font-light leading-relaxed pb-5">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </section>
 
         {/* ══════════════════════════════════════
             MAP
