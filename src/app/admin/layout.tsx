@@ -15,6 +15,7 @@ import {
   PanelLeft,
   MessageSquare,
   Phone,
+  User,
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -42,6 +43,7 @@ const adminNavItems = [
   { href: '/admin/reviews', icon: Star, label: 'Reviews' },
   { href: '/admin/partners', icon: Handshake, label: 'Partners' },
   { href: '/admin/contact', icon: Phone, label: 'Contact Info'},
+  { href: '/admin/profile', icon: User, label: 'My Profile' },
 ];
 
 function SidebarNav({ isCollapsed }: { isCollapsed: boolean }) {
@@ -51,7 +53,7 @@ function SidebarNav({ isCollapsed }: { isCollapsed: boolean }) {
       <ScrollArea className="flex-1">
        <nav className="px-2 py-6 space-y-2">
           {adminNavItems.map((item) => {
-            const isActive = pathname?.startsWith(item.href);
+            const isActive = pathname === item.href || (item.href !== '/admin/dashboard' && pathname?.startsWith(item.href));
             return (
               <Tooltip key={item.label} delayDuration={0}>
                   <TooltipTrigger asChild>
