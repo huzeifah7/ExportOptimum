@@ -66,13 +66,13 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
   return (
     <AnimatePresence>
       {isVisible && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto pt-28 md:pt-36">
+        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto pt-28 md:pt-36 pb-12">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-md"
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
             onClick={handleClose}
           />
 
@@ -82,14 +82,14 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden mb-12"
+            className="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg group"
+              className="absolute top-6 right-6 z-20 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg group"
             >
-              <X className="w-4 h-4 text-gray-700 group-hover:text-gray-900 transition-colors" />
+              <X className="w-5 h-5 text-gray-700 group-hover:text-gray-900 transition-colors" />
             </button>
 
             {/* Back Button (when viewing staff) */}
@@ -98,29 +98,29 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 onClick={handleBackToManager}
-                className="absolute top-4 left-4 z-20 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg transition-all duration-300 hover:scale-105"
+                className="absolute top-6 left-6 z-20 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg transition-all duration-300 hover:scale-105"
               >
-                <ArrowLeft className="w-3.5 h-3.5 text-gray-700" />
-                <span className="text-xs font-semibold text-gray-700">Back to {member.name}</span>
+                <ArrowLeft className="w-4 h-4 text-gray-700" />
+                <span className="text-sm font-semibold text-gray-700">Back to {member.name}</span>
               </motion.button>
             )}
 
             <div className="grid md:grid-cols-5 gap-0">
               {/* Photo Section */}
-              <div className="relative md:col-span-2 aspect-square md:aspect-auto bg-gradient-to-br from-gray-100 to-gray-50 min-h-[300px]">
+              <div className="relative md:col-span-2 aspect-square md:aspect-auto bg-gradient-to-br from-gray-100 to-gray-50">
                 {currentMember.photoUrl ? (
                   <Image
                     src={currentMember.photoUrl}
                     alt={currentMember.name}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 30vw"
+                    sizes="(max-width: 768px) 100vw, 40vw"
                     priority
                     data-ai-hint="person portrait"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-[hsl(88,92%,50%)] via-[hsl(88,92%,40%)] to-[hsl(88,92%,30%)] flex items-center justify-center">
-                    <span className="text-8xl font-black text-white/90">
+                  <div className="w-full h-64 md:h-full bg-gradient-to-br from-[hsl(88,92%,50%)] via-[hsl(88,92%,40%)] to-[hsl(88,92%,30%)] flex items-center justify-center">
+                    <span className="text-9xl font-black text-white/90">
                       {currentMember.name.charAt(0)}
                     </span>
                   </div>
@@ -129,9 +129,9 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                 
                 {/* Manager Badge */}
                 {currentMember.isManager && (
-                  <div className="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-sm shadow-lg">
-                    <span className="text-[10px] font-bold text-[hsl(88,92%,30%)] uppercase tracking-wider">
-                      Dept. Manager
+                  <div className="absolute bottom-6 left-6 px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm shadow-lg">
+                    <span className="text-xs font-bold text-[hsl(88,92%,30%)] uppercase tracking-wider">
+                      Manager
                     </span>
                   </div>
                 )}
@@ -143,7 +143,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[hsl(88,92%,95%)] border border-[hsl(88,92%,40%)] text-[hsl(88,92%,30%)] text-[10px] font-bold uppercase tracking-wider mb-3 self-start"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[hsl(88,92%,95%)] border border-[hsl(88,92%,40%)] text-[hsl(88,92%,30%)] text-[10px] font-bold uppercase tracking-wider mb-4 self-start"
                 >
                   {currentMember.department} · {currentMember.role}
                 </motion.div>
@@ -161,7 +161,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-gray-600 text-sm md:text-base leading-relaxed mb-8 font-light"
+                  className="text-gray-600 text-sm md:text-base leading-relaxed mb-8"
                 >
                   {currentMember.bio}
                 </motion.p>
@@ -176,10 +176,10 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                   >
                     <h3 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">
                       <Users2 className="w-3.5 h-3.5" />
-                      Department Team
+                      {member.department} Team ({departmentStaff.length})
                     </h3>
                     
-                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {departmentStaff.map((staff, index) => (
                         <motion.button
                           key={staff.id}
@@ -187,34 +187,27 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.4, delay: 0.6 + (index * 0.05) }}
                           onClick={() => handleStaffClick(staff)}
-                          className="group relative overflow-hidden rounded-xl bg-white border border-gray-100 hover:border-[hsl(88,92%,30%)]/30 transition-all duration-300 hover:shadow-lg text-left"
+                          className="group relative overflow-hidden rounded-xl bg-white border border-gray-100 hover:border-[hsl(88,92%,30%)]/30 transition-all duration-300 hover:shadow-lg text-left p-3 flex items-center gap-3"
                         >
-                          <div className="relative aspect-square overflow-hidden bg-gray-100">
+                          <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
                             {staff.photoUrl ? (
                               <Image
                                 src={staff.photoUrl}
                                 alt={staff.name}
                                 fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                className="object-cover"
                               />
                             ) : (
                               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                <span className="text-2xl font-black text-gray-400">
-                                  {staff.name.charAt(0)}
-                                </span>
+                                <span className="text-xl font-bold text-gray-400">{staff.name.charAt(0)}</span>
                               </div>
                             )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           </div>
-
-                          <div className="p-2 relative">
-                            <h4 className="text-[11px] font-bold text-gray-900 mb-0.5 leading-tight line-clamp-1">
-                              {staff.name}
-                            </h4>
-                            <p className="text-[9px] text-gray-500 font-semibold uppercase tracking-wider line-clamp-1">
-                              {staff.role}
-                            </p>
+                          <div className="min-w-0">
+                            <h4 className="text-sm font-bold text-gray-900 truncate group-hover:text-[hsl(88,92%,30%)] transition-colors">{staff.name}</h4>
+                            <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider truncate">{staff.role}</p>
                           </div>
+                          <ChevronRight className="w-4 h-4 ml-auto text-gray-300 group-hover:text-[hsl(88,92%,30%)] transition-colors" />
                         </motion.button>
                       ))}
                     </div>
@@ -226,27 +219,33 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="flex gap-2 pt-4 border-t border-gray-100 mt-auto"
+                  className="flex gap-3 pt-6 border-t border-gray-100 mt-auto"
                 >
                   {currentMember.linkedin && (
                     <Link
                       href={currentMember.linkedin}
                       target="_blank"
-                      className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-md font-semibold text-xs"
+                      className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] hover:from-[hsl(88,92%,55%)] hover:to-[hsl(88,92%,45%)] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-md font-semibold text-sm"
                     >
                       <Linkedin className="w-4 h-4" />
-                      <span className="hidden sm:inline">LinkedIn</span>
+                      <span>LinkedIn</span>
                     </Link>
                   )}
                   {currentMember.whatsapp && (
                     <Link
                       href={`https://wa.me/${currentMember.whatsapp.replace(/\D/g, '')}`}
                       target="_blank"
-                      className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-md font-semibold text-xs"
+                      className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[#25D366] to-[#128C7E] hover:from-[#2ae06f] hover:to-[#149c8d] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-md font-semibold text-sm"
                     >
                       <WhatsAppIcon className="w-4 h-4" />
-                      <span className="hidden sm:inline">WhatsApp</span>
+                      <span>WhatsApp</span>
                     </Link>
+                  )}
+                  {!currentMember.linkedin && !currentMember.whatsapp && (
+                    <button className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] text-white flex items-center justify-center gap-2 font-semibold text-sm shadow-md">
+                      <Mail className="w-4 h-4" />
+                      <span>Contact</span>
+                    </button>
                   )}
                 </motion.div>
               </div>
