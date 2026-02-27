@@ -6,6 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 import Autoplay from 'embla-carousel-autoplay';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ModernHeroButton } from '../ui/ModernHeroButton';
+import Image from 'next/image';
 import './ModernHero.css';
 
 const slides = [
@@ -66,7 +67,16 @@ const ModernHero = () => {
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="h-full">
               <div className="modern-hero__slide-container">
-                <img src={slide.src} alt={slide.alt} className="modern-hero__media" />
+                <Image 
+                  src={slide.src} 
+                  alt={slide.alt} 
+                  fill 
+                  className="modern-hero__media"
+                  priority={index === 0}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  sizes="100vw"
+                  quality={85}
+                />
               </div>
             </CarouselItem>
           ))}

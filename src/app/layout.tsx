@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { Public_Sans, PT_Sans, Nunito, Montserrat, Hurricane } from 'next/font/google';
 
-// Optimize font loading with next/font
+// Optimize font loading with swap display and subsets
 const publicSans = Public_Sans({ 
   subsets: ['latin'], 
   variable: '--font-navbar',
@@ -40,8 +40,8 @@ const hurricane = Hurricane({
 });
 
 export const metadata: Metadata = {
-  title: 'Export Optimum',
-  description: 'The finest Produce',
+  title: 'Export Optimum | Premium Moroccan Produce',
+  description: 'The finest Moroccan Avocados, Berries, and Melons delivered with global excellence and sustainable quality.',
 };
 
 export default function RootLayout({
@@ -51,6 +51,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`scroll-smooth ${publicSans.variable} ${ptSans.variable} ${nunito.variable} ${montserrat.variable} ${hurricane.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className="font-body antialiased bg-background">
         <FirebaseClientProvider>
           {children}
