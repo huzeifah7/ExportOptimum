@@ -82,7 +82,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="relative bg-white rounded-3xl shadow-2xl max-w-6xl w-full mb-12 overflow-hidden z-10"
+            className="relative bg-white rounded-3xl shadow-2xl max-w-5xl w-full mb-12 overflow-hidden"
           >
             {/* Close Button */}
             <button
@@ -105,9 +105,9 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
               </motion.button>
             )}
 
-            <div className="grid md:grid-cols-5 gap-0">
+            <div className="grid md:grid-cols-5 gap-0 h-full">
               {/* Photo Section */}
-              <div className="relative md:col-span-2 aspect-square md:aspect-auto bg-gradient-to-br from-gray-100 to-gray-50">
+              <div className="relative md:col-span-2 aspect-square md:aspect-auto bg-gradient-to-br from-gray-100 to-gray-50 h-full min-h-[400px]">
                 {currentMember.photoUrl ? (
                   <Image
                     src={currentMember.photoUrl}
@@ -138,7 +138,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
               </div>
 
               {/* Bio & Team Section */}
-              <div className="md:col-span-3 p-8 md:p-12 flex flex-col">
+              <div className="md:col-span-3 p-6 md:p-10 flex flex-col">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -152,7 +152,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight"
+                  className="text-3xl md:text-4xl font-black text-gray-900 mb-6 leading-tight"
                 >
                   {currentMember.name}
                 </motion.h2>
@@ -161,7 +161,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-gray-600 text-base md:text-lg leading-relaxed mb-10"
+                  className="text-gray-600 text-sm md:text-base leading-relaxed mb-10"
                 >
                   {currentMember.bio}
                 </motion.p>
@@ -174,13 +174,13 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                     transition={{ delay: 0.5 }}
                     className="mb-10"
                   >
-                    <h3 className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.2em] text-gray-400 mb-6">
+                    <h3 className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-gray-400 mb-6">
                       <Users2 className="w-4 h-4" />
                       {member.department} Team · {departmentStaff.length} {departmentStaff.length === 1 ? 'Member' : 'Members'}
                     </h3>
                     
                     {/* Modern Clickable Staff Cards Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {departmentStaff.map((staff, index) => (
                         <motion.button
                           key={staff.id}
@@ -204,7 +204,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                               />
                             ) : (
                               <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                <span className="text-4xl font-black text-gray-400">
+                                <span className="text-2xl font-black text-gray-400">
                                   {staff.name.charAt(0)}
                                 </span>
                               </div>
@@ -215,18 +215,18 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                             
                             {/* View Details Icon */}
                             <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                              <div className="w-8 h-8 rounded-full bg-white/95 flex items-center justify-center shadow-lg">
-                                <ChevronRight className="w-4 h-4 text-[hsl(88,92%,30%)]" />
+                              <div className="w-7 h-7 rounded-full bg-white/95 flex items-center justify-center shadow-lg">
+                                <ChevronRight className="w-3.5 h-3.5 text-[hsl(88,92%,30%)]" />
                               </div>
                             </div>
                           </div>
 
                           {/* Info */}
-                          <div className="p-4 relative">
-                            <h4 className="text-base font-bold text-gray-900 mb-1 leading-tight group-hover:text-[hsl(88,92%,30%)] transition-colors duration-300 line-clamp-1">
+                          <div className="p-3 relative">
+                            <h4 className="text-sm font-bold text-gray-900 mb-0.5 leading-tight group-hover:text-[hsl(88,92%,30%)] transition-colors duration-300 line-clamp-1">
                               {staff.name}
                             </h4>
-                            <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider line-clamp-1">
+                            <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider line-clamp-1">
                               {staff.role}
                             </p>
 
@@ -250,9 +250,9 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                     <Link
                       href={currentMember.linkedin}
                       target="_blank"
-                      className="flex-1 h-14 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] hover:from-[hsl(88,92%,55%)] hover:to-[hsl(88,92%,45%)] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
+                      className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] hover:from-[hsl(88,92%,55%)] hover:to-[hsl(88,92%,45%)] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-sm"
                     >
-                      <Linkedin className="w-5 h-5" />
+                      <Linkedin className="w-4 h-4" />
                       <span className="hidden sm:inline">LinkedIn</span>
                     </Link>
                   )}
@@ -260,15 +260,15 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                     <Link
                       href={`https://wa.me/${currentMember.whatsapp.replace(/\D/g, '')}`}
                       target="_blank"
-                      className="flex-1 h-14 rounded-xl bg-gradient-to-br from-[#25D366] to-[#128C7E] hover:from-[#2ae06f] hover:to-[#149c8d] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
+                      className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[#25D366] to-[#128C7E] hover:from-[#2ae06f] hover:to-[#149c8d] text-white flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-sm"
                     >
-                      <WhatsAppIcon className="w-5 h-5" />
+                      <WhatsAppIcon className="w-4 h-4" />
                       <span className="hidden sm:inline">WhatsApp</span>
                     </Link>
                   )}
                   {!currentMember.linkedin && !currentMember.whatsapp && (
-                    <button className="flex-1 h-14 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] text-white flex items-center justify-center gap-2 font-semibold shadow-lg">
-                      <Mail className="w-5 h-5" />
+                    <button className="flex-1 h-12 rounded-xl bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] text-white flex items-center justify-center gap-2 font-semibold shadow-lg text-sm">
+                      <Mail className="w-4 h-4" />
                       <span className="hidden sm:inline">Contact Office</span>
                     </button>
                   )}
