@@ -18,6 +18,7 @@ type Product = {
   id: string;
   name: string;
   category: string;
+  berryType?: string;
   description: string;
   imageUrl?: string;
   slug: string;
@@ -128,16 +129,40 @@ export default function Products() {
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
-      limit(12)
+      limit(24)
     );
   }, [firestore]);
 
   const { data: rawProducts, isLoading } = useCollection<Product>(productsQuery);
 
-  // Apply manual order locally
+  // Apply hierarchical variety sort: Avocado -> Blueberries -> Raspberries -> Strawberries -> Melons
   const products = useMemo(() => {
     if (!rawProducts) return null;
-    return [...rawProducts].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+    
+    return [...rawProducts].sort((a, b) => {
+      const getRank = (p: Product) => {
+        const cat = (p.category || '').toLowerCase();
+        const type = (p.berryType || '').toLowerCase();
+
+        if (cat === 'avocado') return 10;
+        if (cat === 'berries') {
+          if (type === 'blueberry') return 20;
+          if (type === 'raspberry') return 30;
+          if (type === 'strawberry') return 40;
+          return 35; // Default for unspecified berries
+        }
+        if (cat === 'melon') return 50;
+        return 100; // Unknown
+      };
+
+      const rankA = getRank(a);
+      const rankB = getRank(b);
+
+      if (rankA !== rankB) return rankA - rankB;
+      
+      // If same variety group, use manual order field
+      return (a.order ?? 999) - (b.order ?? 999);
+    });
   }, [rawProducts]);
 
   // Responsive slides per view
