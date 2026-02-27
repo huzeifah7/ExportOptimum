@@ -14,6 +14,7 @@ type Product = {
   id: string;
   name: string;
   category: string;
+  berryType?: string;
   description: string;
   imageUrl?: string;
   imageHint?: string;
@@ -82,6 +83,8 @@ const ProductCard = ({ product, index, isInView }: { product: Product; index: nu
 // ─── Section config ───────────────────────────────────────────────────────────
 const VARIETIES: {
   key: string;
+  subCategory?: string;
+  id?: string;
   label: string;
   emoji: string;
   description: string;
@@ -94,9 +97,27 @@ const VARIETIES: {
   },
   {
     key: 'berries',
-    label: 'Berries',
+    subCategory: 'blueberry',
+    id: 'berries-blueberry',
+    label: 'Blueberries',
     emoji: '🫐',
-    description: 'Sun-ripened berries bursting with flavor — blueberries, strawberries, and more.',
+    description: 'Fresh blueberries bursting with antioxidants and sweet flavor.',
+  },
+  {
+    key: 'berries',
+    subCategory: 'raspberry',
+    id: 'berries-raspberry',
+    label: 'Raspberries',
+    emoji: '🍓',
+    description: 'Succulent raspberries carefully picked for peak sweetness.',
+  },
+  {
+    key: 'berries',
+    subCategory: 'strawberry',
+    id: 'berries-strawberry',
+    label: 'Strawberries',
+    emoji: '🍓',
+    description: 'Vibrant and juicy strawberries, perfect for international markets.',
   },
   {
     key: 'melon',
@@ -106,16 +127,25 @@ const VARIETIES: {
   },
 ];
 
+const HERO_BUTTONS = [
+  { id: 'avocado', label: 'Avocado', emoji: '🥑' },
+  { id: 'berries-blueberry', label: 'Berries', emoji: '🫐' },
+  { id: 'melon', label: 'Melon', emoji: '🍈' },
+];
+
 // ─── Variety Section ──────────────────────────────────────────────────────────
 const VarietySection = ({
   variety,
+  subCategory,
+  id,
   label,
   emoji,
-  description,
   firestore,
   sectionIndex,
 }: {
   variety: string;
+  subCategory?: string;
+  id?: string;
   label: string;
   emoji: string;
   description: string;
@@ -125,7 +155,7 @@ const VarietySection = ({
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
-  // Use local sorting to avoid composite index requirements for MVP
+  // Fetch items by category, then filter sub-category client-side to avoid complex index requirements
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(
@@ -136,14 +166,18 @@ const VarietySection = ({
 
   const { data: rawProducts, isLoading } = useCollection<Product>(productsQuery);
 
-  // Apply manual order locally
+  // Apply manual order and sub-category filtering locally
   const products = useMemo(() => {
     if (!rawProducts) return null;
-    return [...rawProducts].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
-  }, [rawProducts]);
+    let filtered = [...rawProducts];
+    if (subCategory) {
+      filtered = filtered.filter(p => p.berryType === subCategory);
+    }
+    return filtered.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  }, [rawProducts, subCategory]);
 
   return (
-    <section ref={sectionRef} className="py-16 lg:py-20" id={variety}>
+    <section ref={sectionRef} className="py-16 lg:py-20" id={id || variety}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
 
         {/* Section header */}
@@ -277,17 +311,17 @@ export default function ProductsPage() {
               Cultivated with care in Morocco's most fertile regions, our produce is a promise of quality, freshness, and complete traceability.
             </motion.p>
 
-            {/* Variety anchors */}
+            {/* Main Category anchors */}
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center justify-center gap-3 mt-10 flex-wrap"
             >
-              {VARIETIES.map((v) => (
+              {HERO_BUTTONS.map((v) => (
                 <a
-                  key={v.key}
-                  href={`#${v.key}`}
+                  key={v.id}
+                  href={`#${v.id}`}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 hover:border-[hsl(88,92%,28%)]/40 hover:bg-[hsl(88,92%,28%)]/5 text-sm font-medium text-gray-600 hover:text-[hsl(88,92%,22%)] transition-all duration-200"
                 >
                   <span>{v.emoji}</span>
@@ -305,11 +339,13 @@ export default function ProductsPage() {
           }
         `}</style>
 
-        {/* 3 × VARIETY SECTIONS */}
+        {/* CATEGORY & SUB-CATEGORY SECTIONS */}
         {VARIETIES.map((v, i) => (
           <VarietySection
-            key={v.key}
+            key={v.id || v.key}
             variety={v.key}
+            subCategory={v.subCategory}
+            id={v.id || v.key}
             label={v.label}
             emoji={v.emoji}
             description={v.description}
