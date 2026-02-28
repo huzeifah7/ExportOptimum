@@ -44,12 +44,17 @@ const SplitText: React.FC<SplitTextProps> = ({
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    if (document.fonts.status === 'loaded') {
+    if (typeof document === 'undefined') return;
+    
+    if (document.fonts && document.fonts.status === 'loaded') {
       setFontsLoaded(true);
-    } else {
+    } else if (document.fonts) {
       document.fonts.ready.then(() => {
         setFontsLoaded(true);
       });
+    } else {
+      // Fallback for browsers without document.fonts
+      setFontsLoaded(true);
     }
   }, []);
 
@@ -80,55 +85,66 @@ const SplitText: React.FC<SplitTextProps> = ({
             : `+=${marginValue}${marginUnit}`;
       const start = `top ${startPct}%${sign}`;
       let targets: Element[] = [];
+      
       const assignTargets = (self: GSAPSplitText) => {
-        if (splitType.includes('chars') && self.chars.length) targets = self.chars;
-        if (!targets.length && splitType.includes('words') && self.words.length) targets = self.words;
-        if (!targets.length && splitType.includes('lines') && self.lines.length) targets = self.lines;
-        if (!targets.length) targets = self.chars || self.words || self.lines;
+        if (splitType.includes('chars') && self.chars && self.chars.length) targets = self.chars;
+        if (!targets.length && splitType.includes('words') && self.words && self.words.length) targets = self.words;
+        if (!targets.length && splitType.includes('lines') && self.lines && self.lines.length) targets = self.lines;
+        if (!targets.length) targets = (self.chars || self.words || self.lines || []) as Element[];
       };
-      const splitInstance = new GSAPSplitText(el, {
-        type: splitType,
-        smartWrap: true,
-        autoSplit: splitType === 'lines',
-        linesClass: 'split-line',
-        wordsClass: 'split-word',
-        charsClass: 'split-char',
-        reduceWhiteSpace: false,
-        onSplit: (self: GSAPSplitText) => {
-          assignTargets(self);
-          return gsap.fromTo(
-            targets,
-            { ...from },
-            {
-              ...to,
-              duration,
-              ease,
-              stagger: delay / 1000,
-              scrollTrigger: {
-                trigger: el,
-                start,
-                once: true,
-                fastScrollEnd: true,
-                anticipatePin: 0.4
-              },
-              onComplete: () => {
-                animationCompletedRef.current = true;
-                onLetterAnimationComplete?.();
-              },
-              willChange: 'transform, opacity',
-              force3D: true
+
+      let splitInstance: GSAPSplitText | undefined;
+      try {
+          splitInstance = new GSAPSplitText(el, {
+            type: splitType,
+            smartWrap: true,
+            autoSplit: splitType === 'lines',
+            linesClass: 'split-line',
+            wordsClass: 'split-word',
+            charsClass: 'split-char',
+            reduceWhiteSpace: false,
+            onSplit: (self: GSAPSplitText) => {
+              assignTargets(self);
+              if (!targets.length) return;
+              return gsap.fromTo(
+                targets,
+                { ...from },
+                {
+                  ...to,
+                  duration,
+                  ease,
+                  stagger: delay / 1000,
+                  scrollTrigger: {
+                    trigger: el,
+                    start,
+                    once: true,
+                    fastScrollEnd: true,
+                    anticipatePin: 0.4
+                  },
+                  onComplete: () => {
+                    animationCompletedRef.current = true;
+                    onLetterAnimationComplete?.();
+                  },
+                  willChange: 'transform, opacity',
+                  force3D: true
+                }
+              );
             }
-          );
-        }
-      });
-      el._rbsplitInstance = splitInstance;
+          });
+          el._rbsplitInstance = splitInstance;
+      } catch (e) {
+          console.warn("SplitText initialization failed", e);
+      }
+
       return () => {
         ScrollTrigger.getAll().forEach(st => {
           if (st.trigger === el) st.kill();
         });
-        try {
-          splitInstance.revert();
-        } catch (_) {}
+        if (splitInstance) {
+            try {
+              splitInstance.revert();
+            } catch (_) {}
+        }
         el._rbsplitInstance = undefined;
       };
     },
@@ -196,6 +212,12 @@ const SplitText: React.FC<SplitTextProps> = ({
           <h6 ref={ref} style={style} className={classes}>
             {text}
           </h6>
+        );
+      case 'span':
+        return (
+          <span ref={ref} style={style} className={classes}>
+            {text}
+          </span>
         );
       default:
         return (

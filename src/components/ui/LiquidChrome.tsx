@@ -1,3 +1,4 @@
+
 'use client';
 import React, { useRef, useEffect } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
@@ -28,8 +29,20 @@ export const LiquidChrome: React.FC<LiquidChromeProps> = ({
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const renderer = new Renderer({ antialias: true, dpr: 2 });
+    let renderer: Renderer;
+    try {
+        renderer = new Renderer({ antialias: true, dpr: window.devicePixelRatio || 2 });
+    } catch (e) {
+        console.error("WebGL Renderer initialization failed", e);
+        return;
+    }
+    
     const gl = renderer.gl;
+    if (!gl) {
+        console.warn("WebGL not supported, skipping LiquidChrome animation");
+        return;
+    }
+    
     gl.clearColor(1, 1, 1, 1);
 
     const vertexShader = `
@@ -105,16 +118,20 @@ export const LiquidChrome: React.FC<LiquidChromeProps> = ({
     const mesh = new Mesh(gl, { geometry, program });
 
     function resize() {
+      if (!container || !renderer || !gl) return;
       renderer.setSize(container.offsetWidth, container.offsetHeight);
-      const resUniform = program.uniforms.uResolution.value as Float32Array;
-      resUniform[0] = gl.canvas.width;
-      resUniform[1] = gl.canvas.height;
-      resUniform[2] = gl.canvas.width / gl.canvas.height;
+      if (program.uniforms.uResolution) {
+          const resUniform = program.uniforms.uResolution.value as Float32Array;
+          resUniform[0] = gl.canvas.width;
+          resUniform[1] = gl.canvas.height;
+          resUniform[2] = gl.canvas.width / gl.canvas.height;
+      }
     }
     window.addEventListener('resize', resize, false);
     resize();
 
     function handleMouseMove(event: MouseEvent) {
+      if (!container || !program.uniforms.uMouse) return;
       const rect = container.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width;
       const y = 1 - (event.clientY - rect.top) / rect.height;
@@ -124,7 +141,7 @@ export const LiquidChrome: React.FC<LiquidChromeProps> = ({
     }
 
     function handleTouchMove(event: TouchEvent) {
-      if (event.touches.length > 0) {
+      if (event.touches.length > 0 && container && program.uniforms.uMouse) {
         const touch = event.touches[0];
         const rect = container.getBoundingClientRect();
         const x = (touch.clientX - rect.left) / rect.width;
@@ -142,6 +159,7 @@ export const LiquidChrome: React.FC<LiquidChromeProps> = ({
 
     let animationId: number;
     function update(t: number) {
+      if (!renderer || !gl || !mesh) return;
       animationId = requestAnimationFrame(update);
       program.uniforms.uTime.value = t * 0.001 * speed;
       renderer.render({ scene: mesh });
@@ -158,12 +176,14 @@ export const LiquidChrome: React.FC<LiquidChromeProps> = ({
         container.removeEventListener('touchmove', handleTouchMove);
       }
       try {
-        if (gl.canvas.parentElement) {
+        if (gl && gl.canvas && gl.canvas.parentElement) {
           gl.canvas.parentElement.removeChild(gl.canvas);
         }
-        gl.getExtension('WEBGL_lose_context')?.loseContext();
+        if (gl) {
+            gl.getExtension('WEBGL_lose_context')?.loseContext();
+        }
       } catch (e) {
-          console.error("Error during cleanup: ", e);
+          // Silent cleanup
       }
     };
   }, [baseColor, speed, amplitude, frequencyX, frequencyY, interactive]);
