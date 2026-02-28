@@ -98,7 +98,7 @@ const AvocadoIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-type FirestoreProduct = DocumentData & { id: string; order?: number; berryType?: string };
+type FirestoreProduct = DocumentData & { id: string; order?: number; berryType?: string; melonType?: string };
 
 const ITEMS_PER_PAGE = 10;
 
@@ -448,13 +448,13 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
   useEffect(() => {
     if (isOpen) {
       if (isEditing && product) {
-        setFormData({ ...product, order: product.order ?? 0, berryType: product.berryType || '' });
+        setFormData({ ...product, order: product.order ?? 0, berryType: product.berryType || '', melonType: product.melonType || '' });
         setImagePreview(product.imageUrl || null);
         setEnabledPeriod(!!product.period);
         setEnabledStorage(!!product.storage);
         setEnabledSizes(!!product.sizes);
       } else {
-        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', period: '', storage: '', sizes: '', brix: '', order: nextOrder });
+        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', melonType: '', period: '', storage: '', sizes: '', brix: '', order: nextOrder });
         setImagePreview(null);
         setEnabledPeriod(false);
         setEnabledStorage(false);
@@ -511,6 +511,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
         description: formData.description || '',
         category: formData.category || 'avocado',
         berryType: formData.category === 'berries' ? formData.berryType || '' : '',
+        melonType: formData.category === 'melon' ? formData.melonType || '' : '',
         period: formData.category !== 'berries' && formData.category !== 'melon' && enabledPeriod ? formData.period || '' : '',
         storage: formData.category !== 'berries' && formData.category !== 'melon' && enabledStorage ? formData.storage || '' : '',
         sizes: formData.category !== 'berries' && formData.category !== 'melon' && enabledSizes ? formData.sizes || '' : '',
@@ -584,6 +585,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
                           <Select onValueChange={(v) => {
                             handleInputChange({ target: { name: 'category', value: v } } as any);
                             if (v !== 'berries') setFormData(prev => ({...prev, berryType: ''}));
+                            if (v !== 'melon') setFormData(prev => ({...prev, melonType: ''}));
                           }} value={formData.category || ''}>
                             <SelectTrigger className="h-10 rounded-xl bg-muted/5">
                               <SelectValue placeholder="Category" />
@@ -607,6 +609,21 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
                                 <SelectItem value="raspberry">Raspberry</SelectItem>
                                 <SelectItem value="blueberry">Blueberry</SelectItem>
                                 <SelectItem value="strawberry">Strawberry</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        )}
+
+                        {formData.category === 'melon' && (
+                          <div className="space-y-1.5">
+                            <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Melon Variety</Label>
+                            <Select onValueChange={(v) => handleInputChange({ target: { name: 'melonType', value: v } } as any)} value={formData.melonType || ''}>
+                              <SelectTrigger className="h-10 rounded-xl bg-muted/5">
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent className="rounded-xl">
+                                <SelectItem value="melon">Melon</SelectItem>
+                                <SelectItem value="watermelon">Watermelon</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>

@@ -49,6 +49,11 @@
           "enum": ["raspberry", "blueberry", "strawberry"],
           "description": "The specific type of berry (only for Berries category)."
         },
+        "melonType": {
+          "type": "string",
+          "enum": ["melon", "watermelon"],
+          "description": "The specific type of melon (only for Melon category)."
+        },
         "imageUrl": {
           "type": "string",
           "description": "URL of the product image.",

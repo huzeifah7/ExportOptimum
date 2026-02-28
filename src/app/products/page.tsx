@@ -1,3 +1,4 @@
+
 'use client';
 import { motion, useInView } from 'framer-motion';
 import Header from '@/components/layout/header';
@@ -15,6 +16,7 @@ type Product = {
   name: string;
   category: string;
   berryType?: string;
+  melonType?: string;
   description: string;
   imageUrl?: string;
   imageHint?: string;
@@ -83,7 +85,8 @@ const ProductCard = ({ product, index, isInView }: { product: Product; index: nu
 // ─── Section config ───────────────────────────────────────────────────────────
 const VARIETIES: {
   key: string;
-  subCategory?: string;
+  subCategoryKey?: 'berryType' | 'melonType';
+  subCategoryValue?: string;
   id?: string;
   label: string;
   emoji: string;
@@ -97,7 +100,8 @@ const VARIETIES: {
   },
   {
     key: 'berries',
-    subCategory: 'blueberry',
+    subCategoryKey: 'berryType',
+    subCategoryValue: 'blueberry',
     id: 'berries-blueberry',
     label: 'Blueberries',
     emoji: '🫐',
@@ -105,7 +109,8 @@ const VARIETIES: {
   },
   {
     key: 'berries',
-    subCategory: 'raspberry',
+    subCategoryKey: 'berryType',
+    subCategoryValue: 'raspberry',
     id: 'berries-raspberry',
     label: 'Raspberries',
     emoji: '🍓',
@@ -113,7 +118,8 @@ const VARIETIES: {
   },
   {
     key: 'berries',
-    subCategory: 'strawberry',
+    subCategoryKey: 'berryType',
+    subCategoryValue: 'strawberry',
     id: 'berries-strawberry',
     label: 'Strawberries',
     emoji: '🍓',
@@ -121,22 +127,35 @@ const VARIETIES: {
   },
   {
     key: 'melon',
-    label: 'Melon',
+    subCategoryKey: 'melonType',
+    subCategoryValue: 'melon',
+    id: 'melon-variety',
+    label: 'Melons',
     emoji: '🍈',
     description: 'Sweet, aromatic melons grown in Morocco\'s warm interior valleys.',
+  },
+  {
+    key: 'melon',
+    subCategoryKey: 'melonType',
+    subCategoryValue: 'watermelon',
+    id: 'watermelon-variety',
+    label: 'Watermelons',
+    emoji: '🍉',
+    description: 'Refreshing and juicy watermelons, perfect for summer export.',
   },
 ];
 
 const HERO_BUTTONS = [
   { id: 'avocado', label: 'Avocado', emoji: '🥑' },
   { id: 'berries-blueberry', label: 'Berries', emoji: '🫐' },
-  { id: 'melon', label: 'Melon', emoji: '🍈' },
+  { id: 'melon-variety', label: 'Melon', emoji: '🍈' },
 ];
 
 // ─── Variety Section ──────────────────────────────────────────────────────────
 const VarietySection = ({
   variety,
-  subCategory,
+  subCategoryKey,
+  subCategoryValue,
   id,
   label,
   emoji,
@@ -144,7 +163,8 @@ const VarietySection = ({
   sectionIndex,
 }: {
   variety: string;
-  subCategory?: string;
+  subCategoryKey?: 'berryType' | 'melonType';
+  subCategoryValue?: string;
   id?: string;
   label: string;
   emoji: string;
@@ -170,11 +190,11 @@ const VarietySection = ({
   const products = useMemo(() => {
     if (!rawProducts) return null;
     let filtered = [...rawProducts];
-    if (subCategory) {
-      filtered = filtered.filter(p => p.berryType === subCategory);
+    if (subCategoryKey && subCategoryValue) {
+      filtered = filtered.filter(p => p[subCategoryKey] === subCategoryValue);
     }
     return filtered.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
-  }, [rawProducts, subCategory]);
+  }, [rawProducts, subCategoryKey, subCategoryValue]);
 
   return (
     <section ref={sectionRef} className="py-16 lg:py-20" id={id || variety}>
@@ -344,7 +364,8 @@ export default function ProductsPage() {
           <VarietySection
             key={v.id || v.key}
             variety={v.key}
-            subCategory={v.subCategory}
+            subCategoryKey={v.subCategoryKey}
+            subCategoryValue={v.subCategoryValue}
             id={v.id || v.key}
             label={v.label}
             emoji={v.emoji}

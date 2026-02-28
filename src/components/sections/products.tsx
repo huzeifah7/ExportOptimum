@@ -19,6 +19,7 @@ type Product = {
   name: string;
   category: string;
   berryType?: string;
+  melonType?: string;
   description: string;
   imageUrl?: string;
   slug: string;
@@ -129,29 +130,34 @@ export default function Products() {
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
-      limit(24)
+      limit(32)
     );
   }, [firestore]);
 
   const { data: rawProducts, isLoading } = useCollection<Product>(productsQuery);
 
-  // Apply hierarchical variety sort: Avocado -> Blueberries -> Raspberries -> Strawberries -> Melons
+  // Apply hierarchical variety sort: Avocado -> Blueberries -> Raspberries -> Strawberries -> Melons -> Watermelons
   const products = useMemo(() => {
     if (!rawProducts) return null;
     
     return [...rawProducts].sort((a, b) => {
       const getRank = (p: Product) => {
         const cat = (p.category || '').toLowerCase();
-        const type = (p.berryType || '').toLowerCase();
+        const bType = (p.berryType || '').toLowerCase();
+        const mType = (p.melonType || '').toLowerCase();
 
         if (cat === 'avocado') return 10;
         if (cat === 'berries') {
-          if (type === 'blueberry') return 20;
-          if (type === 'raspberry') return 30;
-          if (type === 'strawberry') return 40;
-          return 35; // Default for unspecified berries
+          if (bType === 'blueberry') return 20;
+          if (bType === 'raspberry') return 30;
+          if (bType === 'strawberry') return 40;
+          return 35; 
         }
-        if (cat === 'melon') return 50;
+        if (cat === 'melon') {
+          if (mType === 'melon') return 50;
+          if (mType === 'watermelon') return 60;
+          return 55;
+        }
         return 100; // Unknown
       };
 

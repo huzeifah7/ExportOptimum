@@ -45,6 +45,7 @@ export default function AddProductPage() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('avocado');
     const [berryType, setBerryType] = useState('');
+    const [melonType, setMelonType] = useState('');
     const [order, setOrder] = useState(0);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -138,6 +139,7 @@ export default function AddProductPage() {
                 description,
                 category,
                 berryType: category === 'berries' ? berryType : '',
+                melonType: category === 'melon' ? melonType : '',
                 imageUrl,
                 slug,
                 order: order,
@@ -228,6 +230,7 @@ export default function AddProductPage() {
                                                 <Select onValueChange={(v) => {
                                                     setCategory(v);
                                                     if (v !== 'berries') setBerryType('');
+                                                    if (v !== 'melon') setMelonType('');
                                                 }} value={category} required disabled={isSubmitting}>
                                                     <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
                                                         <SelectValue placeholder="Select a category" />
@@ -251,6 +254,21 @@ export default function AddProductPage() {
                                                             <SelectItem value="raspberry">Raspberry</SelectItem>
                                                             <SelectItem value="blueberry">Blueberry</SelectItem>
                                                             <SelectItem value="strawberry">Strawberry</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            )}
+
+                                            {category === 'melon' && (
+                                                <div className="space-y-1.5">
+                                                    <Label htmlFor="melon-type" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Melon Variety</Label>
+                                                    <Select onValueChange={setMelonType} value={melonType} required disabled={isSubmitting}>
+                                                        <SelectTrigger id="melon-type" className="h-11 rounded-xl bg-muted/5">
+                                                            <SelectValue placeholder="Select melon type" />
+                                                        </SelectTrigger>
+                                                        <SelectContent className="rounded-xl">
+                                                            <SelectItem value="melon">Melon</SelectItem>
+                                                            <SelectItem value="watermelon">Watermelon</SelectItem>
                                                         </SelectContent>
                                                     </Select>
                                                 </div>
