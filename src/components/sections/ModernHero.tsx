@@ -21,7 +21,7 @@ const slides = [
   },
   {
     type: 'image',
-    src: '/susbg.png',
+    src: '/sust.avif',
     alt: 'Sustainability background representing Export Optimum excellence',
     headline: ['Rooted in', 'Sustainability,', 'Grown for Excellence.'],
     tagline: 'With exclusive access to major Moroccan farms, including two company-owned avocado farms, we oversee more than 500 hectares of avocado cultivation, delivering consistent quality at scale and ensuring full control over quality, sustainability, and season-round supply.',
