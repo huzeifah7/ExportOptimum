@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo } fr
 import dynamic from 'next/dynamic';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Users, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Users, ArrowUpRight, Sparkles, Crown, Briefcase, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
@@ -26,6 +26,8 @@ type TeamMember = {
   linkedin?: string;
   whatsapp?: string;
   isManager?: boolean;
+  isCEO?: boolean;
+  isDirector?: boolean;
   department: string;
 };
 
@@ -45,19 +47,21 @@ export default function TeamPage() {
 
   const { data: allTeamMembers, isLoading } = useCollection<TeamMember>(teamMembersQuery);
 
-  // Filter to only show managers on the main page
-  const managers = useMemo(() => {
-    if (!allTeamMembers) return [];
-    return allTeamMembers.filter(m => m.isManager === true);
-  }, [allTeamMembers]);
+  // Leadership tiers
+  const ceos = useMemo(() => allTeamMembers?.filter(m => m.isCEO) || [], [allTeamMembers]);
+  const directors = useMemo(() => allTeamMembers?.filter(m => m.isDirector) || [], [allTeamMembers]);
+  const otherManagers = useMemo(() => 
+    allTeamMembers?.filter(m => m.isManager && !m.isCEO && !m.isDirector) || [], 
+    [allTeamMembers]
+  );
 
-  // When a manager is selected, find all their department staff
+  // When a leader is selected, find all their department staff
   const departmentStaff = useMemo(() => {
     if (!selectedMember || !allTeamMembers) return [];
     return allTeamMembers.filter(m => 
       m.department === selectedMember.department && 
       m.id !== selectedMember.id &&
-      m.isManager !== true
+      !m.isManager && !m.isCEO && !m.isDirector
     );
   }, [selectedMember, allTeamMembers]);
 
@@ -68,6 +72,37 @@ export default function TeamPage() {
   const handleCloseModal = useCallback(() => {
     setSelectedMember(null);
   }, []);
+
+  const TeamSection = ({ title, icon: Icon, members, colorClass }: { title: string, icon: any, members: TeamMember[], colorClass: string }) => {
+    if (members.length === 0) return null;
+    return (
+        <div className="mb-20">
+            <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="flex items-center gap-3 mb-10 pb-4 border-b border-gray-100"
+            >
+                <div className={`p-2 rounded-xl ${colorClass}`}>
+                    <Icon className="w-6 h-6 text-white" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
+                    {title}
+                </h2>
+            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {members.map((member, index) => (
+                    <TeamCard 
+                        key={member.id} 
+                        member={member} 
+                        index={index}
+                        onClick={() => handleCardClick(member)}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+  }
 
   return (
     <>
@@ -103,18 +138,18 @@ export default function TeamPage() {
               >
                 <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[hsl(88,92%,50%)] to-[hsl(88,92%,40%)] text-white text-sm font-bold mb-6 shadow-lg">
                   <Sparkles className="w-4 h-4" />
-                  Meet Our Leaders
+                  Our Team
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[0.95] tracking-tight mb-6">
                   The Minds Behind<br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[hsl(88,92%,50%)] via-[hsl(88,92%,40%)] to-[hsl(88,92%,30%)]">
-                    Innovation
+                    Export Optimum
                   </span>
                 </h1>
 
-                <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mt-8">
-                  A dedicated team of visionaries cultivating excellence in every order. Click on a manager to meet their department team.
+                <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mt-8">
+                  Built on a foundation of family values and decades of agricultural expertise. Meet the leaders cultivating excellence in every harvest.
                 </p>
               </motion.div>
             </div>
@@ -122,18 +157,7 @@ export default function TeamPage() {
 
           <section className="py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
-              {!isLoading && managers && managers.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {managers.map((member, index) => (
-                    <TeamCard 
-                      key={member.id} 
-                      member={member} 
-                      index={index}
-                      onClick={() => handleCardClick(member)}
-                    />
-                  ))}
-                </div>
-              ) : isLoading ? (
+              {isLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                   {Array.from({ length: 4 }).map((_, i) => (
                     <div key={i} className="space-y-4">
@@ -143,6 +167,27 @@ export default function TeamPage() {
                     </div>
                   ))}
                 </div>
+              ) : allTeamMembers && allTeamMembers.length > 0 ? (
+                <>
+                    <TeamSection 
+                        title="Executive Leadership" 
+                        icon={Crown} 
+                        members={ceos} 
+                        colorClass="bg-primary shadow-[0_0_20px_rgba(113,149,7,0.3)]" 
+                    />
+                    <TeamSection 
+                        title="Board of Directors" 
+                        icon={Briefcase} 
+                        members={directors} 
+                        colorClass="bg-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.3)]" 
+                    />
+                    <TeamSection 
+                        title="Management Team" 
+                        icon={ShieldCheck} 
+                        members={otherManagers} 
+                        colorClass="bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]" 
+                    />
+                </>
               ) : (
                 <div className="flex flex-col items-center justify-center py-32 text-center">
                   <Users className="w-14 h-14 text-gray-300 mb-4" />
@@ -160,8 +205,8 @@ export default function TeamPage() {
                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
                     Grow Your Career<br />With Purpose
                   </h2>
-                  <p className="text-white/90 text-lg md:text-xl mb-10 max-w-5xl mx-auto leading-relaxed">
-                    Join a team that's revolutionizing sustainable agriculture.
+                  <p className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Join a team that's revolutionizing sustainable agriculture and global fresh produce supply.
                   </p>
                   <Link
                     href="/contact"
@@ -195,15 +240,6 @@ export default function TeamPage() {
           25% { transform: translate(40px, -50px) scale(1.15) rotate(90deg); }
           50% { transform: translate(-30px, -30px) scale(0.95) rotate(180deg); }
           75% { transform: translate(20px, 40px) scale(1.1) rotate(270deg); }
-        }
-        @keyframes wave-move {
-          0% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 0.03; }
-          50% { opacity: 0.05; }
-          100% { transform: translateX(50%) translateY(-20px) rotate(360deg); opacity: 0.03; }
-        }
-        @keyframes grid-pulse {
-          0%, 100% { opacity: 0.02; }
-          50% { opacity: 0.04; }
         }
         .dg-scroll-lock { overflow: hidden !important; }
       `}</style>

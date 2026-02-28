@@ -5,7 +5,7 @@ import React, { useState, useRef, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
-import { Linkedin, ArrowUpRight } from 'lucide-react';
+import { Linkedin, ArrowUpRight, Crown, Briefcase, ShieldCheck } from 'lucide-react';
 
 type TeamMember = {
   id: string;
@@ -15,6 +15,9 @@ type TeamMember = {
   photoUrl: string;
   linkedin?: string;
   whatsapp?: string;
+  isCEO?: boolean;
+  isDirector?: boolean;
+  isManager?: boolean;
 };
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -87,6 +90,19 @@ const TeamCard = memo(({ member, index, onClick }: { member: TeamMember; index: 
               </span>
             </div>
           )}
+
+          <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
+            {member.isCEO && (
+                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg border border-white/20">
+                    <Crown className="w-4 h-4 text-white" />
+                </div>
+            )}
+            {member.isDirector && (
+                <div className="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center shadow-lg border border-white/20">
+                    <Briefcase className="w-4 h-4 text-white" />
+                </div>
+            )}
+          </div>
 
           <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0 z-20">
             {member.linkedin && (

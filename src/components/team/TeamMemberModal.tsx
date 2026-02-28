@@ -1,10 +1,11 @@
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Linkedin, Mail, X, Users2, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Linkedin, Mail, X, Users2, ChevronRight, ArrowLeft, Crown, Briefcase } from 'lucide-react';
 
 type TeamMember = {
   id: string;
@@ -16,6 +17,8 @@ type TeamMember = {
   whatsapp?: string;
   department: string;
   isManager?: boolean;
+  isCEO?: boolean;
+  isDirector?: boolean;
 };
 
 interface TeamMemberModalProps {
@@ -127,14 +130,21 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 
-                {/* Manager Badge */}
-                {currentMember.isManager && (
-                  <div className="absolute bottom-6 left-6 px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm shadow-lg">
-                    <span className="text-xs font-bold text-[hsl(88,92%,30%)] uppercase tracking-wider">
-                      Manager
-                    </span>
-                  </div>
-                )}
+                {/* Role Badge */}
+                <div className="absolute bottom-6 left-6 flex flex-col gap-2">
+                    {currentMember.isCEO && (
+                        <div className="px-4 py-2 rounded-full bg-primary text-white shadow-lg flex items-center gap-2">
+                            <Crown className="w-4 h-4" />
+                            <span className="text-xs font-bold uppercase tracking-wider">CEO</span>
+                        </div>
+                    )}
+                    {currentMember.isDirector && (
+                        <div className="px-4 py-2 rounded-full bg-amber-500 text-white shadow-lg flex items-center gap-2">
+                            <Briefcase className="w-4 h-4" />
+                            <span className="text-xs font-bold uppercase tracking-wider">Director</span>
+                        </div>
+                    )}
+                </div>
               </div>
 
               {/* Bio & Team Section */}

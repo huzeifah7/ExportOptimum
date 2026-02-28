@@ -125,6 +125,14 @@
           "type": "boolean",
           "description": "Whether this member is a department manager."
         },
+        "isCEO": {
+          "type": "boolean",
+          "description": "Whether this member is the CEO."
+        },
+        "isDirector": {
+          "type": "boolean",
+          "description": "Whether this member is a Director."
+        },
         "department": {
           "type": "string",
           "enum": ["Buying", "Administrative", "RH", "Production", "Quality", "Other"],

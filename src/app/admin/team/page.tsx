@@ -21,7 +21,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
-import { Linkedin, MessageCircle, Trash2, Edit, Loader2, UserCheck, ShieldCheck } from 'lucide-react';
+import { Linkedin, MessageCircle, Trash2, Edit, Loader2, UserCheck, ShieldCheck, Crown, Briefcase } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -49,6 +49,8 @@ type TeamMember = {
   linkedin?: string;
   whatsapp?: string;
   isManager?: boolean;
+  isCEO?: boolean;
+  isDirector?: boolean;
   department: "Buying" | "Administrative" | "RH" | "Production" | "Quality" | "Other";
 };
 
@@ -60,6 +62,8 @@ const initialFormState: Partial<TeamMember> = {
   whatsapp: '',
   photoUrl: '',
   isManager: false,
+  isCEO: false,
+  isDirector: false,
   department: 'Other',
 };
 
@@ -100,8 +104,15 @@ export default function ManageTeamPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckboxChange = (checked: boolean) => {
-    setFormData((prev) => ({ ...prev, isManager: checked }));
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    setFormData((prev) => {
+        const next = { ...prev, [name]: checked };
+        // If CEO or Director is checked, they are automatically Managers
+        if ((name === 'isCEO' || name === 'isDirector') && checked) {
+            next.isManager = true;
+        }
+        return next;
+    });
   };
 
   const handleSelectChange = (value: string) => {
@@ -175,7 +186,6 @@ export default function ManageTeamPage() {
       const memberId = isEditing ? currentMember.id! : doc(collection(firestore, 'teamMembers')).id;
       let photoUrl = formData.photoUrl || '';
 
-      // --- Image Upload Logic ---
       if (selectedFile) {
         photoUrl = await uploadStaffImage(selectedFile, memberId);
       }
@@ -188,6 +198,8 @@ export default function ManageTeamPage() {
         linkedin: formData.linkedin || '',
         whatsapp: formData.whatsapp || '',
         isManager: formData.isManager || false,
+        isCEO: formData.isCEO || false,
+        isDirector: formData.isDirector || false,
         department: formData.department,
       };
 
@@ -230,11 +242,9 @@ export default function ManageTeamPage() {
 
     setIsSubmitting(true);
     try {
-      // Delete Firestore document
       const docRef = doc(firestore, 'teamMembers', memberToDelete.id);
       deleteDocumentNonBlocking(docRef);
 
-      // Delete image from Storage
       if (memberToDelete.photoUrl && storage) {
         try {
           const imageRef = storageRef(storage, memberToDelete.photoUrl);
@@ -285,11 +295,23 @@ export default function ManageTeamPage() {
                   fill
                   className="object-cover rounded-t-lg"
                 />
-                {member.isManager && (
-                  <Badge className="absolute top-4 left-4 bg-primary text-white shadow-lg">
-                    <ShieldCheck className="w-3 h-3 mr-1" /> Manager
-                  </Badge>
-                )}
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                    {member.isCEO && (
+                        <Badge className="bg-primary text-white shadow-lg">
+                            <Crown className="w-3 h-3 mr-1" /> CEO
+                        </Badge>
+                    )}
+                    {member.isDirector && (
+                        <Badge className="bg-amber-500 text-white shadow-lg">
+                            <Briefcase className="w-3 h-3 mr-1" /> Director
+                        </Badge>
+                    )}
+                    {member.isManager && !member.isCEO && !member.isDirector && (
+                        <Badge className="bg-blue-500 text-white shadow-lg">
+                            <ShieldCheck className="w-3 h-3 mr-1" /> Manager
+                        </Badge>
+                    )}
+                </div>
               </div>
               <CardContent className="p-6 flex-grow flex flex-col">
                 <div className="flex justify-between items-start mb-2">
@@ -356,20 +378,40 @@ export default function ManageTeamPage() {
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 bg-muted/50 p-3 rounded-lg border">
-              <Checkbox 
-                id="isManager" 
-                checked={formData.isManager} 
-                onCheckedChange={handleCheckboxChange}
-              />
-              <div className="grid gap-1.5 leading-none">
-                <label htmlFor="isManager" className="text-sm font-bold leading-none cursor-pointer">
-                  Department Manager
-                </label>
-                <p className="text-xs text-muted-foreground">
-                  Managers are highlighted and shown on the main team page.
+            <div className="grid grid-cols-1 gap-3 bg-muted/50 p-4 rounded-lg border">
+                <div className="flex items-center space-x-2">
+                    <Checkbox 
+                        id="isCEO" 
+                        checked={formData.isCEO} 
+                        onCheckedChange={(checked) => handleCheckboxChange('isCEO', !!checked)}
+                    />
+                    <Label htmlFor="isCEO" className="text-sm font-bold leading-none cursor-pointer flex items-center gap-2">
+                        <Crown className="w-4 h-4 text-primary" /> CEO
+                    </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox 
+                        id="isDirector" 
+                        checked={formData.isDirector} 
+                        onCheckedChange={(checked) => handleCheckboxChange('isDirector', !!checked)}
+                    />
+                    <Label htmlFor="isDirector" className="text-sm font-bold leading-none cursor-pointer flex items-center gap-2">
+                        <Briefcase className="w-4 h-4 text-amber-500" /> Director
+                    </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox 
+                        id="isManager" 
+                        checked={formData.isManager} 
+                        onCheckedChange={(checked) => handleCheckboxChange('isManager', !!checked)}
+                    />
+                    <Label htmlFor="isManager" className="text-sm font-bold leading-none cursor-pointer flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-blue-500" /> Department Manager
+                    </Label>
+                </div>
+                <p className="text-[10px] text-muted-foreground italic mt-1">
+                    CEOs and Directors are featured at the top of the team page. Managers are featured in the leadership grid.
                 </p>
-              </div>
             </div>
 
             <div className="space-y-2">
