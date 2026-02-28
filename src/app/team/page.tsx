@@ -5,12 +5,13 @@ import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo } fr
 import dynamic from 'next/dynamic';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Users, ArrowUpRight, Sparkles, Crown, Briefcase, ShieldCheck } from 'lucide-react';
+import { Users, ArrowUpRight, Sparkles, Crown, Briefcase, ShieldCheck, UserGroupIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import TeamCard from '@/components/team/TeamCard';
+import Image from 'next/image';
 
 // Lazy load the heavy modal component
 const TeamMemberModal = dynamic(() => import('@/components/team/TeamMemberModal'), {
@@ -29,6 +30,72 @@ type TeamMember = {
   isCEO?: boolean;
   isDirector?: boolean;
   department: string;
+};
+
+const LeaderSpotlight = ({ member, index, onClick }: { member: TeamMember, index: number, onClick: () => void }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      onClick={onClick}
+      className="group cursor-pointer relative overflow-hidden bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-12 mb-8 shadow-sm hover:shadow-2xl hover:border-primary/20 transition-all duration-500"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        {/* Large Image */}
+        <div className="lg:col-span-4 relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-gray-50">
+          {member.photoUrl ? (
+            <Image 
+              src={member.photoUrl} 
+              alt={member.name} 
+              fill 
+              className="object-cover transition-transform duration-1000 group-hover:scale-110"
+              sizes="(max-width: 1024px) 100vw, 33vw"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                <span className="text-9xl font-black text-white/20">{member.name.charAt(0)}</span>
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute bottom-6 left-6">
+             <div className="w-12 h-12 rounded-2xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                {member.isCEO ? <Crown className="w-6 h-6 text-primary" /> : <Briefcase className="w-6 h-6 text-amber-500" />}
+             </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="lg:col-span-8">
+          <div className="flex flex-col gap-2 mb-6">
+            <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px]">
+              {member.isCEO ? 'Executive Leadership' : 'Board of Directors'}
+            </span>
+            <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
+              {member.name}
+            </h3>
+            <p className="text-xl md:text-2xl font-bold text-gray-400">
+              {member.role}
+            </p>
+          </div>
+          
+          <div className="prose prose-lg text-gray-600 max-w-none mb-8">
+            <p className="leading-relaxed line-clamp-4">
+              {member.bio}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-6">
+             <div className="flex items-center gap-2 px-8 py-4 rounded-full bg-primary text-white font-black text-sm transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(113,149,7,0.4)] hover:scale-105">
+                View Full Profile
+                <ArrowUpRight className="w-4 h-4" />
+             </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
 };
 
 export default function TeamPage() {
@@ -54,6 +121,10 @@ export default function TeamPage() {
     allTeamMembers?.filter(m => m.isManager && !m.isCEO && !m.isDirector) || [], 
     [allTeamMembers]
   );
+  const professionalStaff = useMemo(() => 
+    allTeamMembers?.filter(m => !m.isManager && !m.isCEO && !m.isDirector) || [], 
+    [allTeamMembers]
+  );
 
   // When a leader is selected, find all their department staff
   const departmentStaff = useMemo(() => {
@@ -73,15 +144,15 @@ export default function TeamPage() {
     setSelectedMember(null);
   }, []);
 
-  const TeamSection = ({ title, icon: Icon, members, colorClass }: { title: string, icon: any, members: TeamMember[], colorClass: string }) => {
+  const TeamSection = ({ title, icon: Icon, members, colorClass, isSpotlight = false }: { title: string, icon: any, members: TeamMember[], colorClass: string, isSpotlight?: boolean }) => {
     if (members.length === 0) return null;
     return (
-        <div className="mb-20">
+        <div className="mb-24">
             <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="flex items-center gap-3 mb-10 pb-4 border-b border-gray-100"
+                className="flex items-center gap-3 mb-12 pb-4 border-b border-gray-100"
             >
                 <div className={`p-2 rounded-xl ${colorClass}`}>
                     <Icon className="w-6 h-6 text-white" />
@@ -90,16 +161,25 @@ export default function TeamPage() {
                     {title}
                 </h2>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {members.map((member, index) => (
-                    <TeamCard 
-                        key={member.id} 
-                        member={member} 
-                        index={index}
-                        onClick={() => handleCardClick(member)}
-                    />
-                ))}
-            </div>
+            
+            {isSpotlight ? (
+                <div className="space-y-8">
+                    {members.map((member, index) => (
+                        <LeaderSpotlight key={member.id} member={member} index={index} onClick={() => handleCardClick(member)} />
+                    ))}
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    {members.map((member, index) => (
+                        <TeamCard 
+                            key={member.id} 
+                            member={member} 
+                            index={index}
+                            onClick={() => handleCardClick(member)}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
   }
@@ -142,14 +222,14 @@ export default function TeamPage() {
                 </div>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[0.95] tracking-tight mb-6">
-                  The Minds Behind<br />
+                  Cultivating<br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[hsl(88,92%,50%)] via-[hsl(88,92%,40%)] to-[hsl(88,92%,30%)]">
-                    Export Optimum
+                    Excellence
                   </span>
                 </h1>
 
                 <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mt-8">
-                  Built on a foundation of family values and decades of agricultural expertise. Meet the leaders cultivating excellence in every harvest.
+                  Built on a foundation of family values and decades of agricultural expertise. Meet the leaders and professionals dedicated to delivering the world's finest produce.
                 </p>
               </motion.div>
             </div>
@@ -158,14 +238,16 @@ export default function TeamPage() {
           <section className="py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
               {isLoading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} className="space-y-4">
-                      <div className="aspect-square bg-gray-100 rounded-3xl animate-pulse" />
-                      <div className="h-6 w-3/4 bg-gray-100 rounded animate-pulse" />
-                      <div className="h-4 w-1/2 bg-gray-100 rounded animate-pulse" />
+                <div className="space-y-24">
+                    <div className="h-[400px] w-full bg-gray-50 rounded-[2.5rem] animate-pulse" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="space-y-4">
+                            <div className="aspect-square bg-gray-100 rounded-3xl animate-pulse" />
+                            <div className="h-6 w-3/4 bg-gray-100 rounded animate-pulse" />
+                            </div>
+                        ))}
                     </div>
-                  ))}
                 </div>
               ) : allTeamMembers && allTeamMembers.length > 0 ? (
                 <>
@@ -174,18 +256,26 @@ export default function TeamPage() {
                         icon={Crown} 
                         members={ceos} 
                         colorClass="bg-primary shadow-[0_0_20px_rgba(113,149,7,0.3)]" 
+                        isSpotlight={true}
                     />
                     <TeamSection 
                         title="Board of Directors" 
                         icon={Briefcase} 
                         members={directors} 
                         colorClass="bg-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.3)]" 
+                        isSpotlight={true}
                     />
                     <TeamSection 
                         title="Management Team" 
                         icon={ShieldCheck} 
                         members={otherManagers} 
                         colorClass="bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]" 
+                    />
+                    <TeamSection 
+                        title="Our Professional Staff" 
+                        icon={Users} 
+                        members={professionalStaff} 
+                        colorClass="bg-gray-800 shadow-[0_0_20px_rgba(0,0,0,0.1)]" 
                     />
                 </>
               ) : (

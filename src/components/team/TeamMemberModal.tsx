@@ -176,7 +176,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                   {currentMember.bio}
                 </motion.p>
 
-                {/* Staff Cards Section - Only show for manager, not for staff */}
+                {/* Staff Cards Section - Only show for leaders/managers */}
                 {!isViewingStaff && departmentStaff.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
