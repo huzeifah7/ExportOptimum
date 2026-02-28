@@ -65,7 +65,7 @@ const ModernHero = () => {
         <CarouselContent className="h-full">
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="h-full">
-              <div className="modern-hero__slide-container">
+              <div className="modern-hero__slide-container h-full">
                 <Image 
                   src={slide.src} 
                   alt={slide.alt} 

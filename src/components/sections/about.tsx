@@ -25,6 +25,7 @@ export default function AboutRedesign() {
               src="https://images.unsplash.com/photo-1543363136-7fbfcd3b240d?q=80&w=1200&auto=format&fit=crop"
               alt="Fresh avocados growing in nature"
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
 
@@ -53,17 +54,13 @@ export default function AboutRedesign() {
               We are a family-owned business, working hand in hand with growers who honor the land and invest in their communities. Because we believe exceptional produce begins with responsible farming, we have adopted a long-term vision rooted in sustainability, trust, and shared growth to ensure quality that can be felt from the field to the table.
             </p>
 
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="mt-8 rounded-full border-primary text-primary hover:bg-primary hover:text-white transition-all group"
+            <button
+              className="mt-8 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition-all group px-8 py-3 font-semibold flex items-center gap-2"
+              onClick={() => window.location.href = '/about'}
             >
-              <Link href="/about">
-                Discover our journey
-                <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
+              Discover our journey
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </button>
           </div>
         </motion.div>
       </div>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -63,6 +62,7 @@ export default function QualityRedesign() {
                   alt="High quality avocados"
                   width={1200}
                   height={900}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover w-full h-[420px] lg:h-[420px] transition-transform duration-700 group-hover:scale-105"
                   data-ai-hint="avocado quality"
                 />
