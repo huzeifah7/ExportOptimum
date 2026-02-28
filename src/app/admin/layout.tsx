@@ -1,4 +1,3 @@
-
 'use client';
 import {
   LayoutDashboard,
@@ -20,7 +19,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@/firebase';
-import { Loader2, ChevronLeft } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import AdminHeader from '@/components/layout/admin-header';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -28,6 +27,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { FullPageLoading } from '@/components/ui/loading';
 
 const adminNavItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -126,11 +126,7 @@ export default function AdminLayout({
   if (isLoginPage) return <>{children}</>;
   
   if (isUserLoading) {
-    return (
-        <div className="flex h-screen w-full items-center justify-center bg-background">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        </div>
-    );
+    return <FullPageLoading />;
   }
 
   if (!user) return null;

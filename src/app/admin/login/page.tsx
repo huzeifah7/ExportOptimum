@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,6 +11,7 @@ import { useAuth, useUser } from '@/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { FullPageLoading } from '@/components/ui/loading';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('elbaalhoudaifa@gmail.com');
@@ -94,11 +94,7 @@ export default function AdminLoginPage() {
   
   // While Firebase is checking the user's auth state, show a full-screen loader.
   if (isUserLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-secondary/50">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      </div>
-    )
+    return <FullPageLoading />;
   }
 
   // If a user is already logged in, this component will be blank while useEffect redirects.
