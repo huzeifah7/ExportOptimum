@@ -1,4 +1,3 @@
-
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -97,6 +96,10 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       }
     ],
+  },
+  // Performance refactor: Experimental optimizations for build size and tree shaking
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
 };
 

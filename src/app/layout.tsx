@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import './globals.css';
 import './animations.css';
@@ -53,6 +52,7 @@ export default function RootLayout({
     <html lang="en" className={`scroll-smooth ${publicSans.variable} ${ptSans.variable} ${nunito.variable} ${montserrat.variable} ${hurricane.variable}`}>
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>

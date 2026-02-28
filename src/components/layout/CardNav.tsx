@@ -1,5 +1,5 @@
 'use client'
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ArrowUpRight } from 'lucide-react';
 import './CardNav.css';
@@ -48,7 +48,8 @@ const CardNav: React.FC<CardNavProps> = ({
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-  const calculateHeight = () => {
+  // Performance Optimization: Cache height calculation to avoid forced synchronous layout
+  const calculateHeight = useCallback(() => {
     const navEl = navRef.current;
     if (!navEl) return 220;
 
@@ -56,37 +57,19 @@ const CardNav: React.FC<CardNavProps> = ({
     if (isMobile) {
       const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement;
       if (contentEl) {
-        const wasVisible = contentEl.style.visibility;
-        const wasPointerEvents = contentEl.style.pointerEvents;
-        const wasPosition = contentEl.style.position;
-        const wasHeight = contentEl.style.height;
-
-        contentEl.style.visibility = 'visible';
-        contentEl.style.pointerEvents = 'auto';
-        contentEl.style.position = 'static';
-        contentEl.style.height = 'auto';
-
-        contentEl.offsetHeight;
-
-        const topBar = 60;
-        const padding = 16;
+        // We use scrollHeight once to avoid layout thrashing
         const contentHeight = contentEl.scrollHeight;
-
-        contentEl.style.visibility = wasVisible;
-        contentEl.style.pointerEvents = wasPointerEvents;
-        contentEl.style.position = wasPosition;
-        contentEl.style.height = wasHeight;
-
-        return topBar + contentHeight + padding;
+        return 60 + contentHeight + 16;
       }
     }
     return 220;
-  };
+  }, []);
 
-  const createTimeline = () => {
+  const createTimeline = useCallback(() => {
     const navEl = navRef.current;
     if (!navEl) return null;
 
+    // Reset initial state to prevent incorrect calculations
     gsap.set(navEl, { height: 60, overflow: 'hidden' });
     gsap.set(cardsRef.current, { y: 50, opacity: 0 });
 
@@ -98,10 +81,17 @@ const CardNav: React.FC<CardNavProps> = ({
       ease
     });
 
-    tl.to(cardsRef.current, { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 }, '-=0.1');
+    tl.to(cardsRef.current, { 
+      y: 0, 
+      opacity: 1, 
+      duration: 0.4, 
+      ease, 
+      stagger: 0.08,
+      clearProps: 'transform' // Clear props after animation for better performance
+    }, '-=0.1');
 
     return tl;
-  };
+  }, [calculateHeight, ease]);
 
   useLayoutEffect(() => {
     const tl = createTimeline();
@@ -111,7 +101,7 @@ const CardNav: React.FC<CardNavProps> = ({
       tl?.kill();
       tlRef.current = null;
     };
-  }, [ease, items]);
+  }, [createTimeline, items]);
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -136,9 +126,9 @@ const CardNav: React.FC<CardNavProps> = ({
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
     return () => window.removeEventListener('resize', handleResize);
-  }, [isExpanded]);
+  }, [isExpanded, calculateHeight, createTimeline]);
 
   const toggleMenu = () => {
     const tl = tlRef.current;

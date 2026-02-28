@@ -1,4 +1,3 @@
-
 'use client';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -74,6 +73,8 @@ const ModernHero = () => {
                   className="modern-hero__media"
                   priority={index === 0}
                   loading={index === 0 ? 'eager' : 'lazy'}
+                  // Use fetchPriority for the LCP element (slide 0)
+                  {...(index === 0 ? { fetchPriority: "high" } : {})}
                   sizes="100vw"
                   quality={85}
                 />
