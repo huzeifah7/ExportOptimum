@@ -1,11 +1,11 @@
 
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, Suspense, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Users, ArrowUpRight, Sparkles, Crown, Briefcase, ShieldCheck, UserGroupIcon } from 'lucide-react';
+import { Users, Sparkles, Crown, Briefcase, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
@@ -32,15 +32,14 @@ type TeamMember = {
   department: string;
 };
 
-const LeaderSpotlight = ({ member, index, onClick }: { member: TeamMember, index: number, onClick: () => void }) => {
+const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      onClick={onClick}
-      className="group cursor-pointer relative overflow-hidden bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-12 mb-8 shadow-sm hover:shadow-2xl hover:border-primary/20 transition-all duration-500"
+      className="group relative overflow-hidden bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-12 mb-8 shadow-sm hover:shadow-xl hover:border-primary/10 transition-all duration-500 cursor-default"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Large Image */}
@@ -50,7 +49,7 @@ const LeaderSpotlight = ({ member, index, onClick }: { member: TeamMember, index
               src={member.photoUrl} 
               alt={member.name} 
               fill 
-              className="object-cover transition-transform duration-1000 group-hover:scale-110"
+              className="object-cover transition-transform duration-1000 group-hover:scale-105"
               sizes="(max-width: 1024px) 100vw, 33vw"
             />
           ) : (
@@ -80,17 +79,10 @@ const LeaderSpotlight = ({ member, index, onClick }: { member: TeamMember, index
             </p>
           </div>
           
-          <div className="prose prose-lg text-gray-600 max-w-none mb-8">
-            <p className="leading-relaxed line-clamp-4">
+          <div className="prose prose-lg text-gray-600 max-w-none">
+            <p className="leading-relaxed whitespace-pre-wrap">
               {member.bio}
             </p>
-          </div>
-
-          <div className="flex items-center gap-6">
-             <div className="flex items-center gap-2 px-8 py-4 rounded-full bg-primary text-white font-black text-sm transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(113,149,7,0.4)] hover:scale-105">
-                View Full Profile
-                <ArrowUpRight className="w-4 h-4" />
-             </div>
           </div>
         </div>
       </div>
@@ -165,7 +157,7 @@ export default function TeamPage() {
             {isSpotlight ? (
                 <div className="space-y-8">
                     {members.map((member, index) => (
-                        <LeaderSpotlight key={member.id} member={member} index={index} onClick={() => handleCardClick(member)} />
+                        <LeaderSpotlight key={member.id} member={member} index={index} />
                     ))}
                 </div>
             ) : (
@@ -267,7 +259,7 @@ export default function TeamPage() {
                     />
                     <TeamSection 
                         title="Management Team" 
-                        icon={ShieldCheck} 
+                        icon={Users} 
                         members={otherManagers} 
                         colorClass="bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]" 
                     />
