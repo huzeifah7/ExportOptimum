@@ -30,8 +30,8 @@ const slides = [
   },
   {
     type: 'image',
-    src: '/chainbg.png',
-    alt: 'Global logistics and supply chain representing total control',
+    src: '/port.avif',
+    alt: 'Global logistics and supply chain representing total control at the port',
     headline: ['Smart Logistics,', 'Total', 'Control'],
     tagline: 'From origin to destination. From harvesting to final delivery, our supply chain is designed to protect quality; and combined with advanced logistics, we ensure compliance, and deliver fresh produce on time, every time!',
     ctaLabel: 'Become a Partner',
@@ -73,7 +73,6 @@ const ModernHero = () => {
                   className="modern-hero__media"
                   priority={index === 0}
                   loading={index === 0 ? 'eager' : 'lazy'}
-                  // Use fetchPriority for the LCP element (slide 0)
                   {...(index === 0 ? { fetchPriority: "high" } : {})}
                   sizes="100vw"
                   quality={85}
