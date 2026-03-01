@@ -27,10 +27,6 @@
   font-family: 'Public Sans', sans-serif;
 }
 
-.modern-hero__headline-highlight {
-  -webkit-text-stroke: 2px #fff;
-}
-
 .modern-hero__headline--accent {
   color: hsl(var(--primary));
 }

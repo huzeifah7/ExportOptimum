@@ -97,10 +97,7 @@ const ModernHero = () => {
             >
               <h1 className="modern-hero__headline">
                 {slides[current].headline[0]}{' '}
-                <span className={cn(
-                  current === 1 && "modern-hero__headline-highlight",
-                  current === 0 ? "text-primary" : "modern-hero__headline--accent"
-                )}>
+                <span className={slides[current].headline[1] === 'partner' ? "text-primary" : "modern-hero__headline--accent"}>
                   {slides[current].headline[1]}
                 </span>{' '}
                 {slides[current].headline[2]}

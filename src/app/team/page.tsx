@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Users, Sparkles, Crown, Briefcase, ArrowUpRight, Quote } from 'lucide-react';
-import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { motion } from 'framer-motion';
@@ -187,10 +186,6 @@ export default function TeamPage() {
     allTeamMembers?.filter(m => m.isManager && !m.isCEO && !m.isDirector) || [], 
     [allTeamMembers]
   );
-  const professionalStaff = useMemo(() => 
-    allTeamMembers?.filter(m => !m.isManager && !m.isCEO && !m.isDirector) || [], 
-    [allTeamMembers]
-  );
 
   // When a leader is selected, find all their department staff
   const departmentStaff = useMemo(() => {
@@ -326,7 +321,7 @@ export default function TeamPage() {
                         isSpotlight={true}
                     />
                     <TeamSection 
-                        title="Board of Directors" 
+                        title="Director" 
                         icon={Briefcase} 
                         members={directors} 
                         colorClass="bg-amber-500 shadow-[0_10px_30px_-10px_rgba(245,158,11,0.5)]" 
@@ -339,12 +334,6 @@ export default function TeamPage() {
                             icon={Users} 
                             members={otherManagers} 
                             colorClass="bg-gray-900 shadow-xl" 
-                        />
-                        <TeamSection 
-                            title="Our Specialists" 
-                            icon={Users} 
-                            members={professionalStaff} 
-                            colorClass="bg-gray-400" 
                         />
                     </div>
                 </>
