@@ -11,6 +11,7 @@ import { collection } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import TeamCard from '@/components/team/TeamCard';
 import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Lazy load the heavy modal component
 const TeamMemberModal = dynamic(() => import('@/components/team/TeamMemberModal'), {
