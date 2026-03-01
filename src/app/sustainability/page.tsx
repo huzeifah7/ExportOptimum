@@ -25,9 +25,9 @@ const pillars = [
     subtitle: 'Empowering Individuals, Strengthening Communities',
     description: 'Our responsibility begins with our people. All our policies are fully aligned with human rights principles and Moroccan labor laws, ensuring fair wages, safe working conditions, and comprehensive health and safety measures. We maintain a zero-tolerance policy toward child labor, harassment, and all forms of modern slavery.',
     secondParagraph: 'Beyond our teams, we actively support local communities by creating sustainable employment opportunities and investing in social initiatives. We have proudly founded and we regularly donate to a national NGO and association: Al Wed wa Rahma dedicated to education, providing academic support, parallel classes, and essential learning resources—particularly for orphaned children and teenagers.',
-    image: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=1200&auto=format&fit=crop',
-    imageAlt: 'Community members working together',
-    ngoHighlight: true
+    image: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageAlt: 'Community and people working together',
+    imageHint: 'community people'
   },
   {
     number: '02',
@@ -36,8 +36,9 @@ const pillars = [
     subtitle: 'Farming in Sync with Nature',
     description: 'At Export Optimum, environmental stewardship is central to how we operate. The raw materials we source are cultivated in alignment with natural cycles, with a strong focus on soil health, biodiversity, renewable energy and sustainable agricultural practices.',
     secondParagraph: 'Water conservation is also one of our critical priorities. We are fully aware of the growing pressures of climate change, we ensure that our suppliers apply rigorous standards of water stewardship, using clean water resources responsibly and we use water sustainably throughout the production process.',
-    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1200&auto=format&fit=crop',
-    imageAlt: 'Sustainable farming landscape'
+    image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop',
+    imageAlt: 'Sustainable agriculture and environment',
+    imageHint: 'sustainable planet'
   },
   {
     number: '03',
@@ -46,8 +47,9 @@ const pillars = [
     subtitle: 'Transparency, Integrity, Respect and Accountability',
     description: 'The sustainability policy Export Optimum adopts reflects a clear commitment to ethical conduct across our entire value chain. We strive to align fully with the United Nations Sustainable Development Goals (SDGs), promoting a production model that is both sustainable and ethically grounded.',
     secondParagraph: 'To reinforce this commitment, we have established a robust Ethical Charter and Code of Business Conduct, a framework that defines the ethical standards that guide our teams, govern our supplier relationships, and shape every business interaction, strengthening further our values of transparency, accountability, respect and integrity.',
-    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&auto=format&fit=crop',
-    imageAlt: 'Business ethics and transparency'
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop',
+    imageAlt: 'Ethical business meeting and transparency',
+    imageHint: 'business ethics'
   },
   {
     number: '04',
@@ -56,8 +58,9 @@ const pillars = [
     subtitle: 'Responsible Partnerships Built to Last',
     description: 'At Export Optimum we establish partnerships with our suppliers based not only on quality and price, but also on their environmental, social, and ethical performance. Clear criteria guide our partnerships, particularly regarding labor practices, environmental stewardship, and compliance.',
     secondParagraph: 'For every supplier, we maintain detailed documentation covering product origin, cultivation methods, laboratory analyses, audits, and certifications. Beyond compliance, we believe in empowering our partners through collaboration, knowledge sharing, and open communication ensuring that we grow together within a responsible and sustainable ecosystem.',
-    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&auto=format&fit=crop',
-    imageAlt: 'Partnership and collaboration'
+    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=800&auto=format&fit=crop',
+    imageAlt: 'Partnership handshake and collaboration',
+    imageHint: 'business partnership'
   },
 ];
 
@@ -222,7 +225,7 @@ export default function SustainabilityPage() {
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
-                        data-ai-hint={pillar.imageAlt}
+                        data-ai-hint={pillar.imageHint}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
                       
@@ -261,9 +264,6 @@ export default function SustainabilityPage() {
                         {pillar.secondParagraph}
                       </p>
                     )}
-
-                    {/* NGO Highlight Card (Only for People pillar) */}
-                    
                   </div>
                 </motion.div>
               ))}
