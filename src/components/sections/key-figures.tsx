@@ -45,9 +45,20 @@ export default function KeyFigures() {
     const { data: keyFigures, isLoading } = useDoc<KeyFigureStats>(keyFiguresRef);
 
     const formatNumber = (num: number | undefined) => {
-      if (num === undefined) return '0+';
-      if (num < 10) return `${num}+`;
-      return `${Math.floor(num / 10) * 10}+`;
+      if (num === undefined) return '+0';
+      
+      let displayValue: string;
+      if (num >= 1000) {
+        // Convert to 1k, 1.2k, etc.
+        displayValue = `${(num / 1000).toFixed(1).replace(/\.0$/, '')}k`;
+      } else if (num < 10) {
+        displayValue = num.toString();
+      } else {
+        // Round down to nearest 10 for consistency if desired, or just use number
+        displayValue = (Math.floor(num / 10) * 10).toString();
+      }
+      
+      return `+${displayValue}`;
     }
 
     const stats = [
@@ -78,5 +89,3 @@ export default function KeyFigures() {
         </div>
     );
 }
-
-    
