@@ -272,37 +272,37 @@ export default function QualityPage() {
                   
                   {certifications && certifications.length > 0 && (
                     <Marquee pauseOnHover className="[--duration:60s]">
-                      {certifications.map((cert) => (
-                        <div 
-                          key={cert.id} 
-                          className="group relative flex-shrink-0 mx-6"
-                        >
-                          <div className="relative overflow-hidden rounded-2xl bg-white backdrop-blur-xl border-2 border-gray-200 p-6 w-56 h-40 flex flex-col items-center justify-center transition-all duration-500 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2">
-                            <div className="relative h-20 w-full mb-3">
-                              {cert.imageUrl ? (
-                                <Image
-                                  src={cert.imageUrl}
-                                  alt={cert.name}
-                                  fill
-                                  sizes="200px"
-                                  className="object-contain transition-transform duration-500 group-hover:scale-110"
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-foreground/5 rounded-lg flex items-center justify-center">
-                                  <Award className="w-10 h-10 text-primary/30" />
-                                </div>
-                              )}
-                            </div>
-                            
-                            <p className="font-headline text-sm font-bold text-center text-gray-900">
-                              {cert.name}
-                            </p>
-
-                            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-bl-full" />
+                    {certifications.map((cert) => (
+                      <div 
+                        key={cert.id} 
+                        className="group relative flex-shrink-0 mx-6"
+                      >
+                        <div className="relative overflow-hidden rounded-2xl bg-transparent backdrop-blur-none border-0 p-6 w-56 h-40 flex flex-col items-center justify-center transition-all duration-500 hover:-translate-y-2">
+                          
+                          <div className="relative h-20 w-full mb-3">
+                            {cert.imageUrl ? (
+                              <Image
+                                src={cert.imageUrl}
+                                alt={cert.name}
+                                fill
+                                sizes="200px"
+                                className="object-contain transition-transform duration-500 group-hover:scale-110"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-foreground/5 rounded-lg flex items-center justify-center">
+                                <Award className="w-10 h-10 text-primary/30" />
+                              </div>
+                            )}
                           </div>
+                          
+                          <p className="font-headline text-sm font-bold text-center text-gray-900">
+                            {cert.name}
+                          </p>
+                  
                         </div>
-                      ))}
-                    </Marquee>
+                      </div>
+                    ))}
+                  </Marquee>
                   )}
 
                   {!isLoading && (!certifications || certifications.length === 0) && (

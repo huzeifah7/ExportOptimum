@@ -6,6 +6,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ModernHeroButton } from '../ui/ModernHeroButton';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 import './ModernHero.css';
 
 const slides = [
@@ -96,7 +97,10 @@ const ModernHero = () => {
             >
               <h1 className="modern-hero__headline">
                 {slides[current].headline[0]}{' '}
-                <span className={current === 0 ? "text-primary" : "modern-hero__headline--accent"}>
+                <span className={cn(
+                  "modern-hero__headline-highlight",
+                  current === 0 ? "text-primary" : "modern-hero__headline--accent"
+                )}>
                   {slides[current].headline[1]}
                 </span>{' '}
                 {slides[current].headline[2]}

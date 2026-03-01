@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useCallback, Suspense, useMemo } from 'react';
@@ -39,53 +38,128 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group relative overflow-hidden bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-12 mb-8 shadow-sm hover:shadow-xl hover:border-primary/10 transition-all duration-500 cursor-default"
+      className="group relative overflow-hidden bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-[hsl(88,92%,30%)]/20 mb-8"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Large Image */}
-        <div className="lg:col-span-4 relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-gray-50">
-          {member.photoUrl ? (
-            <Image 
-              src={member.photoUrl} 
-              alt={member.name} 
-              fill 
-              className="object-cover transition-transform duration-1000 group-hover:scale-105"
-              sizes="(max-width: 1024px) 100vw, 33vw"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div style={{
+          backgroundImage: 'radial-gradient(circle, hsl(88,92%,30%) 1px, transparent 1px)',
+          backgroundSize: '30px 30px'
+        }} className="w-full h-full" />
+      </div>
+
+      {/* Gradient Accent Blob */}
+      <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-gradient-to-br from-[hsl(88,92%,50%)]/10 to-[hsl(88,92%,30%)]/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+      <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-0">
+        {/* Image Section */}
+        <div className="lg:col-span-2 relative">
+          <div className="aspect-[4/5] lg:aspect-auto lg:h-full relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+            {member.photoUrl ? (
+              <Image 
+                src={member.photoUrl} 
+                alt={member.name} 
+                fill 
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 40vw"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-[hsl(88,92%,50%)] to-[hsl(88,92%,30%)] flex items-center justify-center">
                 <span className="text-9xl font-black text-white/20">{member.name.charAt(0)}</span>
+              </div>
+            )}
+            
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            
+            {/* Role Badge */}
+            <div className="absolute top-6 left-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm shadow-lg border border-white/50">
+                {member.isCEO ? (
+                  <>
+                    <Crown className="w-4 h-4 text-[hsl(88,92%,30%)]" />
+                    <span className="text-xs font-black uppercase tracking-wider text-[hsl(88,92%,25%)]">CEO</span>
+                  </>
+                ) : (
+                  <>
+                    <Briefcase className="w-4 h-4 text-amber-500" />
+                    <span className="text-xs font-black uppercase tracking-wider text-amber-600">Director</span>
+                  </>
+                )}
+              </div>
             </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          <div className="absolute bottom-6 left-6">
-             <div className="w-12 h-12 rounded-2xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                {member.isCEO ? <Crown className="w-6 h-6 text-primary" /> : <Briefcase className="w-6 h-6 text-amber-500" />}
-             </div>
+
+            {/* Department Badge */}
+            <div className="absolute bottom-6 left-6 right-6">
+              <div className="px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm shadow-lg text-center">
+                <span className="text-xs font-bold text-gray-700">{member.department}</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="lg:col-span-8">
-          <div className="flex flex-col gap-2 mb-6">
-            <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px]">
+        {/* Content Section */}
+        <div className="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
+          {/* Eyebrow */}
+          <div className="flex items-center gap-3 mb-4">
+            <span className="w-8 h-px bg-[hsl(88,92%,30%)]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
               {member.isCEO ? 'Executive Leadership' : 'Board of Directors'}
             </span>
-            <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
-              {member.name}
-            </h3>
-            <p className="text-xl md:text-2xl font-bold text-gray-400">
-              {member.role}
-            </p>
           </div>
+
+          {/* Name & Role */}
+          <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-3">
+            {member.name}
+          </h3>
+          <p className="text-lg md:text-xl font-semibold text-[hsl(88,92%,30%)] mb-6">
+            {member.role}
+          </p>
           
-          <div className="prose prose-lg text-gray-600 max-w-none">
-            <p className="leading-relaxed whitespace-pre-wrap">
+          {/* Bio */}
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[hsl(88,92%,30%)] to-transparent rounded-full" />
+            <p className="text-gray-600 leading-relaxed pl-6 text-base md:text-lg">
               {member.bio}
             </p>
           </div>
+
+          {/* Social Links */}
+          {(member.linkedin || member.whatsapp) && (
+            <div className="flex gap-3 mt-8 pt-6 border-t border-gray-100">
+              {member.linkedin && (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 text-sm font-semibold transition-colors duration-200"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  Connect
+                </a>
+              )}
+              {member.whatsapp && (
+                <a
+                  href={`https://wa.me/${member.whatsapp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 hover:bg-green-100 text-green-600 text-sm font-semibold transition-colors duration-200"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.353-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.187-1.622c1.736.946 3.7 1.442 5.7 1.447h.005c6.552 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                  </svg>
+                  Message
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Bottom Accent Line */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </motion.div>
   );
 };
@@ -231,7 +305,7 @@ export default function TeamPage() {
             <div className="max-w-7xl mx-auto">
               {isLoading ? (
                 <div className="space-y-24">
-                    <div className="h-[400px] w-full bg-gray-50 rounded-[2.5rem] animate-pulse" />
+                    <div className="h-[400px] w-full bg-gray-50 rounded-3xl animate-pulse" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {Array.from({ length: 4 }).map((_, i) => (
                             <div key={i} className="space-y-4">
@@ -247,7 +321,7 @@ export default function TeamPage() {
                         title="Executive Leadership" 
                         icon={Crown} 
                         members={ceos} 
-                        colorClass="bg-primary shadow-[0_0_20px_rgba(113,149,7,0.3)]" 
+                        colorClass="bg-[hsl(88,92%,35%)] shadow-[0_0_20px_rgba(113,149,7,0.3)]" 
                         isSpotlight={true}
                     />
                     <TeamSection 
