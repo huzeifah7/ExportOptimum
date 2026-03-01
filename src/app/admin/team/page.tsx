@@ -21,7 +21,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
-import { Linkedin, MessageCircle, Trash2, Edit, Loader2, UserCheck, ShieldCheck, Crown, Briefcase } from 'lucide-react';
+import { Linkedin, MessageCircle, Trash2, Edit, Loader2, Crown, Briefcase, Plus, X } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -51,8 +51,10 @@ type TeamMember = {
   isManager?: boolean;
   isCEO?: boolean;
   isDirector?: boolean;
-  department: "Buying" | "Administrative" | "RH" | "Production" | "Quality" | "Other";
+  department: string;
 };
+
+const DEFAULT_DEPARTMENTS = ["Buying", "Administrative", "RH", "Production", "Quality", "Other"];
 
 const initialFormState: Partial<TeamMember> = {
   name: '',
@@ -87,7 +89,21 @@ export default function ManageTeamPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [memberToDelete, setMemberToDelete] = useState<TeamMember | null>(null);
+  
+  // Custom Department State
+  const [availableDepartments, setAvailableDepartments] = useState<string[]>(DEFAULT_DEPARTMENTS);
+  const [isAddingDepartment, setIsAddingDepartment] = useState(false);
+  const [newDepartmentName, setNewDepartmentName] = useState('');
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (teamMembers) {
+      const existingDepts = teamMembers.map(m => m.department);
+      const combined = Array.from(new Set([...DEFAULT_DEPARTMENTS, ...existingDepts])).filter(Boolean);
+      setAvailableDepartments(combined.sort());
+    }
+  }, [teamMembers]);
 
   useEffect(() => {
     if (currentMember) {
@@ -97,7 +113,9 @@ export default function ManageTeamPage() {
       setFormData(initialFormState);
       setImagePreview(null);
     }
-  }, [currentMember]);
+    setIsAddingDepartment(false);
+    setNewDepartmentName('');
+  }, [currentMember, isModalOpen]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -107,7 +125,6 @@ export default function ManageTeamPage() {
   const handleCheckboxChange = (name: string, checked: boolean) => {
     setFormData((prev) => {
         const next = { ...prev, [name]: checked };
-        // If CEO or Director is checked, they are automatically Managers
         if ((name === 'isCEO' || name === 'isDirector') && checked) {
             next.isManager = true;
         }
@@ -116,13 +133,24 @@ export default function ManageTeamPage() {
   };
 
   const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, department: value as any }));
+    setFormData((prev) => ({ ...prev, department: value }));
+  };
+
+  const handleAddDepartment = () => {
+    const trimmed = newDepartmentName.trim();
+    if (trimmed && !availableDepartments.includes(trimmed)) {
+      setAvailableDepartments(prev => [...prev, trimmed].sort());
+      setFormData(prev => ({ ...prev, department: trimmed }));
+      setNewDepartmentName('');
+      setIsAddingDepartment(false);
+      toast({ title: "New department added", description: `"${trimmed}" is now available in the selection.` });
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
         toast({ variant: 'destructive', title: 'File too large', description: 'Please select an image smaller than 5MB.' });
         return;
       }
@@ -137,10 +165,6 @@ export default function ManageTeamPage() {
 
   const handleAddClick = () => {
     setCurrentMember(null);
-    setFormData(initialFormState);
-    setImagePreview(null);
-    setSelectedFile(null);
-    if (fileInputRef.current) fileInputRef.current.value = '';
     setIsModalOpen(true);
   };
 
@@ -208,15 +232,7 @@ export default function ManageTeamPage() {
         ? { ...memberData, updatedAt: serverTimestamp() }
         : { ...memberData, id: memberId, createdAt: serverTimestamp(), updatedAt: serverTimestamp() };
 
-      setDoc(memberDocRef, dataToSave, { merge: true })
-        .catch(async (serverError) => {
-          const permissionError = new FirestorePermissionError({
-            path: memberDocRef.path,
-            operation: 'write',
-            requestResourceData: dataToSave,
-          });
-          errorEmitter.emit('permission-error', permissionError);
-        });
+      await setDoc(memberDocRef, dataToSave, { merge: true });
 
       toast({ title: isEditing ? 'Team member updated' : 'Team member added' });
       closeModal();
@@ -306,11 +322,6 @@ export default function ManageTeamPage() {
                             <Briefcase className="w-3 h-3 mr-1" /> Director
                         </Badge>
                     )}
-                    {member.isManager && !member.isCEO && !member.isDirector && (
-                        <Badge className="bg-blue-500 text-white shadow-lg">
-                            <ShieldCheck className="w-3 h-3 mr-1" /> Manager
-                        </Badge>
-                    )}
                 </div>
               </div>
               <CardContent className="p-6 flex-grow flex flex-col">
@@ -322,18 +333,6 @@ export default function ManageTeamPage() {
                 <p className="text-muted-foreground mt-2 text-sm flex-grow line-clamp-3">
                   {member.bio}
                 </p>
-                <div className="flex items-center gap-4 mt-4">
-                  {member.linkedin && (
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
-                      <Linkedin className="h-5 w-5 text-muted-foreground hover:text-primary" />
-                    </a>
-                  )}
-                  {member.whatsapp && (
-                    <a href={`https://wa.me/${member.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
-                      <MessageCircle className="h-5 w-5 text-muted-foreground hover:text-primary" />
-                    </a>
-                  )}
-                </div>
                 <div className="border-t mt-4 pt-4 flex gap-2">
                   <Button variant="outline" size="sm" onClick={() => handleEditClick(member)}>
                     <Edit className="mr-2 h-4 w-4" /> Edit
@@ -350,33 +349,66 @@ export default function ManageTeamPage() {
 
       {/* Add/Edit Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[550px]">
           <DialogHeader>
             <DialogTitle>{currentMember ? 'Edit Staff Member' : 'Add New Staff Member'}</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto px-1">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="grid gap-4 py-4 max-h-[75vh] overflow-y-auto px-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input id="name" name="name" value={formData.name} onChange={handleInputChange} required />
               </div>
+              
               <div className="space-y-2">
                 <Label htmlFor="department">Department</Label>
-                <Select onValueChange={handleSelectChange} value={formData.department}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Department" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Buying">Buying</SelectItem>
-                    <SelectItem value="Administrative">Administrative</SelectItem>
-                    <SelectItem value="RH">RH</SelectItem>
-                    <SelectItem value="Production">Production</SelectItem>
-                    <SelectItem value="Quality">Quality</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                  <Select onValueChange={handleSelectChange} value={formData.department}>
+                    <SelectTrigger className="flex-1">
+                      <SelectValue placeholder="Select Department" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableDepartments.map(dept => (
+                        <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="icon" 
+                    onClick={() => setIsAddingDepartment(!isAddingDepartment)}
+                    title="Add New Department"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
+
+            {isAddingDepartment && (
+              <div className="flex gap-2 items-end bg-muted/30 p-3 rounded-lg border border-dashed animate-in fade-in slide-in-from-top-1">
+                <div className="flex-1 space-y-1">
+                  <Label htmlFor="new-dept" className="text-[10px] uppercase font-bold text-muted-foreground">New Department Name</Label>
+                  <Input 
+                    id="new-dept" 
+                    value={newDepartmentName} 
+                    onChange={(e) => setNewDepartmentName(e.target.value)}
+                    placeholder="e.g. Marketing"
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <Button 
+                  type="button" 
+                  size="sm" 
+                  className="h-8 px-3" 
+                  onClick={handleAddDepartment}
+                  disabled={!newDepartmentName.trim()}
+                >
+                  Add
+                </Button>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 gap-3 bg-muted/50 p-4 rounded-lg border">
                 <div className="flex items-center space-x-2">
@@ -405,13 +437,10 @@ export default function ManageTeamPage() {
                         checked={formData.isManager} 
                         onCheckedChange={(checked) => handleCheckboxChange('isManager', !!checked)}
                     />
-                    <Label htmlFor="isManager" className="text-sm font-bold leading-none cursor-pointer flex items-center gap-2">
-                        <ShieldCheck className="w-4 h-4 text-blue-500" /> Department Manager
+                    <Label htmlFor="isManager" className="text-sm font-bold leading-none cursor-pointer">
+                        Department Manager
                     </Label>
                 </div>
-                <p className="text-[10px] text-muted-foreground italic mt-1">
-                    CEOs and Directors are featured at the top of the team page. Managers are featured in the leadership grid.
-                </p>
             </div>
 
             <div className="space-y-2">
@@ -423,7 +452,7 @@ export default function ManageTeamPage() {
               <Textarea id="bio" name="bio" value={formData.bio} onChange={handleInputChange} required className="min-h-[100px]" />
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="linkedin">LinkedIn URL</Label>
                 <Input id="linkedin" name="linkedin" value={formData.linkedin} onChange={handleInputChange} placeholder="https://linkedin.com/in/..." />
