@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 import TeamCard from '@/components/team/TeamCard';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
 
 // Lazy load the heavy modal component
 const TeamMemberModal = dynamic(() => import('@/components/team/TeamMemberModal'), {
@@ -85,7 +86,7 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
                     <div className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center">
                       <Briefcase className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-900">Board Member</span>
+                    <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-900">Director</span>
                   </>
                 )}
               </div>
