@@ -10,8 +10,8 @@ const MissionSection = () => {
     const isInView = useInView(ref, { once: true, amount: 0.2 });
 
     return (
-        <section ref={ref} className="py-28 lg:py-36 relative bg-primary/5">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+        <section ref={ref} className="py-28 lg:py-16 relative bg-primary/5">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-4 max-w-7xl relative z-10">
                 <motion.div 
                     initial={{ opacity: 0 }} 
                     animate={isInView ? { opacity: 1 } : {}} 

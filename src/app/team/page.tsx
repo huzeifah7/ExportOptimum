@@ -71,15 +71,15 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
             {/* Gradient Scrim */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
             
-            {/* Float Badges */}
-            <div className="absolute top-8 left-8 flex flex-col gap-3">
-              <div className="px-5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md shadow-2xl border border-white/50 flex items-center gap-3">
+            {/* Float Badges - Centered horizontally */}
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col gap-3 z-20">
+              <div className="px-5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md shadow-2xl border border-white/50 flex items-center gap-3 whitespace-nowrap">
                 {member.isCEO ? (
                   <>
                     <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
                       <Crown className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-900">Chief Executive</span>
+                    <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-900">CEO & Founder </span>
                   </>
                 ) : (
                   <>
@@ -315,7 +315,7 @@ export default function TeamPage() {
               ) : allTeamMembers && allTeamMembers.length > 0 ? (
                 <>
                     <TeamSection 
-                        title="Executive Leadership" 
+                        title="CEO & Founder" 
                         icon={Crown} 
                         members={ceos} 
                         colorClass="bg-primary shadow-[0_10px_30px_-10px_rgba(113,149,7,0.5)]" 
@@ -363,7 +363,7 @@ export default function TeamPage() {
                     href="/contact"
                     className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gray-900 text-white font-black text-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 shadow-xl"
                   >
-                    Become Pertner 
+                    Become Partner 
                     <ArrowUpRight className="w-5 h-5" />
                   </Link>
                 </div>
