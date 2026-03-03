@@ -213,22 +213,20 @@
 
   .nav-card {
     height: auto;
-    min-height: 140px;
+    min-height: 120px;
     flex: 1 1 auto;
     max-height: none;
-    padding: 20px 24px;
+    padding: 28px 24px;
     justify-content: space-between;
   }
 
   .nav-card-label {
     font-size: 20px;
     font-weight: 700;
-    margin-bottom: 8px;
   }
 
   .nav-card-links {
-    margin-top: 12px;
-    gap: 10px;
+    margin-top: 4px;
   }
 
   .nav-card-link {

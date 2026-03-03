@@ -7,9 +7,10 @@ import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
-import { ArrowRight, Leaf, Package } from 'lucide-react';
+import { ArrowRight, Leaf, Package, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Button } from '@/components/ui/button';
 
 type Product = {
   id: string;
@@ -375,40 +376,41 @@ export default function ProductsPage() {
           />
         ))}
 
-        {/* CTA - Floating Card Style with Margins */}
-        <section className="mx-4 sm:mx-6 lg:mx-12 mb-16 py-20 lg:py-28 bg-gray-900 text-white overflow-hidden relative rounded-[40px] shadow-2xl">
-          <div className="absolute inset-0 pointer-events-none" aria-hidden>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
-              style={{ background: 'radial-gradient(ellipse, hsl(88,92%,40%,0.15) 0%, transparent 70%)', filter: 'blur(100px)' }} />
-          </div>
-
-          <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7 }}
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[hsl(88,92%,30%)]/20 border-2 border-[hsl(88,92%,30%)]/30 mb-8">
-                <Leaf className="w-8 h-8 text-[hsl(88,92%,50%)]" />
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight leading-tight">
-                Interested in Our Produce?
-              </h2>
-
-              <p className="text-xl text-white/60 font-light leading-relaxed max-w-2xl mx-auto mb-10">
-                We partner with importers, distributors, and retailers worldwide. Contact our export team to discuss your needs and discover the quality of Export Optimum.
-              </p>
-
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-[hsl(88,92%,30%)] hover:bg-[hsl(88,92%,35%)] text-white font-bold rounded-full transition-all duration-300 hover:shadow-[0_0_40px_hsl(88,92%,30%,0.4)] text-lg group"
+        {/* CTA - Updated to match Quality Page Style */}
+        <section className="p-8 bg-background mb-16">
+          <div className="relative bg-primary rounded-[40px] p-12 lg:p-24 overflow-hidden shadow-2xl max-w-7xl mx-auto">
+            {/* Decorative background shapes from Quality Page */}
+            <div aria-hidden="true" className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full opacity-50" />
+            <div aria-hidden="true" className="absolute -bottom-24 -left-16 w-80 h-80 bg-white/10 rounded-full opacity-50" />
+            
+            <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.7 }}
+                className="text-primary-foreground"
               >
-                Become a Partner
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </motion.div>
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-8 border-2 border-white/30">
+                  <Leaf className="w-10 h-10 text-white" />
+                </div>
+
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-tight">
+                  Interested in Our Produce?
+                </h2>
+
+                <p className="text-xl text-primary-foreground/80 font-light leading-relaxed max-w-2xl mx-auto mb-10">
+                  We partner with importers, distributors, and retailers worldwide. Contact our export team to discuss your needs and discover the quality of Export Optimum.
+                </p>
+
+                <Button asChild size="lg" variant="secondary" className="rounded-full px-10 h-16 text-lg group shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                  <Link href="/contact" className="flex items-center gap-2">
+                    Become a Partner
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </motion.div>
+            </div>
           </div>
         </section>
 
