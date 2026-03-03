@@ -19,20 +19,17 @@ const HeroSection = () => {
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
 
   return (
-    <section ref={ref} className="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-24 overflow-hidden bg-white">
-      <motion.div style={{ y }} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+    <section ref={ref} className="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-24 overflow-hidden bg-white ">
+      <motion.div style={{ y }} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 text-center">
         <motion.div 
           initial={{ opacity: 0, y: 10 }} 
           animate={{ opacity: 1, y: 0 }} 
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border border-primary/30 bg-primary/10 text-primary mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            About Export Optimum
-          </span>
+          
         </motion.div>
 
-        <div className="overflow-hidden mb-4">
+        <div className="overflow-hidden mb-4 ">
           <motion.h1
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
@@ -63,7 +60,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-lg text-muted-foreground max-w-xl leading-relaxed mb-10"
+          className="text-lg text-gray-400 max-w-xl leading-relaxed mb-10 mx-auto"
         >
           Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers.
         </motion.p>
@@ -72,7 +69,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-wrap gap-4 mb-24"
+          className="flex flex-wrap gap-4 mb-24 justify-center"
         >
           <Link href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-base transition-all duration-300 shadow-md group">
@@ -92,7 +89,7 @@ const HeroSection = () => {
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
         >
           {stats.map((s, i) => (
-            <div key={i} className="relative group p-5 rounded-2xl bg-card border border-border transition-colors duration-300 hover:border-primary/40 text-center overflow-hidden">
+            <div key={i} className="relative group p-5 rounded-2xl bg-card border border-border transition-colors duration-300 hover:border-primary/40 text-center overflow-hidden shadow-sm">
               <div className="text-3xl font-black text-primary mb-1">{s.value}</div>
               <div className="text-xs text-muted-foreground font-medium uppercase tracking-widest">{s.label}</div>
             </div>
