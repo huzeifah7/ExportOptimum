@@ -125,25 +125,25 @@ export default function SustainabilityPage() {
           />
         </div>
 
-        {/* Impact Stats Section - Minimized spacing */}
-        <section ref={statsRef} className="py-4 bg-white relative z-10 -mt-12 sm:-mt-16">
+        {/* Impact Stats Section - Max compressed spacing */}
+        <section ref={statsRef} className="py-1 bg-white relative z-10 -mt-12 sm:-mt-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
               {impactStats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isStatsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 shadow-md border border-gray-100 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:-translate-y-1"
+                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-xl p-3 shadow-md border border-gray-100 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:-translate-y-1"
                 >
-                  <div className="relative w-10 h-10 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500">
-                    <stat.icon className="w-5 h-5 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
+                  <div className="relative w-8 h-8 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center mx-auto mb-1.5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500">
+                    <stat.icon className="w-4 h-4 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
                   </div>
-                  <div className="text-xl font-bold text-[hsl(88,92%,30%)] mb-0.5 text-center">
+                  <div className="text-lg font-bold text-[hsl(88,92%,30%)] mb-0.5 text-center">
                     {stat.value}
                   </div>
-                  <div className="text-[10px] font-bold text-gray-600 text-center uppercase tracking-wider">
+                  <div className="text-[9px] font-bold text-gray-600 text-center uppercase tracking-wider">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -152,25 +152,25 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Four Pillars Section - Tighter layouts */}
-        <section id="pillars" className="py-8 lg:py-12 bg-white">
+        {/* Four Pillars Section - Max compression */}
+        <section id="pillars" className="py-2 lg:py-4 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-8"
+              className="text-center mb-4"
             >
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-2 text-gray-900">
+              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-1 text-gray-900">
                 Our Four Pillars of <span className="text-[hsl(88,92%,30%)]">Sustainability</span>
               </h2>
-              <p className="text-sm text-gray-600 max-w-xl mx-auto">
+              <p className="text-xs text-gray-600 max-w-xl mx-auto">
                 A framework guiding every decision we make.
               </p>
             </motion.div>
 
-            <div className="space-y-8 lg:space-y-12">
+            <div className="space-y-4 lg:space-y-6">
               {pillars.map((pillar, index) => (
                 <motion.div
                   key={index}
@@ -178,12 +178,12 @@ export default function SustainabilityPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.7 }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center ${
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center ${
                     index % 2 === 1 ? 'lg:flex-row-reverse' : ''
                   }`}
                 >
                   <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                    <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-lg">
+                    <div className="relative aspect-[21/9] lg:aspect-[16/9] rounded-xl overflow-hidden shadow-md">
                       <Image
                         src={pillar.image}
                         alt={pillar.imageAlt}
@@ -192,33 +192,33 @@ export default function SustainabilityPage() {
                         className="object-cover"
                         data-ai-hint={pillar.imageHint}
                       />
-                      <div className="absolute top-3 left-3 w-10 h-10 bg-[hsl(88,92%,30%)] rounded-lg flex items-center justify-center shadow-lg">
-                        <span className="text-lg font-bold text-white">{pillar.number}</span>
+                      <div className="absolute top-2 left-2 w-8 h-8 bg-[hsl(88,92%,30%)] rounded-lg flex items-center justify-center shadow-lg">
+                        <span className="text-base font-bold text-white">{pillar.number}</span>
                       </div>
                     </div>
                   </div>
 
                   <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <pillar.icon className="w-5 h-5 text-[hsl(88,92%,30%)]" />
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <div className="w-8 h-8 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <pillar.icon className="w-4 h-4 text-[hsl(88,92%,30%)]" />
                       </div>
                       <div>
-                        <h3 className="text-xl md:text-2xl font-headline font-bold text-gray-900">
+                        <h3 className="text-lg md:text-xl font-headline font-bold text-gray-900">
                           {pillar.title}
                         </h3>
-                        <p className="text-xs text-[hsl(88,92%,30%)] font-semibold uppercase tracking-wide">
+                        <p className="text-[10px] text-[hsl(88,92%,30%)] font-semibold uppercase tracking-wide">
                           {pillar.subtitle}
                         </p>
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                    <div className="space-y-1">
+                      <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
                         {pillar.description}
                       </p>
                       {pillar.secondParagraph && (
-                        <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                        <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
                           {pillar.secondParagraph}
                         </p>
                       )}
@@ -230,28 +230,28 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Dome Gallery Section - Compact gallery */}
-        <section className="py-6 bg-gray-50 overflow-hidden">
+        {/* Dome Gallery Section - Max compressed gallery */}
+        <section className="py-1 bg-gray-50 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-6"
+                    className="text-center mb-2"
                 >
-                    <h2 className="text-2xl md:text-3xl font-headline font-bold mb-1 text-gray-900">
+                    <h2 className="text-xl md:text-2xl font-headline font-bold mb-0.5 text-gray-900">
                         Our Journey in Pictures
                     </h2>
-                    <p className="text-xs text-gray-600 max-w-xl mx-auto uppercase tracking-widest font-semibold opacity-70">
+                    <p className="text-[10px] text-gray-600 max-w-xl mx-auto uppercase tracking-widest font-semibold opacity-70">
                         Visualizing our commitment to people, planet, and ethical partnerships.
                     </p>
                 </motion.div>
 
-                <div className="h-[50vh] relative w-full">
+                <div className="h-[40vh] relative w-full">
                     {isLoadingGallery ? (
                         <div className="w-full h-full flex items-center justify-center">
-                            <Skeleton className="w-48 h-48 rounded-full" />
+                            <Skeleton className="w-32 h-32 rounded-full" />
                         </div>
                     ) : (
                         <DomeGallery images={galleryImages || []} grayscale={false} />
