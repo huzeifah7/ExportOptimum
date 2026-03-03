@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -41,7 +40,7 @@ function ProductSlideCard({ product }: { product: Product }) {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative h-full flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 hover:border-[hsl(88,92%,28%)]/40 transition-all duration-500 hover:shadow-xl hover:shadow-[hsl(88,92%,30%)]/10"
       >
-        <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
+        <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
           {product.imageUrl ? (
             <>
               <Image
@@ -66,23 +65,23 @@ function ProductSlideCard({ product }: { product: Product }) {
           </div>
 
           <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
-            <div className="w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-xl border border-gray-100 group-hover:bg-[hsl(88,92%,28%)] group-hover:border-[hsl(88,92%,28%)]">
-              <ArrowRight className="w-4 h-4 text-[hsl(88,92%,25%)] group-hover:text-white transition-colors duration-300" />
+            <div className="w-8 h-8 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-xl border border-gray-100 group-hover:bg-[hsl(88,92%,28%)] group-hover:border-[hsl(88,92%,28%)]">
+              <ArrowRight className="w-3.5 h-3.5 text-[hsl(88,92%,25%)] group-hover:text-white transition-colors duration-300" />
             </div>
           </div>
         </div>
 
-        <div className="p-5 flex flex-col flex-grow">
-          <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight tracking-tight group-hover:text-[hsl(88,92%,25%)] transition-colors duration-300 line-clamp-2">
+        <div className="p-4 flex flex-col flex-grow">
+          <h3 className="text-base font-bold text-gray-900 mb-1.5 leading-tight tracking-tight group-hover:text-[hsl(88,92%,25%)] transition-colors duration-300 line-clamp-2">
             {product.name}
           </h3>
-          <p className="text-sm text-gray-600 leading-relaxed line-clamp-2 font-light flex-grow mb-3">
+          <p className="text-xs text-gray-600 leading-relaxed line-clamp-2 font-light flex-grow mb-2">
             {product.description}
           </p>
-          <div className="flex items-center justify-end pt-3 border-t border-gray-100">
+          <div className="flex items-center justify-end pt-2.5 border-t border-gray-100">
             <div className="flex items-center gap-1.5 text-gray-400 group-hover:text-[hsl(88,92%,25%)] transition-colors duration-300">
-              <span className="text-xs font-medium">Details</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Details</span>
+              <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
             </div>
           </div>
         </div>
@@ -98,14 +97,14 @@ function ProductSlideCard({ product }: { product: Product }) {
 
 function ProductsLoading() {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex gap-6 overflow-hidden">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] space-y-4">
+            <div key={i} className="flex-shrink-0 w-[280px] sm:w-[300px] lg:w-[300px] space-y-4">
               <Skeleton className="w-full aspect-[3/4] rounded-3xl bg-gray-100" />
               <Skeleton className="h-6 w-3/4 bg-gray-100" />
-              <Skeleton className="h-20 w-full bg-gray-100" />
+              <Skeleton className="h-16 w-full bg-gray-100" />
             </div>
           ))}
         </div>
@@ -204,7 +203,7 @@ export default function Products() {
 
   if (!products || products.length === 0) {
     return (
-      <section className="py-32 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4 text-center">
           <div className="w-20 h-20 rounded-full bg-gray-50 border-2 border-gray-100 flex items-center justify-center mx-auto mb-6">
             <Package className="w-10 h-10 text-gray-300" />
@@ -218,16 +217,16 @@ export default function Products() {
 
   return (
     <main className="bg-white overflow-hidden">
-      <section className="pt-20 pb-12">
+      <section className="pt-16 pb-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
             <div className="flex-1">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
-                className="flex items-center gap-3 mb-6"
+                className="flex items-center gap-3 mb-4"
               >
                 <span className="w-8 h-px bg-[hsl(88,92%,28%)]" />
                 <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
@@ -241,7 +240,7 @@ export default function Products() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 tracking-tight leading-[1.1]"
+                className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 tracking-tight leading-[1.1]"
               >
                 Featured
                 <br />
@@ -255,7 +254,7 @@ export default function Products() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.2 }}
-                className="text-lg text-gray-500 font-light max-w-xl leading-relaxed"
+                className="text-base text-gray-500 font-light max-w-xl leading-relaxed"
               >
                 Discover our selection of premium produce, sourced from the finest farms and delivered with excellence.
               </motion.p>
@@ -269,25 +268,25 @@ export default function Products() {
               className="flex items-center gap-3"
             >
               <div className="text-sm font-bold text-gray-400 mr-2">
-                <span className="text-2xl text-[hsl(88,92%,25%)]">{String(selectedIndex + 1).padStart(2, '0')}</span>
-                <span className="mx-1">/</span>
-                <span>{String(products.length).padStart(2, '0')}</span>
+                <span className="text-xl text-[hsl(88,92%,25%)]">{String(selectedIndex + 1).padStart(2, '0')}</span>
+                <span className="mx-1 text-xs">/</span>
+                <span className="text-xs">{String(products.length).padStart(2, '0')}</span>
               </div>
 
               <button
                 onClick={() => emblaApi?.scrollPrev()}
                 disabled={!canScrollPrev}
-                className="w-14 h-14 rounded-full border-2 border-gray-200 flex items-center justify-center transition-all duration-300 hover:border-[hsl(88,92%,28%)] hover:bg-[hsl(88,92%,28%)]/5 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:bg-transparent group"
+                className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center transition-all duration-300 hover:border-[hsl(88,92%,28%)] hover:bg-[hsl(88,92%,28%)]/5 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:bg-transparent group"
               >
-                <ChevronLeft className="w-5 h-5 text-gray-600 transition-colors group-hover:text-[hsl(88,92%,25%)]" />
+                <ChevronLeft className="w-4 h-4 text-gray-600 transition-colors group-hover:text-[hsl(88,92%,25%)]" />
               </button>
 
               <button
                 onClick={() => emblaApi?.scrollNext()}
                 disabled={!canScrollNext}
-                className="w-14 h-14 rounded-full bg-[hsl(88,92%,28%)] flex items-center justify-center transition-all duration-300 hover:bg-[hsl(88,92%,23%)] hover:shadow-lg disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[hsl(88,92%,28%)] group"
+                className="w-12 h-12 rounded-full bg-[hsl(88,92%,28%)] flex items-center justify-center transition-all duration-300 hover:bg-[hsl(88,92%,23%)] hover:shadow-lg disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[hsl(88,92%,28%)] group"
               >
-                <ChevronRight className="w-5 h-5 text-white" />
+                <ChevronRight className="w-4 h-4 text-white" />
               </button>
             </motion.div>
           </div>
@@ -301,7 +300,7 @@ export default function Products() {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="flex-shrink-0 w-[85vw] sm:w-[320px] lg:w-[350px]"
+                  className="flex-shrink-0 w-[85vw] sm:w-[300px] lg:w-[300px]"
                 >
                   <ProductSlideCard product={product} />
                 </div>
@@ -309,7 +308,7 @@ export default function Products() {
             </div>
           </div>
 
-          <div className="mt-12 max-w-md mx-auto">
+          <div className="mt-10 max-w-xs mx-auto">
             <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-gradient-to-r from-[hsl(88,92%,30%)] to-[hsl(88,92%,20%)] rounded-full"
@@ -323,7 +322,7 @@ export default function Products() {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -333,10 +332,10 @@ export default function Products() {
           >
             <Link
               href="/products"
-              className="inline-flex items-center gap-3 px-10 py-5 bg-[hsl(88,92%,27%)] hover:bg-[hsl(88,92%,22%)] text-white font-bold rounded-full transition-all duration-300 hover:shadow-[0_12px_50px_hsl(88,92%,28%,0.4)] group shadow-xl text-lg hover:scale-105 active:scale-100"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[hsl(88,92%,27%)] hover:bg-[hsl(88,92%,22%)] text-white font-bold rounded-full transition-all duration-300 hover:shadow-[0_10px_40px_hsl(88,92%,28%,0.3)] group shadow-lg text-base hover:scale-105 active:scale-100"
             >
-              View Complete Product Range
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              View Complete Range
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
         </div>
