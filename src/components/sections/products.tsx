@@ -1,14 +1,15 @@
 
 'use client';
 
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy, limit } from 'firebase/firestore';
+import { collection, query, limit } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
 import { ArrowRight, Package, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import useEmblaCarousel from 'embla-carousel-react';
 
 /* ---------------------------------------------
    TYPES
@@ -34,13 +35,12 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
   return (
     <Link href={`/products/${product.id}`} className="group block h-full">
       <motion.div 
-        initial={{ opacity: 0.6, scale: 0.95 }}
         animate={{ 
-          opacity: isActive ? 1 : 0.6,
-          scale: isActive ? 1 : 0.95,
+          opacity: isActive ? 1 : 0.7,
+          scale: isActive ? 1 : 0.98,
         }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative h-240 flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 hover:border-[hsl(88,92%,28%)]/40 transition-all duration-500 hover:shadow-xl hover:shadow-[hsl(88,92%,30%)]/10"
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="relative h-full flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 hover:border-[hsl(88,92%,28%)]/40 transition-all duration-500 hover:shadow-xl hover:shadow-[hsl(88,92%,30%)]/10"
       >
         <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
           {product.imageUrl ? (
@@ -51,7 +51,6 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
                 fill
                 sizes="(max-width: 768px) 100vw, 300px"
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
-                priority={isActive}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </>
@@ -117,14 +116,21 @@ function ProductsLoading() {
 }
 
 /* ---------------------------------------------
-   MAIN COMPONENT WITH SLIDER
+   MAIN COMPONENT
 --------------------------------------------- */
 
 export default function Products() {
   const firestore = useFirestore();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [slidesPerView, setSlidesPerView] = useState(3);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    align: 'start',
+    containScroll: 'trimSnaps',
+    dragFree: false
+  });
+
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -136,7 +142,6 @@ export default function Products() {
 
   const { data: rawProducts, isLoading } = useCollection<Product>(productsQuery);
 
-  // Apply hierarchical variety sort: Avocado -> Blueberries -> Raspberries -> Strawberries -> Melons -> Watermelons
   const products = useMemo(() => {
     if (!rawProducts) return null;
     
@@ -158,32 +163,38 @@ export default function Products() {
           if (mType === 'watermelon') return 60;
           return 55;
         }
-        return 100; // Unknown
+        return 100;
       };
 
       const rankA = getRank(a);
       const rankB = getRank(b);
 
       if (rankA !== rankB) return rankA - rankB;
-      
-      // If same variety group, use manual order field
       return (a.order ?? 999) - (b.order ?? 999);
     });
   }, [rawProducts]);
 
-  // Responsive slides per view
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1280) setSlidesPerView(4);
-      else if (window.innerWidth >= 1024) setSlidesPerView(3);
-      else if (window.innerWidth >= 768) setSlidesPerView(2);
-      else setSlidesPerView(1);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+  const onScroll = useCallback((api: any) => {
+    const progress = Math.max(0, Math.min(1, api.scrollProgress()));
+    setScrollProgress(progress * 100);
   }, []);
+
+  const onSelect = useCallback((api: any) => {
+    setCanScrollPrev(api.canScrollPrev());
+    setCanScrollNext(api.canScrollNext());
+    setSelectedIndex(api.selectedScrollSnap());
+  }, []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    onSelect(emblaApi);
+    onScroll(emblaApi);
+    
+    emblaApi.on('reInit', onSelect);
+    emblaApi.on('select', onSelect);
+    emblaApi.on('scroll', onScroll);
+  }, [emblaApi, onSelect, onScroll]);
 
   if (isLoading) {
     return <ProductsLoading />;
@@ -202,18 +213,6 @@ export default function Products() {
       </section>
     );
   }
-
-  const maxIndex = Math.max(0, products.length - slidesPerView);
-  const canGoPrev = currentIndex > 0;
-  const canGoNext = currentIndex < maxIndex;
-
-  const handlePrev = () => {
-    if (canGoPrev) setCurrentIndex(prev => prev - 1);
-  };
-
-  const handleNext = () => {
-    if (canGoNext) setCurrentIndex(prev => prev + 1);
-  };
 
   return (
     <main className="bg-white overflow-hidden">
@@ -268,22 +267,22 @@ export default function Products() {
               className="flex items-center gap-3"
             >
               <div className="text-sm font-bold text-gray-400 mr-2">
-                <span className="text-2xl text-[hsl(88,92%,25%)]">{String(currentIndex + 1).padStart(2, '0')}</span>
+                <span className="text-2xl text-[hsl(88,92%,25%)]">{String(selectedIndex + 1).padStart(2, '0')}</span>
                 <span className="mx-1">/</span>
                 <span>{String(products.length).padStart(2, '0')}</span>
               </div>
 
               <button
-                onClick={handlePrev}
-                disabled={!canGoPrev}
+                onClick={() => emblaApi?.scrollPrev()}
+                disabled={!canScrollPrev}
                 className="w-14 h-14 rounded-full border-2 border-gray-200 flex items-center justify-center transition-all duration-300 hover:border-[hsl(88,92%,28%)] hover:bg-[hsl(88,92%,28%)]/5 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:bg-transparent group"
               >
                 <ChevronLeft className="w-5 h-5 text-gray-600 transition-colors group-hover:text-[hsl(88,92%,25%)]" />
               </button>
 
               <button
-                onClick={handleNext}
-                disabled={!canGoNext}
+                onClick={() => emblaApi?.scrollNext()}
+                disabled={!canScrollNext}
                 className="w-14 h-14 rounded-full bg-[hsl(88,92%,28%)] flex items-center justify-center transition-all duration-300 hover:bg-[hsl(88,92%,23%)] hover:shadow-lg disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[hsl(88,92%,28%)] group"
               >
                 <ChevronRight className="w-5 h-5 text-white" />
@@ -293,43 +292,32 @@ export default function Products() {
         </div>
       </section>
 
-      <section className="pb-2" ref={containerRef}>
+      <section className="pb-2">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="relative overflow-hidden">
-            <motion.div
-              className="flex gap-6"
-              animate={{
-                x: `-${currentIndex * (100 / slidesPerView)}%`,
-              }}
-              transition={{
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
+          <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
+            <div className="flex gap-6">
               {products.map((product, index) => (
                 <div
                   key={product.id}
-                  className="flex-shrink-0"
-                  style={{ width: `calc(${100 / slidesPerView}% - ${(slidesPerView - 1) * 24 / slidesPerView}px)` }}
+                  className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[350px]"
                 >
                   <ProductSlideCard 
                     product={product} 
-                    isActive={index >= currentIndex && index < currentIndex + slidesPerView}
+                    isActive={index === selectedIndex}
                   />
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           <div className="mt-12 max-w-md mx-auto">
             <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-gradient-to-r from-[hsl(88,92%,30%)] to-[hsl(88,92%,20%)] rounded-full"
-                initial={{ width: '0%' }}
                 animate={{
-                  width: `${((currentIndex + 1) / products.length) * 100}%`,
+                  width: `${scrollProgress}%`,
                 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.1 }}
               />
             </div>
           </div>
