@@ -285,14 +285,14 @@ export default function TeamPage() {
                 </div>
 
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[1.1] tracking-tighter mb-10 max-w-6xl mx-auto">
-                  United as One Team for <br className="hidden md:block" />
+                  The Minds Behind <br className="hidden md:block" />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-primary/60">
-                    Excellence in Moroccan Fresh Produce
+                    Innovation
                   </span>
                 </h1>
 
                 <p className="text-gray-500 text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto font-light">
-                  A multi-generational legacy of agricultural expertise dedicated to growing, exporting, and supplying premium Moroccan fresh produce to global markets.
+                  A dedicated team of visionaries cultivating excellence in every order. Click on a manager to meet their department team.
                 </p>
               </motion.div>
             </div>
