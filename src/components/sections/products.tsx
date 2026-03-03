@@ -35,11 +35,10 @@ function ProductSlideCard({ product }: { product: Product }) {
   return (
     <Link href={`/products/${product.id}`} className="group block h-full">
       <motion.div 
-        animate={{ 
-          opacity: 1,
-          scale: 1,
-        }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative h-full flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 hover:border-[hsl(88,92%,28%)]/40 transition-all duration-500 hover:shadow-xl hover:shadow-[hsl(88,92%,30%)]/10"
       >
         <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">

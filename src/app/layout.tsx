@@ -1,9 +1,11 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import './animations.css';
 import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { Public_Sans, PT_Sans, Nunito, Montserrat, Hurricane } from 'next/font/google';
+import { SmoothScroll } from '@/components/ui/smooth-scroll';
 
 // Optimize font loading with swap display and subsets
 const publicSans = Public_Sans({ 
@@ -57,6 +59,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="font-body antialiased bg-background">
+        <SmoothScroll />
         <FirebaseClientProvider>
           {children}
         </FirebaseClientProvider>
