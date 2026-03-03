@@ -211,15 +211,15 @@ export default function TeamPage() {
     return (
         <div className="mb-24">
             <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="flex items-center gap-3 mb-12 pb-4 border-b border-gray-100"
+                className="flex items-center justify-center gap-3 mb-12 pb-4 border-b border-gray-100"
             >
                 <div className={`p-2 rounded-xl ${colorClass}`}>
                     <Icon className="w-6 h-6 text-white" />
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight text-center">
                     {title}
                 </h2>
             </motion.div>
