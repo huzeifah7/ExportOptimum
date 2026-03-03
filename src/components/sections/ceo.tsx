@@ -51,7 +51,7 @@ export default function Ceo() {
               </>
             )}
             <blockquote className="mt-6 text-lg italic text-muted-foreground relative pl-6 before:content-['\201C'] before:absolute before:left-0 before:top-0 before:text-5xl before:text-accent before:font-serif after:content-['\201D'] after:absolute after:-bottom-4 after:right-0 after:text-5xl after:text-accent after:font-serif">
-              At our company, we're proud to offer the highest-quality Moroccan avocados to our customers. We believe that taking good care of our customers is key to our success, which is why we go above and beyond to ensure that our products are fresh, delicious, and delivered on time. We're committed to providing exceptional customer service, and we're always here to answer any questions or concerns you may have. Thank you for choosing us as your trusted source for Moroccan avocados!
+              At our company, we're proud to offer the highest-quality Moroccan avocados and fresh produce to our customers. We believe that taking good care of our customers is key to our success, which is why we go above and beyond to ensure that our products are fresh, delicious, and delivered on time. We're committed to providing exceptional customer service, and we're always here to answer any questions or concerns you may have. Thank you for choosing us as your trusted source for Moroccan avocados and fresh produce!
             </blockquote>
             
             <div className="mt-12 grid grid-cols-3 gap-8 text-center">

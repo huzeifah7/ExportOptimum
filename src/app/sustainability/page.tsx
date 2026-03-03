@@ -17,6 +17,11 @@ const DomeGallery = dynamic(() => import('@/components/ui/dome-gallery'), {
   loading: () => <div className="h-[600px] w-full bg-gray-100 animate-pulse rounded-full" />
 });
 
+const HeroGeometric = dynamic(() => import('@/components/ui/shape-landing-hero').then(mod => mod.HeroGeometric), {
+  ssr: false,
+  loading: () => <div className="h-screen w-full bg-white" />
+});
+
 const pillars = [
   {
     number: '01',
@@ -80,8 +85,8 @@ type SustainabilityImage = {
 
 export default function SustainabilityPage() {
   const [isClient, setIsClient] = useState(false);
-  const heroRef = useRef(null);
-  const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
+  const statsRef = useRef(null);
+  const isStatsInView = useInView(statsRef, { once: true, amount: 0.2 });
   
   const firestore = useFirestore();
   const galleryQuery = useMemoFirebase(() => {
@@ -111,74 +116,47 @@ export default function SustainabilityPage() {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section ref={heroRef} className="relative bg-gradient-to-b from-green-50 to-white pt-24 pb-20 lg:pt-32 lg:pb-28 overflow-hidden">
+        <HeroGeometric 
+          badge="Our Sustainability Commitment"
+          title1="Growing Together,"
+          title2="Thriving Together"
+          subtitle="At Export Optimum, sustainability is not a statement; it is a framework that guides how we produce, partner, and operate every day."
+        />
+
+        {/* Impact Stats Section */}
+        <section ref={statsRef} className="py-16 bg-white relative z-10">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="text-center max-w-5xl mx-auto">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-[hsl(88,92%,30%)]/30 text-[hsl(88,92%,30%)] rounded-full text-sm font-bold mb-8 shadow-sm">
-                <Leaf className="w-5 h-5" />
-                Our Sustainability Commitment
-              </div>
-
-              {/* Main Heading */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold mb-8 text-gray-900 leading-tight">
-                Growing Together,
-                <br />
-                <span className="text-[hsl(88,92%,30%)]">Thriving Together</span>
-              </h1>
-
-              <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-4xl mx-auto">
-                At Export Optimum, sustainability is not a statement; it is a <strong className="text-gray-900">framework</strong> that guides how we produce, partner, and operate every day.
-              </p>
-
-              {/* CTA */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-                <a 
-                  href="#pillars" 
-                  className="inline-flex items-center justify-center px-8 py-4 bg-[hsl(88,92%,30%)] text-white font-bold rounded-xl hover:bg-[hsl(88,92%,25%)] transition-all duration-300 text-lg shadow-lg hover:shadow-xl"
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {impactStats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isStatsInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-200 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
                 >
-                  Explore Our Approach
-                </a>
-                <a 
-                  href="/contact" 
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white border-3 border-gray-900 text-gray-900 font-bold rounded-xl hover:bg-gray-900 hover:text-white transition-all duration-300 text-lg shadow-lg"
-                >
-                  Partner With Us
-                </a>
-              </div>
+                  {/* Background Accent */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-[hsl(88,92%,30%)]/10 rounded-bl-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Icon */}
+                  <div className="relative w-14 h-14 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500 group-hover:scale-110">
+                    <stat.icon className="w-7 h-7 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
+                  </div>
+                  
+                  {/* Value */}
+                  <div className="text-3xl font-bold text-[hsl(88,92%,30%)] mb-2 relative text-center">
+                    {stat.value}
+                  </div>
+                  
+                  {/* Label */}
+                  <div className="text-sm font-semibold text-gray-700 leading-tight text-center">
+                    {stat.label}
+                  </div>
 
-              {/* Stats Grid - Modern Design */}
-              <div className="w-full max-w-[1400px] mx-auto mt-16">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
-                  {impactStats.map((stat, index) => (
-                    <div
-                      key={index}
-                      className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-200 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
-                    >
-                      {/* Background Accent */}
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-[hsl(88,92%,30%)]/10 rounded-bl-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      
-                      {/* Icon */}
-                      <div className="relative w-14 h-14 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500 group-hover:scale-110">
-                        <stat.icon className="w-7 h-7 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
-                      </div>
-                      
-                      {/* Value */}
-                      <div className="text-3xl font-bold text-[hsl(88,92%,30%)] mb-2 relative">
-                        {stat.value}
-                      </div>
-                      
-                      {/* Label */}
-                      <div className="text-sm font-semibold text-gray-700 leading-tight">
-                        {stat.label}
-                      </div>
-
-                      {/* Bottom Accent Line */}
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    </div>
-                  ))}
-                </div>
-              </div>
+                  {/* Bottom Accent Line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
