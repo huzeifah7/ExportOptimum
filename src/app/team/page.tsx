@@ -284,15 +284,15 @@ export default function TeamPage() {
                   Our Team
                 </div>
 
-                <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-gray-900 leading-[0.9] tracking-tighter mb-10">
-                  United by<br />
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[1.1] tracking-tighter mb-10 max-w-6xl mx-auto">
+                  United as One Team for <br className="hidden md:block" />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-primary/60">
-                    Vision.
+                    Excellence in Moroccan Fresh Produce
                   </span>
                 </h1>
 
-                <p className="text-gray-500 text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto font-light">
-                  A multi-generational legacy of agricultural expertise, driving the future of Moroccan fresh produce supply.
+                <p className="text-gray-500 text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto font-light">
+                  A multi-generational legacy of agricultural expertise dedicated to growing, exporting, and supplying premium Moroccan fresh produce to global markets.
                 </p>
               </motion.div>
             </div>
