@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const DomeGallery = dynamic(() => import('@/components/ui/dome-gallery'), {
   ssr: false,
-  loading: () => <div className="h-[300px] w-full bg-gray-100 animate-pulse rounded-full" />
+  loading: () => <div className="h-[400px] w-full bg-gray-100 animate-pulse rounded-3xl" />
 });
 
 const HeroGeometric = dynamic(() => import('@/components/ui/shape-landing-hero').then(mod => mod.HeroGeometric), {
@@ -41,7 +41,7 @@ const pillars = [
     subtitle: 'Farming in Sync with Nature',
     description: 'At Export Optimum, environmental stewardship is central to how we operate. The raw materials we source are cultivated in alignment with natural cycles, with a strong focus on soil health, biodiversity, renewable energy and sustainable agricultural practices.',
     secondParagraph: 'Water conservation is also one of our critical priorities. We are fully aware of the growing pressures of climate change, we ensure that our suppliers apply rigorous standards of water stewardship, using clean water resources responsibly and we use water sustainably throughout the production process.',
-    image: 'https://images.unsplash.com/photo-1634638022229-5a52221886dc?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1932&auto=format&fit=crop',
     imageAlt: 'Sustainable agriculture and environment',
     imageHint: 'sustainable planet'
   },
@@ -79,6 +79,7 @@ const impactStats = [
 ];
 
 type SustainabilityImage = {
+  id: string;
   src: string;
   alt: string;
 };
@@ -115,35 +116,39 @@ export default function SustainabilityPage() {
       <Header />
       
       <main className="flex-grow">
-        {/* Hero Section - Exactly 100vh */}
-        <div className="h-screen overflow-hidden">
+        {/* ══════════════════════════════════════
+            HERO — 100vh High Impact
+        ══════════════════════════════════════ */}
+        <section className="h-screen overflow-hidden">
           <HeroGeometric 
             badge="Our Sustainability Commitment"
             title1="Growing Together,"
             title2="Thriving Together"
             subtitle="At Export Optimum, sustainability is not a statement; it is a framework that guides how we produce, partner, and operate every day."
           />
-        </div>
+        </section>
 
-        {/* Impact Stats Section - Max compressed spacing */}
-        <section ref={statsRef} className="py-1 bg-white relative z-10 -mt-12 sm:-mt-16">
+        {/* ══════════════════════════════════════
+            IMPACT STATS — Transition Bridge
+        ══════════════════════════════════════ */}
+        <section ref={statsRef} className="py-12 lg:py-16 bg-white relative z-10 -mt-24 sm:-mt-32">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
               {impactStats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isStatsInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-xl p-3 shadow-md border border-gray-100 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:-translate-y-1"
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-xl shadow-black/5 border border-gray-100 hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
                 >
-                  <div className="relative w-8 h-8 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center mx-auto mb-1.5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500">
-                    <stat.icon className="w-4 h-4 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
+                  <div className="relative w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition-all duration-500">
+                    <stat.icon className="w-6 h-6 text-primary group-hover:text-white transition-colors duration-500" />
                   </div>
-                  <div className="text-lg font-bold text-[hsl(88,92%,30%)] mb-0.5 text-center">
+                  <div className="text-2xl font-black text-primary mb-1 text-center font-headline">
                     {stat.value}
                   </div>
-                  <div className="text-[9px] font-bold text-gray-600 text-center uppercase tracking-wider">
+                  <div className="text-[10px] font-black text-gray-500 text-center uppercase tracking-widest leading-tight">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -152,75 +157,93 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Four Pillars Section - Max compression */}
-        <section id="pillars" className="py-2 lg:py-4 bg-white">
+        {/* ══════════════════════════════════════
+            FOUR PILLARS — Alternating Redesign
+        ══════════════════════════════════════ */}
+        <section id="pillars" className="py-20 lg:py-32 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-4"
+              className="text-center mb-24"
             >
-              <h2 className="text-2xl md:text-3xl font-headline font-bold mb-1 text-gray-900">
-                Our Four Pillars of <span className="text-[hsl(88,92%,30%)]">Sustainability</span>
+              <div className="inline-block mb-6">
+                <span className="inline-flex items-center px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">
+                  Our Framework
+                </span>
+              </div>
+              
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-black mb-6 text-gray-900 leading-tight">
+                Our Four Pillars of <br className="hidden md:block" />
+                <span className="text-primary">Sustainability</span>
               </h2>
-              <p className="text-xs text-gray-600 max-w-xl mx-auto">
-                A framework guiding every decision we make.
+              
+              <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-500 leading-relaxed font-light">
+                A multi-dimensional approach to ensuring our growth benefits the land, the people, and our global partners for generations to come.
               </p>
             </motion.div>
 
-            <div className="space-y-4 lg:space-y-6">
+            <div className="space-y-24 lg:space-y-40">
               {pillars.map((pillar, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.7 }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center ${
-                    index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-                  }`}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center"
                 >
+                  {/* Image Column */}
                   <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                    <div className="relative aspect-[21/9] lg:aspect-[16/9] rounded-xl overflow-hidden shadow-md">
+                    <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl group">
                       <Image
                         src={pillar.image}
                         alt={pillar.imageAlt}
                         fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
                         data-ai-hint={pillar.imageHint}
                       />
-                      <div className="absolute top-2 left-2 w-8 h-8 bg-[hsl(88,92%,30%)] rounded-lg flex items-center justify-center shadow-lg">
-                        <span className="text-base font-bold text-white">{pillar.number}</span>
+                      <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent opacity-60" />
+                      
+                      {/* Floating Number Badge */}
+                      <div className="absolute top-8 left-8 w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20 transform -rotate-6 group-hover:rotate-0 transition-transform duration-500">
+                        <span className="text-2xl font-black">{pillar.number}</span>
                       </div>
                     </div>
+                    
+                    {/* Decorative Blob */}
+                    <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
                   </div>
 
+                  {/* Content Column */}
                   <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <div className="w-8 h-8 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <pillar.icon className="w-4 h-4 text-[hsl(88,92%,30%)]" />
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <pillar.icon className="w-7 h-7 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg md:text-xl font-headline font-bold text-gray-900">
+                        <h3 className="text-3xl md:text-4xl font-headline font-black text-gray-900 leading-tight">
                           {pillar.title}
                         </h3>
-                        <p className="text-[10px] text-[hsl(88,92%,30%)] font-semibold uppercase tracking-wide">
+                        <p className="text-xs font-black text-primary uppercase tracking-[0.2em] mt-1">
                           {pillar.subtitle}
                         </p>
                       </div>
                     </div>
 
-                    <div className="space-y-1">
-                      <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-light">
+                      <p>
                         {pillar.description}
                       </p>
                       {pillar.secondParagraph && (
-                        <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
-                          {pillar.secondParagraph}
-                        </p>
+                        <div className="pt-4 border-t border-gray-100">
+                          <p>
+                            {pillar.secondParagraph}
+                          </p>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -230,34 +253,76 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Dome Gallery Section - Max compressed gallery */}
-        <section className="py-1 bg-gray-50 overflow-hidden">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* ══════════════════════════════════════
+            DOME GALLERY — Final Visual Journey
+        ══════════════════════════════════════ */}
+        <section className="py-20 lg:py-32 bg-gray-50 overflow-hidden">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-2"
+                    className="text-center mb-16"
                 >
-                    <h2 className="text-xl md:text-2xl font-headline font-bold mb-0.5 text-gray-900">
-                        Our Journey in Pictures
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-black mb-4 text-gray-900 tracking-tight">
+                        Our Journey in <span className="text-primary">Pictures</span>
                     </h2>
-                    <p className="text-[10px] text-gray-600 max-w-xl mx-auto uppercase tracking-widest font-semibold opacity-70">
-                        Visualizing our commitment to people, planet, and ethical partnerships.
+                    <p className="text-xs font-bold text-gray-400 max-w-xl mx-auto uppercase tracking-[0.3em] opacity-80">
+                        Visualizing our commitment to people, planet, and ethical partnerships across Morocco.
                     </p>
                 </motion.div>
 
-                <div className="h-[40vh] relative w-full">
+                <div className="h-[60vh] relative w-full">
                     {isLoadingGallery ? (
                         <div className="w-full h-full flex items-center justify-center">
-                            <Skeleton className="w-32 h-32 rounded-full" />
+                            <Skeleton className="w-48 h-48 rounded-full" />
                         </div>
                     ) : (
-                        <DomeGallery images={galleryImages || []} grayscale={false} />
+                        <DomeGallery 
+                          images={galleryImages || []} 
+                          grayscale={false} 
+                          imageBorderRadius="40px"
+                          openedImageBorderRadius="40px"
+                        />
                     )}
                 </div>
             </div>
+        </section>
+
+        {/* ══════════════════════════════════════
+            FINAL CTA
+        ══════════════════════════════════════ */}
+        <section className="py-20 lg:py-32 bg-white">
+          <div className="container mx-auto px-4 max-w-5xl text-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="bg-primary rounded-[3rem] p-12 lg:p-20 text-white shadow-2xl relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl -ml-32 -mb-32" />
+              
+              <div className="relative z-10">
+                <CheckCircle className="w-16 h-16 mx-auto mb-8 opacity-80" />
+                <h2 className="text-4xl md:text-5xl font-headline font-black mb-6 leading-tight">
+                  Partnering for a Better Future
+                </h2>
+                <p className="text-xl text-primary-foreground/90 font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+                  Our commitment to sustainability is built on the belief that responsible practices are the foundation of long-term global partnerships.
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => window.location.href = '/contact'}
+                  className="bg-white text-primary px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all"
+                >
+                  Join Our Mission
+                </motion.button>
+              </div>
+            </motion.div>
+          </div>
         </section>
       </main>
       
