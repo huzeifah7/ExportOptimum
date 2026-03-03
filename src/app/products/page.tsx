@@ -376,9 +376,9 @@ export default function ProductsPage() {
           />
         ))}
 
-        {/* CTA - Updated to match Quality Page Style */}
-        <section className="p-8 bg-background mb-16">
-          <div className="relative bg-primary rounded-[40px] p-12 lg:p-24 overflow-hidden shadow-2xl max-w-7xl mx-auto">
+        {/* CTA - Updated to match Quality Page Style, minimized height */}
+        <section className="p-6 bg-background mb-16">
+          <div className="relative bg-primary rounded-[40px] py-12 lg:py-16 px-8 overflow-hidden shadow-2xl max-w-7xl mx-auto">
             {/* Decorative background shapes from Quality Page */}
             <div aria-hidden="true" className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full opacity-50" />
             <div aria-hidden="true" className="absolute -bottom-24 -left-16 w-80 h-80 bg-white/10 rounded-full opacity-50" />
@@ -391,19 +391,19 @@ export default function ProductsPage() {
                 transition={{ duration: 0.7 }}
                 className="text-primary-foreground"
               >
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-8 border-2 border-white/30">
-                  <Leaf className="w-10 h-10 text-white" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-6 border-2 border-white/30">
+                  <Leaf className="w-8 h-8 text-white" />
                 </div>
 
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-tight">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 tracking-tight leading-tight">
                   Interested in Our Produce?
                 </h2>
 
-                <p className="text-xl text-primary-foreground/80 font-light leading-relaxed max-w-2xl mx-auto mb-10">
+                <p className="text-lg lg:text-xl text-primary-foreground/80 font-light leading-relaxed max-w-2xl mx-auto mb-8">
                   We partner with importers, distributors, and retailers worldwide. Contact our export team to discuss your needs and discover the quality of Export Optimum.
                 </p>
 
-                <Button asChild size="lg" variant="secondary" className="rounded-full px-10 h-16 text-lg group shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                <Button asChild size="lg" variant="secondary" className="rounded-full px-10 h-14 text-lg group shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
                   <Link href="/contact" className="flex items-center gap-2">
                     Become a Partner
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
