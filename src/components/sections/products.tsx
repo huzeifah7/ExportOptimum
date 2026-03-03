@@ -31,7 +31,7 @@ type Product = {
    PRODUCT SLIDE CARD
 --------------------------------------------- */
 
-function ProductSlideCard({ product, isActive }: { product: Product; isActive: boolean }) {
+function ProductSlideCard({ product }: { product: Product }) {
   return (
     <Link href={`/products/${product.id}`} className="group block h-full">
       <motion.div 
@@ -103,7 +103,7 @@ function ProductsLoading() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex gap-6 overflow-hidden">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex-shrink-0 w-[320px] space-y-4">
+            <div key={i} className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] space-y-4">
               <Skeleton className="w-full aspect-[3/4] rounded-3xl bg-gray-100" />
               <Skeleton className="h-6 w-3/4 bg-gray-100" />
               <Skeleton className="h-20 w-full bg-gray-100" />
@@ -122,9 +122,12 @@ function ProductsLoading() {
 export default function Products() {
   const firestore = useFirestore();
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    align: 'start',
+    align: 'center',
     containScroll: 'trimSnaps',
-    dragFree: false
+    dragFree: false,
+    breakpoints: {
+      '(min-width: 768px)': { align: 'start' }
+    }
   });
 
   const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -295,16 +298,13 @@ export default function Products() {
       <section className="pb-2">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
-            <div className="flex gap-6">
-              {products.map((product, index) => (
+            <div className="flex gap-4 md:gap-6">
+              {products.map((product) => (
                 <div
                   key={product.id}
-                  className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[350px]"
+                  className="flex-shrink-0 w-[85vw] sm:w-[320px] lg:w-[350px]"
                 >
-                  <ProductSlideCard 
-                    product={product} 
-                    isActive={index === selectedIndex}
-                  />
+                  <ProductSlideCard product={product} />
                 </div>
               ))}
             </div>
