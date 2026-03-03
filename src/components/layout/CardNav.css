@@ -207,20 +207,32 @@
     padding: 0.5rem;
     bottom: 0;
     justify-content: flex-start;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
   }
 
   .nav-card {
     height: auto;
-    min-height: 60px;
+    min-height: 140px;
     flex: 1 1 auto;
     max-height: none;
+    padding: 20px 24px;
+    justify-content: space-between;
   }
 
   .nav-card-label {
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .nav-card-links {
+    margin-top: 12px;
+    gap: 10px;
   }
 
   .nav-card-link {
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 500;
   }
 }
