@@ -25,8 +25,11 @@ const faqItems = [
 
 type ContactInformation = {
     address: string;
-    phoneNumber: string;
-    email: string;
+    phoneNumbers?: string[];
+    emails?: string[];
+    // Fallback for old data migration
+    phoneNumber?: string;
+    email?: string;
 };
 
 const ContactPage = () => {
@@ -50,6 +53,15 @@ const ContactPage = () => {
   }, [firestore]);
 
   const { data: contactInfo, isLoading: isLoadingContact } = useDoc<ContactInformation>(contactInfoRef);
+
+  // Normalize emails and phone numbers to handle migration and multiple entries
+  const emails = contactInfo?.emails && contactInfo.emails.length > 0 
+    ? contactInfo.emails 
+    : (contactInfo?.email ? [contactInfo.email] : []);
+    
+  const phoneNumbers = contactInfo?.phoneNumbers && contactInfo.phoneNumbers.length > 0
+    ? contactInfo.phoneNumbers
+    : (contactInfo?.phoneNumber ? [contactInfo.phoneNumber] : []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -303,9 +315,13 @@ const ContactPage = () => {
                       </div>
                       <div>
                         <p className="font-bold text-gray-900 mb-1">Email</p>
-                        <a href={`mailto:${contactInfo?.email}`} className="text-gray-600 hover:text-[hsl(88,92%,25%)] transition-colors font-light">
-                          {contactInfo?.email}
-                        </a>
+                        <div className="flex flex-col gap-1">
+                          {emails.map((e, idx) => (
+                            <a key={idx} href={`mailto:${e}`} className="text-gray-600 hover:text-[hsl(88,92%,25%)] transition-colors font-light block">
+                              {e}
+                            </a>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
@@ -315,7 +331,11 @@ const ContactPage = () => {
                       </div>
                       <div>
                         <p className="font-bold text-gray-900 mb-1">Phone</p>
-                        <span className="text-gray-600 font-light">{contactInfo?.phoneNumber}</span>
+                        <div className="flex flex-col gap-1">
+                          {phoneNumbers.map((p, idx) => (
+                            <span key={idx} className="text-gray-600 font-light block">{p}</span>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
