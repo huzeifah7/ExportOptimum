@@ -36,8 +36,8 @@ function ProductSlideCard({ product, isActive }: { product: Product; isActive: b
     <Link href={`/products/${product.id}`} className="group block h-full">
       <motion.div 
         animate={{ 
-          opacity: isActive ? 1 : 0.7,
-          scale: isActive ? 1 : 0.98,
+          opacity: 1,
+          scale: 1,
         }}
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="relative h-full flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 hover:border-[hsl(88,92%,28%)]/40 transition-all duration-500 hover:shadow-xl hover:shadow-[hsl(88,92%,30%)]/10"
