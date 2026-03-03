@@ -349,21 +349,21 @@ export default function TeamPage() {
 
           {/* Careers CTA */}
           <section className="py-24 px-4 sm:px-6 lg:px-8 mb-20">
-            <div className="max-w-7xl mx-auto">
-              <div className="relative group overflow-hidden rounded-[3rem] bg-gray-900 px-10 py-20 shadow-3xl text-center">
+            <div className="max-w-8xl mx-auto">
+              <div className="relative group overflow-hidden rounded-[3rem] bg-primary px-10 py-20 shadow-3xl text-center">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-50" />
                 <div className="relative z-10">
                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8 tracking-tighter">
                     Ready to make an impact?
                   </h2>
-                  <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">
+                  <p className="text-gray-100 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">
                     Join our team of dedicated professionals and help us redefine global standards for premium fresh produce.
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-3 px-12 py-5 rounded-2xl bg-primary text-white font-black text-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 shadow-xl"
+                    className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gray-900 text-white font-black text-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 shadow-xl"
                   >
-                    Connect with HR
+                    Become Pertner 
                     <ArrowUpRight className="w-5 h-5" />
                   </Link>
                 </div>
