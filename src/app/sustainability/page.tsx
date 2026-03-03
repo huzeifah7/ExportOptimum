@@ -14,12 +14,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const DomeGallery = dynamic(() => import('@/components/ui/dome-gallery'), {
   ssr: false,
-  loading: () => <div className="h-[400px] w-full bg-gray-100 animate-pulse rounded-full" />
+  loading: () => <div className="h-[300px] w-full bg-gray-100 animate-pulse rounded-full" />
 });
 
 const HeroGeometric = dynamic(() => import('@/components/ui/shape-landing-hero').then(mod => mod.HeroGeometric), {
   ssr: false,
-  loading: () => <div className="h-[60vh] w-full bg-white" />
+  loading: () => <div className="h-screen w-full bg-white" />
 });
 
 const pillars = [
@@ -115,88 +115,75 @@ export default function SustainabilityPage() {
       <Header />
       
       <main className="flex-grow">
-        {/* Hero Section - Using geometric background */}
-        <HeroGeometric 
-          badge="Our Sustainability Commitment"
-          title1="Growing Together,"
-          title2="Thriving Together"
-          subtitle="At Export Optimum, sustainability is not a statement; it is a framework that guides how we produce, partner, and operate every day."
-        />
+        {/* Hero Section - Exactly 100vh */}
+        <div className="h-screen overflow-hidden">
+          <HeroGeometric 
+            badge="Our Sustainability Commitment"
+            title1="Growing Together,"
+            title2="Thriving Together"
+            subtitle="At Export Optimum, sustainability is not a statement; it is a framework that guides how we produce, partner, and operate every day."
+          />
+        </div>
 
-        {/* Impact Stats Section - Reduced padding */}
-        <section ref={statsRef} className="py-10 bg-white relative z-10 -mt-12 sm:-mt-20">
+        {/* Impact Stats Section - Minimized spacing */}
+        <section ref={statsRef} className="py-8 bg-white relative z-10 -mt-8 sm:-mt-12">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {impactStats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isStatsInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg border border-gray-200 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 shadow-md border border-gray-100 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:-translate-y-1"
                 >
-                  {/* Background Accent */}
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-[hsl(88,92%,30%)]/10 rounded-bl-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  {/* Icon */}
-                  <div className="relative w-12 h-12 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500 group-hover:scale-110">
-                    <stat.icon className="w-6 h-6 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
+                  <div className="relative w-10 h-10 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500">
+                    <stat.icon className="w-5 h-5 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
                   </div>
-                  
-                  {/* Value */}
-                  <div className="text-2xl font-bold text-[hsl(88,92%,30%)] mb-1 relative text-center">
+                  <div className="text-xl font-bold text-[hsl(88,92%,30%)] mb-0.5 text-center">
                     {stat.value}
                   </div>
-                  
-                  {/* Label */}
-                  <div className="text-xs font-semibold text-gray-700 leading-tight text-center uppercase tracking-wider">
+                  <div className="text-[10px] font-bold text-gray-600 text-center uppercase tracking-wider">
                     {stat.label}
                   </div>
-
-                  {/* Bottom Accent Line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Four Pillars Section - Reduced padding and spacing */}
+        {/* Four Pillars Section - Tighter layouts */}
         <section id="pillars" className="py-12 lg:py-16 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            {/* Section Header */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+              className="text-center mb-12"
             >
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-gray-900">
-                Our Four Pillars of{' '}
-                <span className="text-[hsl(88,92%,30%)]">Sustainability</span>
+              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-3 text-gray-900">
+                Our Four Pillars of <span className="text-[hsl(88,92%,30%)]">Sustainability</span>
               </h2>
-              <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
-                A comprehensive framework that guides every decision we make
+              <p className="text-base text-gray-600 max-w-xl mx-auto">
+                A framework guiding every decision we make.
               </p>
             </motion.div>
 
-            {/* Pillars - Reduced space-y */}
-            <div className="space-y-20">
+            <div className="space-y-16">
               {pillars.map((pillar, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.8 }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center ${
+                  transition={{ duration: 0.7 }}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
                     index % 2 === 1 ? 'lg:flex-row-reverse' : ''
                   }`}
                 >
-                  {/* Image Side */}
                   <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                    <div className="relative aspect-[16/10] rounded-2xl overflow-hidden shadow-xl">
+                    <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-lg">
                       <Image
                         src={pillar.image}
                         alt={pillar.imageAlt}
@@ -205,39 +192,33 @@ export default function SustainabilityPage() {
                         className="object-cover"
                         data-ai-hint={pillar.imageHint}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                      
-                      {/* Floating Number Badge */}
-                      <div className="absolute top-4 left-4 w-12 h-12 bg-[hsl(88,92%,30%)] rounded-xl flex items-center justify-center shadow-lg">
-                        <span className="text-xl font-bold text-white">{pillar.number}</span>
+                      <div className="absolute top-3 left-3 w-10 h-10 bg-[hsl(88,92%,30%)] rounded-lg flex items-center justify-center shadow-lg">
+                        <span className="text-lg font-bold text-white">{pillar.number}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Content Side */}
                   <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                    {/* Icon & Title */}
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <pillar.icon className="w-6 h-6 text-[hsl(88,92%,30%)]" />
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <pillar.icon className="w-5 h-5 text-[hsl(88,92%,30%)]" />
                       </div>
                       <div>
-                        <h3 className="text-2xl md:text-3xl font-headline font-bold text-gray-900">
+                        <h3 className="text-xl md:text-2xl font-headline font-bold text-gray-900">
                           {pillar.title}
                         </h3>
-                        <p className="text-base text-[hsl(88,92%,30%)] font-semibold">
+                        <p className="text-sm text-[hsl(88,92%,30%)] font-semibold">
                           {pillar.subtitle}
                         </p>
                       </div>
                     </div>
 
-                    {/* Paragraphs - Slightly smaller text */}
-                    <div className="space-y-4">
-                      <p className="text-base text-gray-700 leading-relaxed">
+                    <div className="space-y-3">
+                      <p className="text-sm md:text-base text-gray-700 leading-relaxed">
                         {pillar.description}
                       </p>
                       {pillar.secondParagraph && (
-                        <p className="text-base text-gray-700 leading-relaxed">
+                        <p className="text-sm md:text-base text-gray-700 leading-relaxed">
                           {pillar.secondParagraph}
                         </p>
                       )}
@@ -249,28 +230,28 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Dome Gallery Section - Reduced padding and gallery height */}
-        <section className="py-12 lg:py-16 bg-gray-50 overflow-hidden">
+        {/* Dome Gallery Section - Compact gallery */}
+        <section className="py-12 bg-gray-50 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-10"
+                    className="text-center mb-8"
                 >
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-gray-900">
+                    <h2 className="text-2xl md:text-3xl font-headline font-bold mb-2 text-gray-900">
                         Our Journey in Pictures
                     </h2>
-                    <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
-                        A visual tour of our commitment to people, the planet, and ethical partnerships.
+                    <p className="text-sm text-gray-600 max-w-xl mx-auto">
+                        Visualizing our commitment to people, planet, and ethical partnerships.
                     </p>
                 </motion.div>
 
-                <div style={{ width: '100%', height: '60vh', position: 'relative' }}>
+                <div className="h-[50vh] relative w-full">
                     {isLoadingGallery ? (
                         <div className="w-full h-full flex items-center justify-center">
-                            <Skeleton className="w-3/4 h-3/4 rounded-full" />
+                            <Skeleton className="w-48 h-48 rounded-full" />
                         </div>
                     ) : (
                         <DomeGallery images={galleryImages || []} grayscale={false} />
