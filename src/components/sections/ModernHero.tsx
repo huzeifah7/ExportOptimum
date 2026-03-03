@@ -71,7 +71,7 @@ const ModernHero = () => {
                   src={slide.src} 
                   alt={slide.alt} 
                   fill 
-                  className="modern-hero__media"
+                  className="modern-hero__media opacity-50"
                   priority={index === 0}
                   loading={index === 0 ? 'eager' : 'lazy'}
                   {...(index === 0 ? { fetchPriority: "high" } : {})}
