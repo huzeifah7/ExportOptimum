@@ -126,7 +126,7 @@ export default function SustainabilityPage() {
         </div>
 
         {/* Impact Stats Section - Minimized spacing */}
-        <section ref={statsRef} className="py-8 bg-white relative z-10 -mt-8 sm:-mt-12">
+        <section ref={statsRef} className="py-4 bg-white relative z-10 -mt-12 sm:-mt-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {impactStats.map((stat, index) => (
@@ -153,24 +153,24 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Four Pillars Section - Tighter layouts */}
-        <section id="pillars" className="py-12 lg:py-16 bg-white">
+        <section id="pillars" className="py-8 lg:py-12 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-12"
+              className="text-center mb-8"
             >
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-3 text-gray-900">
+              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-2 text-gray-900">
                 Our Four Pillars of <span className="text-[hsl(88,92%,30%)]">Sustainability</span>
               </h2>
-              <p className="text-base text-gray-600 max-w-xl mx-auto">
+              <p className="text-sm text-gray-600 max-w-xl mx-auto">
                 A framework guiding every decision we make.
               </p>
             </motion.div>
 
-            <div className="space-y-16">
+            <div className="space-y-8 lg:space-y-12">
               {pillars.map((pillar, index) => (
                 <motion.div
                   key={index}
@@ -178,7 +178,7 @@ export default function SustainabilityPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.7 }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center ${
                     index % 2 === 1 ? 'lg:flex-row-reverse' : ''
                   }`}
                 >
@@ -199,7 +199,7 @@ export default function SustainabilityPage() {
                   </div>
 
                   <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                    <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-3 mb-2">
                       <div className="w-10 h-10 bg-[hsl(88,92%,30%)]/10 rounded-lg flex items-center justify-center flex-shrink-0">
                         <pillar.icon className="w-5 h-5 text-[hsl(88,92%,30%)]" />
                       </div>
@@ -207,13 +207,13 @@ export default function SustainabilityPage() {
                         <h3 className="text-xl md:text-2xl font-headline font-bold text-gray-900">
                           {pillar.title}
                         </h3>
-                        <p className="text-sm text-[hsl(88,92%,30%)] font-semibold">
+                        <p className="text-xs text-[hsl(88,92%,30%)] font-semibold uppercase tracking-wide">
                           {pillar.subtitle}
                         </p>
                       </div>
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       <p className="text-sm md:text-base text-gray-700 leading-relaxed">
                         {pillar.description}
                       </p>
@@ -231,19 +231,19 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Dome Gallery Section - Compact gallery */}
-        <section className="py-12 bg-gray-50 overflow-hidden">
+        <section className="py-6 bg-gray-50 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-8"
+                    className="text-center mb-6"
                 >
-                    <h2 className="text-2xl md:text-3xl font-headline font-bold mb-2 text-gray-900">
+                    <h2 className="text-2xl md:text-3xl font-headline font-bold mb-1 text-gray-900">
                         Our Journey in Pictures
                     </h2>
-                    <p className="text-sm text-gray-600 max-w-xl mx-auto">
+                    <p className="text-xs text-gray-600 max-w-xl mx-auto uppercase tracking-widest font-semibold opacity-70">
                         Visualizing our commitment to people, planet, and ethical partnerships.
                     </p>
                 </motion.div>
