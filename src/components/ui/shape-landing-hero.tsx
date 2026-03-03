@@ -97,7 +97,7 @@ function HeroGeometric({
     };
 
     return (
-        <div className="relative min-h-screen w-full flex justify-center pt-32 overflow-hidden bg-white">
+        <div className="relative min-h-[60vh] sm:min-h-screen w-full flex justify-center pt-20 sm:pt-32 overflow-hidden bg-white">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-accent/[0.03] blur-3xl" />
 
             <div className="absolute inset-0 overflow-hidden">
@@ -156,7 +156,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight pt-12">
+                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight pt-4 sm:pt-12">
                             <span className="text-foreground">
                                 {title1}
                             </span>
