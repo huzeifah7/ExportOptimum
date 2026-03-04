@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
   LineChart,
@@ -28,6 +28,9 @@ import {
   Eye,
   Megaphone,
   Users,
+  Activity,
+  Handshake,
+  Clock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -36,27 +39,7 @@ import { collection, query, where, Timestamp, orderBy, limit } from 'firebase/fi
 import { BlogPostByCategoryChart } from '@/components/admin/BlogPostByCategoryChart';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
-
-// --- DUMMY DATA (for components not connected to live data) ---
-
-const lineChartData = [
-  { name: 'Jan', views: 4000 },
-  { name: 'Feb', views: 3000 },
-  { name: 'Mar', views: 5000 },
-  { name: 'Apr', views: 4500 },
-  { name: 'May', views: 6000 },
-  { name: 'Jun', views: 5500 },
-  { name: 'Jul', views: 7000 },
-];
-
-const initialPieChartData = [
-  { name: 'Facebook', value: 400 },
-  { name: 'Instagram', value: 300 },
-  { name: 'LinkedIn', value: 300 },
-  { name: 'Twitter', value: 200 },
-];
-
-const PIE_CHART_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+import { Badge } from '@/components/ui/badge';
 
 // --- TYPES & INTERFACES ---
 
@@ -131,20 +114,22 @@ const StatCard: React.FC<StatCardProps> = ({
   isLoading,
 }) => (
   <motion.div variants={itemVariants} whileHover={{ scale: 1.03 }}>
-    <Card className="rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
+    <Card className="rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg h-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-        <Icon className="h-5 w-5 text-muted-foreground" />
+        <div className="p-2 rounded-xl bg-primary/5">
+            <Icon className="h-4 w-4 text-primary" />
+        </div>
       </CardHeader>
       <CardContent>
         {isLoading ? (
-            <>
+            <div className="space-y-2">
                 <Skeleton className="h-8 w-1/2" />
                 <Skeleton className="h-4 w-1/3 mt-1" />
-            </>
+            </div>
         ) : (
             <>
-                <div className="text-3xl font-bold">{value}</div>
+                <div className="text-3xl font-black tracking-tighter font-headline">{value}</div>
                 <TrendIndicator direction={trendDirection} value={trend} />
             </>
         )}
@@ -153,132 +138,133 @@ const StatCard: React.FC<StatCardProps> = ({
   </motion.div>
 );
 
-const LineChartCard: React.FC = () => (
-  <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }} className="lg:col-span-2">
-    <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
-      <CardHeader>
-        <CardTitle>Website Views</CardTitle>
-        <CardDescription>Views over the last 7 months</CardDescription>
-      </CardHeader>
-      <CardContent className="h-[300px] w-full p-2">
-        <ResponsiveContainer>
-          <AreaChart data={lineChartData} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
-            <defs>
-              <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-            <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value / 1000}k`} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: 'hsl(var(--background))',
-                border: '1px solid hsl(var(--border))',
-                borderRadius: '0.75rem',
-              }}
-              cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }}
-            />
-            <Area type="monotone" dataKey="views" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorViews)" />
-          </AreaChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
-  </motion.div>
-);
+const MessageVolumeChart: React.FC<{messages: any[], isLoading: boolean}> = ({messages, isLoading}) => {
+    const data = useMemo(() => {
+        if (!messages) return [];
+        const last7Days = Array.from({length: 7}).map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            return {
+                date: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                timestamp: d.setHours(0,0,0,0),
+                count: 0
+            };
+        }).reverse();
 
-const BarChartCard: React.FC<{posts: any[], isLoading: boolean}> = ({posts, isLoading}) => (
-  <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }}>
-     <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
-      <CardHeader>
-        <CardTitle>Content Performance</CardTitle>
-        <CardDescription>Number of blog posts by category</CardDescription>
-      </CardHeader>
-      <CardContent className="h-[300px] w-full p-2">
-        {isLoading ? (
-            <div className="flex items-center justify-center h-full">
-                <Skeleton className="h-full w-full" />
-            </div>
-        ) : (
-            <BlogPostByCategoryChart posts={posts} />
-        )}
-      </CardContent>
-    </Card>
-  </motion.div>
-);
+        messages.forEach(msg => {
+            const msgDate = (msg.createdAt as Timestamp)?.toDate();
+            if (msgDate) {
+                const msgDay = new Date(msgDate).setHours(0,0,0,0);
+                const dayMatch = last7Days.find(d => d.timestamp === msgDay);
+                if (dayMatch) dayMatch.count++;
+            }
+        });
 
-const DonutChartCard: React.FC<{ socialData: { name: string, value: number }[] }> = ({ socialData }) => (
-  <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }} className="lg:col-span-2">
-    <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
-      <CardHeader>
-        <CardTitle>Social Traffic Sources</CardTitle>
-        <CardDescription>Breakdown of visitors from social media</CardDescription>
-      </CardHeader>
-      <CardContent className="h-[300px] w-full p-2">
-        <ResponsiveContainer>
-          <PieChart>
-            <Pie
-              data={socialData}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              fill="#8884d8"
-              paddingAngle={5}
-              dataKey="value"
-            >
-              {socialData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={PIE_CHART_COLORS[index % PIE_CHART_COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip
-              contentStyle={{
-                backgroundColor: 'hsl(var(--background))',
-                border: '1px solid hsl(var(--border))',
-                borderRadius: '0.75rem',
-              }}
-            />
-            <Legend iconSize={10} />
-          </PieChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
-  </motion.div>
-);
+        return last7Days;
+    }, [messages]);
 
-const RecentActivity: React.FC<{products: any[], isLoading: boolean}> = ({products, isLoading}) => (
-    <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }}>
-        <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
+    return (
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+            <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
             <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Latest products added to the catalog</CardDescription>
+                <CardTitle className="font-headline">Inquiry Volume</CardTitle>
+                <CardDescription>Messages received over the last 7 days</CardDescription>
             </CardHeader>
-            <CardContent className="h-[300px] space-y-4 overflow-y-auto">
-                {isLoading && Array.from({length: 3}).map((_, i) => (
-                    <div key={i} className="flex items-center gap-4">
-                        <Skeleton className="h-12 w-12 rounded-md" />
-                        <div className="space-y-2">
-                           <Skeleton className="h-4 w-32" />
-                           <Skeleton className="h-3 w-24" />
-                        </div>
-                    </div>
-                ))}
-                {!isLoading && products.map(product => (
-                    <div key={product.id} className="flex items-center gap-4">
-                        <div className="relative h-12 w-12 rounded-md overflow-hidden bg-muted">
-                            {product.imageUrl && <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />}
-                        </div>
-                        <div>
-                            <p className="font-semibold">{product.name}</p>
-                            <p className="text-sm text-muted-foreground capitalize">{product.category}</p>
-                        </div>
-                    </div>
-                ))}
-                {!isLoading && products.length === 0 && <p className="text-muted-foreground">No recent product activity.</p>}
+            <CardContent className="h-[300px] w-full p-2">
+                {isLoading ? <Skeleton className="h-full w-full" /> : (
+                    <ResponsiveContainer>
+                    <AreaChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
+                        <defs>
+                        <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
+                            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                        </linearGradient>
+                        </defs>
+                        <XAxis dataKey="date" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+                        <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
+                        <Tooltip
+                        contentStyle={{
+                            backgroundColor: 'hsl(var(--background))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '0.75rem',
+                        }}
+                        cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }}
+                        />
+                        <Area type="monotone" dataKey="count" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorCount)" name="Messages" />
+                    </AreaChart>
+                    </ResponsiveContainer>
+                )}
             </CardContent>
-        </Card>
-    </motion.div>
-);
+            </Card>
+        </motion.div>
+    );
+};
+
+const ActivityFeed: React.FC<{products: any[], posts: any[], isLoading: boolean}> = ({products, posts, isLoading}) => {
+    const combinedActivity = useMemo(() => {
+        const activity = [
+            ...products.map(p => ({ ...p, type: 'product', date: p.createdAt })),
+            ...posts.map(p => ({ ...p, type: 'post', date: p.publishDate }))
+        ];
+        return activity.sort((a, b) => {
+            const dateA = (a.date as Timestamp)?.toMillis() || 0;
+            const dateB = (b.date as Timestamp)?.toMillis() || 0;
+            return dateB - dateA;
+        }).slice(0, 6);
+    }, [products, posts]);
+
+    return (
+        <motion.div variants={itemVariants}>
+            <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
+                <CardHeader>
+                    <CardTitle className="font-headline">Recent Updates</CardTitle>
+                    <CardDescription>Latest changes to products and blogs</CardDescription>
+                </CardHeader>
+                <CardContent className="h-[300px] space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+                    {isLoading ? Array.from({length: 4}).map((_, i) => (
+                        <div key={i} className="flex items-center gap-4">
+                            <Skeleton className="h-10 w-10 rounded-lg" />
+                            <div className="space-y-2">
+                               <Skeleton className="h-4 w-32" />
+                               <Skeleton className="h-3 w-20" />
+                            </div>
+                        </div>
+                    )) : combinedActivity.map((item, idx) => (
+                        <div key={item.id + idx} className="flex items-center gap-4 group">
+                            <div className="relative h-10 w-10 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                                {item.imageUrl ? (
+                                    <Image src={item.imageUrl} alt={item.name || item.title} fill className="object-cover" />
+                                ) : (
+                                    <div className="h-full w-full flex items-center justify-center bg-primary/5">
+                                        {item.type === 'product' ? <Package className="h-4 w-4 text-primary" /> : <FileText className="h-4 w-4 text-primary" />}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="min-w-0">
+                                <p className="font-bold text-sm truncate group-hover:text-primary transition-colors">{item.name || item.title}</p>
+                                <div className="flex items-center gap-2 mt-0.5">
+                                    <Badge variant="outline" className="text-[9px] uppercase tracking-tighter px-1.5 py-0">
+                                        {item.type}
+                                    </Badge>
+                                    <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                                        <Clock className="h-2 w-2" />
+                                        {(item.date as Timestamp)?.toDate().toLocaleDateString()}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    {!isLoading && combinedActivity.length === 0 && (
+                        <div className="h-full flex flex-col items-center justify-center text-center p-4">
+                            <Activity className="h-8 w-8 text-muted-foreground/30 mb-2" />
+                            <p className="text-sm text-muted-foreground">No recent activity detected.</p>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+        </motion.div>
+    );
+};
 
 
 // --- MAIN DASHBOARD COMPONENT ---
@@ -287,107 +273,100 @@ export default function DashboardPage() {
   const firestore = useFirestore();
   const [isClient, setIsClient] = useState(false);
 
-  // State for simulated live data
-  const [websiteViews, setWebsiteViews] = useState(12890);
-  const [socialTraffic, setSocialTraffic] = useState(4567);
-  const [socialData, setSocialData] = useState(initialPieChartData);
+  useEffect(() => setIsClient(true), []);
 
   // --- Firestore Queries ---
   const productsQuery = useMemoFirebase(() => firestore ? collection(firestore, 'products') : null, [firestore]);
   const blogPostsQuery = useMemoFirebase(() => firestore ? collection(firestore, 'blogPosts') : null, [firestore]);
-  const messagesQuery = useMemoFirebase(() => {
+  const teamQuery = useMemoFirebase(() => firestore ? collection(firestore, 'teamMembers') : null, [firestore]);
+  const partnersQuery = useMemoFirebase(() => firestore ? collection(firestore, 'partners') : null, [firestore]);
+  const messagesQuery = useMemoFirebase(() => firestore ? collection(firestore, 'messages') : null, [firestore]);
+  
+  const twentyFourHoursAgo = useMemo(() => {
+      const d = new Date();
+      d.setHours(d.getHours() - 24);
+      return Timestamp.fromDate(d);
+  }, []);
+
+  const recentMessagesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    return query(collection(firestore, 'messages'), where('createdAt', '>=', Timestamp.fromDate(twentyFourHoursAgo)));
-  }, [firestore]);
-  const recentProductsQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'products'), orderBy('createdAt', 'desc'), limit(5)) : null, [firestore]);
+    return query(collection(firestore, 'messages'), where('createdAt', '>=', twentyFourHoursAgo));
+  }, [firestore, twentyFourHoursAgo]);
+
+  const recentActivityProductsQuery = useMemoFirebase(() => 
+    firestore ? query(collection(firestore, 'products'), orderBy('createdAt', 'desc'), limit(5)) : null, 
+  [firestore]);
 
   // --- Data Fetching ---
   const { data: products, isLoading: isLoadingProducts } = useCollection(productsQuery);
   const { data: blogPosts, isLoading: isLoadingBlogPosts } = useCollection(blogPostsQuery);
-  const { data: recentMessages, isLoading: isLoadingMessages } = useCollection(messagesQuery);
-  const { data: recentProducts, isLoading: isLoadingRecentProducts } = useCollection(recentProductsQuery);
+  const { data: team, isLoading: isLoadingTeam } = useCollection(teamQuery);
+  const { data: partners, isLoading: isLoadingPartners } = useCollection(partnersQuery);
+  const { data: allMessages, isLoading: isLoadingMessages } = useCollection(messagesQuery);
+  const { data: recentMessages, isLoading: isLoadingRecentMessages } = useCollection(recentMessagesQuery);
+  const { data: recentProducts, isLoading: isLoadingRecentProducts } = useCollection(recentActivityProductsQuery);
 
-  // --- Live Data Simulation Effect ---
-  useEffect(() => {
-    setIsClient(true);
-    const viewInterval = setInterval(() => {
-        setWebsiteViews(v => v + Math.floor(Math.random() * 5) - 1);
-    }, 3000);
-
-    const socialInterval = setInterval(() => {
-        setSocialTraffic(v => v + Math.floor(Math.random() * 3));
-        setSocialData(prevData => prevData.map(d => ({
-            ...d,
-            value: Math.max(50, d.value + Math.floor(Math.random() * 20) - 10)
-        })));
-    }, 5000);
-
-    return () => {
-        clearInterval(viewInterval);
-        clearInterval(socialInterval);
-    };
-  }, []);
-
-  // --- Static Data ---
   const statCardsData = [
     {
-        title: 'Products',
+        title: 'Catalog',
         value: products?.length.toString() ?? '0',
-        trend: '+15.2%',
+        trend: '+2 New',
         trendDirection: 'up' as const,
         icon: Package,
         isLoading: isLoadingProducts,
     },
     {
-        title: 'Blog Posts',
+        title: 'Articles',
         value: blogPosts?.length.toString() ?? '0',
-        trend: '+5.1%',
-        trendDirection: 'up' as const,
+        trend: 'Live',
+        trendDirection: 'neutral' as const,
         icon: FileText,
         isLoading: isLoadingBlogPosts,
     },
     {
-        title: 'Last Messages',
-        value: recentMessages?.length.toString() ?? '0',
-        trend: '24h',
-        trendDirection: 'neutral' as const,
-        icon: MessageSquare,
-        isLoading: isLoadingMessages,
-    },
-  ];
-
-  const dynamicStatCards = [
-     {
-        title: 'Website Views',
-        value: websiteViews.toLocaleString(),
-        trend: '-2.1%',
-        trendDirection: 'down' as const,
-        icon: Eye,
-        isLoading: false,
-    },
-    {
-        title: 'Actuality',
-        value: 'Summer Sale',
-        trend: 'Active',
-        trendDirection: 'neutral' as const,
-        icon: Megaphone,
-        isLoading: false,
-    },
-    {
-        title: 'Social Traffic',
-        value: socialTraffic.toLocaleString(),
-        trend: '+33.8%',
+        title: 'Team Size',
+        value: team?.length.toString() ?? '0',
+        trend: 'Optimized',
         trendDirection: 'up' as const,
         icon: Users,
-        isLoading: false,
+        isLoading: isLoadingTeam,
+    },
+    {
+        title: 'Global Partners',
+        value: partners?.length.toString() ?? '0',
+        trend: 'Trusted',
+        trendDirection: 'up' as const,
+        icon: Handshake,
+        isLoading: isLoadingPartners,
+    },
+    {
+        title: 'Total Inquiries',
+        value: allMessages?.length.toString() ?? '0',
+        trend: 'History',
+        trendDirection: 'neutral' as const,
+        icon: Activity,
+        isLoading: isLoadingMessages,
+    },
+    {
+        title: 'New Inquiries',
+        value: recentMessages?.length.toString() ?? '0',
+        trend: 'Last 24h',
+        trendDirection: 'up' as const,
+        icon: MessageSquare,
+        isLoading: isLoadingRecentMessages,
     },
   ];
 
   return (
     <div className="flex-1 space-y-8 p-8 pt-6 bg-background">
-      <div className="flex items-center justify-between space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight font-headline">Dashboard</h1>
+      <div className="flex items-center justify-between">
+        <div>
+            <h1 className="text-3xl font-black tracking-tight font-headline">Dashboard</h1>
+            <div className="flex items-center gap-2 mt-1">
+                <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">System Real-Time Monitoring</span>
+            </div>
+        </div>
       </div>
       
       {/* Stat Cards */}
@@ -400,31 +379,72 @@ export default function DashboardPage() {
         {statCardsData.map((card, index) => (
           <StatCard key={index} {...card} />
         ))}
-        {isClient ? dynamicStatCards.map((card, index) => (
-          <StatCard key={index + statCardsData.length} {...card} />
-        )) : Array.from({length:3}).map((_, i) => <Skeleton key={i+statCardsData.length} className="h-28 w-full"/>) }
       </motion.div>
 
-      {/* Charts */}
+      {/* Charts Row 1 */}
        <motion.div 
          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
          variants={containerVariants}
          initial="hidden"
          animate="visible"
        >
-        <LineChartCard />
-        <BarChartCard posts={blogPosts || []} isLoading={isLoadingBlogPosts} />
+        <MessageVolumeChart messages={allMessages || []} isLoading={isLoadingMessages} />
+        <Card className="h-full rounded-2xl border-border/60 shadow-sm transition-shadow hover:shadow-lg">
+            <CardHeader>
+                <CardTitle className="font-headline">Content Distribution</CardTitle>
+                <CardDescription>Blog posts by category</CardDescription>
+            </CardHeader>
+            <CardContent className="h-[300px] w-full p-2">
+                {isLoadingBlogPosts ? <Skeleton className="h-full w-full" /> : (
+                    <BlogPostByCategoryChart posts={blogPosts || []} />
+                )}
+            </CardContent>
+        </Card>
       </motion.div>
+
+      {/* Activity Feed */}
       <motion.div 
          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
          variants={containerVariants}
          initial="hidden"
          animate="visible"
        >
-        {isClient ? <DonutChartCard socialData={socialData} /> : <Skeleton className="h-full w-full min-h-[300px] lg:col-span-2" />}
-        <RecentActivity products={recentProducts || []} isLoading={isLoadingRecentProducts} />
+        <div className="lg:col-span-2">
+            <ActivityFeed 
+                products={products || []} 
+                posts={blogPosts || []} 
+                isLoading={isLoadingProducts || isLoadingBlogPosts} 
+            />
+        </div>
+        
+        <Card className="rounded-2xl border-border/60 shadow-sm bg-primary/5 flex flex-col justify-center p-8 overflow-hidden relative group">
+            <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl transition-all group-hover:scale-150" />
+            <div className="relative z-10">
+                <Megaphone className="h-8 w-8 text-primary mb-4" />
+                <h3 className="text-xl font-black font-headline mb-2">Internal Update</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                    Harvest season for Hass Avocados is approaching peak. Ensure product inventory is updated for European partners.
+                </p>
+                <Badge className="mt-4 bg-primary text-white">Action Required</Badge>
+            </div>
+        </Card>
       </motion.div>
 
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: hsl(var(--muted));
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: hsl(var(--primary) / 0.3);
+        }
+      `}</style>
     </div>
   );
 }
