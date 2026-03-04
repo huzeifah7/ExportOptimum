@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -34,7 +35,7 @@ const pillars = [
     subtitle: 'Empowering Individuals, Strengthening Communities',
     description: 'Our responsibility begins with our people. All our policies are fully aligned with human rights principles and Moroccan labor laws, ensuring fair wages, safe working conditions, and comprehensive health and safety measures. We maintain a zero-tolerance policy toward child labor, harassment, and all forms of modern slavery.',
     secondParagraph: 'Beyond our teams, we actively support local communities by creating sustainable employment opportunities and investing in social initiatives. We have proudly founded and we regularly donate to a national NGO and association: Al Wed wa Rahma dedicated to education, providing academic support, parallel classes, and essential learning resources—particularly for orphaned children and teenagers.',
-    image: 'https://images.unsplash.com/photo-1634638022229-5a52221886dc?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    image: 'https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     imageAlt: 'Community and people working together',
     imageHint: 'community people'
   },
@@ -45,7 +46,7 @@ const pillars = [
     subtitle: 'Farming in Sync with Nature',
     description: 'At Export Optimum, environmental stewardship is central to how we operate. The raw materials we source are cultivated in alignment with natural cycles, with a strong focus on soil health, biodiversity, renewable energy and sustainable agricultural practices.',
     secondParagraph: 'Water conservation is also one of our critical priorities. We are fully aware of the growing pressures of climate change, we ensure that our suppliers apply rigorous standards of water stewardship, using clean water resources responsibly and we use water sustainably throughout the production process.',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1932&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1720855544264-5a639a985096?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     imageAlt: 'Sustainable agriculture and environment',
     imageHint: 'sustainable planet'
   },
@@ -130,49 +131,47 @@ export default function SustainabilityPage() {
 
         {/* Impact Stats Section */}
         <section className="py-20 bg-gray-50/50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold font-headline uppercase tracking-widest mb-12 border border-primary/20"
-              >
-                <MessageSquare className="w-4 h-4" />
-                Measurable Impact
-              </motion.div>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold font-headline uppercase tracking-widest mb-12 border border-primary/20"
+            >
+              <MessageSquare className="w-4 h-4" />
+              Measurable Impact
+            </motion.div>
 
-              {/* Stats Grid - Modern Design */}
-              <div className="w-full max-w-[1400px] mx-auto mt-16">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
-                  {impactStats.map((stat, index) => (
-                    <div
-                      key={index}
-                      className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-200 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
-                    >
-                      {/* Background Accent */}
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-[hsl(88,92%,30%)]/10 rounded-bl-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      
-                      {/* Icon */}
-                      <div className="relative w-14 h-14 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500 group-hover:scale-110">
-                        <stat.icon className="w-7 h-7 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
-                      </div>
-                      
-                      {/* Value */}
-                      <div className="text-3xl font-bold text-[hsl(88,92%,30%)] mb-2 relative font-headline">
-                        {stat.value}
-                      </div>
-                      
-                      {/* Label */}
-                      <div className="text-sm font-semibold text-gray-700 leading-tight font-prose">
-                        {stat.label}
-                      </div>
-
-                      {/* Bottom Accent Line */}
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Stats Grid - Modern Design */}
+            <div className="w-full max-w-[1400px] mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {impactStats.map((stat, index) => (
+                  <div
+                    key={index}
+                    className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-200 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+                  >
+                    {/* Background Accent */}
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-[hsl(88,92%,30%)]/10 rounded-bl-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Icon */}
+                    <div className="relative w-14 h-14 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500 group-hover:scale-110">
+                      <stat.icon className="w-7 h-7 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
                     </div>
-                  ))}
-                </div>
+                    
+                    {/* Value */}
+                    <div className="text-3xl font-bold text-[hsl(88,92%,30%)] mb-2 relative font-headline">
+                      {stat.value}
+                    </div>
+                    
+                    {/* Label */}
+                    <div className="text-sm font-semibold text-gray-700 leading-tight font-prose">
+                      {stat.label}
+                    </div>
+
+                    {/* Bottom Accent Line */}
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -207,9 +206,7 @@ export default function SustainabilityPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.8 }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
-                    index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-                  }`}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center`}
                 >
                   {/* Image Side */}
                   <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
@@ -260,7 +257,7 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* New Dome Gallery Section */}
+        {/* Height-Adjusted Gallery Section */}
         <section className="py-20 lg:py-28 bg-gray-50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
@@ -278,7 +275,8 @@ export default function SustainabilityPage() {
                     </p>
                 </motion.div>
 
-                <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
+                {/* Increased Height to 100vh */}
+                <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
                     {isLoadingGallery ? (
                         <div className="w-full h-full flex items-center justify-center">
                             <Skeleton className="w-3/4 h-3/4 rounded-full" />
