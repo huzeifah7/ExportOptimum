@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -12,6 +11,7 @@ import { collection } from 'firebase/firestore';
 import dynamic from 'next/dynamic';
 import { Skeleton } from '@/components/ui/skeleton';
 
+// Dynamic imports for high-impact components
 const DomeGallery = dynamic(() => import('@/components/ui/dome-gallery'), {
   ssr: false,
   loading: () => <div className="h-[400px] w-full bg-gray-100 animate-pulse rounded-3xl" />
@@ -86,8 +86,6 @@ type SustainabilityImage = {
 
 export default function SustainabilityPage() {
   const [isClient, setIsClient] = useState(false);
-  const statsRef = useRef(null);
-  const isStatsInView = useInView(statsRef, { once: true, amount: 0.2 });
   
   const firestore = useFirestore();
   const galleryQuery = useMemoFirebase(() => {
@@ -116,8 +114,8 @@ export default function SustainabilityPage() {
       <Header />
       
       <main className="flex-grow">
-        {/* HERO */}
-        <section className="h-screen overflow-hidden">
+        {/* HERO SECTION - 100vh for high impact immersion */}
+        <section className="h-screen overflow-hidden relative">
           <HeroGeometric 
             badge="Our Sustainability Commitment"
             title1="Growing Together,"
@@ -126,117 +124,116 @@ export default function SustainabilityPage() {
           />
         </section>
 
-        {/* IMPACT STATS */}
-        <section ref={statsRef} className="py-12 lg:py-16 bg-white relative z-10 -mt-24 sm:-mt-32">
+        {/* IMPACT DASHBOARD - Quantifying our commitment */}
+        <section className="py-20 bg-gray-50/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
               {impactStats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isStatsInView ? { opacity: 1, y: 0 } : {}}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-xl shadow-black/5 border border-gray-100 hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
+                  className="group relative bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:border-primary transition-all duration-500 hover:shadow-xl hover:-translate-y-1 text-center"
                 >
-                  <div className="relative w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition-all duration-500">
-                    <stat.icon className="w-6 h-6 text-primary group-hover:text-white transition-colors duration-500" />
+                  <div className="relative w-14 h-14 bg-primary/5 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-primary transition-all duration-500">
+                    <stat.icon className="w-7 h-7 text-primary group-hover:text-white transition-colors duration-500" />
                   </div>
-                  <div className="text-2xl font-headline font-black text-primary mb-1 text-center">
+                  
+                  <div className="text-3xl font-black text-primary mb-2 font-headline">
                     {stat.value}
                   </div>
-                  <div className="text-[10px] font-headline font-black text-gray-500 text-center uppercase tracking-widest leading-tight">
+                  
+                  <div className="text-xs font-bold text-gray-500 uppercase tracking-widest font-prose">
                     {stat.label}
                   </div>
+
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* FOUR PILLARS */}
-        <section id="pillars" className="py-20 lg:py-32 bg-white">
+        {/* CORE PILLARS SECTION - Alternating content for engaging rhythm */}
+        <section id="pillars" className="py-24 lg:py-32 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               className="text-center mb-24"
             >
-              <div className="inline-block mb-6">
-                <span className="inline-flex items-center px-4 py-2 rounded-full text-xs font-headline font-bold uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">
-                  Our Framework
-                </span>
-              </div>
-              
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-black mb-6 text-gray-900 leading-tight">
-                Our Four Pillars of <br className="hidden md:block" />
-                <span className="text-primary">Sustainability</span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-black mb-6 text-gray-900 tracking-tight">
+                Our Four Pillars of <span className="text-primary">Sustainability</span>
               </h2>
-              
-              <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-500 leading-relaxed font-prose font-light">
-                A multi-dimensional approach to ensuring our growth benefits the land, the people, and our global partners for generations to come.
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-prose font-light">
+                A holistic strategy designed to protect our land, empower our people, and build resilient partnerships.
               </p>
             </motion.div>
 
-            <div className="space-y-24 lg:space-y-40">
+            <div className="space-y-32 lg:space-y-48">
               {pillars.map((pillar, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
+                  viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center"
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center ${
+                    index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                  }`}
                 >
-                  {/* Image Column */}
-                  <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                    <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl group">
+                  {/* Visual Side */}
+                  <div className="relative group">
+                    <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-black/5">
                       <Image
                         src={pillar.image}
                         alt={pillar.imageAlt}
                         fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
                         data-ai-hint={pillar.imageHint}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent opacity-60" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
                       
-                      {/* Floating Number Badge */}
-                      <div className="absolute top-8 left-8 w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20 transform -rotate-6 group-hover:rotate-0 transition-transform duration-500">
-                        <span className="text-2xl font-headline font-black">{pillar.number}</span>
+                      {/* Priority Marker */}
+                      <div className="absolute top-8 left-8 w-16 h-16 bg-white/95 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-2xl border border-white/50">
+                        <span className="text-2xl font-black text-primary">{pillar.number}</span>
                       </div>
                     </div>
-                    
-                    <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
+                    {/* Decorative accent */}
+                    <div className="absolute -z-10 -bottom-6 -right-6 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-700" />
                   </div>
 
-                  {/* Content Column */}
-                  <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                        <pillar.icon className="w-7 h-7 text-primary" />
+                  {/* Narrative Side */}
+                  <div className="space-y-8">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-4 mb-2">
+                        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
+                          <pillar.icon className="w-8 h-8 text-primary" />
+                        </div>
+                        <div className="h-px flex-1 bg-gray-100" />
                       </div>
-                      <div>
-                        <h3 className="text-3xl md:text-4xl font-headline font-black text-gray-900 leading-tight">
-                          {pillar.title}
-                        </h3>
-                        <p className="text-xs font-headline font-black text-primary uppercase tracking-[0.2em] mt-1">
-                          {pillar.subtitle}
-                        </p>
-                      </div>
+                      
+                      <h3 className="text-4xl md:text-5xl font-headline font-black text-gray-900 tracking-tight leading-tight">
+                        {pillar.title}
+                      </h3>
+                      <p className="text-lg text-primary font-bold font-headline tracking-widest uppercase text-sm">
+                        {pillar.subtitle}
+                      </p>
                     </div>
 
-                    <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-prose font-light">
-                      <p>
+                    <div className="space-y-6 text-lg text-gray-600 leading-relaxed font-prose font-light">
+                      <p className="relative">
                         {pillar.description}
                       </p>
                       {pillar.secondParagraph && (
-                        <div className="pt-4 border-t border-gray-100">
-                          <p>
-                            {pillar.secondParagraph}
-                          </p>
-                        </div>
+                        <p className="pt-6 border-t border-gray-100 italic text-base">
+                          {pillar.secondParagraph}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -246,69 +243,84 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* DOME GALLERY */}
-        <section className="py-20 lg:py-32 bg-gray-50 overflow-hidden">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-black mb-4 text-gray-900 tracking-tight">
-                        Our Journey in <span className="text-primary">Pictures</span>
-                    </h2>
-                    <p className="text-xs font-headline font-bold text-gray-400 max-w-xl mx-auto uppercase tracking-[0.3em] opacity-80">
-                        Visualizing our commitment to people, planet, and ethical partnerships across Morocco.
-                    </p>
-                </motion.div>
+        {/* VISUAL STORYTELLING - Dome Gallery */}
+        <section className="py-24 lg:py-32 bg-gray-50 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+               style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+          
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-20"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6 border border-primary/20">
+                <CheckCircle className="w-4 h-4" />
+                Commitment in Action
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-black mb-6 text-gray-900 tracking-tight">
+                Our Journey in <span className="text-primary">Pictures</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-prose font-light">
+                A visual overview of our sustainable practices and social impact efforts.
+              </p>
+            </motion.div>
 
-                <div className="h-[60vh] relative w-full">
-                    {isLoadingGallery ? (
-                        <div className="w-full h-full flex items-center justify-center">
-                            <Skeleton className="w-48 h-48 rounded-full" />
-                        </div>
-                    ) : (
-                        <DomeGallery 
-                          images={galleryImages || []} 
-                          grayscale={false} 
-                          imageBorderRadius="40px"
-                          openedImageBorderRadius="40px"
-                        />
-                    )}
+            <div className="h-[75vh] md:h-[85vh] w-full rounded-[3rem] overflow-hidden bg-white shadow-3xl ring-1 ring-black/5">
+              {isLoadingGallery ? (
+                <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                  <div className="text-center space-y-4">
+                    <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto" />
+                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Compiling Visuals</p>
+                  </div>
                 </div>
+              ) : (
+                <DomeGallery 
+                  images={galleryImages || []} 
+                  grayscale={false} 
+                  overlayBlurColor="rgba(255, 255, 255, 0.7)" 
+                />
+              )}
             </div>
+          </div>
         </section>
 
-        {/* FINAL CTA */}
-        <section className="py-20 lg:py-32 bg-white">
-          <div className="container mx-auto px-4 max-w-5xl text-center">
-            <motion.div
+        {/* PARTNERSHIP CTA - The final word */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+            <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="bg-primary rounded-[3rem] p-12 lg:p-20 text-white shadow-2xl relative overflow-hidden"
+              className="relative rounded-[3rem] bg-primary p-12 md:p-20 text-center overflow-hidden shadow-2xl"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl -ml-32 -mb-32" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-20 -mb-20 blur-3xl" />
               
-              <div className="relative z-10">
-                <CheckCircle className="w-16 h-16 mx-auto mb-8 opacity-80" />
-                <h2 className="text-4xl md:text-5xl font-headline font-black mb-6 leading-tight">
-                  Partnering for a Better Future
+              <div className="relative z-10 space-y-8">
+                <div className="w-20 h-20 bg-white/20 rounded-3xl flex items-center justify-center mx-auto border-2 border-white/30 backdrop-blur-sm shadow-xl">
+                  <Leaf className="w-10 h-10 text-white" />
+                </div>
+                
+                <h2 className="text-4xl md:text-5xl font-headline font-black text-white tracking-tight">
+                  Cultivate a Sustainable Partnership
                 </h2>
-                <p className="text-xl text-primary-foreground/90 font-prose font-light max-w-2xl mx-auto mb-10 leading-relaxed">
-                  Our commitment to sustainability is built on the belief that responsible practices are the foundation of long-term global partnerships.
+                
+                <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto font-prose font-light leading-relaxed">
+                  Join a supply chain that values the planet and its people as much as the produce it delivers.
                 </p>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => window.location.href = '/contact'}
-                  className="bg-white text-primary px-10 py-4 rounded-2xl font-headline font-black text-lg shadow-xl hover:shadow-2xl transition-all"
-                >
-                  Join Our Mission
-                </motion.button>
+                
+                <div className="pt-4">
+                  <Link 
+                    href="/contact" 
+                    className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-primary font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+                  >
+                    Partner with Us
+                    <Target className="w-5 h-5" />
+                  </Link>
+                </div>
               </div>
             </motion.div>
           </div>
