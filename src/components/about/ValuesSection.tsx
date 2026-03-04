@@ -8,22 +8,22 @@ const values = [
   { 
     title: 'Our Own brand : Mavocado',
     pattern: 'dots',
-    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,45%)]' // Green
+    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,35%)]'
   },
   { 
     title: 'Ownership of two avocado farms',
     pattern: 'grid',
-    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,45%)]' // Teal
+    blobColor: 'from-emerald-400 to-teal-600'
   },
   { 
     title: 'Exclusive access and Management of over 500 hectares of avocado farms',
     pattern: 'lines',
-    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,45%)]' // Green variant
+    blobColor: 'from-lime-400 to-green-600'
   },
   { 
     title: 'Premium produce with international norms',
     pattern: 'circles',
-    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,45%)]' // Yellow-gold
+    blobColor: 'from-amber-400 to-yellow-600'
   },
 ];
 
@@ -110,7 +110,7 @@ const ValuesSection = () => {
         </motion.h2>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {values.map((value, index) => (
             <motion.div
               key={index}
@@ -119,13 +119,13 @@ const ValuesSection = () => {
               transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="group relative overflow-hidden rounded-3xl bg-white border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1"
             >
-              {/* Colorful Blob Background */}
-              <div className="absolute -top-20 -left-20 w-48 h-48 rounded-full opacity-15 group-hover:opacity-25 blur-3xl transition-all duration-700 group-hover:scale-125">
+              {/* Colorful Blob Background - Increased opacity for more vibrant look */}
+              <div className="absolute -top-20 -left-20 w-48 h-48 rounded-full opacity-40 group-hover:opacity-60 blur-3xl transition-all duration-700 group-hover:scale-125">
                 <div className={`w-full h-full bg-gradient-to-br ${value.blobColor} rounded-full`} />
               </div>
               
               {/* Second smaller blob */}
-              <div className="absolute -bottom-10 -right-10 w-32 h-32 rounded-full opacity-10 group-hover:opacity-20 blur-2xl transition-all duration-700 group-hover:scale-110">
+              <div className="absolute -bottom-10 -right-10 w-32 h-32 rounded-full opacity-30 group-hover:opacity-50 blur-2xl transition-all duration-700 group-hover:scale-110">
                 <div className={`w-full h-full bg-gradient-to-tl ${value.blobColor} rounded-full`} />
               </div>
               
@@ -133,14 +133,14 @@ const ValuesSection = () => {
               {getPattern(value.pattern)}
               
               {/* Content */}
-              <div className="relative p-8 min-h-[280px] flex flex-col justify-center text-center">
-                <h3 className="text-lg font-bold text-gray-900 leading-tight transition-colors duration-300">
+              <div className="relative p-8 min-h-[300px] flex flex-col justify-center text-center">
+                <h3 className="text-xl font-black text-gray-900 leading-tight transition-colors duration-300">
                   {value.title}
                 </h3>
 
                 {/* Bottom Accent Line */}
-                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:from-transparent group-hover:to-transparent transition-all duration-500`}>
-                  <div className={`w-full h-full bg-gradient-to-r ${value.blobColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className={`absolute bottom-0 left-0 right-0 h-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}>
+                  <div className={`w-full h-full bg-gradient-to-r ${value.blobColor}`} />
                 </div>
               </div>
             </motion.div>
