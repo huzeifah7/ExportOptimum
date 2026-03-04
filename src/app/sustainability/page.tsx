@@ -143,7 +143,7 @@ export default function SustainabilityPage() {
             </motion.div>
 
             {/* Stats Grid - Modern Design */}
-            <div className="w-full max-w-[1400px] mx-auto">
+            <div className="w-full max-w-[1400px] mx-auto mt-16">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {impactStats.map((stat, index) => (
                   <div
@@ -206,7 +206,9 @@ export default function SustainabilityPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.8 }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center`}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
+                    index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                  }`}
                 >
                   {/* Image Side */}
                   <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
@@ -321,35 +323,12 @@ export default function SustainabilityPage() {
                       Join a supply chain that values the planet and its people as much as the produce it delivers.
                     </p>
 
-                    <div className="space-y-3 mb-8">
-                      {[
-                        'Direct farm partnerships',
-                        'Full traceability systems',
-                        'Sustainable practices',
-                        'Global reach & reliability'
-                      ].map((feature, index) => (
-                        <motion.div 
-                          key={index}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
-                          className="flex items-center gap-3"
-                        >
-                          <div className="w-5 h-5 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                            <CheckCircle className="w-3 h-3 text-white" />
-                          </div>
-                          <span className="text-white/90 font-medium text-sm font-prose">{feature}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-
                     <Link 
                       href="/contact" 
-                      className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[hsl(88,92%,30%)] font-bold text-base shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+                      className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-[hsl(88,92%,30%)] font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
                     >
                       Partner with Us
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="w-6 h-6" />
                     </Link>
                   </div>
                 </div>
