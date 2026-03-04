@@ -41,7 +41,7 @@ const VisionSection = () => {
           >
             <div className="flex items-center gap-3 mb-12">
               <span className="w-8 h-px bg-primary" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Our Vision</span>
+              <span className="text-lg font-bold uppercase tracking-[0.2em] text-primary">Our Vision</span>
             </div>
 
             <h2 className="text-4xl md:text-6xl font-black leading-[0.95] tracking-tight text-foreground mb-5">

@@ -28,6 +28,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FullPageLoading } from '@/components/ui/loading';
+import { SessionTimeoutGuard } from '@/components/admin/SessionTimeoutGuard';
 
 const adminNavItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -96,7 +97,7 @@ function Sidebar({ isCollapsed, onToggle }: { isCollapsed: boolean, onToggle: ()
             onClick={onToggle}
           >
             <ChevronLeft className={cn("h-6 w-6 transition-transform", isCollapsed && "rotate-180")} />
-            <span className={cn("sr-only", !isCollapsed && "not-sr-only ml-2")}>{isCollapsed ? 'Expand' : 'Collapse'}</span>
+            <span className="sr-only">{isCollapsed ? 'Expand' : 'Collapse'}</span>
         </Button>
       </div>
     </aside>
@@ -148,11 +149,13 @@ export default function AdminLayout({
             </SheetContent>
         </Sheet>
 
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
-          <div className="max-w-7xl mx-auto">
-              {children}
-          </div>
-        </main>
+        <SessionTimeoutGuard>
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+            <div className="max-w-7xl mx-auto">
+                {children}
+            </div>
+          </main>
+        </SessionTimeoutGuard>
       </div>
     </div>
   );

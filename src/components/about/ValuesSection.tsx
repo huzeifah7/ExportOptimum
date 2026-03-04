@@ -6,24 +6,24 @@ import { motion, useInView } from 'framer-motion';
 
 const values = [
   { 
-    title: 'Our Own brand : Mavocado',
+    title: 'Ownership Of Our Own brand :     Mavocado',
     pattern: 'dots',
     blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,35%)]'
   },
   { 
     title: 'Ownership of two avocado farms',
     pattern: 'grid',
-    blobColor: 'from-emerald-400 to-teal-600'
+    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,35%)]'
   },
   { 
     title: 'Exclusive access and Management of over 500 hectares of avocado farms',
     pattern: 'lines',
-    blobColor: 'from-lime-400 to-green-600'
+    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,35%)]'
   },
   { 
     title: 'Premium produce with international norms',
     pattern: 'circles',
-    blobColor: 'from-amber-400 to-yellow-600'
+    blobColor: 'from-[hsl(88,92%,55%)] to-[hsl(88,92%,35%)]'
   },
 ];
 
