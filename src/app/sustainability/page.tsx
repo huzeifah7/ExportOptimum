@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Users, Globe, Shield, Handshake, Heart, Droplets, Leaf, Sun, BookOpen, Home, Award, CheckCircle, Target } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
+import { 
+  Users, Globe, Shield, Handshake, Droplets, Leaf, 
+  Home, Target, MessageSquare 
+} from 'lucide-react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
@@ -74,9 +77,6 @@ const impactStats = [
   { icon: Users, value: '100%', label: 'Fair Wages' },
   { icon: Home, value: 'Zero', label: 'Child Labor' },
   { icon: Droplets, value: '100%', label: 'Water Stewardship' },
-  { icon: Sun, value: 'Renewable', label: 'Energy Focus' },
-  { icon: BookOpen, value: 'Al Wed wa Rahma', label: 'NGO Partner' },
-  { icon: Award, value: 'UN SDGs', label: 'Aligned' },
 ];
 
 type SustainabilityImage = {
@@ -87,8 +87,8 @@ type SustainabilityImage = {
 
 export default function SustainabilityPage() {
   const [isClient, setIsClient] = useState(false);
-  
   const firestore = useFirestore();
+
   const galleryQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return collection(firestore, 'sustainabilityGallery');
@@ -115,7 +115,7 @@ export default function SustainabilityPage() {
       <Header />
       
       <main className="flex-grow">
-        {/* HERO SECTION - 100vh for high impact immersion */}
+        {/* HERO SECTION */}
         <section className="h-screen overflow-hidden relative">
           <HeroGeometric 
             badge="Our Sustainability Commitment"
@@ -125,117 +125,130 @@ export default function SustainabilityPage() {
           />
         </section>
 
-        {/* IMPACT DASHBOARD - Quantifying our commitment */}
+        {/* Impact Stats Section */}
         <section className="py-20 bg-gray-50/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-              {impactStats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:border-primary transition-all duration-500 hover:shadow-xl hover:-translate-y-1 text-center"
-                >
-                  <div className="relative w-14 h-14 bg-primary/5 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-primary transition-all duration-500">
-                    <stat.icon className="w-7 h-7 text-primary group-hover:text-white transition-colors duration-500" />
-                  </div>
-                  
-                  <div className="text-3xl font-black text-primary mb-2 font-headline">
-                    {stat.value}
-                  </div>
-                  
-                  <div className="text-xs font-bold text-gray-500 uppercase tracking-widest font-prose">
-                    {stat.label}
-                  </div>
+            <div className="text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-12 border border-primary/20"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Measurable Impact
+              </motion.div>
 
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </motion.div>
-              ))}
+              {/* Stats Grid - Modern Design */}
+              <div className="w-full max-w-[1400px] mx-auto mt-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
+                  {impactStats.map((stat, index) => (
+                    <div
+                      key={index}
+                      className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-200 hover:border-[hsl(88,92%,30%)] transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+                    >
+                      {/* Background Accent */}
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-[hsl(88,92%,30%)]/10 rounded-bl-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      {/* Icon */}
+                      <div className="relative w-14 h-14 bg-[hsl(88,92%,30%)]/10 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:bg-[hsl(88,92%,30%)] transition-all duration-500 group-hover:scale-110">
+                        <stat.icon className="w-7 h-7 text-[hsl(88,92%,30%)] group-hover:text-white transition-colors duration-500" />
+                      </div>
+                      
+                      {/* Value */}
+                      <div className="text-3xl font-bold text-[hsl(88,92%,30%)] mb-2 relative font-headline">
+                        {stat.value}
+                      </div>
+                      
+                      {/* Label */}
+                      <div className="text-sm font-semibold text-gray-700 leading-tight font-prose">
+                        {stat.label}
+                      </div>
+
+                      {/* Bottom Accent Line */}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[hsl(88,92%,30%)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* CORE PILLARS SECTION - Alternating content for engaging rhythm */}
-        <section id="pillars" className="py-24 lg:py-32 bg-white">
+        {/* Four Pillars Section */}
+        <section id="pillars" className="py-20 lg:py-28 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            {/* Section Header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-24"
+              className="text-center mb-20"
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-black mb-6 text-gray-900 tracking-tight">
-                Our Four Pillars of <span className="text-primary">Sustainability</span>
+              <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-gray-900">
+                Our Four Pillars of{' '}
+                <span className="text-[hsl(88,92%,30%)]">Sustainability</span>
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-prose font-light">
-                A holistic strategy designed to protect our land, empower our people, and build resilient partnerships.
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-prose">
+                A comprehensive framework that guides every decision we make
               </p>
             </motion.div>
 
-            <div className="space-y-32 lg:space-y-48">
+            {/* Pillars */}
+            <div className="space-y-32">
               {pillars.map((pillar, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center ${
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.8 }}
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
                     index % 2 === 1 ? 'lg:flex-row-reverse' : ''
                   }`}
                 >
-                  {/* Visual Side */}
-                  <div className="relative group">
-                    <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-black/5">
+                  {/* Image Side */}
+                  <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                       <Image
                         src={pillar.image}
                         alt={pillar.imageAlt}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                        className="object-cover"
                         data-ai-hint={pillar.imageHint}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
                       
-                      {/* Priority Marker */}
-                      <div className="absolute top-8 left-8 w-16 h-16 bg-white/95 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-2xl border border-white/50">
-                        <span className="text-2xl font-black text-primary">{pillar.number}</span>
+                      {/* Floating Number Badge */}
+                      <div className="absolute top-6 left-6 w-16 h-16 bg-[hsl(88,92%,30%)] rounded-2xl flex items-center justify-center shadow-xl">
+                        <span className="text-2xl font-bold text-white font-headline">{pillar.number}</span>
                       </div>
                     </div>
-                    {/* Decorative accent */}
-                    <div className="absolute -z-10 -bottom-6 -right-6 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-700" />
                   </div>
 
-                  {/* Narrative Side */}
-                  <div className="space-y-8">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-4 mb-2">
-                        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-                          <pillar.icon className="w-8 h-8 text-primary" />
-                        </div>
-                        <div className="h-px flex-1 bg-gray-100" />
+                  {/* Content Side */}
+                  <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
+                    {/* Icon & Title */}
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-[hsl(88,92%,30%)]/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <pillar.icon className="w-8 h-8 text-[hsl(88,92%,30%)]" />
                       </div>
-                      
-                      <h3 className="text-4xl md:text-5xl font-headline font-black text-gray-900 tracking-tight leading-tight">
-                        {pillar.title}
-                      </h3>
-                      <p className="text-lg text-primary font-bold font-headline tracking-widest uppercase text-sm">
-                        {pillar.subtitle}
-                      </p>
+                      <div>
+                        <h3 className="text-3xl md:text-4xl font-headline font-bold text-gray-900">
+                          {pillar.title}
+                        </h3>
+                        <p className="text-lg text-[hsl(88,92%,30%)] font-semibold font-headline">
+                          {pillar.subtitle}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="space-y-6 text-lg text-gray-600 leading-relaxed font-prose font-light">
-                      <p className="relative">
-                        {pillar.description}
-                      </p>
-                      {pillar.secondParagraph && (
-                        <p className="pt-6 border-t border-gray-100 italic text-base">
-                          {pillar.secondParagraph}
-                        </p>
-                      )}
+                    {/* Description Paragraphs */}
+                    <div className="space-y-6 text-lg text-gray-700 leading-relaxed font-prose">
+                      <p>{pillar.description}</p>
+                      {pillar.secondParagraph && <p>{pillar.secondParagraph}</p>}
                     </div>
                   </div>
                 </motion.div>
@@ -244,58 +257,44 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* VISUAL STORYTELLING - Dome Gallery */}
-        <section className="py-24 lg:py-32 bg-gray-50 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
-               style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-          
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-20"
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6 border border-primary/20">
-                <CheckCircle className="w-4 h-4" />
-                Commitment in Action
-              </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-black mb-6 text-gray-900 tracking-tight">
-                Our Journey in <span className="text-primary">Pictures</span>
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-prose font-light">
-                A visual overview of our sustainable practices and social impact efforts.
-              </p>
-            </motion.div>
+        {/* New Dome Gallery Section */}
+        <section className="py-20 lg:py-28 bg-gray-50">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 text-gray-900">
+                        Our Journey in Pictures
+                    </h2>
+                    <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-prose">
+                        A visual tour of our commitment to people, the planet, and ethical partnerships.
+                    </p>
+                </motion.div>
 
-            <div className="h-[75vh] md:h-[85vh] w-full rounded-[3rem] overflow-hidden bg-white shadow-3xl ring-1 ring-black/5">
-              {isLoadingGallery ? (
-                <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                  <div className="text-center space-y-4">
-                    <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto" />
-                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Compiling Visuals</p>
-                  </div>
+                <div style={{ width: '100%', height: '80vh', position: 'relative' }}>
+                    {isLoadingGallery ? (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <Skeleton className="w-3/4 h-3/4 rounded-full" />
+                        </div>
+                    ) : (
+                        <DomeGallery images={galleryImages || []} grayscale={false} />
+                    )}
                 </div>
-              ) : (
-                <DomeGallery 
-                  images={galleryImages || []} 
-                  grayscale={false} 
-                  overlayBlurColor="rgba(255, 255, 255, 0.7)" 
-                />
-              )}
             </div>
-          </div>
         </section>
 
-        {/* PARTNERSHIP CTA - The final word */}
+        {/* Final CTA Section */}
         <section className="py-24 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="relative rounded-[3rem] bg-primary p-12 md:p-20 text-center overflow-hidden shadow-2xl"
+              className="relative rounded-[3rem] bg-[hsl(88,92%,30%)] p-12 md:p-20 text-center overflow-hidden shadow-2xl"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-20 -mb-20 blur-3xl" />
@@ -309,14 +308,14 @@ export default function SustainabilityPage() {
                   Cultivate a Sustainable Partnership
                 </h2>
                 
-                <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto font-prose font-light leading-relaxed">
+                <p className="text-xl text-white/90 max-w-2xl mx-auto font-prose font-light leading-relaxed">
                   Join a supply chain that values the planet and its people as much as the produce it delivers.
                 </p>
                 
                 <div className="pt-4">
                   <Link 
                     href="/contact" 
-                    className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-primary font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+                    className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-[hsl(88,92%,30%)] font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
                   >
                     Partner with Us
                     <Target className="w-5 h-5" />
