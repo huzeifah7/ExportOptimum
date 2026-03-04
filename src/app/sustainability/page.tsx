@@ -6,7 +6,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { 
   Users, Globe, Shield, Handshake, Droplets, Leaf, 
-  Home, Target, MessageSquare 
+  Home, Target, MessageSquare, CheckCircle, ArrowRight 
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -257,7 +257,7 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* Height-Adjusted Gallery Section */}
+        {/* Visual Gallery Section */}
         <section className="py-20 lg:py-28 bg-gray-50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
@@ -275,7 +275,7 @@ export default function SustainabilityPage() {
                     </p>
                 </motion.div>
 
-                {/* Increased Height to 100vh */}
+                {/* Immensive 100vh Gallery */}
                 <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
                     {isLoadingGallery ? (
                         <div className="w-full h-full flex items-center justify-center">
@@ -289,38 +289,120 @@ export default function SustainabilityPage() {
         </section>
 
         {/* Final CTA Section */}
-        <section className="py-24 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+        <section className="py-24 bg-white relative overflow-hidden">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative rounded-[3rem] bg-[hsl(88,92%,30%)] p-12 md:p-20 text-center overflow-hidden shadow-2xl"
+              transition={{ duration: 0.7 }}
+              className="relative"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-20 -mb-20 blur-3xl" />
-              
-              <div className="relative z-10 space-y-8">
-                <div className="w-20 h-20 bg-white/20 rounded-3xl flex items-center justify-center mx-auto border-2 border-white/30 backdrop-blur-sm shadow-xl">
-                  <Leaf className="w-10 h-10 text-white" />
+              <div className="grid lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
+                
+                {/* Left Side - Content */}
+                <div className="relative bg-gradient-to-br from-[hsl(88,92%,35%)] to-[hsl(88,92%,25%)] p-12 lg:p-16 flex flex-col justify-center">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/10 rounded-full blur-2xl" />
+                  
+                  <div className="relative z-10">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-6">
+                      <Leaf className="w-4 h-4 text-white" />
+                      <span className="text-xs font-bold uppercase tracking-wider text-white">
+                        Let's Grow Together
+                      </span>
+                    </div>
+
+                    <h2 className="text-4xl md:text-5xl font-headline font-black text-white mb-6 leading-tight tracking-tight">
+                      Cultivate a Sustainable Partnership
+                    </h2>
+                    
+                    <p className="text-lg text-white/90 font-light leading-relaxed mb-8 font-prose">
+                      Join a supply chain that values the planet and its people as much as the produce it delivers.
+                    </p>
+
+                    <div className="space-y-3 mb-8">
+                      {[
+                        'Direct farm partnerships',
+                        'Full traceability systems',
+                        'Sustainable practices',
+                        'Global reach & reliability'
+                      ].map((feature, index) => (
+                        <motion.div 
+                          key={index}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
+                          className="flex items-center gap-3"
+                        >
+                          <div className="w-5 h-5 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                            <CheckCircle className="w-3 h-3 text-white" />
+                          </div>
+                          <span className="text-white/90 font-medium text-sm font-prose">{feature}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    <Link 
+                      href="/contact" 
+                      className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[hsl(88,92%,30%)] font-bold text-base shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+                    >
+                      Partner with Us
+                      <ArrowRight className="w-5 h-5" />
+                    </Link>
+                  </div>
                 </div>
-                
-                <h2 className="text-4xl md:text-5xl font-headline font-black text-white tracking-tight">
-                  Cultivate a Sustainable Partnership
-                </h2>
-                
-                <p className="text-xl text-white/90 max-w-2xl mx-auto font-prose font-light leading-relaxed">
-                  Join a supply chain that values the planet and its people as much as the produce it delivers.
-                </p>
-                
-                <div className="pt-4">
-                  <Link 
-                    href="/contact" 
-                    className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-white text-[hsl(88,92%,30%)] font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
-                  >
-                    Partner with Us
-                    <Target className="w-5 h-5" />
-                  </Link>
+
+                {/* Right Side - Visual */}
+                <div className="relative bg-gradient-to-br from-gray-50 to-white p-12 lg:p-16 flex items-center justify-center">
+                  <div className="absolute inset-0 opacity-[0.03]">
+                    <div style={{
+                      backgroundImage: 'radial-gradient(circle, hsl(88,92%,30%) 1.5px, transparent 1.5px)',
+                      backgroundSize: '30px 30px'
+                    }} className="w-full h-full" />
+                  </div>
+
+                  <div className="relative">
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.7, delay: 0.2 }}
+                      className="relative w-64 h-64 md:w-80 md:h-80"
+                    >
+                      <div className="absolute inset-0 rounded-full border-4 border-[hsl(88,92%,30%)]/20" />
+                      <div className="absolute inset-8 rounded-full border-2 border-[hsl(88,92%,30%)]/30" />
+                      <div className="absolute inset-16 rounded-full bg-gradient-to-br from-[hsl(88,92%,35%)] to-[hsl(88,92%,25%)] flex items-center justify-center shadow-2xl">
+                        <Leaf className="w-20 h-20 md:w-24 md:h-24 text-white" />
+                      </div>
+
+                      <motion.div
+                        animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute -top-4 right-8 w-16 h-16 rounded-2xl bg-white shadow-xl flex items-center justify-center border border-gray-100"
+                      >
+                        <Globe className="w-8 h-8 text-[hsl(88,92%,30%)]" />
+                      </motion.div>
+
+                      <motion.div
+                        animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
+                        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                        className="absolute -bottom-4 left-8 w-16 h-16 rounded-2xl bg-white shadow-xl flex items-center justify-center border border-gray-100"
+                      >
+                        <Users className="w-8 h-8 text-blue-500" />
+                      </motion.div>
+
+                      <motion.div
+                        animate={{ y: [0, -8, 0], rotate: [0, 3, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        className="absolute top-1/2 -left-4 w-16 h-16 rounded-2xl bg-white shadow-xl flex items-center justify-center border border-gray-100"
+                      >
+                        <Shield className="w-8 h-8 text-amber-500" />
+                      </motion.div>
+                    </motion.div>
+                    <div className="absolute inset-0 -z-10 blur-3xl opacity-20 bg-[hsl(88,92%,40%)] rounded-full" />
+                  </div>
                 </div>
               </div>
             </motion.div>
