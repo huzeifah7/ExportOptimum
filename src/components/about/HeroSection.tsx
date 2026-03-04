@@ -96,7 +96,7 @@ const HeroSection = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-lg text-gray-500 max-w-xl leading-relaxed mb-10 mx-auto font-prose font-light"
         >
-          Built by the ElYamlahi Family. Empowered by growers. Trusted by global buyers.
+          Built by the El Yamlahi Family. Empowered by growers. Trusted by global buyers.
         </motion.p>
 
         <motion.div

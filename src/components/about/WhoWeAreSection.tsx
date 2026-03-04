@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useRef } from 'react';
@@ -27,7 +26,7 @@ const WhoWeAreSection = () => {
             </div>
 
             <h2 className="text-3xl md:text-5xl font-black leading-[1.1] tracking-tight text-foreground mb-8">
-              Built by the ElYamlahi Family. <span className="text-primary" style={{ color: 'transparent', backgroundImage: 'linear-gradient(135deg, hsl(88,92%,55%), hsl(88,92%,30%))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>Empowered by growers. Trusted by global buyers.</span>
+              Built by the El Yamlahi Family. <span className="text-primary" style={{ color: 'transparent', backgroundImage: 'linear-gradient(135deg, hsl(88,92%,55%), hsl(88,92%,30%))', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>Empowered by growers. Trusted by global buyers.</span>
             </h2>
 
             <div className="text-lg leading-relaxed text-muted-foreground space-y-6 mb-10">
