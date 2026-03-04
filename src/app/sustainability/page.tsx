@@ -77,6 +77,9 @@ const impactStats = [
   { icon: Users, value: '100%', label: 'Fair Wages' },
   { icon: Home, value: 'Zero', label: 'Child Labor' },
   { icon: Droplets, value: '100%', label: 'Water Stewardship' },
+  { icon: Shield, value: '100%', label: 'Traceability' },
+  { icon: Leaf, value: 'Focus', label: 'Soil Health' },
+  { icon: Handshake, value: 'Active', label: 'Ethical Standards' },
 ];
 
 type SustainabilityImage = {
@@ -133,7 +136,7 @@ export default function SustainabilityPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-12 border border-primary/20"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold font-headline uppercase tracking-widest mb-12 border border-primary/20"
               >
                 <MessageSquare className="w-4 h-4" />
                 Measurable Impact
