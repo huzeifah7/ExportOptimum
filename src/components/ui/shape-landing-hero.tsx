@@ -1,8 +1,6 @@
-
 "use client";
 
 import { motion } from "framer-motion";
-import { Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
@@ -73,7 +71,6 @@ function ElegantShape({
 }
 
 function HeroGeometric({
-    badge = "Design Collective",
     title1 = "Elevate Your Digital Vision",
     title2 = "Crafting Exceptional Websites",
     subtitle = "Crafting exceptional digital experiences through innovative design and cutting-edge technology."
@@ -149,16 +146,6 @@ function HeroGeometric({
 
             <div className="relative z-10 container mx-auto px-4 md:px-6">
                 <div className="max-w-5xl mx-auto text-center">
-                    <motion.div
-                        custom={0}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/[0.03] border border-black/[0.08] mb-8 md:mb-12"
-                    >
-                        <span className="text-xs font-headline font-bold text-gray-500 uppercase tracking-widest">{badge}</span>
-                    </motion.div>
-                    
                     <motion.div
                         custom={1}
                         variants={fadeUpVariants}
