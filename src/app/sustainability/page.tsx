@@ -116,9 +116,7 @@ export default function SustainabilityPage() {
       <Header />
       
       <main className="flex-grow">
-        {/* ══════════════════════════════════════
-            HERO — 100vh High Impact
-        ══════════════════════════════════════ */}
+        {/* HERO */}
         <section className="h-screen overflow-hidden">
           <HeroGeometric 
             badge="Our Sustainability Commitment"
@@ -128,9 +126,7 @@ export default function SustainabilityPage() {
           />
         </section>
 
-        {/* ══════════════════════════════════════
-            IMPACT STATS — Transition Bridge
-        ══════════════════════════════════════ */}
+        {/* IMPACT STATS */}
         <section ref={statsRef} className="py-12 lg:py-16 bg-white relative z-10 -mt-24 sm:-mt-32">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
@@ -145,10 +141,10 @@ export default function SustainabilityPage() {
                   <div className="relative w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition-all duration-500">
                     <stat.icon className="w-6 h-6 text-primary group-hover:text-white transition-colors duration-500" />
                   </div>
-                  <div className="text-2xl font-black text-primary mb-1 text-center font-headline">
+                  <div className="text-2xl font-headline font-black text-primary mb-1 text-center">
                     {stat.value}
                   </div>
-                  <div className="text-[10px] font-black text-gray-500 text-center uppercase tracking-widest leading-tight">
+                  <div className="text-[10px] font-headline font-black text-gray-500 text-center uppercase tracking-widest leading-tight">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -157,9 +153,7 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            FOUR PILLARS — Alternating Redesign
-        ══════════════════════════════════════ */}
+        {/* FOUR PILLARS */}
         <section id="pillars" className="py-20 lg:py-32 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <motion.div
@@ -170,7 +164,7 @@ export default function SustainabilityPage() {
               className="text-center mb-24"
             >
               <div className="inline-block mb-6">
-                <span className="inline-flex items-center px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">
+                <span className="inline-flex items-center px-4 py-2 rounded-full text-xs font-headline font-bold uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">
                   Our Framework
                 </span>
               </div>
@@ -180,7 +174,7 @@ export default function SustainabilityPage() {
                 <span className="text-primary">Sustainability</span>
               </h2>
               
-              <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-500 leading-relaxed font-light">
+              <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-500 leading-relaxed font-prose font-light">
                 A multi-dimensional approach to ensuring our growth benefits the land, the people, and our global partners for generations to come.
               </p>
             </motion.div>
@@ -210,11 +204,10 @@ export default function SustainabilityPage() {
                       
                       {/* Floating Number Badge */}
                       <div className="absolute top-8 left-8 w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-2xl border border-white/20 transform -rotate-6 group-hover:rotate-0 transition-transform duration-500">
-                        <span className="text-2xl font-black">{pillar.number}</span>
+                        <span className="text-2xl font-headline font-black">{pillar.number}</span>
                       </div>
                     </div>
                     
-                    {/* Decorative Blob */}
                     <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
                   </div>
 
@@ -228,13 +221,13 @@ export default function SustainabilityPage() {
                         <h3 className="text-3xl md:text-4xl font-headline font-black text-gray-900 leading-tight">
                           {pillar.title}
                         </h3>
-                        <p className="text-xs font-black text-primary uppercase tracking-[0.2em] mt-1">
+                        <p className="text-xs font-headline font-black text-primary uppercase tracking-[0.2em] mt-1">
                           {pillar.subtitle}
                         </p>
                       </div>
                     </div>
 
-                    <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-light">
+                    <div className="space-y-6 text-gray-600 text-lg leading-relaxed font-prose font-light">
                       <p>
                         {pillar.description}
                       </p>
@@ -253,9 +246,7 @@ export default function SustainabilityPage() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            DOME GALLERY — Final Visual Journey
-        ══════════════════════════════════════ */}
+        {/* DOME GALLERY */}
         <section className="py-20 lg:py-32 bg-gray-50 overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 <motion.div
@@ -268,7 +259,7 @@ export default function SustainabilityPage() {
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-black mb-4 text-gray-900 tracking-tight">
                         Our Journey in <span className="text-primary">Pictures</span>
                     </h2>
-                    <p className="text-xs font-bold text-gray-400 max-w-xl mx-auto uppercase tracking-[0.3em] opacity-80">
+                    <p className="text-xs font-headline font-bold text-gray-400 max-w-xl mx-auto uppercase tracking-[0.3em] opacity-80">
                         Visualizing our commitment to people, planet, and ethical partnerships across Morocco.
                     </p>
                 </motion.div>
@@ -290,9 +281,7 @@ export default function SustainabilityPage() {
             </div>
         </section>
 
-        {/* ══════════════════════════════════════
-            FINAL CTA
-        ══════════════════════════════════════ */}
+        {/* FINAL CTA */}
         <section className="py-20 lg:py-32 bg-white">
           <div className="container mx-auto px-4 max-w-5xl text-center">
             <motion.div
@@ -309,14 +298,14 @@ export default function SustainabilityPage() {
                 <h2 className="text-4xl md:text-5xl font-headline font-black mb-6 leading-tight">
                   Partnering for a Better Future
                 </h2>
-                <p className="text-xl text-primary-foreground/90 font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+                <p className="text-xl text-primary-foreground/90 font-prose font-light max-w-2xl mx-auto mb-10 leading-relaxed">
                   Our commitment to sustainability is built on the belief that responsible practices are the foundation of long-term global partnerships.
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => window.location.href = '/contact'}
-                  className="bg-white text-primary px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all"
+                  className="bg-white text-primary px-10 py-4 rounded-2xl font-headline font-black text-lg shadow-xl hover:shadow-2xl transition-all"
                 >
                   Join Our Mission
                 </motion.button>
