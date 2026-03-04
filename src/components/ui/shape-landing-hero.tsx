@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 
-function ElegantShape({
+export function ElegantShape({
     className,
     delay = 0,
     width = 400,
@@ -75,7 +75,6 @@ function HeroGeometric({
     title2 = "Crafting Exceptional Websites",
     subtitle = "Crafting exceptional digital experiences through innovative design and cutting-edge technology."
 }: {
-    badge?: string;
     title1?: string;
     title2?: string;
     subtitle?: string;

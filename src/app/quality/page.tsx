@@ -1,4 +1,3 @@
-
 'use client';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -89,7 +88,6 @@ export default function QualityPage() {
             <main className="flex-grow">
 
               <HeroGeometric 
-                badge="Our Commitment"
                 title1="At Export Optimum,"
                 title2="Quality is non-negotiable."
                 subtitle="From orchard to arrival, our quality systems ensure uniformity, freshness, and full compliance, so you receive reliable volumes you can confidently sell forward. "
@@ -120,7 +118,7 @@ export default function QualityPage() {
                       </span>
                     </h2>
                     
-                    <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
+                    <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed font-prose">
                     Our operations are built around six uncompromising quality pillars, designed to protect your supply chain and strengthen our position as your trusted long-term partner.
                     </p>
                   </motion.div>
@@ -160,7 +158,7 @@ export default function QualityPage() {
                       Premium Avocados, Melons & Fresh Berries: From Export Optimum to the Globe
                     </h2>
                     
-                    <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
+                    <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed font-prose">
                       From Export Optimum to the Globe : Sourced at peak maturity. Controlled at every stage. Delivered with precision.
                     
                     </p>
@@ -197,7 +195,7 @@ export default function QualityPage() {
                                 {step.title}
                               </h3>
 
-                              <p className="text-gray-600 leading-relaxed text-base">
+                              <p className="text-gray-600 leading-relaxed text-base font-prose font-light">
                                 {step.description}
                               </p>
 
@@ -255,7 +253,7 @@ export default function QualityPage() {
                       </span>
                     </h2>
                     
-                    <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed">
+                    <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-foreground/70 leading-relaxed font-prose">
                       Our commitment to international standards is your guarantee of food safety, environmental responsibility, and full traceability. We are proudly certified by globally recognized bodies.
                     </p>
                   </motion.div>
@@ -308,7 +306,7 @@ export default function QualityPage() {
                   {!isLoading && (!certifications || certifications.length === 0) && (
                     <div className="text-center py-12">
                       <Award className="w-16 h-16 mx-auto text-primary/30 mb-4" />
-                      <p className="text-foreground/60">Certification information coming soon</p>
+                      <p className="text-foreground/60 font-prose">Certification information coming soon</p>
                     </div>
                   )}
                 </div>
@@ -338,7 +336,7 @@ export default function QualityPage() {
                           </span>
                         </h2>
                         
-                        <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed max-w-2xl mx-auto mb-8">
+                        <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed max-w-2xl mx-auto mb-8 font-prose font-light">
                           Our process is designed for one purpose: to deliver the finest Moroccan produce to our partners with absolute confidence. From our soil to your shelves, we stand by our promise of quality, reliability, and trust.
                         </p>
 
