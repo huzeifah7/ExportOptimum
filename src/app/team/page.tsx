@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, Suspense, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Users, Sparkles, Crown, Briefcase, Quote } from 'lucide-react';
+import { Sparkles, Crown, Briefcase, Users } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { motion } from 'framer-motion';
@@ -95,13 +95,6 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
           <div className="max-w-2xl">
             {/* Header */}
             <div className="mb-8">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="h-px w-12 bg-primary/40" />
-                <span className="text-xs font-black uppercase tracking-[0.3em] text-primary">
-                  {member.department}
-                </span>
-              </div>
-              
               <h2 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tighter leading-tight mb-4">
                 {member.name}
               </h2>
@@ -164,7 +157,6 @@ export default function TeamPage() {
 
   const { data: allTeamMembers, isLoading } = useCollection<TeamMember>(teamMembersQuery);
 
-  // Filter ONLY for managers, ceos, and directors
   const ceos = useMemo(() => allTeamMembers?.filter(m => m.isCEO) || [], [allTeamMembers]);
   const directors = useMemo(() => allTeamMembers?.filter(m => m.isDirector) || [], [allTeamMembers]);
   const otherManagers = useMemo(() => 
@@ -214,7 +206,6 @@ export default function TeamPage() {
   return (
     <>
       <div className="flex min-h-screen flex-col bg-white relative overflow-hidden">
-        {/* Optimized Animated Background Orbs */}
         <div className="fixed inset-0 pointer-events-none z-0" aria-hidden>
           <div 
             className="absolute top-0 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.05] will-change-transform"
@@ -235,7 +226,6 @@ export default function TeamPage() {
         <Header />
 
         <main className="flex-grow relative z-10">
-          {/* Header Section */}
           <section className="pt-32 pb-16 lg:pt-44 lg:pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 to-white">
             <div className="max-w-7xl mx-auto">
               <motion.div
@@ -249,21 +239,16 @@ export default function TeamPage() {
                   Executive Leadership
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[1.1] tracking-tighter mb-10 max-w-6xl mx-auto">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[1.1] tracking-tighter mb-4 max-w-6xl mx-auto">
                   The Architects of <br className="hidden md:block" />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-primary/60">
                     Quality
                   </span>
                 </h1>
-
-                <p className="text-gray-500 text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto font-light">
-                  A dedicated leadership team cultivating excellence in every order and every partnership.
-                </p>
               </motion.div>
             </div>
           </section>
 
-          {/* Team Tiers */}
           <section className="py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
               {isLoading ? (
