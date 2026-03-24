@@ -29,15 +29,7 @@ const slides = [
     ctaLabel: 'Learn About Our Process',
     ctaHref: '/quality',
   },
-  {
-    type: 'image',
-    src: '/port.avif',
-    alt: 'Global logistics and supply chain representing total control at the port',
-    headline: ['Smart Logistics,', 'Total', 'Control'],
-    tagline: 'From origin to destination. From harvesting to final delivery, our supply chain is designed to protect quality; and combined with advanced logistics, we ensure compliance, and deliver fresh produce on time, every time!',
-    ctaLabel: 'Become a Partner',
-    ctaHref: '/contact',
-  },
+  
 ];
 
 const ModernHero = () => {

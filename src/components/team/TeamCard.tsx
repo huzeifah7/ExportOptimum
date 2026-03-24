@@ -1,11 +1,10 @@
-
 'use client';
 
 import React, { useState, useRef, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
-import { Linkedin, ArrowUpRight, Crown, Briefcase, ShieldCheck } from 'lucide-react';
+import { Linkedin, Crown, Briefcase } from 'lucide-react';
 
 type TeamMember = {
   id: string;
@@ -31,20 +30,10 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const TeamCard = memo(({ member, index, onClick }: { member: TeamMember; index: number; onClick: () => void }) => {
+const TeamCard = memo(({ member, index }: { member: TeamMember; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
 
   return (
     <motion.div
@@ -52,24 +41,15 @@ const TeamCard = memo(({ member, index, onClick }: { member: TeamMember; index: 
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: (index % 4) * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      className="group relative cursor-pointer"
-      onMouseMove={handleMouseMove}
-      onClick={onClick}
+      className="group relative"
     >
       <div className="absolute -inset-0.5 bg-gradient-to-r from-[hsl(88,92%,50%)] via-[hsl(88,92%,40%)] to-[hsl(88,92%,30%)] rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500 group-hover:blur-md"></div>
       
       <div 
         ref={cardRef}
-        className="relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
+        className="relative bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-500"
       >
-        <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
-          style={{
-            background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(146, 224, 40, 0.08), transparent 40%)`,
-          }}
-        />
-
-        <div className="relative h-72 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50">
+        <div className="relative h-80 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50">
           {member.photoUrl ? (
             <>
               <Image
@@ -104,46 +84,34 @@ const TeamCard = memo(({ member, index, onClick }: { member: TeamMember; index: 
             )}
           </div>
 
-          <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0 z-20">
+          <div className="absolute bottom-4 right-4 flex gap-2 z-20">
             {member.linkedin && (
               <Link 
                 href={member.linkedin} 
                 target="_blank"
-                onClick={(e) => e.stopPropagation()}
-                className="w-8 h-8 rounded-lg bg-white/95 backdrop-blur-sm hover:bg-white flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110"
+                className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm hover:bg-white flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110"
               >
-                <Linkedin className="w-4 h-4 text-[hsl(88,92%,35%)]" />
+                <Linkedin className="w-5 h-5 text-[hsl(88,92%,35%)]" />
               </Link>
             )}
             {member.whatsapp && (
               <Link 
                 href={`https://wa.me/${member.whatsapp.replace(/\D/g, '')}`} 
                 target="_blank"
-                onClick={(e) => e.stopPropagation()}
-                className="w-8 h-8 rounded-lg bg-white/95 backdrop-blur-sm hover:bg-[#25D366] hover:text-white flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110"
+                className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm hover:bg-[#25D366] hover:text-white flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110"
               >
-                <WhatsAppIcon className="w-4 h-4" />
+                <WhatsAppIcon className="w-5 h-5" />
               </Link>
             )}
           </div>
-
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0 z-20">
-            <span className="text-xs font-bold text-[hsl(88,92%,35%)] uppercase tracking-wider flex items-center gap-2">
-              View Profile
-              <ArrowUpRight className="w-3 h-3" />
-            </span>
-          </div>
         </div>
 
-        <div className="relative p-5 bg-gradient-to-br from-white to-gray-50/30">
+        <div className="relative p-6 bg-gradient-to-br from-white to-gray-50/30 text-center">
           <h3 className="text-xl font-black text-gray-900 mb-1 group-hover:text-[hsl(88,92%,35%)] transition-colors duration-300 truncate">
             {member.name}
           </h3>
-          <p className="text-[hsl(88,92%,40%)] text-xs font-bold uppercase tracking-widest mb-3">
+          <p className="text-[hsl(88,92%,40%)] text-xs font-bold uppercase tracking-widest">
             {member.role}
-          </p>
-          <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 group-hover:text-gray-700 transition-colors duration-300">
-            {member.bio}
           </p>
         </div>
       </div>
