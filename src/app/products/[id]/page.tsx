@@ -13,7 +13,7 @@ import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CalendarDays, Thermometer, Droplet } from 'lucide-react';
+import { CalendarDays, Thermometer, Droplet, Tag, CalendarRange } from 'lucide-react';
 
 const AvocadoIcon = ({ className }: { className?: string }) => (
   <svg
@@ -43,6 +43,8 @@ type Product = {
   storage?: string;
   sizes?: string;
   brix?: string;
+  berryVarieties?: string;
+  berryAvailability?: string;
 };
 
 const ProductDetailSkeleton = () => (
@@ -100,7 +102,9 @@ export default function ProductDetailsPage() {
   }
 
   const isBerries = product.category === 'berries';
-  const hasFeatures = isBerries ? !!product.brix : (product.period || product.storage || product.sizes);
+  const hasFeatures = isBerries 
+    ? (!!product.berryVarieties || !!product.berryAvailability || !!product.brix) 
+    : (!!product.period || !!product.storage || !!product.sizes);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -157,17 +161,41 @@ export default function ProductDetailsPage() {
               {hasFeatures && (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10 py-8 border-y border-border/50">
                     {isBerries ? (
-                        product.brix && (
-                            <div className="flex flex-col items-center sm:items-start gap-3">
-                                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                                    <Droplet className="w-6 h-6 text-primary" />
+                        <>
+                            {product.berryVarieties && (
+                                <div className="flex flex-col items-center sm:items-start gap-3">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                        <Tag className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Varieties</p>
+                                        <p className="text-sm font-bold text-foreground leading-tight">{product.berryVarieties}</p>
+                                    </div>
                                 </div>
-                                <div className="text-center sm:text-left">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Brix</p>
-                                    <p className="text-sm font-bold text-foreground leading-tight">{product.brix}</p>
+                            )}
+                            {product.berryAvailability && (
+                                <div className="flex flex-col items-center sm:items-start gap-3">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                        <CalendarRange className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Availability</p>
+                                        <p className="text-sm font-bold text-foreground leading-tight">{product.berryAvailability}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        )
+                            )}
+                            {product.brix && (
+                                <div className="flex flex-col items-center sm:items-start gap-3">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                        <Droplet className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Brix</p>
+                                        <p className="text-sm font-bold text-foreground leading-tight">{product.brix}</p>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     ) : (
                         <>
                             {product.period && (

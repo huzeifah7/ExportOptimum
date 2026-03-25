@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X, ArrowUpDown, Droplet } from 'lucide-react';
+import { ArrowLeft, Loader2, ImageIcon, Info, Layers, Sparkles, X, ArrowUpDown, Droplet, CalendarRange, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
@@ -59,6 +59,8 @@ export default function AddProductPage() {
     const [enabledSizes, setEnabledSizes] = useState(false);
     const [sizes, setSizes] = useState('');
     const [brix, setBrix] = useState('');
+    const [berryVarieties, setBerryVarieties] = useState('');
+    const [berryAvailability, setBerryAvailability] = useState('');
 
     // Fetch products to determine next order
     const productsQuery = useMemoFirebase(() => {
@@ -148,6 +150,8 @@ export default function AddProductPage() {
                 storage: category !== 'berries' && category !== 'melon' && enabledStorage ? storageTemp : '',
                 sizes: category !== 'berries' && category !== 'melon' && enabledSizes ? sizes : '',
                 brix: category === 'berries' ? brix : '',
+                berryVarieties: category === 'berries' ? berryVarieties : '',
+                berryAvailability: category === 'berries' ? berryAvailability : '',
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
             };
@@ -229,7 +233,12 @@ export default function AddProductPage() {
                                                 <Label htmlFor="product-category" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
                                                 <Select onValueChange={(v) => {
                                                     setCategory(v);
-                                                    if (v !== 'berries') setBerryType('');
+                                                    if (v !== 'berries') {
+                                                        setBerryType('');
+                                                        setBerryVarieties('');
+                                                        setBerryAvailability('');
+                                                        setBrix('');
+                                                    }
                                                     if (v !== 'melon') setMelonType('');
                                                 }} value={category} required disabled={isSubmitting}>
                                                     <SelectTrigger id="product-category" className="h-11 rounded-xl bg-muted/5">
@@ -245,7 +254,7 @@ export default function AddProductPage() {
 
                                             {category === 'berries' && (
                                                 <div className="space-y-1.5">
-                                                    <Label htmlFor="berry-type" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Berries Variety</Label>
+                                                    <Label htmlFor="berry-type" className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Berries Type</Label>
                                                     <Select onValueChange={setBerryType} value={berryType} required disabled={isSubmitting}>
                                                         <SelectTrigger id="berry-type" className="h-11 rounded-xl bg-muted/5">
                                                             <SelectValue placeholder="Select berry type" />
@@ -316,19 +325,47 @@ export default function AddProductPage() {
                                     <CardContent className="p-6">
                                         <div className="grid grid-cols-1 gap-4 bg-muted/30 p-4 rounded-xl border border-muted-foreground/10 shadow-inner">
                                             {category === 'berries' ? (
-                                                <div className="space-y-1.5">
-                                                    <Label htmlFor="brix" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                                                        <Droplet className="h-3 w-3 text-primary" /> Brix
-                                                    </Label>
-                                                    <Input 
-                                                        id="brix" 
-                                                        name="brix" 
-                                                        value={brix} 
-                                                        onChange={(e) => setBrix(e.target.value)} 
-                                                        placeholder="e.g. 12-14%" 
-                                                        className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm" 
-                                                    />
-                                                </div>
+                                                <>
+                                                    <div className="space-y-1.5">
+                                                        <Label htmlFor="berryVarieties" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                                                            <Tag className="h-3 w-3 text-primary" /> Varieties
+                                                        </Label>
+                                                        <Input 
+                                                            id="berryVarieties" 
+                                                            name="berryVarieties" 
+                                                            value={berryVarieties} 
+                                                            onChange={(e) => setBerryVarieties(e.target.value)} 
+                                                            placeholder="e.g. Albion, San Andreas" 
+                                                            className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm" 
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-1.5">
+                                                        <Label htmlFor="berryAvailability" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                                                            <CalendarRange className="h-3 w-3 text-primary" /> Availability
+                                                        </Label>
+                                                        <Input 
+                                                            id="berryAvailability" 
+                                                            name="berryAvailability" 
+                                                            value={berryAvailability} 
+                                                            onChange={(e) => setBerryAvailability(e.target.value)} 
+                                                            placeholder="e.g. December to June" 
+                                                            className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm" 
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-1.5">
+                                                        <Label htmlFor="brix" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                                                            <Droplet className="h-3 w-3 text-primary" /> Brix
+                                                        </Label>
+                                                        <Input 
+                                                            id="brix" 
+                                                            name="brix" 
+                                                            value={brix} 
+                                                            onChange={(e) => setBrix(e.target.value)} 
+                                                            placeholder="e.g. 12-14%" 
+                                                            className="h-10 rounded-xl bg-white border-muted-foreground/20 text-sm" 
+                                                        />
+                                                    </div>
+                                                </>
                                             ) : (
                                                 <>
                                                     <div className="space-y-1.5">

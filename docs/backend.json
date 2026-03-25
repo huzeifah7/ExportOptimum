@@ -83,6 +83,14 @@
           "type": "string",
           "description": "Brix content for berries (e.g. 12-14%)."
         },
+        "berryVarieties": {
+          "type": "string",
+          "description": "Specific varieties for berries (e.g. Albion, San Andreas)."
+        },
+        "berryAvailability": {
+          "type": "string",
+          "description": "Availability period for berries."
+        },
         "order": {
           "type": "number",
           "description": "The sorting order of the product (lower values appear first)."

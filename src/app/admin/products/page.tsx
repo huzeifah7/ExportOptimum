@@ -76,6 +76,8 @@ import {
   Sparkles,
   ArrowUpDown,
   Droplet,
+  Tag,
+  CalendarRange,
 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -98,7 +100,7 @@ const AvocadoIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-type FirestoreProduct = DocumentData & { id: string; order?: number; berryType?: string; melonType?: string };
+type FirestoreProduct = DocumentData & { id: string; order?: number; berryType?: string; melonType?: string; berryVarieties?: string; berryAvailability?: string; };
 
 const ITEMS_PER_PAGE = 10;
 
@@ -448,13 +450,21 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
   useEffect(() => {
     if (isOpen) {
       if (isEditing && product) {
-        setFormData({ ...product, order: product.order ?? 0, berryType: product.berryType || '', melonType: product.melonType || '' });
+        setFormData({ 
+            ...product, 
+            order: product.order ?? 0, 
+            berryType: product.berryType || '', 
+            melonType: product.melonType || '',
+            berryVarieties: product.berryVarieties || '',
+            berryAvailability: product.berryAvailability || '',
+            brix: product.brix || ''
+        });
         setImagePreview(product.imageUrl || null);
         setEnabledPeriod(!!product.period);
         setEnabledStorage(!!product.storage);
         setEnabledSizes(!!product.sizes);
       } else {
-        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', melonType: '', period: '', storage: '', sizes: '', brix: '', order: nextOrder });
+        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', melonType: '', period: '', storage: '', sizes: '', brix: '', berryVarieties: '', berryAvailability: '', order: nextOrder });
         setImagePreview(null);
         setEnabledPeriod(false);
         setEnabledStorage(false);
@@ -516,6 +526,8 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
         storage: formData.category !== 'berries' && formData.category !== 'melon' && enabledStorage ? formData.storage || '' : '',
         sizes: formData.category !== 'berries' && formData.category !== 'melon' && enabledSizes ? formData.sizes || '' : '',
         brix: formData.category === 'berries' ? formData.brix || '' : '',
+        berryVarieties: formData.category === 'berries' ? formData.berryVarieties || '' : '',
+        berryAvailability: formData.category === 'berries' ? formData.berryAvailability || '' : '',
         order: formData.order ?? 0,
         imageUrl,
         slug: (formData.name || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
@@ -584,7 +596,9 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
                           <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Classification</Label>
                           <Select onValueChange={(v) => {
                             handleInputChange({ target: { name: 'category', value: v } } as any);
-                            if (v !== 'berries') setFormData(prev => ({...prev, berryType: ''}));
+                            if (v !== 'berries') {
+                                setFormData(prev => ({...prev, berryType: '', berryVarieties: '', berryAvailability: '', brix: ''}));
+                            }
                             if (v !== 'melon') setFormData(prev => ({...prev, melonType: ''}));
                           }} value={formData.category || ''}>
                             <SelectTrigger className="h-10 rounded-xl bg-muted/5">
@@ -600,7 +614,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
 
                         {formData.category === 'berries' && (
                           <div className="space-y-1.5">
-                            <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Berries Variety</Label>
+                            <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Berries Type</Label>
                             <Select onValueChange={(v) => handleInputChange({ target: { name: 'berryType', value: v } } as any)} value={formData.berryType || ''}>
                               <SelectTrigger className="h-10 rounded-xl bg-muted/5">
                                 <SelectValue placeholder="Select type" />
@@ -679,12 +693,26 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
                       </div>
                       <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border">
                         {formData.category === 'berries' ? (
-                          <div className="space-y-1.5">
-                            <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                              <Droplet className="h-3 w-3 text-primary" /> Brix
-                            </Label>
-                            <Input name="brix" value={formData.brix || ''} onChange={handleInputChange} placeholder="e.g., 12-14%" className="h-10 rounded-xl bg-white" />
-                          </div>
+                          <>
+                            <div className="space-y-1.5">
+                                <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                                <Tag className="h-3 w-3 text-primary" /> Varieties
+                                </Label>
+                                <Input name="berryVarieties" value={formData.berryVarieties || ''} onChange={handleInputChange} placeholder="e.g. Albion, San Andreas" className="h-10 rounded-xl bg-white" />
+                            </div>
+                            <div className="space-y-1.5">
+                                <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                                <CalendarRange className="h-3 w-3 text-primary" /> Availability
+                                </Label>
+                                <Input name="berryAvailability" value={formData.berryAvailability || ''} onChange={handleInputChange} placeholder="e.g. Dec - Jun" className="h-10 rounded-xl bg-white" />
+                            </div>
+                            <div className="space-y-1.5">
+                                <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                                <Droplet className="h-3 w-3 text-primary" /> Brix
+                                </Label>
+                                <Input name="brix" value={formData.brix || ''} onChange={handleInputChange} placeholder="e.g., 12-14%" className="h-10 rounded-xl bg-white" />
+                            </div>
+                          </>
                         ) : (
                           <>
                             <div className="space-y-1.5">
