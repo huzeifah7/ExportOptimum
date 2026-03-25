@@ -131,7 +131,7 @@
         },
         "isDirector": {
           "type": "boolean",
-          "description": "Whether this member is a Director."
+          "description": "Whether this member is the General Director."
         },
         "department": {
           "type": "string",
