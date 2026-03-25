@@ -91,6 +91,10 @@
           "type": "string",
           "description": "Availability period for berries."
         },
+        "melonAvailability": {
+          "type": "string",
+          "description": "Availability period for melons."
+        },
         "order": {
           "type": "number",
           "description": "The sorting order of the product (lower values appear first)."

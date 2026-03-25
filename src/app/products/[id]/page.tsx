@@ -45,6 +45,7 @@ type Product = {
   brix?: string;
   berryVarieties?: string;
   berryAvailability?: string;
+  melonAvailability?: string;
 };
 
 const ProductDetailSkeleton = () => (
@@ -102,9 +103,13 @@ export default function ProductDetailsPage() {
   }
 
   const isBerries = product.category === 'berries';
+  const isMelon = product.category === 'melon';
+  
   const hasFeatures = isBerries 
     ? (!!product.berryVarieties || !!product.berryAvailability || !!product.brix) 
-    : (!!product.period || !!product.storage || !!product.sizes);
+    : isMelon
+      ? (!!product.melonAvailability)
+      : (!!product.period || !!product.storage || !!product.sizes);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -192,6 +197,20 @@ export default function ProductDetailsPage() {
                                     <div className="text-center sm:text-left">
                                         <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Brix</p>
                                         <p className="text-sm font-bold text-foreground leading-tight">{product.brix}</p>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    ) : isMelon ? (
+                        <>
+                            {product.melonAvailability && (
+                                <div className="flex flex-col items-center sm:items-start gap-3">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                                        <CalendarDays className="w-6 h-6 text-primary" />
+                                    </div>
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Availability</p>
+                                        <p className="text-sm font-bold text-foreground leading-tight">{product.melonAvailability}</p>
                                     </div>
                                 </div>
                             )}

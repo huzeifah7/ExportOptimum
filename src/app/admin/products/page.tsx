@@ -100,7 +100,19 @@ const AvocadoIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-type FirestoreProduct = DocumentData & { id: string; order?: number; berryType?: string; melonType?: string; berryVarieties?: string; berryAvailability?: string; };
+type FirestoreProduct = DocumentData & {
+  id: string;
+  order?: number;
+  berryType?: string;
+  melonType?: string;
+  berryVarieties?: string;
+  berryAvailability?: string;
+  melonAvailability?: string;
+  brix?: string;
+  period?: string;
+  storage?: string;
+  sizes?: string;
+};
 
 const ITEMS_PER_PAGE = 10;
 
@@ -450,21 +462,37 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
   useEffect(() => {
     if (isOpen) {
       if (isEditing && product) {
-        setFormData({ 
-            ...product, 
-            order: product.order ?? 0, 
-            berryType: product.berryType || '', 
-            melonType: product.melonType || '',
-            berryVarieties: product.berryVarieties || '',
-            berryAvailability: product.berryAvailability || '',
-            brix: product.brix || ''
+        setFormData({
+          ...product,
+          order: product.order ?? 0,
+          berryType: product.berryType || '',
+          melonType: product.melonType || '',
+          berryVarieties: product.berryVarieties || '',
+          berryAvailability: product.berryAvailability || '',
+          melonAvailability: product.melonAvailability || '',
+          brix: product.brix || '',
         });
         setImagePreview(product.imageUrl || null);
         setEnabledPeriod(!!product.period);
         setEnabledStorage(!!product.storage);
         setEnabledSizes(!!product.sizes);
       } else {
-        setFormData({ name: '', subtitle: '', description: '', category: 'avocado', berryType: '', melonType: '', period: '', storage: '', sizes: '', brix: '', berryVarieties: '', berryAvailability: '', order: nextOrder });
+        setFormData({
+          name: '',
+          subtitle: '',
+          description: '',
+          category: 'avocado',
+          berryType: '',
+          melonType: '',
+          period: '',
+          storage: '',
+          sizes: '',
+          brix: '',
+          berryVarieties: '',
+          berryAvailability: '',
+          melonAvailability: '',
+          order: nextOrder,
+        });
         setImagePreview(null);
         setEnabledPeriod(false);
         setEnabledStorage(false);
@@ -522,6 +550,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
         category: formData.category || 'avocado',
         berryType: formData.category === 'berries' ? formData.berryType || '' : '',
         melonType: formData.category === 'melon' ? formData.melonType || '' : '',
+        melonAvailability: formData.category === 'melon' ? formData.melonAvailability || '' : '',
         period: formData.category !== 'berries' && formData.category !== 'melon' && enabledPeriod ? formData.period || '' : '',
         storage: formData.category !== 'berries' && formData.category !== 'melon' && enabledStorage ? formData.storage || '' : '',
         sizes: formData.category !== 'berries' && formData.category !== 'melon' && enabledSizes ? formData.sizes || '' : '',
@@ -554,7 +583,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[95vh] flex flex-col">
-        
+
         {/* Header */}
         <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 shrink-0">
           <div className="flex items-center gap-2 mb-1 text-primary">
@@ -583,7 +612,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
                         <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Product Title</Label>
                         <Input name="name" value={formData.name || ''} onChange={handleInputChange} placeholder="e.g., Hass Avocado" className="h-10 rounded-xl bg-muted/5 font-semibold" required />
                       </div>
-                      
+
                       {formData.category === 'avocado' && (
                         <div className="space-y-1.5">
                           <Label className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Subtitle / Catchphrase</Label>
@@ -597,9 +626,9 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
                           <Select onValueChange={(v) => {
                             handleInputChange({ target: { name: 'category', value: v } } as any);
                             if (v !== 'berries') {
-                                setFormData(prev => ({...prev, berryType: '', berryVarieties: '', berryAvailability: '', brix: ''}));
+                              setFormData(prev => ({ ...prev, berryType: '', berryVarieties: '', berryAvailability: '', brix: '' }));
                             }
-                            if (v !== 'melon') setFormData(prev => ({...prev, melonType: ''}));
+                            if (v !== 'melon') setFormData(prev => ({ ...prev, melonType: '', melonAvailability: '' }));
                           }} value={formData.category || ''}>
                             <SelectTrigger className="h-10 rounded-xl bg-muted/5">
                               <SelectValue placeholder="Category" />
@@ -686,63 +715,77 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
                     </div>
                   </div>
 
-                  {formData.category !== 'melon' && (
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
-                        <Layers className="h-4 w-4 text-primary" /> Export Features
-                      </div>
-                      <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border">
-                        {formData.category === 'berries' ? (
-                          <>
-                            <div className="space-y-1.5">
-                                <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                                <Tag className="h-3 w-3 text-primary" /> Varieties
-                                </Label>
-                                <Input name="berryVarieties" value={formData.berryVarieties || ''} onChange={handleInputChange} placeholder="e.g. Albion, San Andreas" className="h-10 rounded-xl bg-white" />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                                <CalendarRange className="h-3 w-3 text-primary" /> Availability
-                                </Label>
-                                <Input name="berryAvailability" value={formData.berryAvailability || ''} onChange={handleInputChange} placeholder="e.g. Dec - Jun" className="h-10 rounded-xl bg-white" />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                                <Droplet className="h-3 w-3 text-primary" /> Brix
-                                </Label>
-                                <Input name="brix" value={formData.brix || ''} onChange={handleInputChange} placeholder="e.g., 12-14%" className="h-10 rounded-xl bg-white" />
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div className="space-y-1.5">
-                              <div className="flex items-center gap-2">
-                                <Checkbox id="enable-period" checked={enabledPeriod} onCheckedChange={(c) => { setEnabledPeriod(!!c); if (!c) setFormData(p => ({ ...p, period: '' })); }} />
-                                <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Periode</Label>
-                              </div>
-                              <Input name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="Dec - Apr" className="h-9 rounded-xl bg-white" disabled={!enabledPeriod} />
-                            </div>
-                            <div className="space-y-1.5">
-                              <div className="flex items-center gap-2">
-                                <Checkbox id="enable-storage" checked={enabledStorage} onCheckedChange={(c) => { setEnabledStorage(!!c); if (!c) setFormData(p => ({ ...p, storage: '' })); }} />
-                                <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Storage</Label>
-                              </div>
-                              <Input name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g., 6°C" className="h-9 rounded-xl bg-white" disabled={!enabledStorage} />
-                            </div>
-                            <div className="space-y-1.5">
-                              <div className="flex items-center gap-2">
-                                <Checkbox id="enable-sizes" checked={enabledSizes} onCheckedChange={(c) => { setEnabledSizes(!!c); if (!c) setFormData(p => ({ ...p, sizes: '' })); }} />
-                                <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer flex items-center gap-1">
-                                  <AvocadoIcon className="h-3 w-3" /> Sizes
-                                </Label>
-                              </div>
-                              <Input name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="C12 - C28" className="h-9 rounded-xl bg-white" disabled={!enabledSizes} />
-                            </div>
-                          </>
-                        )}
-                      </div>
+                  {/* Export Features — shown for all categories */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-foreground font-bold text-base border-b pb-1">
+                      <Layers className="h-4 w-4 text-primary" /> Export Features
                     </div>
-                  )}
+                    <div className="grid grid-cols-1 gap-3 bg-muted/30 p-4 rounded-xl border">
+                      {formData.category === 'berries' ? (
+                        <>
+                          <div className="space-y-1.5">
+                            <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                              <Tag className="h-3 w-3 text-primary" /> Varieties
+                            </Label>
+                            <Input name="berryVarieties" value={formData.berryVarieties || ''} onChange={handleInputChange} placeholder="e.g. Albion, San Andreas" className="h-10 rounded-xl bg-white" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                              <CalendarRange className="h-3 w-3 text-primary" /> Availability
+                            </Label>
+                            <Input name="berryAvailability" value={formData.berryAvailability || ''} onChange={handleInputChange} placeholder="e.g. Dec - Jun" className="h-10 rounded-xl bg-white" />
+                          </div>
+                          <div className="space-y-1.5">
+                            <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                              <Droplet className="h-3 w-3 text-primary" /> Brix
+                            </Label>
+                            <Input name="brix" value={formData.brix || ''} onChange={handleInputChange} placeholder="e.g., 12-14%" className="h-10 rounded-xl bg-white" />
+                          </div>
+                        </>
+                      ) : formData.category === 'melon' ? (
+                        <>
+                          <div className="space-y-1.5">
+                            <Label className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                              <CalendarRange className="h-3 w-3 text-primary" /> Availability
+                            </Label>
+                            <Input
+                              name="melonAvailability"
+                              value={formData.melonAvailability || ''}
+                              onChange={handleInputChange}
+                              placeholder="e.g. Jun - Sep"
+                              className="h-10 rounded-xl bg-white"
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <Checkbox id="enable-period" checked={enabledPeriod} onCheckedChange={(c) => { setEnabledPeriod(!!c); if (!c) setFormData(p => ({ ...p, period: '' })); }} />
+                              <Label htmlFor="enable-period" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Periode</Label>
+                            </div>
+                            <Input name="period" value={formData.period || ''} onChange={handleInputChange} placeholder="Dec - Apr" className="h-9 rounded-xl bg-white" disabled={!enabledPeriod} />
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <Checkbox id="enable-storage" checked={enabledStorage} onCheckedChange={(c) => { setEnabledStorage(!!c); if (!c) setFormData(p => ({ ...p, storage: '' })); }} />
+                              <Label htmlFor="enable-storage" className="text-[10px] font-black uppercase tracking-widest cursor-pointer">Storage</Label>
+                            </div>
+                            <Input name="storage" value={formData.storage || ''} onChange={handleInputChange} placeholder="e.g., 6°C" className="h-9 rounded-xl bg-white" disabled={!enabledStorage} />
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <Checkbox id="enable-sizes" checked={enabledSizes} onCheckedChange={(c) => { setEnabledSizes(!!c); if (!c) setFormData(p => ({ ...p, sizes: '' })); }} />
+                              <Label htmlFor="enable-sizes" className="text-[10px] font-black uppercase tracking-widest cursor-pointer flex items-center gap-1">
+                                <AvocadoIcon className="h-3 w-3" /> Sizes
+                              </Label>
+                            </div>
+                            <Input name="sizes" value={formData.sizes || ''} onChange={handleInputChange} placeholder="C12 - C28" className="h-9 rounded-xl bg-white" disabled={!enabledSizes} />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
