@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -99,10 +100,17 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
                 {member.name}
               </h2>
               
-              <p className="text-2xl font-bold text-gray-400 leading-tight mb-8">
+              <p className="text-2xl font-bold text-gray-400 leading-tight mb-6">
                 {member.role}
               </p>
             </div>
+
+            {/* Description (Bio) - Visible for CEO and Director */}
+            {member.bio && (
+              <div className="mb-10 text-lg leading-relaxed text-gray-600 font-prose font-light italic border-l-2 border-primary/20 pl-6">
+                "{member.bio}"
+              </div>
+            )}
 
             {/* Social & Connect */}
             {(member.linkedin || member.whatsapp) && (
