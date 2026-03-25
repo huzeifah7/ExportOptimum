@@ -553,7 +553,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-[1000px] p-0 overflow-hidden rounded-2xl border-none shadow-2xl max-h-[95vh] flex flex-col">
         
         {/* Header */}
         <div className="bg-primary/5 p-4 md:p-5 border-b border-primary/10 shrink-0">
@@ -569,7 +569,7 @@ function ProductFormModal({ isOpen, onClose, product, firestore, storage, toast,
         </div>
 
         {/* Scrollable Content */}
-        <ScrollArea className="flex-1">
+        <ScrollArea className="flex-1 overflow-y-auto">
           <div className="p-4 md:p-6">
             <form onSubmit={handleSubmit} id="product-form">
               <div className="grid md:grid-cols-2 gap-6">
