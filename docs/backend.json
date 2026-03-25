@@ -124,10 +124,10 @@
           "description": "URL of the team member's photo.",
           "format": "uri"
         },
-        "linkedin": {
+        "email": {
           "type": "string",
-          "description": "URL to the team member's LinkedIn profile.",
-          "format": "uri"
+          "description": "Direct email address for the team member.",
+          "format": "email"
         },
         "whatsapp": {
           "type": "string",

@@ -12,7 +12,7 @@ import './ModernHero.css';
 const slides = [
   {
     type: 'image',
-    src: '/BG.png',
+    src: '/bannerEO.png',
     alt: 'Lush avocado orchard background',
     headline: ['Your trusted', 'partner', 'in fresh produce.'],
     tagline: 'Backed by more than a decade of expertise, we deliver the worlds finest fresh produce. carefully sourced, expertly handled, and globally supplied.',

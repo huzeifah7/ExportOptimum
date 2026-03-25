@@ -5,7 +5,7 @@ import React, { useState, useRef, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
-import { Linkedin, Crown, Briefcase } from 'lucide-react';
+import { Mail, Crown, Briefcase } from 'lucide-react';
 
 type TeamMember = {
   id: string;
@@ -13,7 +13,7 @@ type TeamMember = {
   role: string;
   bio: string;
   photoUrl: string;
-  linkedin?: string;
+  email?: string;
   whatsapp?: string;
   isCEO?: boolean;
   isDirector?: boolean;
@@ -86,14 +86,13 @@ const TeamCard = memo(({ member, index }: { member: TeamMember; index: number })
           </div>
 
           <div className="absolute bottom-4 right-4 flex gap-2 z-20">
-            {member.linkedin && (
-              <Link 
-                href={member.linkedin} 
-                target="_blank"
+            {member.email && (
+              <a 
+                href={`mailto:${member.email}`}
                 className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm hover:bg-white flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110"
               >
-                <Linkedin className="w-5 h-5 text-[hsl(88,92%,35%)]" />
-              </Link>
+                <Mail className="w-5 h-5 text-[hsl(88,92%,35%)]" />
+              </a>
             )}
             {member.whatsapp && (
               <Link 

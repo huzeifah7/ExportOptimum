@@ -21,7 +21,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
-import { Linkedin, MessageCircle, Trash2, Edit, Loader2, Crown, Briefcase, Plus, X } from 'lucide-react';
+import { Mail, MessageCircle, Trash2, Edit, Loader2, Crown, Briefcase, Plus, X } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -36,8 +36,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { errorEmitter } from '@/firebase/error-emitter';
-import { FirestorePermissionError } from '@/firebase/errors';
 import { Badge } from '@/components/ui/badge';
 
 type TeamMember = {
@@ -46,7 +44,7 @@ type TeamMember = {
   role: string;
   bio: string;
   photoUrl: string;
-  linkedin?: string;
+  email?: string;
   whatsapp?: string;
   isManager?: boolean;
   isCEO?: boolean;
@@ -60,7 +58,7 @@ const initialFormState: Partial<TeamMember> = {
   name: '',
   role: '',
   bio: '',
-  linkedin: '',
+  email: '',
   whatsapp: '',
   photoUrl: '',
   isManager: false,
@@ -219,7 +217,7 @@ export default function ManageTeamPage() {
         role: formData.role,
         bio: formData.bio,
         photoUrl: photoUrl,
-        linkedin: formData.linkedin || '',
+        email: formData.email || '',
         whatsapp: formData.whatsapp || '',
         isManager: formData.isManager || false,
         isCEO: formData.isCEO || false,
@@ -330,9 +328,6 @@ export default function ManageTeamPage() {
                   <Badge variant="secondary" className="text-[10px] uppercase tracking-wider">{member.department}</Badge>
                 </div>
                 <p className="text-primary font-semibold text-sm">{member.role}</p>
-                <p className="text-muted-foreground mt-2 text-sm flex-grow line-clamp-3">
-                  {member.bio}
-                </p>
                 <div className="border-t mt-4 pt-4 flex gap-2">
                   <Button variant="outline" size="sm" onClick={() => handleEditClick(member)}>
                     <Edit className="mr-2 h-4 w-4" /> Edit
@@ -454,8 +449,8 @@ export default function ManageTeamPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="linkedin">LinkedIn URL</Label>
-                <Input id="linkedin" name="linkedin" value={formData.linkedin} onChange={handleInputChange} placeholder="https://linkedin.com/in/..." />
+                <Label htmlFor="email">Email Address</Label>
+                <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="email@example.com" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="whatsapp">WhatsApp Number</Label>

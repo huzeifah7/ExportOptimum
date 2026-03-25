@@ -1,4 +1,3 @@
-
 'use client';
 import { motion, useInView } from 'framer-motion';
 import Header from '@/components/layout/header';
@@ -86,87 +85,54 @@ const ProductCard = ({ product, index, isInView }: { product: Product; index: nu
 // ─── Section config ───────────────────────────────────────────────────────────
 const VARIETIES: {
   key: string;
+  // When set, fetch this category and show ALL sub-types merged
   subCategoryKey?: 'berryType' | 'melonType';
-  subCategoryValue?: string;
-  id?: string;
+  id: string;
   label: string;
   emoji: string;
   description: string;
 }[] = [
   {
     key: 'avocado',
+    id: 'avocado',
     label: 'Avocado',
     emoji: '🥑',
     description: 'Creamy Moroccan avocados, harvested at peak ripeness for export-grade quality.',
   },
   {
     key: 'berries',
-    subCategoryKey: 'berryType',
-    subCategoryValue: 'blueberry',
-    id: 'berries-blueberry',
-    label: 'Blueberries',
+    id: 'berries',
+    label: 'Berries',
     emoji: '🫐',
-    description: 'Fresh blueberries bursting with antioxidants and sweet flavor.',
-  },
-  {
-    key: 'berries',
-    subCategoryKey: 'berryType',
-    subCategoryValue: 'raspberry',
-    id: 'berries-raspberry',
-    label: 'Raspberries',
-    emoji: '🍓',
-    description: 'Succulent raspberries carefully picked for peak sweetness.',
-  },
-  {
-    key: 'berries',
-    subCategoryKey: 'berryType',
-    subCategoryValue: 'strawberry',
-    id: 'berries-strawberry',
-    label: 'Strawberries',
-    emoji: '🍓',
-    description: 'Vibrant and juicy strawberries, perfect for international markets.',
+    description: 'Fresh berries bursting with antioxidants and sweet flavor — blueberries, raspberries, and strawberries.',
   },
   {
     key: 'melon',
-    subCategoryKey: 'melonType',
-    subCategoryValue: 'melon',
-    id: 'melon-variety',
-    label: 'Melons',
+    id: 'melon',
+    label: 'Melon',
     emoji: '🍈',
-    description: 'Sweet, aromatic melons grown in Morocco\'s warm interior valleys.',
-  },
-  {
-    key: 'melon',
-    subCategoryKey: 'melonType',
-    subCategoryValue: 'watermelon',
-    id: 'watermelon-variety',
-    label: 'Watermelons',
-    emoji: '🍉',
-    description: 'Refreshing and juicy watermelons, perfect for summer export.',
+    description: "Sweet, aromatic melons and refreshing watermelons grown in Morocco's warm interior valleys.",
   },
 ];
 
 const HERO_BUTTONS = [
   { id: 'avocado', label: 'Avocado', emoji: '🥑' },
-  { id: 'berries-blueberry', label: 'Berries', emoji: '🫐' },
-  { id: 'melon-variety', label: 'Melon', emoji: '🍈' },
+  { id: 'berries', label: 'Berries', emoji: '🫐' },
+  { id: 'melon', label: 'Melon', emoji: '🍈' },
 ];
 
 // ─── Variety Section ──────────────────────────────────────────────────────────
 const VarietySection = ({
   variety,
-  subCategoryKey,
-  subCategoryValue,
   id,
   label,
   emoji,
+  description,
   firestore,
   sectionIndex,
 }: {
   variety: string;
-  subCategoryKey?: 'berryType' | 'melonType';
-  subCategoryValue?: string;
-  id?: string;
+  id: string;
   label: string;
   emoji: string;
   description: string;
@@ -176,7 +142,7 @@ const VarietySection = ({
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
-  // Fetch items by category, then filter sub-category client-side to avoid complex index requirements
+  // Fetch ALL products for this category — no sub-category filtering needed
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(
@@ -187,18 +153,13 @@ const VarietySection = ({
 
   const { data: rawProducts, isLoading } = useCollection<Product>(productsQuery);
 
-  // Apply manual order and sub-category filtering locally
   const products = useMemo(() => {
     if (!rawProducts) return null;
-    let filtered = [...rawProducts];
-    if (subCategoryKey && subCategoryValue) {
-      filtered = filtered.filter(p => p[subCategoryKey] === subCategoryValue);
-    }
-    return filtered.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
-  }, [rawProducts, subCategoryKey, subCategoryValue]);
+    return [...rawProducts].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  }, [rawProducts]);
 
   return (
-    <section ref={sectionRef} className="py-16 lg:py-20" id={id || variety}>
+    <section ref={sectionRef} className="py-16 lg:py-20" id={id}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
 
         {/* Section header */}
@@ -360,14 +321,12 @@ export default function ProductsPage() {
           }
         `}</style>
 
-        {/* CATEGORY & SUB-CATEGORY SECTIONS */}
+        {/* CATEGORY SECTIONS — 3 sections: Avocado, Berries (all), Melon (all) */}
         {VARIETIES.map((v, i) => (
           <VarietySection
-            key={v.id || v.key}
+            key={v.id}
             variety={v.key}
-            subCategoryKey={v.subCategoryKey}
-            subCategoryValue={v.subCategoryValue}
-            id={v.id || v.key}
+            id={v.id}
             label={v.label}
             emoji={v.emoji}
             description={v.description}
@@ -376,10 +335,9 @@ export default function ProductsPage() {
           />
         ))}
 
-        {/* CTA - Updated to match Quality Page Style, minimized height */}
+        {/* CTA */}
         <section className="p-6 bg-background mb-16">
           <div className="relative bg-primary rounded-[40px] py-12 lg:py-16 px-8 overflow-hidden shadow-2xl max-w-7xl mx-auto">
-            {/* Decorative background shapes from Quality Page */}
             <div aria-hidden="true" className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full opacity-50" />
             <div aria-hidden="true" className="absolute -bottom-24 -left-16 w-80 h-80 bg-white/10 rounded-full opacity-50" />
             
