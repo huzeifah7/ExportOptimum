@@ -1,16 +1,21 @@
+
 'use client';
 import { motion, useInView } from 'framer-motion';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, Timestamp } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { BookOpen, ArrowRight, Calendar } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
+const HeroGeometric = dynamic(() => import('@/components/ui/shape-landing-hero').then(mod => mod.HeroGeometric), {
+  ssr: false,
+  loading: () => <div className="h-screen w-full bg-white" />
+});
 
 type BlogPost = {
   id: string;
@@ -40,6 +45,11 @@ export default function BlogPage() {
   const firestore = useFirestore();
   const gridRef = useRef(null);
   const isGridInView = useInView(gridRef, { once: true, amount: 0.1 });
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const blogPostsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -63,75 +73,13 @@ export default function BlogPage() {
         <Header />
         
         <main className="flex-grow">
-          {/* ══════════════════════════════════════
-              HERO — Modern centered with glows
-          ══════════════════════════════════════ */}
-          <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-white pt-32 pb-20">
-            
-            {/* Background glows */}
-            <div className="absolute inset-0 pointer-events-none" aria-hidden>
-              <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full"
-                style={{ background: 'radial-gradient(ellipse, hsl(88,92%,40%,0.12) 0%, transparent 70%)', filter: 'blur(80px)', animation: 'glow-breathe 10s ease-in-out infinite' }} />
-              <div className="absolute -top-20 -left-20 w-[450px] h-[350px] rounded-full"
-                style={{ background: 'radial-gradient(ellipse, hsl(88,92%,38%,0.08) 0%, transparent 65%)', filter: 'blur(70px)', animation: 'glow-breathe 14s ease-in-out infinite 3s' }} />
-              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
-              
-              {/* Eyebrow */}
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center justify-center gap-3 mb-10"
-              >
-                <span className="w-6 h-px bg-[hsl(88,92%,28%)]" />
-                <span className="inline-flex items-center gap-2 text-md font-bold uppercase tracking-[0.25em] text-[hsl(88,92%,25%)]">
-                  <BookOpen className="w-3.5 h-3.5" />
-                  Our Blog
-                </span>
-                <span className="w-6 h-px bg-[hsl(88,92%,28%)]" />
-              </motion.div>
-
-              {/* Headline */}
-              <div className="overflow-hidden mb-8">
-                <motion.h1
-                  initial={{ y: '100%' }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                  className="text-[clamp(3rem,8vw,6rem)] font-black leading-[0.95] tracking-[-0.04em] text-gray-900"
-                >
-                  Insights from
-                  <br />
-                  <span style={{
-                    color: 'transparent',
-                    backgroundImage: 'linear-gradient(135deg, hsl(88,92%,30%) 0%, hsl(88,92%,18%) 100%)',
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text'
-                  }}>the Grove</span>
-                </motion.h1>
-              </div>
-
-              {/* Subtitle */}
-              <motion.p
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="text-lg md:text-xl text-gray-500 font-light leading-relaxed max-w-2xl mx-auto"
-              >
-                Explore insights, updates, and stories from our industry and the heart of our operations.
-              </motion.p>
-            </div>
-          </section>
-
-          <style jsx global>{`
-            @keyframes glow-breathe {
-              0%, 100% { transform: scale(1); opacity: 1; }
-              50%       { transform: scale(1.1) translateY(-10px); opacity: 0.65; }
-            }
-          `}</style>
+          {isClient && (
+            <HeroGeometric 
+              title1="Insights from"
+              title2="the Grove"
+              subtitle="Explore insights, updates, and stories from our industry and the heart of our operations."
+            />
+          )}
 
           {/* ══════════════════════════════════════
               BLOG GRID

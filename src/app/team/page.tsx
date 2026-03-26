@@ -4,13 +4,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Sparkles, Crown, Briefcase, Users, Mail } from 'lucide-react';
+import { Crown, Briefcase, Users, Mail } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import TeamCard from '@/components/team/TeamCard';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
+import dynamic from 'next/dynamic';
+
+const HeroGeometric = dynamic(() => import('@/components/ui/shape-landing-hero').then(mod => mod.HeroGeometric), {
+  ssr: false,
+  loading: () => <div className="h-screen w-full bg-white" />
+});
 
 type TeamMember = {
   id: string;
@@ -209,49 +215,15 @@ export default function TeamPage() {
 
   return (
     <>
-      <div className="flex min-h-screen flex-col bg-white relative overflow-hidden">
-        <div className="fixed inset-0 pointer-events-none z-0" aria-hidden>
-          <div 
-            className="absolute top-0 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.05] will-change-transform"
-            style={{ 
-              background: 'radial-gradient(circle, hsl(88,92%,50%) 0%, transparent 70%)',
-              animation: 'float-orb-dynamic 20s ease-in-out infinite'
-            }} 
-          />
-          <div 
-            className="absolute top-1/4 -right-40 w-[500px] h-[500px] rounded-full opacity-[0.04] will-change-transform"
-            style={{ 
-              background: 'radial-gradient(circle, hsl(88,92%,45%) 0%, transparent 70%)',
-              animation: 'float-orb-dynamic 25s ease-in-out infinite 5s'
-            }} 
-          />
-        </div>
-
+      <div className="flex min-h-screen flex-col bg-white relative">
         <Header />
 
         <main className="flex-grow relative z-10">
-          <section className="pt-32 pb-16 lg:pt-44 lg:pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 to-white">
-            <div className="max-w-7xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={isClient ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                className="text-center relative"
-              >
-                <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 text-primary text-sm font-bold mb-8 shadow-sm border border-primary/20">
-                  <Sparkles className="w-4 h-4" />
-                  Executive Leadership
-                </div>
-
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-[1.1] tracking-tighter mb-4 max-w-6xl mx-auto">
-                  The Architects of <br className="hidden md:block" />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-primary/60">
-                    Quality
-                  </span>
-                </h1>
-              </motion.div>
-            </div>
-          </section>
+          <HeroGeometric 
+            title1="The Architects of"
+            title2="Quality"
+            subtitle="Meet the leadership team driving Moroccan agricultural excellence with family values and global expertise."
+          />
 
           <section className="py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
@@ -304,14 +276,6 @@ export default function TeamPage() {
 
         <Footer />
       </div>
-
-      <style jsx global>{`
-        @keyframes float-orb-dynamic {
-          0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-          33% { transform: translate(50px, -80px) scale(1.1) rotate(120deg); }
-          66% { transform: translate(-40px, 40px) scale(0.9) rotate(240deg); }
-        }
-      `}</style>
     </>
   );
 }
