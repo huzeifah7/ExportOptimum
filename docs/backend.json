@@ -307,6 +307,11 @@
           "type": "string",
           "description": "The text of the testimonial."
         },
+        "photoUrl": {
+          "type": "string",
+          "description": "URL of the client's profile photo.",
+          "format": "uri"
+        },
         "status": {
           "type": "string",
           "enum": ["active", "not active"],

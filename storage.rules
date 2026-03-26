@@ -32,5 +32,11 @@ service firebase.storage {
     match /certifications/{certId}/{allPaths=**} {
         allow write: if request.auth != null;
     }
+
+    // Allow public creation of testimonial images, but restrict deletion/updates to admins
+    match /testimonials/{reviewId}/{allPaths=**} {
+      allow create: if true;
+      allow update, delete: if request.auth != null;
+    }
   }
 }

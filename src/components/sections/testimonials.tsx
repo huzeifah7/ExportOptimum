@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -5,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 type ClientTestimonial = {
   id: string;
@@ -12,6 +14,7 @@ type ClientTestimonial = {
   company: string;
   role: string;
   reviewText: string;
+  photoUrl?: string;
   status: 'active' | 'not active';
 };
 
@@ -69,18 +72,21 @@ const TestimonialCard = ({
           ${isActive ? 'opacity-100' : 'opacity-0'}`}
       />
 
-      <blockquote className="text-xs leading-relaxed text-foreground/60 line-clamp-3 mb-4 pl-2">
+      <blockquote className="text-xs leading-relaxed text-foreground/60 line-clamp-3 mb-4 pl-2 font-light">
         {review.reviewText}
       </blockquote>
 
       <figcaption className="flex items-center gap-2 pl-2">
-        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground">
-          {initials}
-        </div>
+        <Avatar className="h-7 w-7 ring-1 ring-border/10">
+          <AvatarImage src={review.photoUrl} className="object-cover" />
+          <AvatarFallback className="bg-primary text-[10px] font-bold text-primary-foreground">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
         <div className="min-w-0">
           <div className="text-xs font-semibold text-foreground truncate">{review.author}</div>
-          <div className="text-[11px] text-primary font-medium truncate">
-            {review.role}{review.role && review.company ? ' · ' : ''}{review.company}
+          <div className="text-[10px] text-primary font-bold uppercase tracking-wider truncate">
+            {review.company}
           </div>
         </div>
       </figcaption>
@@ -117,17 +123,20 @@ const DetailPanel = ({ review }: { review: ClientTestimonial }) => {
         &ldquo;
       </span>
 
-      <blockquote className="relative text-base font-light leading-relaxed text-foreground/80">
+      <blockquote className="relative text-lg md:text-xl font-light leading-relaxed text-foreground/80 italic">
         {review.reviewText}
       </blockquote>
 
       <figcaption className="relative flex items-center gap-4 mt-8 pt-6 border-t border-primary/15">
-        <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary flex items-center justify-center text-sm font-bold text-primary-foreground shadow-md">
-          {initials}
-        </div>
+        <Avatar className="h-14 w-14 border-2 border-white shadow-lg ring-1 ring-primary/10">
+          <AvatarImage src={review.photoUrl} className="object-cover" />
+          <AvatarFallback className="bg-primary text-lg font-bold text-primary-foreground shadow-md">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
         <div>
-          <div className="text-sm font-semibold text-foreground">{review.author}</div>
-          <div className="text-xs text-primary font-medium">
+          <div className="text-base font-bold text-foreground">{review.author}</div>
+          <div className="text-xs text-primary font-black uppercase tracking-widest">
             {review.role}{review.role && review.company ? ', ' : ''}{review.company}
           </div>
         </div>
@@ -185,14 +194,14 @@ export default function Testimonials() {
           <div>
             <div className="inline-flex items-center gap-1.5 mb-3 px-2.5 py-1 rounded-full border border-primary/20 bg-primary/5">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <span className="text-[11px] font-semibold text-primary tracking-widest uppercase">Testimonials</span>
+              <span className="text-[11px] font-bold text-primary tracking-widest uppercase">Client Voices</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">
-              Trusted by Teams Worldwide
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-black text-foreground leading-tight tracking-tight">
+              Trusted by Industry Leaders
             </h2>
           </div>
-          <p className="text-sm text-muted-foreground max-w-xs leading-relaxed sm:text-right">
-            Hear what our partners say about the quality and reliability that defines Export Optimum.
+          <p className="text-sm text-muted-foreground max-w-xs leading-relaxed sm:text-right font-light">
+            Insights from our global partners on the quality and dedication that defines Export Optimum.
           </p>
         </motion.div>
 
@@ -239,7 +248,7 @@ export default function Testimonials() {
               </AnimatePresence>
 
               {/* Progress dots */}
-              <div className="flex items-center gap-1.5 justify-end">
+              <div className="flex items-center gap-1.5 justify-end px-4">
                 {testimonials.map((_, i) => (
                   <button
                     key={i}
@@ -262,8 +271,8 @@ export default function Testimonials() {
 
         {/* Empty */}
         {!isLoading && (!testimonials || testimonials.length === 0) && (
-          <div className="text-center py-16">
-            <p className="text-sm text-muted-foreground">Client testimonials will be shared here soon.</p>
+          <div className="text-center py-16 opacity-50 italic">
+            <p className="text-sm text-muted-foreground">Quality insights from our partners are arriving soon.</p>
           </div>
         )}
       </div>
