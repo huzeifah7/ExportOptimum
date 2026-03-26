@@ -141,7 +141,7 @@ const TeamMemberModal = ({ member, onClose, departmentStaff = [] }: TeamMemberMo
                     {currentMember.isDirector && (
                         <div className="px-4 py-2 rounded-full bg-amber-500 text-white shadow-lg flex items-center gap-2">
                             <Briefcase className="w-4 h-4" />
-                            <span className="text-xs font-bold uppercase tracking-wider">Director</span>
+                            <span className="text-xs font-bold uppercase tracking-wider">Managing Director</span>
                         </div>
                     )}
                 </div>

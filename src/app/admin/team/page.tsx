@@ -317,7 +317,7 @@ export default function ManageTeamPage() {
                     )}
                     {member.isDirector && (
                         <Badge className="bg-amber-500 text-white shadow-lg">
-                            <Briefcase className="w-3 h-3 mr-1" /> General Director
+                            <Briefcase className="w-3 h-3 mr-1" /> Managing Director
                         </Badge>
                     )}
                 </div>
@@ -423,7 +423,7 @@ export default function ManageTeamPage() {
                         onCheckedChange={(checked) => handleCheckboxChange('isDirector', !!checked)}
                     />
                     <Label htmlFor="isDirector" className="text-sm font-bold leading-none cursor-pointer flex items-center gap-2">
-                        <Briefcase className="w-4 h-4 text-amber-500" /> General Director
+                        <Briefcase className="w-4 h-4 text-amber-500" /> Managing Director
                     </Label>
                 </div>
                 <div className="flex items-center space-x-2">

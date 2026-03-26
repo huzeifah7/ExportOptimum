@@ -143,7 +143,7 @@
         },
         "isDirector": {
           "type": "boolean",
-          "description": "Whether this member is the General Director."
+          "description": "Whether this member is the Managing Director."
         },
         "department": {
           "type": "string",

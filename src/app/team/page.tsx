@@ -38,7 +38,7 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
       {/* Background Decorative Label */}
       <div className="absolute -right-10 top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.03] z-0">
         <span className="text-[12rem] font-black tracking-tighter uppercase whitespace-nowrap leading-none">
-          {member.isCEO ? 'Leadership' : 'General Director'}
+          {member.isCEO ? 'Leadership' : 'Managing Director'}
         </span>
       </div>
 
@@ -80,7 +80,7 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
                     <div className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center">
                       <Briefcase className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-900">General Director</span>
+                    <span className="text-xs font-black uppercase tracking-[0.2em] text-gray-900">Managing Director</span>
                   </>
                 )}
               </div>
@@ -105,7 +105,7 @@ const LeaderSpotlight = ({ member, index }: { member: TeamMember, index: number 
               </p>
             </div>
 
-            {/* Description (Bio) - Visible for CEO and General Director */}
+            {/* Description (Bio) - Visible for CEO and Managing Director */}
             {member.bio && (
               <div className="mb-10 text-lg leading-relaxed text-gray-600 font-prose font-light italic border-l-2 border-primary/20 pl-6">
                 "{member.bio}"
@@ -162,7 +162,7 @@ export default function TeamPage() {
   const { data: allTeamMembers, isLoading } = useCollection<TeamMember>(teamMembersQuery);
 
   const ceos = useMemo(() => allTeamMembers?.filter(m => m.isCEO) || [], [allTeamMembers]);
-  const generalDirectors = useMemo(() => allTeamMembers?.filter(m => m.isDirector) || [], [allTeamMembers]);
+  const managingDirectors = useMemo(() => allTeamMembers?.filter(m => m.isDirector) || [], [allTeamMembers]);
   const otherManagers = useMemo(() => 
     allTeamMembers?.filter(m => m.isManager && !m.isCEO && !m.isDirector) || [], 
     [allTeamMembers]
@@ -276,9 +276,9 @@ export default function TeamPage() {
                         isSpotlight={true}
                     />
                     <TeamSection 
-                        title="General Director" 
+                        title="Managing Director" 
                         icon={Briefcase} 
-                        members={generalDirectors} 
+                        members={managingDirectors} 
                         colorClass="bg-amber-500 shadow-[0_10px_30px_-10px_rgba(245,158,11,0.5)]" 
                         isSpotlight={true}
                     />
