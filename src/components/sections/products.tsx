@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -24,6 +25,8 @@ type Product = {
   imageUrl?: string;
   slug: string;
   order?: number;
+  // Added for grouping links
+  href?: string;
 };
 
 /* ---------------------------------------------
@@ -31,8 +34,11 @@ type Product = {
 --------------------------------------------- */
 
 function ProductSlideCard({ product }: { product: Product }) {
+  // Use custom href for grouped cards, or standard detail link for individuals
+  const targetHref = product.href || `/products/${product.id}`;
+
   return (
-    <Link href={`/products/${product.id}`} className="group block h-full">
+    <Link href={targetHref} className="group block h-full">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -137,7 +143,7 @@ export default function Products() {
     if (!firestore) return null;
     return query(
       collection(firestore, 'products'),
-      limit(32)
+      limit(100) // Fetch all to allow grouping
     );
   }, [firestore]);
 
@@ -146,33 +152,54 @@ export default function Products() {
   const products = useMemo(() => {
     if (!rawProducts) return null;
     
-    return [...rawProducts].sort((a, b) => {
-      const getRank = (p: Product) => {
-        const cat = (p.category || '').toLowerCase();
-        const bType = (p.berryType || '').toLowerCase();
-        const mType = (p.melonType || '').toLowerCase();
+    // 1. Separate by category
+    const avocadoProducts = rawProducts.filter(p => (p.category || '').toLowerCase() === 'avocado');
+    const berryProducts = rawProducts.filter(p => (p.category || '').toLowerCase() === 'berries');
+    const melonProducts = rawProducts.filter(p => (p.category || '').toLowerCase() === 'melon');
 
-        if (cat === 'avocado') return 10;
-        if (cat === 'berries') {
-          if (bType === 'blueberry') return 20;
-          if (bType === 'raspberry') return 30;
-          if (bType === 'strawberry') return 40;
-          return 35; 
-        }
-        if (cat === 'melon') {
-          if (mType === 'melon') return 50;
-          if (mType === 'watermelon') return 60;
-          return 55;
-        }
-        return 100;
-      };
+    // 2. Find representative images
+    const hassProduct = avocadoProducts.find(p => (p.name || '').toLowerCase().includes('hass')) || avocadoProducts[0];
+    const galiaProduct = melonProducts.find(p => (p.name || '').toLowerCase().includes('galia')) || melonProducts[0];
 
-      const rankA = getRank(a);
-      const rankB = getRank(b);
+    const items: Product[] = [];
 
-      if (rankA !== rankB) return rankA - rankB;
-      return (a.order ?? 999) - (b.order ?? 999);
+    // 3. Construct the list in requested order: Avocado, Berries, Melons
+    
+    // Group: Avocados
+    if (avocadoProducts.length > 0) {
+      items.push({
+        id: 'group-avocado',
+        name: 'Avocados',
+        category: 'Avocado Varieties',
+        description: 'Discover our premium range of Moroccan avocados, led by the creamy Hass variety.',
+        imageUrl: hassProduct?.imageUrl,
+        slug: 'avocados',
+        href: '/products#avocado'
+      });
+    }
+
+    // Individual: Berries
+    berryProducts.sort((a, b) => (a.order ?? 999) - (b.order ?? 999)).forEach(p => {
+      items.push({
+        ...p,
+        href: `/products/${p.id}`
+      });
     });
+
+    // Group: Melons
+    if (melonProducts.length > 0) {
+      items.push({
+        id: 'group-melon',
+        name: 'Melons',
+        category: 'Fresh Melons',
+        description: 'Sun-ripened Moroccan melons and watermelons, harvested for peak sweetness.',
+        imageUrl: galiaProduct?.imageUrl,
+        slug: 'melons',
+        href: '/products#melon'
+      });
+    }
+
+    return items;
   }, [rawProducts]);
 
   const onScroll = useCallback((api: any) => {
