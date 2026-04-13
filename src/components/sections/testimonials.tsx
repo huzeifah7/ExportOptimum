@@ -72,7 +72,7 @@ const TestimonialCard = ({
           ${isActive ? 'opacity-100' : 'opacity-0'}`}
       />
 
-      <blockquote className="text-xs leading-relaxed text-foreground/60 line-clamp-3 mb-4 pl-2 font-light">
+      <blockquote className="text-xs leading-relaxed text-foreground/60 line-clamp-3 mb-4 pl-2 font-light whitespace-pre-wrap">
         {review.reviewText}
       </blockquote>
 
@@ -123,7 +123,7 @@ const DetailPanel = ({ review }: { review: ClientTestimonial }) => {
         &ldquo;
       </span>
 
-      <blockquote className="relative text-lg md:text-xl font-light leading-relaxed text-foreground/80 italic">
+      <blockquote className="relative text-lg md:text-xl font-light leading-relaxed text-foreground/80 italic whitespace-pre-wrap">
         {review.reviewText}
       </blockquote>
 

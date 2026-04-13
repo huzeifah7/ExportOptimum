@@ -136,7 +136,7 @@ export default function ManageReviewsPage() {
                 </div>
               </CardHeader>
               <CardContent className="flex-grow pt-2">
-                <blockquote className="italic text-muted-foreground text-sm leading-relaxed line-clamp-4">
+                <blockquote className="italic text-muted-foreground text-sm leading-relaxed line-clamp-4 whitespace-pre-wrap">
                   "{review.reviewText}"
                 </blockquote>
               </CardContent>
