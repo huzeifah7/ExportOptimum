@@ -1,0 +1,33 @@
+[
+  {
+    "IdParagraph": 1,
+    "description": "We start our quality control process from the downstream of the supply chain. Before picking the fruit from the farm we send our quality specialist to approve the parcel based on our costumer specifications and tolerance , fruit is controlled one more time at reception and again during production process, the lot is only liberated if it does meet all costumer requirements. For export optimum quality is the key of continuity",
+    "Assurance": [
+      {
+        "idAssurance": 1,
+        "AssuranceName": "BRC Food",
+        "AssuranceImage": "/AssuranceImages/BRC.png"
+      },
+      {
+        "idAssurance": 2,
+        "AssuranceName": "Global GAP",
+        "AssuranceImage": "/AssuranceImages/GLOBALGAP.png"
+      },
+      {
+        "idAssurance": 3,
+        "AssuranceName": "BIO Certification",
+        "AssuranceImage": "/AssuranceImages/BIO.jpg"
+      },
+      {
+        "idAssurance": 4,
+        "AssuranceName": "ISO Certified",
+        "AssuranceImage": "/AssuranceImages/spring.png"
+      },
+      {
+        "idAssurance": 5,
+        "AssuranceName": "SMETA",
+        "AssuranceImage": "/AssuranceImages/SMETA.jpg"
+      }
+    ]
+  }
+]

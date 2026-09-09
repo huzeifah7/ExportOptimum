@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Mr+Dafoe&display=swap');
+
+.titleContact {
+    font-family: "Dancing Script", serif;
+    font-size: 82px;
+    font-weight: 1200;
+
+    font-style: italic;
+    color: #eb690c;
+}
+
+.letterTitle {
+    font-size: 100px;
+    font-style: normal;
+
+}
+
+.summa {
+    font-size: 22px;
+}
+
+.imgContactBg {
+    position: absolute; /* Absolute positioning to place the image on top right */
+    top: -50px;         /* Align to the top */
+    right: 150px;       /* Align to the right */
+    width: 220px;       /* Set the width of the image */
+    height: 200px;      /* Set the height of the image */
+    filter: drop-shadow(10px 1px 50px rgba(0, 0, 0, 0.2)); /* Corrected drop-shadow syntax */
+    background-image: url('/public/images/avocado2.png'); /* Corrected image path */
+    background-size: cover; /* Ensure the image covers the container */
+    background-position: center; /* Center the image */
+    transform: rotate(310deg); /* Corrected rotate syntax */
+    z-index: 0; /* Ensure the image stays in the background */
+}
+
+.contact-container {
+    position: relative; /* Ensure the contact container has relative positioning */
+}
+
+.map-placeholder {
+    position: absolute;
+    background-color: #6e9400;
+    box-shadow: 10px 1px 50px rgba(0, 0, 0, 0.1);
+    height: 300px;
+    width: 80%; /* Default width for larger screens */
+    margin-top: 30px;
+    margin-left: 30px;
+  }
+  
+/* Checkmark Icon Container */
+.checkmark-icon {
+    width: 70px; /* Set the size of the circle */
+    height: 70px;
+    background-color: #acd629; /* Green background */
+    border-radius: 50%; /* Make it round */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    animation: checkmarkAnimation 1s ease-in-out forwards;
+    margin-bottom: 20px; /* Space between the checkmark and the text */
+  }
+  
+  /* Checkmark Animation */
+  @keyframes checkmarkAnimation {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Checkmark Icon */
+  .checkmark {
+    font-size: 2rem;
+    color: white; /* White checkmark inside the green circle */
+  }
+  
+  

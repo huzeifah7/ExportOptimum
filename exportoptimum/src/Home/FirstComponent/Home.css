@@ -1,0 +1,376 @@
+/*import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Titillium+Web&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Titillium+Web&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Container for the whole page */
+.Home {
+    height: 100%;
+    width: 100%;
+    height: 100%; /* Full screen height */
+    display: flex;
+    padding-bottom: 100px;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: linear-gradient(
+      70deg, 
+      #6D9300, /* Avocado green */
+      #9ACA16, /* Lighter fresh green */
+      #d3ee38  /* Hint of yellow for vibrancy */ 
+    );
+    
+  }
+
+.star {
+  position: absolute;
+  top: -10px; /* Start above the screen */
+  left: 50%;
+  height: 5px; /* Star size */
+  width: 5px;
+  background: white; /* Star color */
+  border-radius: 50%;
+  animation: fall 5s linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-1800px) translateY(180vh); /* Diagonal fall */
+    opacity: 0; /* Fades out */
+  }
+}
+
+
+
+/*hh*/
+  
+
+
+  /* Styling for content */
+  .content {
+    color: white;
+    margin-left: 100px;
+ 
+  }
+  @keyframes appearFromCenter {
+    0% {
+      opacity: 0;
+      transform: scale(0); /* Start at center and tiny */
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1); /* Grow to full size */
+    }
+  }
+  
+  
+  /* Title styling */
+  .content h1 {
+    font-size: 3rem;
+    margin: 0;
+    margin-top: 140px; 
+    margin-left:  -10px;
+    z-index: 2;
+    font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  opacity: 0; /* Start invisible */
+  transform: scale(0); /* Start from the center with no size */
+  animation: appearFromCenter 1.5s ease-out forwards; /* Animation */  
+  }
+  .Color2{
+    color: #EECE38;
+  }
+  
+  .color1 {
+    color: #ffffff;
+  }
+  
+  /* Subtitle styling */
+  .content p {
+    font-size: 1.495rem;
+    margin: 0px 0 0 -50px;
+    display: flex;
+    margin-left: -10px;
+    margin-right: 430px;
+    opacity: 0; /* Start invisible */
+    transform: scale(0); /* Start from the center with no size */
+    animation: appearFromCenter 1.5s ease-out forwards; /* Animation */  
+
+  }
+  
+  /* Image positioning */
+  .Avocado-img {
+    background-image: url('/public/images/avocado1.png'); /* Path to your image in public folder */
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 150px;/* Position it near the bottom */
+    right: 0px; /* Position it at the right */
+    width: 450px; /* Adjust the size of the image */
+    height: 450px; /* Adjust the size of the image */
+    z-index: 1; /* Make sure image is behind the text */
+    filter: drop-shadow(70px 100px 50px rgba(0, 1, 1, 0.534));
+    opacity: 0; /* Start invisible */
+    transform: scale(0.8); /* Start slightly smaller */
+    animation: fadeIn 1.5s ease forwards;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateX(100%); /* Start from the right */
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0); /* End at the original position */
+    }
+  }
+ 
+  .p1{
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+    font-size: 1.5em;
+  }
+  .p2{
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+    font-size: small;
+    padding-top: 20px;
+  }
+  .SmallImage{
+    background-image: url('/public/images/avocado2.png'); /* Path to your image in public folder */
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 75px; /* Position it near the bottom */
+    left: 20px; /* Position it at the right */
+    width: 200px; /* Adjust the size of the image */
+    height: 200px; /* Adjust the size of the image */
+    z-index: 1; /* Make sure image is behind the text */
+    filter: drop-shadow(20px 10px 50px rgba(0, 1, 1, 0.781));
+    rotate: 320deg;
+    opacity: 0; /* Start invisible */
+    transform: translate(-100%, -100%);
+    animation: fadeIn2 1.5s ease forwards;
+  }
+  @keyframes fadeIn2 {
+    0% {
+      opacity: 0;
+      transform: translate(0%, -100%); /* Start from top-left */
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0); /* End at the original position */
+    }
+  }
+
+  .Home{
+    overflow: hidden;   
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @media screen and (max-width: 1024px) {
+    .Avocado-img {
+        position: static; /* Remove absolute positioning */
+        margin: -80px 150px ; /* Center the image below the text */
+        width: 350px; /* Adjust size for smaller screens */
+        height: 350px;
+
+        
+    filter: drop-shadow(20px 50px 50px rgba(0, 1, 1, 0.774));
+    }
+ 
+    .content p {
+        font-size: 1.2rem;
+        margin: 0 auto;
+        margin-left: -50px;
+    }
+
+    .content h1 {
+        font-size: 2.5rem; /* Adjust heading size */
+    }
+    
+    .learn-more{
+      margin-top: -150px;
+      margin-left: -50px;
+      display: block;
+    }
+
+}
+
+
+/*Learn More Botton */
+/* From Uiverse.io by Saad3092003 */ 
+.learn-more {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  margin-top: 40px;
+  opacity: 0; /* Start invisible */
+  transform: scale(0); /* Start from the center with no size */
+  animation: appearFromCenter 1.5s ease-out forwards; /* Animation */  
+}
+
+.learn-more.learn-more {
+  width: 12rem;
+  height: auto;
+}
+
+.learn-more.learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  box-shadow: 0 0 5px 1px white;
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #282936;
+  border-radius: 1.625rem;
+}
+
+.learn-more.learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+}
+
+.learn-more.learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: 0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+}
+
+.learn-more.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+}
+
+.learn-more.learn-more .button-text {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1.85rem;
+  color: var(--textColor);
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.learn-more:hover .circle {
+  width: 100%;
+  box-shadow: 0 0 10px 2px white;
+}
+
+.learn-more:hover .button-text {
+  transform: translate(-1.7rem, 0);
+}
+
+.learn-more:hover .circle .icon.arrow {
+  background: #fff;
+  transform: translate(8.7rem, 0);
+}
+
+.learn-more:active .circle .icon.arrow {
+  transform: translate(9.5rem, 0);
+  transition: all 0.3s;
+}
+
+.learn-more:active .circle {
+  transform: scale(0.9);
+  transition: all 0.3s;
+  box-shadow: 0 0 5px 0.5px white;
+}
+
+.learn-more:hover .button-text {
+  color: #fff;
+}
+
+.learn-more:active .button-text {
+  color: rgba(255, 255, 255, 0.459);
+}
+
+
+/*Media Screen Phone */
+@media screen and  (min-width: 400px) and (max-width: 1024px) {
+  .Avocado-img {/* Remove absolute positioning */
+    margin: -50px  auto; /* Center the image below the text */
+    width: 250px; /* Adjust size for smaller screens */
+    height: 250px;
+    right: 20px;
+    display: flex;
+    margin-right: 0;
+    margin-top: 10px;
+    
+filter: drop-shadow(20px 50px 50px rgba(0, 1, 1, 0.774));
+  }
+
+  .content p {
+      font-size: 1.2rem;
+      margin: 0 auto;
+      margin-left: -50px;
+  }
+
+  .content h1 {
+      font-size: 2.5rem;
+      margin-left: -50px;
+  }
+  .learn-more{
+    margin-top: -150px;
+    margin-left: -50px;
+    display: block;
+  }
+}
+
+
+/*The mosst Small media*/
+  @media screen and  (min-width: 250px) and (max-width:400px) {
+    .content h1{
+      margin-left: -50px;
+    }
+  }
+
+

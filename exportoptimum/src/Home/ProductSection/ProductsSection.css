@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900;0,100..900&display=swap');
+
+/* Style the pagination bullets */
+.unique-swiper-pagination-bullet {
+  background-color: #020202;
+  opacity: 0.7;
+  width: 8px;
+  top: 100px;
+  height: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Change the active bullet color */
+.unique-swiper-pagination-bullet-active {
+  background-color: #6d9300;
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+/* Card container */
+.unique-container {
+  margin: 0 auto;
+}
+
+.unique-card {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 50px;
+  box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.unique-face {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unique-face-back {
+  box-sizing: border-box;
+  padding: 20px;
+  position: relative;
+  background-image: inherit; /* Set background image here */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Apply opacity to the background image */
+.unique-face-back::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: inherit; /* Make the background color inherit from parent */
+  opacity: 0.8; /* Apply 80% opacity */
+  z-index: -1; /* Place behind the content */
+}
+
+.unique-face-back .unique-desc {
+  background-color: var(--secondColor);
+  background-color: #00000098;
+  border-radius: 8px;
+  padding: 5px;
+  padding-left: 10px;
+  color: whitesmoke;
+  z-index: 1; /* Ensure it's above the image */
+}
+
+.unique-face-back .unique-tit {
+  color: #fff;
+  font-size: 50px;
+  box-shadow: 1px ,50px, 5px, rgba(0, 0, 0, 0.8);
+  z-index: 1; /* Ensure it's above the image */
+}
+
+.unique-face-front {
+  transition: 0.7s;
+  box-shadow: inset #000;
+}
+
+.unique-face-front b {
+  margin: 0;
+  padding: 0;
+  font-size: 3.8em;
+  color: #fff;
+  transition: 0.5s;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+}
+
+.unique-card:hover .unique-face-front {
+  height: 60px;
+}
+
+.unique-card:hover .unique-face-front b {
+  font-size: 2em;
+}
+
+.unique-face-front {
+  background-color: #ba0c0c00;
+  border-radius: 15px;
+}
+
+.unique-custom-prev,
+.unique-custom-next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.unique-section-containerP {
+  position: static;
+}
+
+.unique-stars:hover {
+  opacity: 50%;
+}
+

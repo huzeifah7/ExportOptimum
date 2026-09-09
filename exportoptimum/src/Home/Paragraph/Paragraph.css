@@ -1,0 +1,154 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Charm&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lugrasimo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:wght@500&family=Playwrite+TZ+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,539;1,539&family=Titillium+Web:wght@400;600&display=swap');
+
+/* General Section Styling */
+.section-container {
+  position: relative;
+  padding: 2rem;
+  background-color: #acd629; /* Light green */
+  color: #fff;
+  margin: 0;
+  border-radius: 0px;
+  text-align: center;
+  overflow: visible; /* Ensure image isn't hidden */
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #d3950f;
+  font-family: "Rubik", serif;
+  font-weight: 500;
+  font-style: bold;
+  filter: drop-shadow();
+}
+
+.section-description {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  padding: 0 120px;
+  line-height: 33px;
+  font-family: "Poppins", serif;
+  font-weight: 200;
+  text-align: left;
+  font-style: normal;
+}
+
+/* Image Above the Section */
+.ImageAbove {
+  position: absolute;
+  top: -80px; /* Adjust this to make the top part of the image visible */
+  left: 20px;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  background-image: url("/public/images/avocado.png"); /* Ensure correct path */
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 2; /* Ensure it's above the content */
+}
+
+/* Image Below the Section */
+.ImageBelowP {
+  position: absolute;
+  bottom: -120px;
+  right: 0px;
+  width: 240px;
+  height: 240px;
+  background-image: url("/public/images/avocado1.png"); /* Ensure correct path */
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1; /* Positioned below the content */
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 1124px) {
+    .section-container {
+      padding: 1.5rem;
+    }
+  
+    .section-title {
+      font-size: 2rem; /* Adjust title size for smaller screens */
+    }
+  
+    .section-description {
+      font-size: 1.1rem;
+      padding: 0 30px; /* Reduce padding for smaller screens */
+      line-height: 28px;
+    }
+  
+    .ImageAbove {
+      top: -60px; /* Adjust the image position for smaller screens */
+      left: 50px;
+      width: 140px;
+      height: 140px;
+    }
+  
+    .ImageBelowP {
+      bottom: -80px; /* Adjust the position of the bottom image */
+      width: 140px;
+      height: 140px;
+    }
+  }
+  
+  /* For devices with a width of 480px or smaller (small mobile phones) */
+/* For devices with a width of 768px or smaller (tablets and mobile) */
+@media screen and (max-width: 768px) {
+  .section-container {
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem; /* Adjust title size for smaller screens */
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    padding: 0 30px; /* Reduce padding for smaller screens */
+    line-height: 28px;
+  }
+
+  .ImageAbove {
+    top: -60px; /* Adjust the image position for smaller screens */
+    left: 50px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .ImageBelowP {
+    bottom: -10px; /* Adjust the position of the bottom image */
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* For devices with a width of 480px or smaller (small mobile phones) */
+@media screen and (max-width: 480px) {
+  .section-container {
+    margin-top: 0;
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem; /* Further reduce title size */
+  }
+
+  .section-description {
+    font-size: 1rem; /* Further reduce description size */
+    padding: 0 20px;
+    line-height: 25px;
+  }
+
+  .ImageAbove {
+    top: -43px; /* Further adjust the image position */
+    width: 90px;
+    height: 90px;
+  }
+
+  .ImageBelowP {
+    bottom: -80px;
+    width: 120px;
+    height: 120px;
+  }
+}

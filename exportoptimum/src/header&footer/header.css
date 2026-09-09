@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+
+:root {
+  --mainColor: #6d9300;
+  --mainColorLight: #9aca16;
+  --secondColor: #EECE38;
+  --textColor: #fffdde;
+  --hoverColor: #ffd700; /* Added hover color */
+}
+
+.unique_header {
+  font-family: "Titillium Web", sans-serif;
+  font-weight: 400;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0 2rem;
+  background-color: var(--mainColor);
+  color: var(--textColor);
+  box-shadow: rgba(0, 0, 0, 0.164) 0px -50px 36px -28px inset;
+}
+
+.unique_NavHeader {
+  display: flex;
+  align-items: center;
+}
+
+.unique_NavHeader a {
+  margin: 0 2rem;
+  color: var(--textColor);
+  text-decoration: none;
+  transition: color 0.3s ease; /* Added transition */
+}
+
+.unique_NavHeader1 a:hover {
+  color: var(--hoverColor); /* Changed hover color */
+}
+
+.unique_header .unique_nav-btn {
+  padding: 5px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--textColor);
+  font-size: 1.8rem;
+  visibility: hidden;
+  opacity: 0;
+}
+
+@media only screen and (max-width: 1119px) {
+  .unique_header .unique_nav-btn {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .unique_NavHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    background-color: var(--mainColor);
+    transform: translateY(-100vh);
+    transition: transform 1.3s ease-in-out;
+  }
+
+  .unique_header .unique_responsive_nav {
+    transform: none;
+  }
+
+  .unique_NavHeader .unique_nav-close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+  .unique_compo {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.unique_HeaderLogo {
+  height:65px;
+  width: auto;
+  margin-left: 40px;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+@media only screen and (max-width: 438px) {
+  .unique_NavHeader {
+    top: 0;
+    left: 0;
+    justify-content: center;
+    transform: translateY(-100vh);
+  }
+
+  .unique_NavHeader .unique_nav-close-btn {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+.unique_GetInHeader {
+  padding: 0.48em 1.2em;
+  background-color: transparent;
+  border-radius: .3em;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: .5s;
+  font-weight: 400;
+  font-size: 16px;
+  border: 1px solid;
+  font-family: inherit;
+  text-transform: uppercase;
+  color: var(--secondColor);
+  z-index: 1;
+}
+
+.unique_GetInHeader::before, .unique_GetInHeader::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -40%);
+  position: absolute;
+  border-radius: 100%;
+  z-index: -1;
+  background-color: var(--secondColor);
+  transition: 1s ease;
+}
+
+.unique_GetInHeader::before {
+  top: -1em;
+  left: -1em;
+}
+
+.unique_GetInHeader::after {
+  left: calc(100% + 0.5em);
+  top: calc(100% + 0.5em);
+}
+
+.unique_GetInHeader:hover::before, .unique_GetInHeader:hover::after {
+  height: 410px;
+  width: 410px;
+}
+
+.unique_GetInHeader:hover {
+  color: rgb(10, 25, 30);
+}
+
+.unique_GetInHeader:active {
+  filter: brightness(.8);
+}
+.unique_GetInHeader:hover {
+    border: 0;
+}

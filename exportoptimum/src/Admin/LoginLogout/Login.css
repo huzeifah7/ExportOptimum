@@ -1,0 +1,115 @@
+/* Container for the login form */
+.containerLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9; /* Light gray background */
+    font-family: 'Roboto', sans-serif;
+    position: relative; /* Allow background objects to position freely */
+    overflow: hidden; /* Hide objects outside the container */
+  }
+  
+  /* Styling for the form */
+  .form {
+    background-color: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+    z-index: 1; /* Ensure form is above animated objects */
+  }
+  
+  /* Form title */
+  .title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Input fields styling */
+  .input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #555555;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Input focus effect */
+  .input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 6px rgba(108, 99, 255, 0.3);
+  }
+  
+  /* Login button */
+  .btn {
+    background-color: #6c63ff;
+    color: #ffffff;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  /* Button hover effect */
+  .btn:hover {
+    background-color: #554ecc;
+    transform: translateY(-2px);
+  }
+  
+  /* Error message styling */
+  .error {
+    color: #e63946;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Animated background objects */
+  .background-object {
+    position: absolute;
+    background-color: #6c63ff;
+    opacity: 0.4;
+    border-radius: 50%;
+    animation: move 10s infinite ease-in-out;
+    z-index: 0;
+  }
+  
+  .background-object.small {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .background-object.medium {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .background-object.large {
+    width: 150px;
+    height: 150px;
+  }
+  
+  /* Keyframes for animation */
+  @keyframes move {
+    0% {
+      transform: translate(-10vw, -10vh) scale(1);
+    }
+    50% {
+      transform: translate(110vw, 120vh) scale(1.2);
+    }
+    100% {
+      transform: translate(-10vw, -10vh) scale(1);
+    }
+  }
+  

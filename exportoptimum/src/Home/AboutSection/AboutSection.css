@@ -1,0 +1,126 @@
+/* General Section Styling */
+.about-section {
+  display: flex; /* Flex layout for side-by-side alignment */
+  align-items: center;
+  justify-content: space-between;
+  height: 80vh; /* Full viewport height */
+  overflow: hidden;
+  background: url('/public/images/bgAbout.png') center/cover no-repeat fixed;
+  
+}
+
+/* Left Text Container */
+.about-content {
+  width: 40%; /* Text container occupies 40% of the section width */
+  padding: 50px;
+  background-color: #000000c5; /* Black background for text */
+  color: #fff; /* White text for contrast */
+  position: relative;
+}
+
+.about-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px; /* Vertical yellow border */
+  height: 100%;
+  background-color: #ffcc00; /* Yellow color for accent */
+}
+
+.about-content h2 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #ffcc00; /* Yellow heading */
+  margin-bottom: 20px;
+}
+
+.about-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Button Styling */
+.read-more-btn a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: normal;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.read-more-btn a:hover {
+  background-color: #e6b800;
+}
+
+/* Right Background Image */
+.about-background {
+  width: 60%; /* Image container occupies 60% of the section width */
+  height: 100%;
+  background: url('/public/images/bgAbout.png') center/cover no-repeat;
+  filter: brightness(60%); /* Darkened effect */
+}
+
+/* MEDIA QUERIES */
+
+/* For tablets and smaller desktops */
+@media (max-width: 1024px) {
+  .about-section {
+    flex-direction: column; /* Stack content vertically */
+    height: auto; /* Adjust height */
+  }
+
+  .about-content {
+    width: 90%; /* Increase text container width */
+    padding: 30px; /* Reduce padding */
+  }
+
+  .about-background {
+    width: 100%; /* Image takes full width */
+    height: 300px; /* Set fixed height */
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  .about-content h2 {
+    font-size: 2rem; /* Reduce heading size */
+  }
+
+  .about-content p {
+    font-size: 0.9rem; /* Smaller text */
+  }
+
+  .read-more-btn a {
+    padding: 8px 15px; /* Smaller button padding */
+    font-size: 0.9rem;
+  }
+
+  .about-background {
+    height: 200px; /* Reduce image height for mobile */
+  }
+}
+
+/* For small mobile devices */
+@media (max-width: 480px) {
+  .about-content {
+    padding: 22px; /* Smaller padding */
+    text-align: center; /* Center align text */
+  }
+
+  .about-content::before {
+    width: 5px; /* Reduce yellow border width */
+  }
+
+  .read-more-btn a {
+    width: 95%; /* Make button full width */
+  }
+}
+.SocieteName{
+    color: var(--mainColor);
+}

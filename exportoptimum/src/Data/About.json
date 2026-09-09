@@ -1,0 +1,36 @@
+{
+  "Who Are We?": {
+    "title": "Who we are ",
+    "welcomeMessage": "WELCOME TO EXPORT OPTIMUM ",
+    "description": "At Export Optimum, we are committed to delivering fresh, nutritious avocados to consumers around the world at highly competitive prices. Based in the heart of Morocco, we work with trusted growers to ensure top-quality avocados year-round. Our focus is on creating transparent, long-term relationships with growers and customers. "
+  },
+  "vision": {
+    "title": "OUR VISION? ",
+    "tag": "A Distinct Identity ",
+    "content": "Export Optimum was created to provide consumers with a better, more transparent option in the global fruit market. We aim to remove the complexities from the supply chain, ensuring our clients receive the best produce at unbeatable prices, fostering healthier living globally.   "
+  },
+  "mission": {
+    "title": "Our Mission ",
+    "tag": "Bringing Change ",
+    "content": "We are passionate about delivering fresh, top-quality avocados to global markets. By working closely with growers, we ensure our products reach consumers year-round. We are driven by a team of young entrepreneurs and experts in the import/export field, making the distribution process seamless and efficient.  "
+  },
+  "images": [
+    "/images/avocad.jpg",
+    "/images/avocad3.avif",
+    "/images/avocad2.jpg"
+  ],
+  "whyChooseUs": [
+    {
+      "title": "Best Quality ",
+      "content": "All of our avocados meet the highest quality standards and are approved by relevant authorities, ensuring exceptional quality with every shipment. "
+    },
+    {
+      "title": "Farm Fresh ",
+      "content": "Our distribution hub provides access to major routes, allowing us to deliver fresh fruit as quickly as possible, ensuring peak freshness for every shipment. "
+    },
+    {
+      "title": "Highly Experienced ",
+      "content": "With significant expertise in the fresh fruit industry, we maintain long-term relationships with clients worldwide, ensuring the success and satisfaction of both our customers and growers. "
+    }
+  ]
+}
